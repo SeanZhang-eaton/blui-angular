@@ -5,18 +5,19 @@ import { spawn } from 'node:child_process';
 
 const require = createRequire(import.meta.url);
 
-export const targets = fs
-  .readdirSync('libs/@brightlayer-ui')
-  .filter((f) => {
-    if (!fs.statSync(`libs/@brightlayer-ui/${f}`).isDirectory() || !fs.existsSync(`libs/@brightlayer-ui/${f}/package.json`)) {
-      return false;
-    }
-    const pkg = require(`../libs/@brightlayer-ui/${f}/package.json`);
-    if (pkg.private && !pkg.buildOptions) {
-      return false;
-    }
-    return true;
-  });
+export const targets = fs.readdirSync('libs/@brightlayer-ui').filter((f) => {
+  if (
+    !fs.statSync(`libs/@brightlayer-ui/${f}`).isDirectory() ||
+    !fs.existsSync(`libs/@brightlayer-ui/${f}/package.json`)
+  ) {
+    return false;
+  }
+  const pkg = require(`../libs/@brightlayer-ui/${f}/package.json`);
+  if (pkg.private && !pkg.buildOptions) {
+    return false;
+  }
+  return true;
+});
 
 export function fuzzyMatchTarget(partialTargets: ReadonlyArray<string>, includeAllMatching?: boolean) {
   const matched: string[] = [];

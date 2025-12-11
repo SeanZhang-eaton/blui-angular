@@ -34,29 +34,28 @@ The library can be built by running the following command. The resulting output 
 yarn build:lib
 ```
 
-
 ## Compatibility
 
 The following table outlines which versions of Angular and Brightlayer UI resources will work together.
 
 | @brightlayer-ui/angular-components | @brightlayer-ui/angular-themes | @angular + @angular/material |
-|------------------------------------|--------------------------------|-----------------------------|
-| `^5.0.0`                           | `^6.1.0`                       | `^11.x`                     |
-| `^6.0.0`                           | `^6.3.0`                       | `^12.x`                     |
-| `^7.0.0`                           | `^7.0.0`                       | `^13.x`                     |
-| `^8.0.0`                           | `^8.0.0`                       | `^14.x`                     |
-| `^9.0.0`                           | `^9.0.0`                       | `^15.x`                     |
+| ---------------------------------- | ------------------------------ | ---------------------------- |
+| `^5.0.0`                           | `^6.1.0`                       | `^11.x`                      |
+| `^6.0.0`                           | `^6.3.0`                       | `^12.x`                      |
+| `^7.0.0`                           | `^7.0.0`                       | `^13.x`                      |
+| `^8.0.0`                           | `^8.0.0`                       | `^14.x`                      |
+| `^9.0.0`                           | `^9.0.0`                       | `^15.x`                      |
 
 ## Peer Dependencies
 
 The following peer dependencies are added to `package.json`:
 
-|        Package Name            |       Version      |
-| ------------------------------ |--------------------|
-| @angular/core                  | ^15.0.0 || ^16.0.0 |
-| @angular/material              | ^15.0.0 || ^16.0.0 |
-| @angular/cdk                   | ^15.0.0 || ^16.0.0 |
-| @brightlayer-ui/angular-themes | ^9.0.0             |
+| Package Name                   | Version |
+| ------------------------------ | ------- | --- | ------- |
+| @angular/core                  | ^15.0.0 |     | ^16.0.0 |
+| @angular/material              | ^15.0.0 |     | ^16.0.0 |
+| @angular/cdk                   | ^15.0.0 |     | ^16.0.0 |
+| @brightlayer-ui/angular-themes | ^9.0.0  |
 
 ## Running the Demo Projects
 
@@ -66,12 +65,11 @@ To start the [documentation site](https://brightlayer-ui-components.github.io/an
 yarn start
 ```
 
-The second demo is a [showcase project](https://blui-angular-showcase.web.app/) that shows a combination of components in the context of a realistic interface.  To start the showcase, run: 
+The second demo is a [showcase project](https://blui-angular-showcase.web.app/) that shows a combination of components in the context of a realistic interface. To start the showcase, run:
 
 ```
 yarn start:showcase
 ```
-
 
 ## Using the Components
 

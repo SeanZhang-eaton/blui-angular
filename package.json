@@ -11,6 +11,8 @@
     "build:lib:themes": "nx build @brightlayer-ui/angular-themes",
     "lint": "nx run-many --target=lint --all",
     "lint:fix": "nx run-many --target=lint --all --fix",
+    "format": "nx format:check",
+    "format:fix": "nx format:write",
     "test": "nx run-many --target=test --all",
     "test:ci": "pnpm run test --watch false",
     "test:demo": "nx test demo",

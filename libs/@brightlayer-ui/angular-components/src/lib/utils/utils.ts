@@ -9,7 +9,7 @@ export function requireInput<T>(inputs: Array<keyof T>, component: T): void {
   inputs.forEach((input) => {
     if (component[input] === undefined || component[input] === null || component[input] === '') {
       const name: string = component.constructor.name;
-      // eslint-disable-next-line no-console
+
       console.warn(`Brightlayer UI ${name} error: Property "${<string>input}" is required.`);
     }
   });
@@ -19,7 +19,7 @@ export function requireContent<T>(contentPairs: ContentPair[], component: T): vo
   contentPairs.forEach((contentPair) => {
     if (!contentPair.ref.nativeElement.children || contentPair.ref.nativeElement.children.length === 0) {
       const name: string = component.constructor.name;
-      // eslint-disable-next-line no-console
+
       console.warn(`Brightlayer UI ${name} error: Selector "${contentPair.selector}" is required.`);
     }
   });

@@ -21,139 +21,139 @@ $blui-blue-dark-accent: mat.m2-define-palette(blui.$blui-lightBlue, A200, A100, 
 $blui-blue-dark-warn: mat.m2-define-palette(blui.$blui-red, 200);
 
 $typography-config: mat.m2-define-typography-config(
-    $font-family: '"Open Sans", Arial, Helvetica, sans-serif',
-    $headline-1: mat.m2-define-typography-level(6rem, 1.167, 300),
-    $headline-3: mat.m2-define-typography-level(3rem, 1.167, 400),
-    $headline-4: mat.m2-define-typography-level(2.125rem, 1.235, 400),
-    $headline-5: mat.m2-define-typography-level(1.5rem, 1.334, 400),
-    $headline-6: mat.m2-define-typography-level(1.25rem, 1.6, 600),
-    $subtitle-1: mat.m2-define-typography-level(1rem, 1.75, 400),
-    $body-1: mat.m2-define-typography-level(0.875rem, 1.57, 600),
-    $subtitle-2: mat.m2-define-typography-level(0.875rem, 1.43, 500),
-    $body-2: mat.m2-define-typography-level(1rem, 1.5, 400),
-    $caption: mat.m2-define-typography-level(0.75rem, 1.66, 400),
-    $button: mat.m2-define-typography-level(0.875rem, 1, 600)
-        /* TODO(mdc-migration): No longer supported. Use `body-1` instead. $input: mat.define-typography-level(inherit, 1.125, 400),*/,
+  $font-family: '"Open Sans", Arial, Helvetica, sans-serif',
+  $headline-1: mat.m2-define-typography-level(6rem, 1.167, 300),
+  $headline-3: mat.m2-define-typography-level(3rem, 1.167, 400),
+  $headline-4: mat.m2-define-typography-level(2.125rem, 1.235, 400),
+  $headline-5: mat.m2-define-typography-level(1.5rem, 1.334, 400),
+  $headline-6: mat.m2-define-typography-level(1.25rem, 1.6, 600),
+  $subtitle-1: mat.m2-define-typography-level(1rem, 1.75, 400),
+  $body-1: mat.m2-define-typography-level(0.875rem, 1.57, 600),
+  $subtitle-2: mat.m2-define-typography-level(0.875rem, 1.43, 500),
+  $body-2: mat.m2-define-typography-level(1rem, 1.5, 400),
+  $caption: mat.m2-define-typography-level(0.75rem, 1.66, 400),
+  $button: mat.m2-define-typography-level(0.875rem, 1, 600)
+    /* TODO(mdc-migration): No longer supported. Use `body-1` instead. $input: mat.define-typography-level(inherit, 1.125, 400),*/,
 );
 
 @function blui-light-theme($primary, $accent, $warn) {
-    $theme: (
-        color: (
-            primary: $primary,
-            accent: $accent,
-            warn: $warn,
-        ),
-        typography: $typography-config,
-        density: 0,
-    );
+  $theme: (
+    color: (
+      primary: $primary,
+      accent: $accent,
+      warn: $warn,
+    ),
+    typography: $typography-config,
+    density: 0,
+  );
 
-    @return map.deep-merge(
-        mat.m2-define-light-theme($theme),
-        (
-            color: (
-                foreground: (
-                    text: map.get(blui.$blui-black, 500),
-                    disabled: rgba(map.get(blui.$blui-black, 500), 0.3),
-                ),
-            ),
-            foreground: (
-                onPrimary: map.get(blui.$blui-white, 50),
-                onAccent: map.get(blui.$blui-white, 50),
-                onWarn: map.get(blui.$blui-white, 50),
-                text: map.get(blui.$blui-black, 500),
-                secondary-text: map.get(blui.$blui-gray, 500),
-                hint-text: map.get(blui.$blui-gray, 500),
-                base: map.get(blui.$blui-darkBlack, 900),
-                divider: rgba(map.get(blui.$blui-black, 500), 0.12),
-                disabled: rgba(map.get(blui.$blui-black, 500), 0.3),
-                icon: rgba(black, 0.54),
-                icons: rgba(black, 0.54),
-            ),
-            background: (
-                card: map.get(blui.$blui-white, 50),
-                dialog: map.get(blui.$blui-white, 50),
-                disabled-button: rgba(114, 126, 132, 0.12),
-                disabled-button-toggle: map.get(blui.$blui-gray, 200),
-            ),
-        )
-    );
+  @return map.deep-merge(
+    mat.m2-define-light-theme($theme),
+    (
+      color: (
+        foreground: (
+          text: map.get(blui.$blui-black, 500),
+          disabled: rgba(map.get(blui.$blui-black, 500), 0.3),
+        ),
+      ),
+      foreground: (
+        onPrimary: map.get(blui.$blui-white, 50),
+        onAccent: map.get(blui.$blui-white, 50),
+        onWarn: map.get(blui.$blui-white, 50),
+        text: map.get(blui.$blui-black, 500),
+        secondary-text: map.get(blui.$blui-gray, 500),
+        hint-text: map.get(blui.$blui-gray, 500),
+        base: map.get(blui.$blui-darkBlack, 900),
+        divider: rgba(map.get(blui.$blui-black, 500), 0.12),
+        disabled: rgba(map.get(blui.$blui-black, 500), 0.3),
+        icon: rgba(black, 0.54),
+        icons: rgba(black, 0.54),
+      ),
+      background: (
+        card: map.get(blui.$blui-white, 50),
+        dialog: map.get(blui.$blui-white, 50),
+        disabled-button: rgba(114, 126, 132, 0.12),
+        disabled-button-toggle: map.get(blui.$blui-gray, 200),
+      ),
+    )
+  );
 }
 
 @function blui-dark-theme($primary, $accent, $warn) {
-    $theme: (
-        color: (
-            primary: $primary,
-            accent: $accent,
-            warn: $warn,
-        ),
-        typography: $typography-config,
-        density: 0,
-    );
+  $theme: (
+    color: (
+      primary: $primary,
+      accent: $accent,
+      warn: $warn,
+    ),
+    typography: $typography-config,
+    density: 0,
+  );
 
-    @return map.deep-merge(
-        mat.m2-define-dark-theme($theme),
-        (
-            color: (
-                foreground: (
-                    text: map.get(blui.$blui-black, 50),
-                    disabled: rgba(map.get(blui.$blui-black, 300), 0.3),
-                    divider: rgba(map.get(blui.$blui-black, 200), 0.36),
-                ),
-            ),
-            foreground: (
-                text: map.get(blui.$blui-black, 50),
-                secondary-text: map.get(blui.$blui-black, 200),
-                hint-text: map.get(blui.$blui-gray, 300),
-                base: map.get(blui.$blui-white, 50),
-                divider: rgba(map.get(blui.$blui-black, 200), 0.36),
-                disabled: rgba(map.get(blui.$blui-black, 300), 0.36),
-                icon: map.get(blui.$blui-black, 50),
-                icons: map.get(blui.$blui-black, 50),
-            ),
-            background: (
-                app-bar: map.get(blui.$blui-darkBlack, 100),
-                card: map.get(blui.$blui-black, 900),
-                dialog: map.get(blui.$blui-black, 900),
-                disabled-button: rgba(white, 0.12),
-                disabled-button-toggle: black,
-            ),
-        )
-    );
+  @return map.deep-merge(
+    mat.m2-define-dark-theme($theme),
+    (
+      color: (
+        foreground: (
+          text: map.get(blui.$blui-black, 50),
+          disabled: rgba(map.get(blui.$blui-black, 300), 0.3),
+          divider: rgba(map.get(blui.$blui-black, 200), 0.36),
+        ),
+      ),
+      foreground: (
+        text: map.get(blui.$blui-black, 50),
+        secondary-text: map.get(blui.$blui-black, 200),
+        hint-text: map.get(blui.$blui-gray, 300),
+        base: map.get(blui.$blui-white, 50),
+        divider: rgba(map.get(blui.$blui-black, 200), 0.36),
+        disabled: rgba(map.get(blui.$blui-black, 300), 0.36),
+        icon: map.get(blui.$blui-black, 50),
+        icons: map.get(blui.$blui-black, 50),
+      ),
+      background: (
+        app-bar: map.get(blui.$blui-darkBlack, 100),
+        card: map.get(blui.$blui-black, 900),
+        dialog: map.get(blui.$blui-black, 900),
+        disabled-button: rgba(white, 0.12),
+        disabled-button-toggle: black,
+      ),
+    )
+  );
 }
 
 $blui-light-app-theme: blui-light-theme($blui-blue-primary, $blui-blue-accent, $blui-blue-warn);
 $blui-dark-app-theme: blui-dark-theme($blui-blue-dark-primary, $blui-blue-dark-accent, $blui-blue-dark-warn);
 
 @mixin sharedConfig() {
-    // @include mat.typography-hierarchy($typography-config);
-    @include margins.reasonable-margins();
-    @include common.common();
-    @include mat.all-component-typographies($typography-config);
-    @include typography.typography();
+  // @include mat.typography-hierarchy($typography-config);
+  @include margins.reasonable-margins();
+  @include common.common();
+  @include mat.all-component-typographies($typography-config);
+  @include typography.typography();
 }
 
 @mixin light-theme($primary, $accent, $warn) {
-    $theme: blui-light-theme($primary, $accent, $warn);
+  $theme: blui-light-theme($primary, $accent, $warn);
 
-    @include mat.all-component-colors($theme);
+  @include mat.all-component-colors($theme);
 
-    @include blui-component-theme.blui-components-theme($theme);
-    @include blueTheme.bluetheme($theme);
+  @include blui-component-theme.blui-components-theme($theme);
+  @include blueTheme.bluetheme($theme);
 }
 
 @mixin dark-theme($primary, $accent, $warn) {
-    $theme: blui-dark-theme($primary, $accent, $warn);
+  $theme: blui-dark-theme($primary, $accent, $warn);
 
-    @include mat.all-component-themes($theme);
+  @include mat.all-component-themes($theme);
 
-    @include blui-component-theme.blui-components-theme($theme);
-    @include darkTheme.darktheme($theme);
+  @include blui-component-theme.blui-components-theme($theme);
+  @include darkTheme.darktheme($theme);
 }
 
 @mixin blue() {
-    @include light-theme($blui-blue-primary, $blui-blue-accent, $blui-blue-warn);
+  @include light-theme($blui-blue-primary, $blui-blue-accent, $blui-blue-warn);
 }
 
 @mixin blueDark() {
-    @include dark-theme($blui-blue-dark-primary, $blui-blue-dark-accent, $blui-blue-dark-warn);
+  @include dark-theme($blui-blue-dark-primary, $blui-blue-dark-accent, $blui-blue-dark-warn);
 }

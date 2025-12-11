@@ -70,7 +70,6 @@ export class BluiDisplayComponent {
   constructor(public rtl: RtlService) {}
 
   handleInfoListItemClick(): void {
-    // eslint-disable-next-line no-console
     console.info('InfoListItem clicked');
   }
 }

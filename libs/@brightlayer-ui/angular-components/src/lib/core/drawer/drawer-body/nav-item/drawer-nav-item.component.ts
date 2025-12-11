@@ -106,7 +106,7 @@ export type ActiveItemBackgroundShape = 'round' | 'square';
         </blui-info-list-item>
         <div class="blui-drawer-nav-item-rail-container" *ngIf="isRail()">
           <div
-            (click)="selectItem()"  
+            (click)="selectItem()"
             (keydown.enter)="selectItem()"
             (keydown.space)="selectItem()"
             [attr.tabindex]="0"
@@ -183,7 +183,7 @@ export class DrawerNavItemComponent
   @Input() title: string;
 
   /** Event triggered on nav item select */
-  // eslint-disable-next-line @angular-eslint/no-output-native
+
   @Output() select: EventEmitter<string> = new EventEmitter<string>();
 
   @ContentChildren(forwardRef(() => DrawerNavItemComponent), { descendants: false }) nestedNavItems;

@@ -31,10 +31,10 @@ Parent element (`<blui-empty-state>`) attributes:
 
 <div style="overflow: auto;">
 
-| @Input      | Description                                   | Type     | Required | Default |
-| ----------- | --------------------------------------------- | -------- | -------- | ------- |
-| description | The secondary text to display (second line)   | `string` | no       |         |
-| title       | The primary text to display (first line)      | `string` | no       |         |
+| @Input      | Description                                 | Type     | Required | Default |
+| ----------- | ------------------------------------------- | -------- | -------- | ------- |
+| description | The secondary text to display (second line) | `string` | no       |         |
+| title       | The primary text to display (first line)    | `string` | no       |         |
 
 </div>
 
@@ -42,8 +42,8 @@ The following child elements are projected into `<blui-empty-state>`:
 
 <div style="overflow: auto;">
 
-| Selector          | Description                    | Required | Default |
-| ----------------- | ------------------------------ | -------- | ------- |
+| Selector           | Description                    | Required | Default |
+| ------------------ | ------------------------------ | -------- | ------- |
 | [blui-actions]     | action elements below the text | no       |         |
 | [blui-empty-icon]  | The large icon to display      | yes      |         |
 | [blui-description] | The secondary text to display  | no       |         |
@@ -56,11 +56,11 @@ The following child elements are projected into `<blui-empty-state>`:
 Each Brightlayer UI component has classes which can be used to override component styles:
 
 | Name                                       | Description                                  |
-|--------------------------------------------|----------------------------------------------|
+| ------------------------------------------ | -------------------------------------------- |
 | blui-empty-state                           | Styles applied to the tag                    |
 | blui-empty-state-content                   | Styles applied to the root element           |
 | blui-empty-state-empty-icon-wrapper        | Styles applied to the icon container         |
 | blui-empty-state-title                     | Styles applied to the title @Input           |
 | blui-empty-state-description               | Styles applied to the description @Input     |
 | blui-empty-state-actions-wrapper           | Styles applied to the actions container      |
-| blui-empty-state-actions-wrapper-no-action | Styles applied to an empty actions container | 
+| blui-empty-state-actions-wrapper-no-action | Styles applied to an empty actions container |

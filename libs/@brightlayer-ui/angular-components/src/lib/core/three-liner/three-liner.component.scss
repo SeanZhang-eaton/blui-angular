@@ -1,19 +1,22 @@
-$transition: all 0.3s, color 0s, background-color 0s;
+$transition:
+  all 0.3s,
+  color 0s,
+  background-color 0s;
 
 .blui-three-liner {
-    display: flex;
+  display: flex;
 }
 
 .blui-three-liner-title {
-    font-size: 1.875rem;
-    transition: $transition;
+  font-size: 1.875rem;
+  transition: $transition;
 }
 .blui-three-liner-subtitle {
-    font-size: 1rem;
-    transition: $transition;
+  font-size: 1rem;
+  transition: $transition;
 }
 .blui-three-liner-info {
-    font-size: 0.875rem;
-    font-weight: 300;
-    transition: $transition;
+  font-size: 0.875rem;
+  font-weight: 300;
+  transition: $transition;
 }

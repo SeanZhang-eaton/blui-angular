@@ -1,18 +1,18 @@
 .spinner-section {
-    display: flex;
-    justify-content: space-around;
+  display: flex;
+  justify-content: space-around;
 }
 
 .bar-section .bar-item {
-    margin-bottom: 1rem;
+  margin-bottom: 1rem;
 }
 .snackbar-demo,
 .dialog-demo {
-    display: flex;
-    text-align: center;
-    justify-content: center;
-    align-items: center;
-    button {
-        width: 250px;
-    }
+  display: flex;
+  text-align: center;
+  justify-content: center;
+  align-items: center;
+  button {
+    width: 250px;
+  }
 }

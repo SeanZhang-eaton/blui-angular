@@ -32,14 +32,14 @@ Parent element (`<blui-hero>`) attributes:
 
 <div style="overflow: auto;">
 
-| @Input    | Description                                   | Type                             | Required | Default       |
-| --------- | --------------------------------------------- | -------------------------------- | -------- | ------------- |
+| @Input    | Description                                   | Type                             | Required | Default         |
+| --------- | --------------------------------------------- | -------------------------------- | -------- | --------------- |
 | iconSize  | The size of the primary icon (10-48)          | `number`                         | no       | `'normal'` (36) |
-| label     | The text shown below the Channel Value        | `string`                         | yes      |               |
-| prefix    | If true, shows units before the value         | `boolean`                        | no       | false         |
-| units     | Text to show after the value                  | `string`                         | no       |               |
+| label     | The text shown below the Channel Value        | `string`                         | yes      |                 |
+| prefix    | If true, shows units before the value         | `boolean`                        | no       | false           |
+| units     | Text to show after the value                  | `string`                         | no       |                 |
 | unitSpace | Show/Hide spacing between the value and units | `'auto'` \| `'hide'` \| `'show'` | no       | `'auto'`        |
-| value     | The value for the channel                     | `string` \| `number`             | no       |               |
+| value     | The value for the channel                     | `string` \| `number`             | no       |                 |
 
 </div>
 
@@ -47,11 +47,11 @@ The following child elements are projected into `<blui-hero>`:
 
 <div style="overflow: auto;">
 
-| Selector        | Description                                                 | Required | Default |
-| --------------- | ----------------------------------------------------------- | -------- | ------- |
-| (child)         | The `<blui-channel-value>` to display under the primary icon | no       |         |
-| [blui-primary]   | The large icon displayed on the top                         | yes      |         |
-| [blui-secondary] | The icon displayed to the left of the value and units       | no       |         |
+| Selector         | Description                                                  | Required | Default |
+| ---------------- | ------------------------------------------------------------ | -------- | ------- |
+| (child)          | The `<blui-channel-value>` to display under the primary icon | no       |         |
+| [blui-primary]   | The large icon displayed on the top                          | yes      |         |
+| [blui-secondary] | The icon displayed to the left of the value and units        | no       |         |
 
 </div>
 
@@ -59,8 +59,8 @@ The following child elements are projected into `<blui-hero>`:
 
 Each Brightlayer UI component has classes which can be used to override component styles:
 
-| Name                           | Description                                  |
-| ------------------------------ | -------------------------------------------- |
+| Name                            | Description                                  |
+| ------------------------------- | -------------------------------------------- |
 | blui-hero                       | Styles applied to the tag                    |
 | blui-hero-content               | Styles applied to the root element           |
 | blui-hero-primary-wrapper       | Styles applied to the primary icon container |
@@ -98,8 +98,8 @@ The following child element is projected into `<blui-hero-banner>`:
 
 <div style="overflow: auto;">
 
-| Selector | Description           | Required | Default |
-| -------- | --------------------- | -------- | ------- |
+| Selector | Description            | Required | Default |
+| -------- | ---------------------- | -------- | ------- |
 | (child)  | `blui-hero` to display | yes      |         |
 
 ### Classes

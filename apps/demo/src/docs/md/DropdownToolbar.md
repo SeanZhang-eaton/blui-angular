@@ -1,5 +1,4 @@
-
-> The DropdownToolbar component is deprecated in version >=7.0.0 of `@brightlayer-ui/angular-components`.  Please refer to the [`ToolbarMenu`](./ToolbarMenu.md) documentation for an alternative component.
+> The DropdownToolbar component is deprecated in version >=7.0.0 of `@brightlayer-ui/angular-components`. Please refer to the [`ToolbarMenu`](./ToolbarMenu.md) documentation for an alternative component.
 
 # Dropdown Toolbar
 
@@ -23,17 +22,17 @@ imports: [
 ```html
 // your-component.html
 <blui-dropdown-toolbar [title]="title" [subtitle]="subtitle">
-    <button mat-icon-button blui-nav-icon>
-        <mat-icon>menu</mat-icon>
-    </button>
-    <ng-container blui-toolbar-menu>
-        <button mat-menu-item>Menu Item 1</button>
-        <button mat-menu-item>Menu Item 2</button>
-        <button mat-menu-item>Menu Item 3</button>
-    </ng-container>
-    <div>
-        <button mat-icon-button><mat-icon>home</mat-icon></button>
-    </div>
+  <button mat-icon-button blui-nav-icon>
+    <mat-icon>menu</mat-icon>
+  </button>
+  <ng-container blui-toolbar-menu>
+    <button mat-menu-item>Menu Item 1</button>
+    <button mat-menu-item>Menu Item 2</button>
+    <button mat-menu-item>Menu Item 3</button>
+  </ng-container>
+  <div>
+    <button mat-icon-button><mat-icon>home</mat-icon></button>
+  </div>
 </blui-dropdown-toolbar>
 ```
 
