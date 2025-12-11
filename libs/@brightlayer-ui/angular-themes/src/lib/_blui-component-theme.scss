@@ -1,6 +1,6 @@
 // Import library functions for theme creation.
 @use '@angular/material' as mat;
-@use '@brightlayer-ui/colors/palette.scss' as blui;
+@use './palette' as blui;
 
 @mixin blui-components-theme($theme) {
     @include blui-empty-state-theme($theme);

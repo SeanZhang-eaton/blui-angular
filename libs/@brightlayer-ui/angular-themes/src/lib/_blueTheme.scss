@@ -1,6 +1,6 @@
 // Import library functions for theme creation.
 @use 'sass:map';
-@use '@brightlayer-ui/colors/palette.scss' as blui;
+@use './palette' as blui;
 @use 'utility' as utils;
 
 @use './mixins/input-field';

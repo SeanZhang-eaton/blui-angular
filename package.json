@@ -18,7 +18,7 @@
     "test:artifacts": "bash scripts/buildTest.sh",
     "coverage": "nx test demo --browsers=ChromeHeadless --no-watch --code-coverage",
     "changelog": "echo 'Changelog generation - implement as needed'",
-    "release": "tsx -C import scripts/release.ts",
+    "release": "pnpx tsx -C import scripts/release.ts",
     "publish:package": "cd dist/libs/@brightlayer-ui/angular-components && rm -f *.tgz && set npm_config_yes=true && npx -p @brightlayer-ui/publish blui-publish",
     "tag:package": "npx -p @brightlayer-ui/tag blui-tag -s -blui-angular-components",
     "precommit": "pnpm run lint && pnpm run test:ci && pnpm run build && pnpm run test:artifacts && pnpm run generate:licenses",

@@ -7,7 +7,7 @@ This code is licensed under the BSD-3 license found in the LICENSE file in the r
 **/
 @use 'sass:map';
 @use '@angular/material' as mat;
-@use '@brightlayer-ui/colors/palette.scss' as blui;
+@use 'palette' as blui;
 
 @use './theme-bases';
 @use './blui-component-theme';

@@ -1,5 +1,5 @@
 @use 'sass:map';
-@use '@brightlayer-ui/colors/palette.scss' as blui;
+@use './palette' as blui;
 @use './mixins/input-field';
 @use './mixins/chip';
 @use './mixins/button';

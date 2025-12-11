@@ -1,0 +1,196 @@
+@use 'sass:map';
+@use '@brightlayer-ui/colors/palette.scss' as blui;
+
+$dark-primary-text: rgba(black, 0.87);
+$light-primary-text: white;
+
+// Primary Colors / User Interface Colors
+
+$blui-blue: map.merge(
+    blui.$blui-blue,
+    (
+        contrast: map.merge(
+                map.get(blui.$blui-blue, contrast),
+                (
+                    A100: $dark-primary-text,
+                    A200: $light-primary-text,
+                    A400: $light-primary-text,
+                    A700: $light-primary-text,
+                )
+            ),
+    )
+);
+
+$blui-white: map.merge(
+    blui.$blui-white,
+    (
+        contrast: map.merge(
+                map.get(blui.$blui-white, contrast),
+                (
+                    A100: $dark-primary-text,
+                    A200: $dark-primary-text,
+                    A400: $dark-primary-text,
+                    A700: $dark-primary-text,
+                )
+            ),
+    )
+);
+
+$blui-gray: map.merge(
+    blui.$blui-gray,
+    (
+        contrast: map.merge(
+                map.get(blui.$blui-gray, contrast),
+                (
+                    A100: $dark-primary-text,
+                    A200: $light-primary-text,
+                    A400: $light-primary-text,
+                    A700: $light-primary-text,
+                )
+            ),
+    )
+);
+
+$blui-black: map.merge(
+    blui.$blui-black,
+    (
+        contrast: map.merge(
+                map.get(blui.$blui-black, contrast),
+                (
+                    A100: $dark-primary-text,
+                    A200: $light-primary-text,
+                    A400: $light-primary-text,
+                    A700: $light-primary-text,
+                )
+            ),
+    )
+);
+
+$blui-darkBlack: map.merge(
+    blui.$blui-darkBlack,
+    (
+        contrast: map.merge(
+                map.get(blui.$blui-darkBlack, contrast),
+                (
+                    A100: $light-primary-text,
+                    A200: $light-primary-text,
+                    A400: $light-primary-text,
+                    A700: $light-primary-text,
+                )
+            ),
+    )
+);
+
+// alias
+$blui-vantaBlack: $blui-darkBlack;
+
+/* Status Colors */
+
+$blui-red: map.merge(
+    blui.$blui-red,
+    (
+        contrast: map.merge(
+                map.get(blui.$blui-red, contrast),
+                (
+                    A100: $dark-primary-text,
+                    A200: $light-primary-text,
+                    A400: $light-primary-text,
+                    A700: $light-primary-text,
+                )
+            ),
+    )
+);
+
+$blui-orange: map.merge(
+    blui.$blui-orange,
+    (
+        contrast: map.merge(
+                map.get(blui.$blui-orange, contrast),
+                (
+                    A100: $dark-primary-text,
+                    A200: $dark-primary-text,
+                    A400: $light-primary-text,
+                    A700: $light-primary-text,
+                )
+            ),
+    )
+);
+
+$blui-gold: map.merge(
+    blui.$blui-gold,
+    (
+        contrast: map.merge(
+                map.get(blui.$blui-gold, contrast),
+                (
+                    A100: $dark-primary-text,
+                    A200: $dark-primary-text,
+                    A400: $dark-primary-text,
+                    A700: $dark-primary-text,
+                )
+            ),
+    )
+);
+
+$blui-yellow: map.merge(
+    blui.$blui-yellow,
+    (
+        contrast: map.merge(
+                map.get(blui.$blui-yellow, contrast),
+                (
+                    A100: $dark-primary-text,
+                    A200: $dark-primary-text,
+                    A400: $dark-primary-text,
+                    A700: $dark-primary-text,
+                )
+            ),
+    )
+);
+
+$blui-green: map.merge(
+    blui.$blui-green,
+    (
+        contrast: map.merge(
+                map.get(blui.$blui-green, contrast),
+                (
+                    A100: $dark-primary-text,
+                    A200: $light-primary-text,
+                    A400: $light-primary-text,
+                    A700: $light-primary-text,
+                )
+            ),
+    )
+);
+
+$blui-lightBlue: map.merge(
+    blui.$blui-lightBlue,
+    (
+        A100: #82b1ff,
+        A200: #448aff,
+        A400: #2979ff,
+        A700: #2962ff,
+        contrast: map.merge(
+                map.get(blui.$blui-lightBlue, contrast),
+                (
+                    A100: $dark-primary-text,
+                    A200: $light-primary-text,
+                    A400: $light-primary-text,
+                    A700: $light-primary-text,
+                )
+            ),
+    )
+);
+
+$blui-purple: map.merge(
+    blui.$blui-purple,
+    (
+        contrast: map.merge(
+                map.get(blui.$blui-purple, contrast),
+                (
+                    A100: $dark-primary-text,
+                    A200: $light-primary-text,
+                    A400: $light-primary-text,
+                    A700: $light-primary-text,
+                )
+            ),
+    )
+);

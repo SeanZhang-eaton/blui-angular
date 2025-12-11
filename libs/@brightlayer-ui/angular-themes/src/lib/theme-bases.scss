@@ -1,6 +1,6 @@
 @use 'sass:map';
 @use '@angular/material' as mat;
-@use '@brightlayer-ui/colors/palette.scss' as blui;
+@use './palette' as blui;
 
 @use './darkTheme';
 @use './blueTheme';
