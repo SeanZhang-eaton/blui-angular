@@ -5,9 +5,6 @@ import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { BLUIColors } from '@brightlayer-ui/colors';
-
-import { RtlService } from '../../../services/rtl.service';
-
 import {
   AppBarModule,
   HeroModule,
@@ -16,6 +13,8 @@ import {
   ThreeLinerModule,
   ToolbarMenuModule,
 } from '@bldc/angular-components';
+
+import { RtlService } from '../../../services/rtl.service';
 
 @Component({
   selector: 'app-blui-surfaces',

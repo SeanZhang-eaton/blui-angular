@@ -4,6 +4,7 @@ import { MatListModule } from '@angular/material/list';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { RouterModule } from '@angular/router';
+import { ToolbarMenuModule } from '@bldc/angular-components/core';
 
 import { SharedCompDocsModule } from '../../shared/shared-comp-docs.module';
 
@@ -12,8 +13,6 @@ import { PlaygroundComponent } from './examples/playground.component';
 import { WithIconComponent } from './examples/with-icon.component';
 import { WithinToolbarComponent } from './examples/within-toolbar.component';
 import { ToolbarMenuDocComponent } from './toolbar-menu-doc.component';
-
-import { ToolbarMenuModule } from '@bldc/angular-components/core';
 
 @NgModule({
   declarations: [

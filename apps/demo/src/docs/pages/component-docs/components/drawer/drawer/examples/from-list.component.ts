@@ -1,6 +1,5 @@
 import { Component } from '@angular/core';
 import * as Colors from '@brightlayer-ui/colors';
-
 import { DrawerNavItem } from '@bldc/angular-components/core';
 
 export const FROM_LIST = `<blui-drawer style="width: 300px; height: 620px;">

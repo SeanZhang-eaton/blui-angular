@@ -1,5 +1,4 @@
 import { Component, ViewEncapsulation } from '@angular/core';
-
 import { DrawerNavItem } from '@bldc/angular-components/core';
 
 export const COMPLEX = `<blui-drawer style="width: 250px" [openOnHover]="false">

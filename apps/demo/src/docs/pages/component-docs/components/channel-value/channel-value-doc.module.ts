@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 import { RouterModule } from '@angular/router';
+import { ChannelValueModule } from '@bldc/angular-components/core';
 
 import { SharedCompDocsModule } from '../../shared/shared-comp-docs.module';
 
@@ -10,8 +11,6 @@ import { PlaygroundComponent } from './examples/playground.component';
 import { PrefixComponent } from './examples/prefix.component';
 import { UnitSpaceComponent } from './examples/unit-space.component';
 import { ChannelValueDocComponent } from './channel-value-doc.component';
-
-import { ChannelValueModule } from '@bldc/angular-components/core';
 
 @NgModule({
   declarations: [

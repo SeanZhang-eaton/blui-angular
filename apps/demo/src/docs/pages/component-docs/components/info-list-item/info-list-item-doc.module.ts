@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
+import { ChannelValueModule, InfoListItemModule } from '@bldc/angular-components/core';
 
 import { SharedCompDocsModule } from '../../shared/shared-comp-docs.module';
 
@@ -12,8 +13,6 @@ import { WithStatusComponent } from './examples/with-status.component';
 import { WithSubtitleComponent } from './examples/with-subtitle.component';
 import { WithinListComponent } from './examples/within-list.component';
 import { InfoListItemDocComponent } from './info-list-item-doc.component';
-
-import { ChannelValueModule, InfoListItemModule } from '@bldc/angular-components/core';
 
 @NgModule({
   declarations: [

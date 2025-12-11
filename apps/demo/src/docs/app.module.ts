@@ -16,6 +16,8 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterModule } from '@angular/router';
+//brightlayer-ui modules
+import { DrawerModule, EmptyStateModule } from '@bldc/angular-components/core';
 
 import { environment } from '../environments/environment';
 
@@ -25,8 +27,6 @@ import { ComponentDocsModule } from './pages/component-docs/component-docs.modul
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app.routing';
 
-//brightlayer-ui modules
-import { DrawerModule, EmptyStateModule } from '@bldc/angular-components/core';
 import { NgxGoogleAnalyticsModule, provideGoogleAnalytics } from '@hakimio/ngx-google-analytics';
 import { FlexLayoutModule } from '@ngbracket/ngx-layout';
 

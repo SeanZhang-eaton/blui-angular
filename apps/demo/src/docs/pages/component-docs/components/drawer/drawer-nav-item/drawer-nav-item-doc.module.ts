@@ -1,4 +1,5 @@
 import { NgModule } from '@angular/core';
+import { DrawerModule } from '@bldc/angular-components/core';
 
 import { SharedCompDocsModule } from '../../../shared/shared-comp-docs.module';
 
@@ -8,8 +9,6 @@ import { WithIconsExampleComponent } from './examples/with-icons.component';
 import { WithNestedItemsComponent } from './examples/with-nested-items.component';
 import { WithSelectedItemComponent } from './examples/with-selected-item.component';
 import { DrawerNavItemDocComponent } from './drawer-nav-item-doc.component';
-
-import { DrawerModule } from '@bldc/angular-components/core';
 
 @NgModule({
   declarations: [

@@ -1,4 +1,5 @@
 import { NgModule } from '@angular/core';
+import { DrawerModule, ListItemTagModule } from '@bldc/angular-components/core';
 
 import { SharedCompDocsModule } from '../../../shared/shared-comp-docs.module';
 
@@ -8,8 +9,6 @@ import { WithCustomContentComponent } from './examples/with-custom-content.compo
 import { WithIconComponent } from './examples/with-icon.component';
 import { WithSubtitleComponent } from './examples/with-subtitle.component';
 import { DrawerHeaderDocComponent } from './drawer-header-doc.component';
-
-import { DrawerModule, ListItemTagModule } from '@bldc/angular-components/core';
 
 @NgModule({
   declarations: [

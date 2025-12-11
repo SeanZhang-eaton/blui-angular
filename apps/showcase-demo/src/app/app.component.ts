@@ -5,14 +5,13 @@ import { MatIconRegistry } from '@angular/material/icon';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { DomSanitizer } from '@angular/platform-browser';
 import { NavigationEnd, Router, RouterModule } from '@angular/router';
+import { DrawerLayoutVariantType, DrawerModule, UserMenuModule } from '@bldc/angular-components';
 
 import { DrawerComponent } from './drawer/drawer.component';
 import { RtlService } from './services/rtl.service';
 import { StateService } from './services/state.service';
 import { ThemeService } from './services/theme.service';
 import { ViewportService } from './services/viewport.service';
-
-import { DrawerLayoutVariantType, DrawerModule, UserMenuModule } from '@bldc/angular-components';
 
 @Component({
   selector: 'app-root',

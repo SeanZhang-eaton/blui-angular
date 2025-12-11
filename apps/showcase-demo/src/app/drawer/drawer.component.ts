@@ -3,11 +3,10 @@ import { ChangeDetectorRef, Component, ViewEncapsulation } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { NavigationEnd, Router } from '@angular/router';
+import { DrawerModule, DrawerNavItem } from '@bldc/angular-components';
 
 import { StateService } from '../services/state.service';
 import { ViewportService } from '../services/viewport.service';
-
-import { DrawerModule, DrawerNavItem } from '@bldc/angular-components';
 
 @Component({
   selector: 'app-showcase-drawer,showcase-drawer',

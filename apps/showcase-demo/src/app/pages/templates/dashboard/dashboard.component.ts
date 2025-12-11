@@ -4,7 +4,6 @@ import { MatCardModule } from '@angular/material/card';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatIconModule } from '@angular/material/icon';
 import * as BLUIColors from '@brightlayer-ui/colors';
-
 import {
   ChannelValueModule,
   EmptyStateModule,

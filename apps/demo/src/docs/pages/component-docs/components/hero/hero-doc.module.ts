@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 import { RouterModule } from '@angular/router';
+import { ChannelValueModule, HeroModule } from '@bldc/angular-components/core';
 
 import { SharedCompDocsModule } from '../../shared/shared-comp-docs.module';
 
@@ -12,8 +13,6 @@ import { ValueUnitsComponent } from './examples/value-units.component';
 import { WithIconComponent } from './examples/with-icon.component';
 import { WithinBannerComponent } from './examples/within-banner.component';
 import { HeroDocComponent } from './hero-doc.component';
-
-import { ChannelValueModule, HeroModule } from '@bldc/angular-components/core';
 
 @NgModule({
   declarations: [

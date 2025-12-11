@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatIconModule } from '@angular/material/icon';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { EmptyStateModule } from '@bldc/angular-components/core';
 
 import { SharedCompDocsModule } from '../../shared/shared-comp-docs.module';
 
@@ -12,8 +13,6 @@ import { WithContentComponent } from './examples/with-content.component';
 import { WithDescriptionComponent } from './examples/with-description.component';
 import { WithinCardComponent } from './examples/within-card.component';
 import { EmptyStateDocComponent } from './empty-state-doc.component';
-
-import { EmptyStateModule } from '@bldc/angular-components/core';
 
 @NgModule({
   declarations: [
