@@ -2,7 +2,6 @@ import { NgModule } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { RouterModule } from '@angular/router';
-import { InfoListItemModule, SpacerModule, UserMenuModule } from '@bldc/angular-components/core';
 
 import { SharedCompDocsModule } from '../../shared/shared-comp-docs.module';
 
@@ -16,6 +15,8 @@ import { PlacementOptionsComponent } from './examples/placement-options.componen
 import { PlaygroundComponent } from './examples/playground.component';
 import { WithinToolbarComponent } from './examples/within-toolbar.component';
 import { UserMenuDocComponent } from './user-menu-doc.component';
+
+import { InfoListItemModule, SpacerModule, UserMenuModule } from '@bldc/angular-components/core';
 
 @NgModule({
   declarations: [

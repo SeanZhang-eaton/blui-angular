@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
-import { DrawerModule, ListItemTagModule } from '@bldc/angular-components/core';
 
 import { SharedCompDocsModule } from '../../../shared/shared-comp-docs.module';
 
@@ -10,6 +9,8 @@ import { PlaygroundComponent } from './examples/playground.component';
 import { WithCustomContentComponent } from './examples/with-custom-content.component';
 import { WithSpacerComponent } from './examples/with-spacer.component';
 import { DrawerNavGroupDocComponent } from './drawer-nav-group-doc.component';
+
+import { DrawerModule, ListItemTagModule } from '@bldc/angular-components/core';
 
 @NgModule({
   declarations: [

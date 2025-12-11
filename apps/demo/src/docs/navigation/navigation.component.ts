@@ -1,6 +1,5 @@
 import { Component } from '@angular/core';
 import { NavigationEnd, Router } from '@angular/router';
-import { DrawerLayoutVariantType } from '@bldc/angular-components/core';
 
 import { Subscription } from 'rxjs';
 
@@ -9,6 +8,8 @@ import { TabService } from '../services/tab/tab.service';
 import { ViewportService } from '../services/viewport/viewport.service';
 
 import { APP_NAV_ITEMS, COMPONENT_NAV_ITEMS, DRAWER_NAV_ITEMS, NavItem } from './nav-items';
+
+import { DrawerLayoutVariantType } from '@bldc/angular-components/core';
 
 @Component({
   selector: 'app-navigation',

@@ -1,7 +1,6 @@
 import { NgModule } from '@angular/core';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { DrawerModule } from '@bldc/angular-components/core';
 
 import { SharedCompDocsModule } from '../../../shared/shared-comp-docs.module';
 
@@ -12,6 +11,8 @@ import { RailVariantExampleComponent } from './examples/rail.component';
 import { RailCondensedVariantExampleComponent } from './examples/rail-condensed.component';
 import { TemporaryVariantExampleComponent } from './examples/temporary.component';
 import { DrawerLayoutDocComponent } from './drawer-layout-doc.component';
+
+import { DrawerModule } from '@bldc/angular-components/core';
 
 @NgModule({
   declarations: [

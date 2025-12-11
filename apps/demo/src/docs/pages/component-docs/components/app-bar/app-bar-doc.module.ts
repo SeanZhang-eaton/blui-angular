@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
-import { AppBarModule, ThreeLinerModule } from '@bldc/angular-components/core';
 
 import { SharedCompDocsModule } from '../../shared/shared-comp-docs.module';
 
@@ -10,6 +9,8 @@ import { PlaygroundComponent } from './examples/playground.component';
 import { SnapAppBarComponent } from './examples/snap.component';
 import { ThreeLinerComponent } from './examples/three-liner.component';
 import { AppBarDocComponent } from './app-bar-doc.component';
+
+import { AppBarModule, ThreeLinerModule } from '@bldc/angular-components/core';
 
 @NgModule({
   declarations: [

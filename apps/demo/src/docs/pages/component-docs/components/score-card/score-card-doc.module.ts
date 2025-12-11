@@ -2,7 +2,6 @@ import { NgModule } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 import { MatListModule } from '@angular/material/list';
 import { RouterModule } from '@angular/router';
-import { HeroModule, InfoListItemModule, ScoreCardModule } from '@bldc/angular-components/core';
 
 import { SharedCompDocsModule } from '../../shared/shared-comp-docs.module';
 
@@ -13,6 +12,8 @@ import { WithActionsComponent } from './examples/with-actions.component';
 import { WithHeroesComponent } from './examples/with-heroes.component';
 import { WithScoreBadgeComponent } from './examples/with-score-badge.component';
 import { ScoreCardDocComponent } from './score-card-doc.component';
+
+import { HeroModule, InfoListItemModule, ScoreCardModule } from '@bldc/angular-components/core';
 
 @NgModule({
   declarations: [

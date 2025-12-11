@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
-import { DrawerModule, SpacerModule } from '@bldc/angular-components/core';
 
 import { SharedCompDocsModule } from '../../../shared/shared-comp-docs.module';
 
@@ -9,6 +8,8 @@ import { BasicExampleComponent } from './examples/basic.component';
 import { FromListComponent } from './examples/from-list.component';
 import { PlaygroundComponent } from './examples/playground.component';
 import { DrawerDocComponent } from './drawer-doc.component';
+
+import { DrawerModule, SpacerModule } from '@bldc/angular-components/core';
 
 @NgModule({
   declarations: [DrawerDocComponent, BasicExampleComponent, AnatomyComponent, FromListComponent, PlaygroundComponent],

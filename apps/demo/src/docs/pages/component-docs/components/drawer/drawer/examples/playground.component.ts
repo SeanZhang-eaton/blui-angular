@@ -1,11 +1,12 @@
 import { AfterViewInit, Component, EventEmitter, Input, OnDestroy, Output } from '@angular/core';
-import { DrawerNavItem } from '@bldc/angular-components/core';
 import * as Colors from '@brightlayer-ui/colors';
 
 import { Subscription } from 'rxjs';
 
 import { PlaygroundService } from '../../../../../../services/playground/playground.service';
 import { Knob } from '../../../../shared/scaffold/scaffold.component';
+
+import { DrawerNavItem } from '@bldc/angular-components/core';
 
 export type DrawerPlaygroundKnobs = {
   openOnHover: Knob;

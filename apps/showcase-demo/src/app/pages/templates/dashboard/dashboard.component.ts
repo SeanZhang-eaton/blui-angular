@@ -3,6 +3,8 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatIconModule } from '@angular/material/icon';
+import * as BLUIColors from '@brightlayer-ui/colors';
+
 import {
   ChannelValueModule,
   EmptyStateModule,
@@ -12,7 +14,6 @@ import {
   ProgressIconsModule,
   ScoreCardModule,
 } from '@bldc/angular-components';
-import * as BLUIColors from '@brightlayer-ui/colors';
 
 @Component({
   selector: 'app-template-dashboard',
