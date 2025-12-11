@@ -99,7 +99,7 @@
     "@swc-node/register": "1.9.2",
     "@swc/core": "1.5.29",
     "@swc/helpers": "0.5.17",
-    "@types/node": "~18.16.9",
+    "@types/node": "~22.19.2",
     "@types/prismjs": "~1.26.5",
     "@types/semver": "^7.7.1",
     "@typescript-eslint/utils": "^8.23.0",
