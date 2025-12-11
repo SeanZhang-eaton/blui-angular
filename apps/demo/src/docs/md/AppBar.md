@@ -17,7 +17,7 @@ It supports three variants: `'snap'`, `'collapsed'`, and `'expanded'`.
 
 ```typescript
 // app.module.ts
-import { AppBarModule } from '@brightlayer-ui/angular-components';
+import { AppBarModule } from '@bldc/angular-components';
 ...
 imports: [ AppBarModule ]
 ...

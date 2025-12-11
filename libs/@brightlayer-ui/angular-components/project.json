@@ -1,25 +1,25 @@
 {
-  "name": "@brightlayer-ui/angular-components",
+  "name": "@bldc/angular-components",
   "$schema": "../../../node_modules/nx/schemas/project-schema.json",
   "projectType": "library",
-  "sourceRoot": "libs/@brightlayer-ui/angular-components/src",
+  "sourceRoot": "libs/@bldc/angular-components/src",
   "prefix": "blui",
   "targets": {
     "build": {
       "executor": "@nx/vite:build",
       "outputs": ["{options.outputPath}"],
       "options": {
-        "outputPath": "dist/libs/@brightlayer-ui/angular-components",
-        "main": "libs/@brightlayer-ui/angular-components/src/public-api.ts",
-        "configFile": "libs/@brightlayer-ui/angular-components/vite.config.mts",
-        "tsConfig": "libs/@brightlayer-ui/angular-components/tsconfig.json"
+        "outputPath": "dist/libs/@bldc/angular-components",
+        "main": "libs/@bldc/angular-components/src/public-api.ts",
+        "configFile": "libs/@bldc/angular-components/vite.config.mts",
+        "tsConfig": "libs/@bldc/angular-components/tsconfig.json"
       },
       "configurations": {
         "production": {
-          "tsConfig": "libs/@brightlayer-ui/angular-components/tsconfig.lib.prod.json"
+          "tsConfig": "libs/@bldc/angular-components/tsconfig.lib.prod.json"
         },
         "development": {
-          "tsConfig": "libs/@brightlayer-ui/angular-components/tsconfig.lib.json"
+          "tsConfig": "libs/@bldc/angular-components/tsconfig.lib.json"
         }
       },
       "defaultConfiguration": "production"
@@ -29,8 +29,8 @@
       "outputs": ["{options.outputFile}"],
       "options": {
         "lintFilePatterns": [
-          "libs/@brightlayer-ui/angular-components/**/*.{ts,tsx,js,jsx}",
-          "libs/@brightlayer-ui/angular-components/package.json"
+          "libs/@bldc/angular-components/**/*.{ts,tsx,js,jsx}",
+          "libs/@bldc/angular-components/package.json"
         ]
       }
     },

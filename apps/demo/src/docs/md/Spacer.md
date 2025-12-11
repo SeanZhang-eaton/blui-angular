@@ -10,7 +10,7 @@ An invisible utility component that acts as a spacer element in various layouts.
 
 ```typescript
 // app.module.ts
-import { SpacerModule } from '@brightlayer-ui/angular-components';
+import { SpacerModule } from '@bldc/angular-components';
 ...
 imports: [
     SpacerModule

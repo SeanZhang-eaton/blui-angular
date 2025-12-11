@@ -10,7 +10,7 @@ The `<blui-mobile-stepper>` is used to minimally display progress when completin
 
 ```typescript
 // app.module.ts
-import { MobileStepperModule } from '@brightlayer-ui/angular-components';
+import { MobileStepperModule } from '@bldc/angular-components';
 ...
 imports: [
     MobileStepperModule

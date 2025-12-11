@@ -250,7 +250,7 @@ importers:
         specifier: ~0.14.10
         version: 0.14.10
 
-  libs/@brightlayer-ui/angular-components:
+  libs/@bldc/angular-components:
     dependencies:
       '@analogjs/vite-plugin-angular':
         specifier: ^1.7.0
@@ -305,7 +305,7 @@ importers:
         specifier: ~2.4.0
         version: 2.4.0
 
-  libs/@brightlayer-ui/angular-themes:
+  libs/@bldc/angular-themes:
     dependencies:
       '@angular/material':
         specifier: ^18.0.0

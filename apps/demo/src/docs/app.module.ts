@@ -17,7 +17,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterModule } from '@angular/router';
 //brightlayer-ui modules
-import { DrawerModule, EmptyStateModule } from '@brightlayer-ui/angular-components/core';
+import { DrawerModule, EmptyStateModule } from '@bldc/angular-components/core';
 
 import { environment } from '../environments/environment';
 

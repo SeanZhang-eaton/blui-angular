@@ -1,7 +1,7 @@
 {
-  "name": "@brightlayer-ui/angular-themes",
+  "name": "@bldc/angular-themes",
   "$schema": "../../../node_modules/nx/schemas/project-schema.json",
-  "sourceRoot": "libs/@brightlayer-ui/angular-themes/src",
+  "sourceRoot": "libs/@bldc/angular-themes/src",
   "prefix": "lib",
   "projectType": "library",
   "tags": [],
@@ -11,8 +11,8 @@
       "outputs": ["{options.outputPath}"],
       "defaultConfiguration": "production",
       "options": {
-        "outputPath": "dist/libs/@brightlayer-ui/angular-themes",
-        "tsConfig": "libs/@brightlayer-ui/angular-themes/tsconfig.json"
+        "outputPath": "dist/libs/@bldc/angular-themes",
+        "tsConfig": "libs/@bldc/angular-themes/tsconfig.json"
       },
       "configurations": {
         "development": {

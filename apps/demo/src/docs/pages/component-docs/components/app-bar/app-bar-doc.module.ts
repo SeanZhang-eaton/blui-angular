@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
-import { AppBarModule, ThreeLinerModule } from '@brightlayer-ui/angular-components/core';
+import { AppBarModule, ThreeLinerModule } from '@bldc/angular-components/core';
 
 import { SharedCompDocsModule } from '../../shared/shared-comp-docs.module';
 

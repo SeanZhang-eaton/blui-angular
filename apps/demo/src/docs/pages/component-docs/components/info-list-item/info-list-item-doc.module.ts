@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
-import { ChannelValueModule, InfoListItemModule } from '@brightlayer-ui/angular-components/core';
+import { ChannelValueModule, InfoListItemModule } from '@bldc/angular-components/core';
 
 import { SharedCompDocsModule } from '../../shared/shared-comp-docs.module';
 

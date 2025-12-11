@@ -18,7 +18,7 @@ The `<blui-empty-state>` component can also display additional action elements b
 
 ```typescript
 // app.module.ts
-import { EmptyStateModule } from '@brightlayer-ui/angular-components';
+import { EmptyStateModule } from '@bldc/angular-components';
 ...
 imports: [
     EmptyStateModule

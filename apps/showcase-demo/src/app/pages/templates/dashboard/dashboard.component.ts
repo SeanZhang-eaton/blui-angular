@@ -11,7 +11,7 @@ import {
   ListItemTagModule,
   ProgressIconsModule,
   ScoreCardModule,
-} from '@brightlayer-ui/angular-components';
+} from '@bldc/angular-components';
 import * as BLUIColors from '@brightlayer-ui/colors';
 
 @Component({

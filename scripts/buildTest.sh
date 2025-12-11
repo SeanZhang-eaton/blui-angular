@@ -7,8 +7,8 @@ NC='\033[0m' # No Color
 echo "🔍 Checking Angular Components Build Artifacts"
 
 # 检查构建目录是否存在
-COMPONENTS_DIR="dist/libs/@brightlayer-ui/angular-components"
-THEMES_DIR="dist/libs/@brightlayer-ui/angular-themes"
+COMPONENTS_DIR="dist/libs/@bldc/angular-components"
+THEMES_DIR="dist/libs/@bldc/angular-themes"
 
 if [ ! -d "$COMPONENTS_DIR" ]; then
     echo -e "${RED}❌ Components build directory not found: $COMPONENTS_DIR${NC}"

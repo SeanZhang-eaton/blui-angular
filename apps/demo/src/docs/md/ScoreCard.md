@@ -15,7 +15,7 @@
 
 ```typescript
 // app.module.ts
-import { ScoreCardModule } from '@brightlayer-ui/angular-components';
+import { ScoreCardModule } from '@bldc/angular-components';
 ...
 imports: [
     ScoreCardModule

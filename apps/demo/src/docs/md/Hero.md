@@ -18,7 +18,7 @@ The value section of the `<blui-hero>` utilizes a [`<blui-channel-value>`](./Cha
 
 ```typescript
 // app.module.ts
-import { HeroModule } from '@brightlayer-ui/angular-components';
+import { HeroModule } from '@bldc/angular-components';
 
 ...
 imports: [
@@ -75,7 +75,7 @@ The `<blui-hero-banner>` component is a simple wrapper component that is used to
 
 ```typescript
 // app.module.ts
-import { HeroModule } from '@brightlayer-ui/angular-components';
+import { HeroModule } from '@bldc/angular-components';
 ...
 imports: [
     HeroModule

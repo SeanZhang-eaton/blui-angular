@@ -10,7 +10,7 @@ The `<blui-drawer>` is used to organize content (typically navigation links) wit
 
 ```typescript
 // app.module.ts
-import { DrawerModule } from '@brightlayer-ui/angular-components';
+import { DrawerModule } from '@bldc/angular-components';
 ...
 imports: [
     DrawerModule

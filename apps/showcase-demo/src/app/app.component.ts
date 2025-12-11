@@ -5,7 +5,7 @@ import { MatIconRegistry } from '@angular/material/icon';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { DomSanitizer } from '@angular/platform-browser';
 import { NavigationEnd, Router, RouterModule } from '@angular/router';
-import { DrawerLayoutVariantType, DrawerModule, UserMenuModule } from '@brightlayer-ui/angular-components';
+import { DrawerLayoutVariantType, DrawerModule, UserMenuModule } from '@bldc/angular-components';
 
 import { DrawerComponent } from './drawer/drawer.component';
 import { RtlService } from './services/rtl.service';

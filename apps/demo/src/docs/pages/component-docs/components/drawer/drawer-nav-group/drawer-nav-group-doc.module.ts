@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
-import { DrawerModule, ListItemTagModule } from '@brightlayer-ui/angular-components/core';
+import { DrawerModule, ListItemTagModule } from '@bldc/angular-components/core';
 
 import { SharedCompDocsModule } from '../../../shared/shared-comp-docs.module';
 

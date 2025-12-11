@@ -15,7 +15,7 @@ import {
   ThreeLinerModule,
   ToolbarMenuModule,
   UserMenuModule,
-} from '@brightlayer-ui/angular-components';
+} from '@bldc/angular-components';
 import { BLUIColors } from '@brightlayer-ui/colors';
 
 import { RtlService } from '../../../services/rtl.service';

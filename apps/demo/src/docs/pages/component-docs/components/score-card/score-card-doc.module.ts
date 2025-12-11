@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 import { MatListModule } from '@angular/material/list';
 import { RouterModule } from '@angular/router';
-import { HeroModule, InfoListItemModule, ScoreCardModule } from '@brightlayer-ui/angular-components/core';
+import { HeroModule, InfoListItemModule, ScoreCardModule } from '@bldc/angular-components/core';
 
 import { SharedCompDocsModule } from '../../shared/shared-comp-docs.module';
 

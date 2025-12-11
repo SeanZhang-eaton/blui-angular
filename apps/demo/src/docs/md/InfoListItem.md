@@ -8,7 +8,7 @@ The `<blui-info-list-item>` is intended to be used in List views. It positions a
 
 ```typescript
 // app.module.ts
-import { InfoListItemModule } from '@brightlayer-ui/angular-components';
+import { InfoListItemModule } from '@bldc/angular-components';
 ...
 imports: [
     InfoListItemModule

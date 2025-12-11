@@ -6,7 +6,7 @@ The `<blui-three-liner>` can display up to three lines of stylized text or other
 
 ```typescript
 // app.module.ts
-import { ThreeLinerModule } from '@brightlayer-ui/angular-components';
+import { ThreeLinerModule } from '@bldc/angular-components';
 ...
 imports: [ ThreeLinerModule ]
 ...

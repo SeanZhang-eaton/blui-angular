@@ -8,7 +8,7 @@ The `<blui-list-item-tag>` is a text item with a colored background and rounded 
 
 ```typescript
 // app.module.ts
-import { ListItemTagModule } from '@brightlayer-ui/angular-components';
+import { ListItemTagModule } from '@bldc/angular-components';
 ...
 imports: [
     ListItemTagModule

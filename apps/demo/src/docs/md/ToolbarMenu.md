@@ -10,7 +10,7 @@ The `<blui-toolbar-menu>` component is used to display a dropdown menu with labe
 
 ```typescript
 // app.module.ts
-import { ToolbarMenuModule } from '@brightlayer-ui/angular-components';
+import { ToolbarMenuModule } from '@bldc/angular-components';
 ...
 imports: [
     ToolbarMenuModule

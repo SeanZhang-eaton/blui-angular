@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { RouterModule } from '@angular/router';
-import { InfoListItemModule, SpacerModule, UserMenuModule } from '@brightlayer-ui/angular-components/core';
+import { InfoListItemModule, SpacerModule, UserMenuModule } from '@bldc/angular-components/core';
 
 import { SharedCompDocsModule } from '../../shared/shared-comp-docs.module';
 

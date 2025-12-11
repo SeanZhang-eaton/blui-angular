@@ -20,7 +20,7 @@ The Menu header can be constructed by supplying a `menuTitle` and optional `menu
 
 ```typescript
 // app.module.ts
-import { UserMenuModule, InfoListItemModule } from '@brightlayer-ui/angular-components';
+import { UserMenuModule, InfoListItemModule } from '@bldc/angular-components';
 ...
 imports: [
     UserMenuModule,

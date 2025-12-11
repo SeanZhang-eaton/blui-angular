@@ -16,7 +16,7 @@ Icons are passed in as a child element of the `<blui-channel-value>` component.
 
 ```typescript
 // app.module.ts
-import { ChannelValueModule } from '@brightlayer-ui/angular-components';
+import { ChannelValueModule } from '@bldc/angular-components';
 ...
 imports: [
     ChannelValueModule

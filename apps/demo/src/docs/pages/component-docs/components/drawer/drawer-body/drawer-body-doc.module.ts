@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { DrawerModule } from '@brightlayer-ui/angular-components/core';
+import { DrawerModule } from '@bldc/angular-components/core';
 
 import { SharedCompDocsModule } from '../../../shared/shared-comp-docs.module';
 

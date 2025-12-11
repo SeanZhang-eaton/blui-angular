@@ -1,4 +1,4 @@
-> The DropdownToolbar component is deprecated in version >=7.0.0 of `@brightlayer-ui/angular-components`. Please refer to the [`ToolbarMenu`](./ToolbarMenu.md) documentation for an alternative component.
+> The DropdownToolbar component is deprecated in version >=7.0.0 of `@bldc/angular-components`. Please refer to the [`ToolbarMenu`](./ToolbarMenu.md) documentation for an alternative component.
 
 # Dropdown Toolbar
 
@@ -12,7 +12,7 @@ The `<blui-dropdown-toolbar>` component is used to display a toolbar with a drop
 
 ```typescript
 // app.module.ts
-import { DropdownToolbarModule } from '@brightlayer-ui/angular-components';
+import { DropdownToolbarModule } from '@bldc/angular-components';
 ...
 imports: [
     DropdownToolbarModule

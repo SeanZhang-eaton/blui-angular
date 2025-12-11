@@ -3,7 +3,7 @@ import { Component, ViewEncapsulation } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
-import { MobileStepperModule } from '@brightlayer-ui/angular-components';
+import { MobileStepperModule } from '@bldc/angular-components';
 
 @Component({
   selector: 'app-blui-navigation',
