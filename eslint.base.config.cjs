@@ -18,7 +18,7 @@ module.exports = [
         'error',
         {
           groups: [
-            ['zone.js', '^@nx', '^@angular', '^@brightlayer-ui', '^@blui'],
+            ['zone.js', '^@nx', '^@angular', '^@brightlayer-ui', '^@blui', '^@bldc', '^@bldc-ui'],
             ['^\\w'],
             ['^\\u0000'],
             ['^\\.\\.(?!/?$)', '^\\.\\./?$'],

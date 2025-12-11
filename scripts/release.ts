@@ -65,8 +65,8 @@ let skipTests = args.skipTests ?? false;
 const skipBuild = args.skipBuild ?? false;
 const skipPrompts = args.skipPrompts ?? false;
 const skipGit = args.skipGit ?? false;
-const packages: string[] = fs.readdirSync(path.resolve(__dirname, '../libs/@brightlayer-ui')).filter((p) => {
-  const pkgRoot = path.resolve(__dirname, '../libs/@brightlayer-ui', p);
+const packages: string[] = fs.readdirSync(path.resolve(__dirname, '../libs/@bldc')).filter((p) => {
+  const pkgRoot = path.resolve(__dirname, '../libs/@bldc', p);
   if (fs.statSync(pkgRoot).isDirectory()) {
     const pkg = JSON.parse(fs.readFileSync(path.resolve(pkgRoot, 'package.json'), 'utf-8'));
     return !pkg.private;
@@ -92,7 +92,7 @@ const run = async (bin: string, args: ReadonlyArray<string>, opts: SpawnOptions 
 const dryRun = async (bin: string, args: ReadonlyArray<string>, opts: SpawnOptions = {}) =>
   console.log(pico.blue(`[dryrun] ${bin} ${args.join(' ')}`), opts);
 const runIfNotDry = isDryRun ? dryRun : run;
-const getPkgRoot = (pkg: string) => path.resolve(__dirname, '../dist/libs/@brightlayer-ui/' + pkg);
+const getPkgRoot = (pkg: string) => path.resolve(__dirname, '../dist/libs/@bldc/' + pkg);
 const step = (msg: string) => console.log(pico.cyan(msg));
 
 async function main() {

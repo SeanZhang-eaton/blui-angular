@@ -40,4 +40,4 @@ jobs:
         run: pnpm run build:lib
 
       - name: Release preview (Development)
-        run: pnpx pkg-pr-new publish  --pnpm './libs/@brightlayer-ui/*'
+        run: pnpx pkg-pr-new publish  --pnpm './libs/@bldc/*'

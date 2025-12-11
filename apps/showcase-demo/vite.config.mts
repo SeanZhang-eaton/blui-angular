@@ -49,8 +49,8 @@ export default defineConfig(({ mode }) => {
               return 'angular-material';
             }
 
-            if (id.includes('@brightlayer-ui/')) {
-              return 'brightlayer-ui';
+            if (id.includes('@bldc/')) {
+              return 'bldc-ui';
             }
 
             if (id.includes('node_modules/@angular/')) {
