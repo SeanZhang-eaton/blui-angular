@@ -9,8 +9,7 @@ import { SpacerModule } from '../utility/spacer.module';
 import { InfoListItemComponent } from './info-list-item.component';
 
 @NgModule({
-  declarations: [InfoListItemComponent],
-  imports: [SpacerModule, MatIconModule, CommonModule, MatListModule, MatDividerModule],
-  exports: [InfoListItemComponent, MatIconModule, MatListModule, SpacerModule, MatDividerModule],
+    imports: [SpacerModule, MatIconModule, CommonModule, MatListModule, MatDividerModule, InfoListItemComponent],
+    exports: [InfoListItemComponent, MatIconModule, MatListModule, SpacerModule, MatDividerModule],
 })
 export class InfoListItemModule {}

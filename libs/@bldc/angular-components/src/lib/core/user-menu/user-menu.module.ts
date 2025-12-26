@@ -13,16 +13,16 @@ import { UserMenuComponent } from './user-menu.component';
 import { UserMenuAvatarComponent } from './user-menu-avatar.component';
 
 @NgModule({
-  declarations: [UserMenuComponent, UserMenuAvatarComponent, UserMenuHeaderComponent],
-  imports: [
-    CommonModule,
-    DrawerHeaderModule,
-    InfoListItemModule,
-    OverlayModule,
-    MatBottomSheetModule,
-    MatCardModule,
-    MatToolbarModule,
-  ],
-  exports: [UserMenuComponent, UserMenuAvatarComponent, UserMenuHeaderComponent],
+    imports: [
+        CommonModule,
+        DrawerHeaderModule,
+        InfoListItemModule,
+        OverlayModule,
+        MatBottomSheetModule,
+        MatCardModule,
+        MatToolbarModule,
+        UserMenuComponent, UserMenuAvatarComponent, UserMenuHeaderComponent,
+    ],
+    exports: [UserMenuComponent, UserMenuAvatarComponent, UserMenuHeaderComponent],
 })
 export class UserMenuModule {}

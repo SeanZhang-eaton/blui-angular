@@ -2,6 +2,9 @@ import { ChangeDetectorRef, Component, ElementRef, Input, ViewChild, ViewEncapsu
 
 import { isEmptyView } from '../../../utils/utils';
 import { DrawerStateManagerService, StateListener } from '../state-listener.component';
+import { MatToolbar } from '@angular/material/toolbar';
+import { NgIf } from '@angular/common';
+import { MatDivider } from '@angular/material/divider';
 
 /**
  * [DrawerHeader Component](https://brightlayer-ui-components.github.io/angular/?path=/info/components-drawer--readme)
@@ -9,10 +12,10 @@ import { DrawerStateManagerService, StateListener } from '../state-listener.comp
  * The `<blui-drawer-header>` contains the content found at the top of the `<blui-drawer>`.
  */
 @Component({
-  selector: 'blui-drawer-header',
-  standalone: false,
-  encapsulation: ViewEncapsulation.None,
-  template: `
+    selector: 'blui-drawer-header',
+    standalone: true,
+    encapsulation: ViewEncapsulation.None,
+    template: `
     <mat-toolbar
       class="blui-drawer-header-content"
       [class.rail]="isRail()"
@@ -33,10 +36,15 @@ import { DrawerStateManagerService, StateListener } from '../state-listener.comp
     </mat-toolbar>
     <mat-divider *ngIf="divider"></mat-divider>
   `,
-  styleUrls: ['./drawer-header.component.scss'],
-  host: {
-    class: 'blui-drawer-header',
-  },
+    styleUrls: ['./drawer-header.component.scss'],
+    host: {
+        class: 'blui-drawer-header',
+    },
+    imports: [
+        MatToolbar,
+        NgIf,
+        MatDivider,
+    ],
 })
 export class DrawerHeaderComponent extends StateListener {
   /** Mat toolbar color variant

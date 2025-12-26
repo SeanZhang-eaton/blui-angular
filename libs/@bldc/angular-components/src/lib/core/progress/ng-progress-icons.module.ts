@@ -8,8 +8,7 @@ import { UpsComponent } from './ups/ups.component';
 import { PxbProgressIconComponent } from './pxb-progress-icon.component';
 
 @NgModule({
-  imports: [CommonModule],
-  declarations: [PxbProgressIconComponent, BatteryComponent, HeartComponent, PieComponent, UpsComponent],
-  exports: [PxbProgressIconComponent, BatteryComponent, HeartComponent, PieComponent, UpsComponent],
+    imports: [CommonModule, PxbProgressIconComponent, BatteryComponent, HeartComponent, PieComponent, UpsComponent],
+    exports: [PxbProgressIconComponent, BatteryComponent, HeartComponent, PieComponent, UpsComponent],
 })
 export class ProgressIconsModule {}

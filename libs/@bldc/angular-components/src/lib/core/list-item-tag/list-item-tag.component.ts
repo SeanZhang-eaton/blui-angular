@@ -8,15 +8,15 @@ import { requireInput } from '../../utils/utils';
  * The `<blui-list-item-tag>` is a text item with a colored background and rounded corners that is used to tag lists.
  */
 @Component({
-  selector: 'blui-list-item-tag',
-  standalone: false,
-  templateUrl: './list-item-tag.component.html',
-  styleUrls: ['./list-item-tag.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  encapsulation: ViewEncapsulation.None,
-  host: {
-    class: 'blui-list-item-tag',
-  },
+    selector: 'blui-list-item-tag',
+    standalone: true,
+    templateUrl: './list-item-tag.component.html',
+    styleUrls: ['./list-item-tag.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    encapsulation: ViewEncapsulation.None,
+    host: {
+        class: 'blui-list-item-tag',
+    },
 })
 export class ListItemTagComponent implements OnChanges {
   /** Color of the label background */

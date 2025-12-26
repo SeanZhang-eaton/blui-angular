@@ -19,11 +19,11 @@ import { DrawerStateManagerService, StateListener } from './state-listener.compo
  * The `<blui-drawer>` includes helper components for `<blui-drawer-header>`, `<blui-drawer-subheader>`, `<blui-drawer-body>`, `<blui-drawer-nav-group>`, `<blui-drawer-footer>`, and `<blui-drawer-layout>` to help organize the content.
  */
 @Component({
-  selector: 'blui-drawer',
-  standalone: false,
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  encapsulation: ViewEncapsulation.None,
-  template: `
+    selector: 'blui-drawer',
+    standalone: true,
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    encapsulation: ViewEncapsulation.None,
+    template: `
     <div
       class="blui-drawer-content"
       [class.blui-drawer-side-border]="sideBorder"
@@ -41,10 +41,10 @@ import { DrawerStateManagerService, StateListener } from './state-listener.compo
       </div>
     </div>
   `,
-  styleUrls: ['./drawer.component.scss'],
-  host: {
-    class: 'blui-drawer',
-  },
+    styleUrls: ['./drawer.component.scss'],
+    host: {
+        class: 'blui-drawer',
+    },
 })
 export class DrawerComponent extends StateListener implements OnInit, OnChanges {
   /** Enables a condensed view for the `rail` variant which removes NavItem labels and shows tooltips instead

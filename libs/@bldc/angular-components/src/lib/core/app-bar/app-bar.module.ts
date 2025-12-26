@@ -8,8 +8,7 @@ import { SpacerModule } from '../utility/spacer.module';
 import { AppBarComponent } from './app-bar.component';
 
 @NgModule({
-  declarations: [AppBarComponent],
-  imports: [CommonModule, MatToolbarModule, SpacerModule, MatIconModule],
-  exports: [AppBarComponent],
+    imports: [CommonModule, MatToolbarModule, SpacerModule, MatIconModule, AppBarComponent],
+    exports: [AppBarComponent],
 })
 export class AppBarModule {}

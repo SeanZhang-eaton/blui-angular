@@ -1,4 +1,6 @@
 import { ChangeDetectionStrategy, Component, Input, ViewEncapsulation } from '@angular/core';
+import { NgIf } from '@angular/common';
+import { MatDivider } from '@angular/material/divider';
 
 /**
  * [HeroBanner Component](https://brightlayer-ui-components.github.io/angular/?path=/info/components-hero--readme)
@@ -6,20 +8,21 @@ import { ChangeDetectionStrategy, Component, Input, ViewEncapsulation } from '@a
  * The `<blui-hero-banner>` component is a simple wrapper component that is used to contain `<blui-hero>`s.
  */
 @Component({
-  selector: 'blui-hero-banner',
-  standalone: false,
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  encapsulation: ViewEncapsulation.None,
-  template: `
+    selector: 'blui-hero-banner',
+    standalone: true,
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    encapsulation: ViewEncapsulation.None,
+    template: `
     <div class="blui-hero-banner-content">
       <ng-content select="blui-hero"></ng-content>
     </div>
     <mat-divider class="blui-hero-banner-divider" *ngIf="divider"></mat-divider>
   `,
-  styleUrls: ['./hero-banner.component.scss'],
-  host: {
-    class: 'blui-hero-banner',
-  },
+    styleUrls: ['./hero-banner.component.scss'],
+    host: {
+        class: 'blui-hero-banner',
+    },
+    imports: [NgIf, MatDivider],
 })
 export class HeroBannerComponent {
   /** Whether to show the line separator

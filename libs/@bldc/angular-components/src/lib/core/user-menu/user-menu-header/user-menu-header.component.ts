@@ -1,6 +1,9 @@
 import { ChangeDetectionStrategy, Component, ElementRef, Input, ViewChild, ViewEncapsulation } from '@angular/core';
 
 import { isEmptyView } from '../../../utils/utils';
+import { MatToolbar } from '@angular/material/toolbar';
+import { NgIf } from '@angular/common';
+import { MatDivider } from '@angular/material/divider';
 
 /**
  * [UserMenuHeaderComponent Component](https://brightlayer-ui-components.github.io/angular/?path=/info/components-user-menu--readme)
@@ -8,11 +11,11 @@ import { isEmptyView } from '../../../utils/utils';
  * The `<blui-user-menu-header>` is the menu header of the `<blui-user-menu>`.
  */
 @Component({
-  selector: 'blui-user-menu-header',
-  standalone: false,
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  encapsulation: ViewEncapsulation.None,
-  template: `
+    selector: 'blui-user-menu-header',
+    standalone: true,
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    encapsulation: ViewEncapsulation.None,
+    template: `
     <mat-toolbar
       class="blui-user-menu-header-content"
       [color]="color"
@@ -31,10 +34,15 @@ import { isEmptyView } from '../../../utils/utils';
     </mat-toolbar>
     <mat-divider *ngIf="divider"></mat-divider>
   `,
-  styleUrls: ['./user-menu-header.component.scss'],
-  host: {
-    class: 'blui-user-menu-header',
-  },
+    styleUrls: ['./user-menu-header.component.scss'],
+    host: {
+        class: 'blui-user-menu-header',
+    },
+    imports: [
+        MatToolbar,
+        NgIf,
+        MatDivider,
+    ],
 })
 export class UserMenuHeaderComponent {
   /** Mat toolbar color variant

@@ -2,11 +2,12 @@ import { Component, Input, OnChanges } from '@angular/core';
 
 import { PxbProgressIconComponent } from '../pxb-progress-icon.component';
 import { rangeValue } from '../utilities';
+import { NgIf } from '@angular/common';
 
 @Component({
-  selector: 'blui-battery-progress,battery-progress',
-  standalone: false,
-  template: `
+    selector: 'blui-battery-progress,battery-progress',
+    standalone: true,
+    template: `
     <pxb-progress-icon
       [size]="size"
       [labelPosition]="labelPosition"
@@ -76,7 +77,8 @@ import { rangeValue } from '../utilities';
       </svg>
     </pxb-progress-icon>
   `,
-  styleUrls: ['../pxb-progress-icon.scss'],
+    styleUrls: ['../pxb-progress-icon.scss'],
+    imports: [PxbProgressIconComponent, NgIf],
 })
 export class BatteryComponent extends PxbProgressIconComponent implements OnChanges {
   @Input() charging = false;

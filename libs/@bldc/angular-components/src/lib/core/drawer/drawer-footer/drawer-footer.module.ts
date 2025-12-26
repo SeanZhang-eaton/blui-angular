@@ -5,8 +5,7 @@ import { MatDividerModule } from '@angular/material/divider';
 import { DrawerFooterComponent } from './drawer-footer.component';
 
 @NgModule({
-  declarations: [DrawerFooterComponent],
-  imports: [CommonModule, MatDividerModule],
-  exports: [DrawerFooterComponent],
+    imports: [CommonModule, MatDividerModule, DrawerFooterComponent],
+    exports: [DrawerFooterComponent],
 })
 export class DrawerFooterModule {}

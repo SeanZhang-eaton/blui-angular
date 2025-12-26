@@ -12,7 +12,8 @@ import {
 } from '@angular/core';
 
 import { requireContent, requireInput } from '../../utils/utils';
-import { UnitSpaceType } from '../channel-value/channel-value.component';
+import { UnitSpaceType, ChannelValueComponent } from '../channel-value/channel-value.component';
+import { NgIf } from '@angular/common';
 /**
  * [Hero Component](https://brightlayer-ui-components.github.io/angular/?path=/info/components-hero--readme)
  *
@@ -20,12 +21,12 @@ import { UnitSpaceType } from '../channel-value/channel-value.component';
  * These are typically displayed in a banner.
  */
 @Component({
-  selector: 'blui-hero',
-  standalone: false,
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  encapsulation: ViewEncapsulation.None,
-  styleUrls: ['./hero.component.scss'],
-  template: `
+    selector: 'blui-hero',
+    standalone: true,
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    encapsulation: ViewEncapsulation.None,
+    styleUrls: ['./hero.component.scss'],
+    template: `
     <div class="blui-hero-content">
       <div
         class="blui-hero-primary-wrapper"
@@ -54,9 +55,10 @@ import { UnitSpaceType } from '../channel-value/channel-value.component';
       <h5 class="blui-hero-label">{{ label }}</h5>
     </div>
   `,
-  host: {
-    class: 'blui-hero',
-  },
+    host: {
+        class: 'blui-hero',
+    },
+    imports: [NgIf, ChannelValueComponent],
 })
 export class HeroComponent implements OnChanges, AfterViewInit, AfterContentChecked {
   /** If true, shows units before the value

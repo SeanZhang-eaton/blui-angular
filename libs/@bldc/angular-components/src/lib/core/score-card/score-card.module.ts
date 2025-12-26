@@ -6,8 +6,7 @@ import { MatDividerModule } from '@angular/material/divider';
 import { ScoreCardComponent } from './score-card.component';
 
 @NgModule({
-  declarations: [ScoreCardComponent],
-  imports: [CommonModule, MatCardModule, MatDividerModule],
-  exports: [ScoreCardComponent],
+    imports: [CommonModule, MatCardModule, MatDividerModule, ScoreCardComponent],
+    exports: [ScoreCardComponent],
 })
 export class ScoreCardModule {}

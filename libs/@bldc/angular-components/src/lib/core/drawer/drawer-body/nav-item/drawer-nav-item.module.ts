@@ -11,16 +11,16 @@ import { InfoListItemModule } from '../../../info-list-item/public-api';
 import { DrawerNavItemComponent } from './drawer-nav-item.component';
 
 @NgModule({
-  declarations: [DrawerNavItemComponent],
-  imports: [
-    MatTooltipModule,
-    CommonModule,
-    InfoListItemModule,
-    MatIconModule,
-    MatDividerModule,
-    MatRippleModule,
-    MatExpansionModule,
-  ],
-  exports: [DrawerNavItemComponent],
+    imports: [
+        MatTooltipModule,
+        CommonModule,
+        InfoListItemModule,
+        MatIconModule,
+        MatDividerModule,
+        MatRippleModule,
+        MatExpansionModule,
+        DrawerNavItemComponent,
+    ],
+    exports: [DrawerNavItemComponent],
 })
 export class DrawerNavItemModule {}

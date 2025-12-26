@@ -5,8 +5,7 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 
 import { DrawerHeaderComponent } from './drawer-header.component';
 @NgModule({
-  declarations: [DrawerHeaderComponent],
-  imports: [CommonModule, MatToolbarModule, MatDividerModule],
-  exports: [DrawerHeaderComponent],
+    imports: [CommonModule, MatToolbarModule, MatDividerModule, DrawerHeaderComponent],
+    exports: [DrawerHeaderComponent],
 })
 export class DrawerHeaderModule {}

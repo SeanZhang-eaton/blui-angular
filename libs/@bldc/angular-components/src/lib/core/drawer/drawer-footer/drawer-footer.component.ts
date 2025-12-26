@@ -1,6 +1,8 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, ViewEncapsulation } from '@angular/core';
 
 import { DrawerStateManagerService, StateListener } from '../state-listener.component';
+import { NgIf } from '@angular/common';
+import { MatDivider } from '@angular/material/divider';
 
 /**
  * [DrawerFooter Component](https://brightlayer-ui-components.github.io/angular/?path=/info/components-drawer--readme)
@@ -9,11 +11,11 @@ import { DrawerStateManagerService, StateListener } from '../state-listener.comp
  * It can be used to add any custom content (as children).
  */
 @Component({
-  selector: 'blui-drawer-footer',
-  standalone: false,
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  encapsulation: ViewEncapsulation.None,
-  template: `
+    selector: 'blui-drawer-footer',
+    standalone: true,
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    encapsulation: ViewEncapsulation.None,
+    template: `
     <mat-divider *ngIf="divider"></mat-divider>
     <div
       class="blui-drawer-footer-content"
@@ -22,10 +24,11 @@ import { DrawerStateManagerService, StateListener } from '../state-listener.comp
       <ng-content></ng-content>
     </div>
   `,
-  styleUrls: ['./drawer-footer.component.scss'],
-  host: {
-    class: 'blui-drawer-footer',
-  },
+    styleUrls: ['./drawer-footer.component.scss'],
+    host: {
+        class: 'blui-drawer-footer',
+    },
+    imports: [NgIf, MatDivider],
 })
 export class DrawerFooterComponent extends StateListener {
   /** Whether to show a dividing line above the Footer

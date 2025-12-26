@@ -6,8 +6,7 @@ import { MatListModule } from '@angular/material/list';
 import { DrawerNavGroupComponent } from './drawer-nav-group.component';
 
 @NgModule({
-  declarations: [DrawerNavGroupComponent],
-  imports: [CommonModule, MatDividerModule, MatListModule],
-  exports: [DrawerNavGroupComponent],
+    imports: [CommonModule, MatDividerModule, MatListModule, DrawerNavGroupComponent],
+    exports: [DrawerNavGroupComponent],
 })
 export class DrawerNavGroupModule {}

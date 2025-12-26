@@ -1,6 +1,9 @@
 import { ChangeDetectionStrategy, Component, Input, OnChanges, ViewEncapsulation } from '@angular/core';
 
 import { requireInput } from '../../utils/utils';
+import { MatCard, MatCardTitle, MatCardSubtitle, MatCardContent } from '@angular/material/card';
+import { NgIf } from '@angular/common';
+import { MatDivider } from '@angular/material/divider';
 
 /**
  * [ScoreCard Component](https://brightlayer-ui-components.github.io/angular/?path=/info/components-score-card--readme)
@@ -8,11 +11,11 @@ import { requireInput } from '../../utils/utils';
  `<blui-score-card>` is a card component that calls attention to particular values.
  */
 @Component({
-  selector: 'blui-score-card',
-  standalone: false,
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  encapsulation: ViewEncapsulation.None,
-  template: `
+    selector: 'blui-score-card',
+    standalone: true,
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    encapsulation: ViewEncapsulation.None,
+    template: `
     <mat-card appearance="outlined" class="blui-score-card-content">
       <div class="blui-score-card-header">
         <div class="blui-score-card-header-background"></div>
@@ -41,10 +44,18 @@ import { requireInput } from '../../utils/utils';
       </mat-card-content>
     </mat-card>
   `,
-  styleUrls: ['./score-card.component.scss'],
-  host: {
-    class: 'blui-score-card',
-  },
+    styleUrls: ['./score-card.component.scss'],
+    host: {
+        class: 'blui-score-card',
+    },
+    imports: [
+        MatCard,
+        MatCardTitle,
+        MatCardSubtitle,
+        MatCardContent,
+        NgIf,
+        MatDivider,
+    ],
 })
 export class ScoreCardComponent implements OnChanges {
   /** Vertical offset for the badge content

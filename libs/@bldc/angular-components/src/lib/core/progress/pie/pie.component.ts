@@ -2,11 +2,12 @@ import { Component, Input, OnChanges } from '@angular/core';
 
 import { PxbProgressIconComponent } from '../pxb-progress-icon.component';
 import { getCoordinates, rangeValue } from '../utilities';
+import { NgIf } from '@angular/common';
 
 @Component({
-  selector: 'blui-pie-progress,pie-progress',
-  standalone: false,
-  template: `
+    selector: 'blui-pie-progress,pie-progress',
+    standalone: true,
+    template: `
     <pxb-progress-icon
       [size]="size"
       [labelPosition]="labelPosition"
@@ -57,7 +58,8 @@ import { getCoordinates, rangeValue } from '../utilities';
       </svg>
     </pxb-progress-icon>
   `,
-  styleUrls: ['../pxb-progress-icon.scss'],
+    styleUrls: ['../pxb-progress-icon.scss'],
+    imports: [PxbProgressIconComponent, NgIf],
 })
 export class PieComponent extends PxbProgressIconComponent implements OnChanges {
   @Input() ring = 10;

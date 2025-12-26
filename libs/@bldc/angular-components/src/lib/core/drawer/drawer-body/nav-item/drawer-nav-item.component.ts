@@ -13,10 +13,16 @@ import {
   ViewChild,
   ViewEncapsulation,
 } from '@angular/core';
-import { MatExpansionPanel } from '@angular/material/expansion';
+import { MatExpansionPanel, MatAccordion } from '@angular/material/expansion';
 
 import { isEmptyView } from '../../../../utils/utils';
 import { DrawerStateManagerService, StateListener } from '../../state-listener.component';
+import { NgIf, NgTemplateOutlet } from '@angular/common';
+import { MatRipple } from '@angular/material/core';
+import { InfoListItemComponent } from '../../../info-list-item/info-list-item.component';
+import { MatTooltip } from '@angular/material/tooltip';
+import { MatIcon } from '@angular/material/icon';
+import { MatDivider } from '@angular/material/divider';
 
 export type DrawerNavItem = {
   statusColor?: string;
@@ -42,11 +48,11 @@ export type ActiveItemBackgroundShape = 'round' | 'square';
  * The `<blui-drawer-nav-item>` is a wrapper to the `<blui-info-list-item>` that is meant to be used within a `<blui-nav-group>`.
  */
 @Component({
-  selector: 'blui-drawer-nav-item',
-  standalone: false,
-  encapsulation: ViewEncapsulation.None,
-  styleUrls: ['./drawer-nav-item.component.scss'],
-  template: `
+    selector: 'blui-drawer-nav-item',
+    standalone: true,
+    encapsulation: ViewEncapsulation.None,
+    styleUrls: ['./drawer-nav-item.component.scss'],
+    template: `
     <ng-container *ngIf="!hidden && depth">
       <ng-template #navIcon><ng-content select="[blui-icon]"></ng-content></ng-template>
       <div
@@ -130,9 +136,20 @@ export type ActiveItemBackgroundShape = 'round' | 'square';
       </mat-accordion>
     </ng-container>
   `,
-  host: {
-    class: 'blui-drawer-nav-item',
-  },
+    host: {
+        class: 'blui-drawer-nav-item',
+    },
+    imports: [
+        NgIf,
+        MatRipple,
+        InfoListItemComponent,
+        MatTooltip,
+        NgTemplateOutlet,
+        MatIcon,
+        MatDivider,
+        MatAccordion,
+        MatExpansionPanel,
+    ],
 })
 export class DrawerNavItemComponent
   extends StateListener

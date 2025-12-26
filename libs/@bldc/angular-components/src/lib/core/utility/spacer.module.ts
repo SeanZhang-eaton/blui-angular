@@ -7,9 +7,9 @@ import { Component, HostBinding, Input, NgModule, OnChanges, OnInit } from '@ang
  * It works with flexbox sizing or fixed sizing.
  */
 @Component({
-  selector: 'blui-spacer',
-  standalone: false,
-  template: ` <ng-content></ng-content> `,
+    selector: 'blui-spacer',
+    standalone: true,
+    template: ` <ng-content></ng-content> `,
 })
 export class SpacerComponent implements OnChanges, OnInit {
   /** Flex grow/shrink value for use in flex layouts
@@ -41,7 +41,7 @@ export class SpacerComponent implements OnChanges, OnInit {
 }
 
 @NgModule({
-  declarations: [SpacerComponent],
-  exports: [SpacerComponent],
+    imports: [SpacerComponent],
+    exports: [SpacerComponent],
 })
 export class SpacerModule {}

@@ -1,5 +1,5 @@
 import { animate, state, style, transition, trigger } from '@angular/animations';
-import { ConnectionPositionPair } from '@angular/cdk/overlay';
+import { ConnectionPositionPair, CdkOverlayOrigin, CdkConnectedOverlay } from '@angular/cdk/overlay';
 import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
@@ -21,6 +21,10 @@ import { fromEvent, Subscription } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
 
 import { requireInput } from '../../utils/utils';
+import { UserMenuAvatarComponent } from './user-menu-avatar.component';
+import { NgIf, NgTemplateOutlet } from '@angular/common';
+import { UserMenuHeaderComponent } from './user-menu-header/user-menu-header.component';
+import { MatCard } from '@angular/material/card';
 
 /**
  * [UserMenu Component](https://brightlayer-ui-components.github.io/angular/?path=/info/components-user-menu--readme)
@@ -29,24 +33,24 @@ import { requireInput } from '../../utils/utils';
  * It is typically used in the top-right corner of an application and indicates who is logged in.
  */
 @Component({
-  selector: 'blui-user-menu',
-  standalone: false,
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  encapsulation: ViewEncapsulation.None,
-  styleUrls: ['./user-menu.component.scss'],
-  animations: [
-    trigger('fade-in-out', [
-      state('*', style({ opacity: 1, transform: 'scaleY(1)', 'transform-origin': 'top' })),
-      // Create
-      transition('void => *', [
-        style({ opacity: 0, transform: 'scaleY(0.9)', 'transform-origin': 'top' }),
-        animate('120ms cubic-bezier(0, 0, 0.2, 1)'),
-      ]),
-      // Destroy
-      transition('* => void', animate('100ms 25ms linear', style({ opacity: 0 }))),
-    ]),
-  ],
-  template: `
+    selector: 'blui-user-menu',
+    standalone: true,
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    encapsulation: ViewEncapsulation.None,
+    styleUrls: ['./user-menu.component.scss'],
+    animations: [
+        trigger('fade-in-out', [
+            state('*', style({ opacity: 1, transform: 'scaleY(1)', 'transform-origin': 'top' })),
+            // Create
+            transition('void => *', [
+                style({ opacity: 0, transform: 'scaleY(0.9)', 'transform-origin': 'top' }),
+                animate('120ms cubic-bezier(0, 0, 0.2, 1)'),
+            ]),
+            // Destroy
+            transition('* => void', animate('100ms 25ms linear', style({ opacity: 0 }))),
+        ]),
+    ],
+    template: `
     <!-- This button triggers the overlay and is it's origin -->
     <blui-user-menu-avatar
       cdkOverlayOrigin
@@ -96,9 +100,18 @@ import { requireInput } from '../../utils/utils';
       </mat-card>
     </ng-template>
   `,
-  host: {
-    class: 'blui-user-menu',
-  },
+    host: {
+        class: 'blui-user-menu',
+    },
+    imports: [
+        UserMenuAvatarComponent,
+        CdkOverlayOrigin,
+        NgIf,
+        UserMenuHeaderComponent,
+        CdkConnectedOverlay,
+        MatCard,
+        NgTemplateOutlet,
+    ],
 })
 export class UserMenuComponent implements OnInit, OnChanges, OnDestroy {
   /** Image source for avatar */

@@ -16,6 +16,8 @@ import {
 
 import { fromEvent, interval, Subscription } from 'rxjs';
 import { throttle } from 'rxjs/operators';
+import { MatToolbar, MatToolbarRow } from '@angular/material/toolbar';
+import { SpacerComponent } from '../utility/spacer.module';
 
 /**
  * [AppBar Component](https://brightlayer-ui-components.github.io/angular/?path=/info/components-app-bar--readme)
@@ -24,15 +26,15 @@ import { throttle } from 'rxjs/operators';
  * It supports three variants: `snap`, `collapsed`, and `expanded`.
  * */
 @Component({
-  selector: 'blui-app-bar',
-  standalone: false,
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  encapsulation: ViewEncapsulation.None,
-  styleUrls: ['./app-bar.component.scss'],
-  host: {
-    class: 'blui-app-bar mat-elevation-z4',
-  },
-  template: `
+    selector: 'blui-app-bar',
+    standalone: true,
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    encapsulation: ViewEncapsulation.None,
+    styleUrls: ['./app-bar.component.scss'],
+    host: {
+        class: 'blui-app-bar mat-elevation-z4',
+    },
+    template: `
     <mat-toolbar
       [color]="color"
       class="blui-app-bar-content"
@@ -52,6 +54,11 @@ import { throttle } from 'rxjs/operators';
       </mat-toolbar-row>
     </mat-toolbar>
   `,
+    imports: [
+        MatToolbar,
+        MatToolbarRow,
+        SpacerComponent,
+    ],
 })
 export class AppBarComponent implements OnInit, AfterViewInit, OnChanges, OnDestroy {
   /** Height (pixels) of the AppBar when collapsed */

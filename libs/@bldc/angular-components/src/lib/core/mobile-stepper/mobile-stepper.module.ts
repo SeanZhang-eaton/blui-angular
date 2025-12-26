@@ -6,8 +6,7 @@ import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MobileStepperComponent } from './mobile-stepper.component';
 
 @NgModule({
-  declarations: [MobileStepperComponent],
-  imports: [CommonModule, MatButtonModule, MatProgressBarModule],
-  exports: [MobileStepperComponent],
+    imports: [CommonModule, MatButtonModule, MatProgressBarModule, MobileStepperComponent],
+    exports: [MobileStepperComponent],
 })
 export class MobileStepperModule {}

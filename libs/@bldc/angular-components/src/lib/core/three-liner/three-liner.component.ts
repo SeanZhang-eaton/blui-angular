@@ -9,6 +9,7 @@ import {
 } from '@angular/core';
 
 import { isEmptyView } from '../../utils/utils';
+import { NgIf } from '@angular/common';
 
 /**
  * [ThreeLiner Component](https://brightlayer-ui-components.github.io/angular/?path=/info/components-three-liner--readme)
@@ -17,11 +18,11 @@ import { isEmptyView } from '../../utils/utils';
  * It is most commonly used within the context of a `<blui-md-bar>` component where the text can grow / shrink as the App Bar is expanded and collapsed.
  */
 @Component({
-  selector: 'blui-three-liner',
-  standalone: false,
-  encapsulation: ViewEncapsulation.None,
-  styleUrls: ['three-liner.component.scss'],
-  template: `
+    selector: 'blui-three-liner',
+    standalone: true,
+    encapsulation: ViewEncapsulation.None,
+    styleUrls: ['three-liner.component.scss'],
+    template: `
     <div class="blui-three-liner-content">
       <div class="blui-three-liner-title">
         <div #titleVc>
@@ -51,9 +52,10 @@ import { isEmptyView } from '../../utils/utils';
       </div>
     </div>
   `,
-  host: {
-    class: 'blui-three-liner',
-  },
+    host: {
+        class: 'blui-three-liner',
+    },
+    imports: [NgIf],
 })
 export class ThreeLinerComponent implements AfterViewInit {
   /** First line content */

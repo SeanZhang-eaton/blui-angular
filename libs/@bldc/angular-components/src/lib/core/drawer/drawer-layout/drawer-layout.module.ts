@@ -5,8 +5,7 @@ import { MatSidenavModule } from '@angular/material/sidenav';
 import { DrawerLayoutComponent } from './drawer-layout.component';
 
 @NgModule({
-  declarations: [DrawerLayoutComponent],
-  imports: [CommonModule, MatSidenavModule],
-  exports: [DrawerLayoutComponent],
+    imports: [CommonModule, MatSidenavModule, DrawerLayoutComponent],
+    exports: [DrawerLayoutComponent],
 })
 export class DrawerLayoutModule {}

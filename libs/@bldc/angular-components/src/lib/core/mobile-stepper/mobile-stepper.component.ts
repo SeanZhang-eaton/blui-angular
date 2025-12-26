@@ -1,6 +1,8 @@
 import { ChangeDetectionStrategy, Component, Input, OnChanges, ViewEncapsulation } from '@angular/core';
 
 import { requireInput } from '../../utils/utils';
+import { NgIf, NgFor } from '@angular/common';
+import { MatProgressBar } from '@angular/material/progress-bar';
 
 export type MobileStepperVariant = 'dots' | 'text' | 'progress';
 
@@ -11,15 +13,20 @@ export type MobileStepperVariant = 'dots' | 'text' | 'progress';
  *  There are three types of progress indicators supported, dots (default), text, and progress.
  */
 @Component({
-  selector: 'blui-mobile-stepper',
-  standalone: false,
-  templateUrl: './mobile-stepper.component.html',
-  styleUrls: ['./mobile-stepper.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  encapsulation: ViewEncapsulation.None,
-  host: {
-    class: 'blui-mobile-stepper',
-  },
+    selector: 'blui-mobile-stepper',
+    standalone: true,
+    templateUrl: './mobile-stepper.component.html',
+    styleUrls: ['./mobile-stepper.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    encapsulation: ViewEncapsulation.None,
+    host: {
+        class: 'blui-mobile-stepper',
+    },
+    imports: [
+        NgIf,
+        NgFor,
+        MatProgressBar,
+    ],
 })
 export class MobileStepperComponent implements OnChanges {
   /** The index of the active step */

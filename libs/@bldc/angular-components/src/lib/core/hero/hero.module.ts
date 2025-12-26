@@ -8,8 +8,7 @@ import { HeroComponent } from './hero.component';
 import { HeroBannerComponent } from './hero-banner.component';
 
 @NgModule({
-  declarations: [HeroComponent, HeroBannerComponent],
-  imports: [MatDividerModule, ChannelValueModule, CommonModule],
-  exports: [HeroComponent, HeroBannerComponent],
+    imports: [MatDividerModule, ChannelValueModule, CommonModule, HeroComponent, HeroBannerComponent],
+    exports: [HeroComponent, HeroBannerComponent],
 })
 export class HeroModule {}

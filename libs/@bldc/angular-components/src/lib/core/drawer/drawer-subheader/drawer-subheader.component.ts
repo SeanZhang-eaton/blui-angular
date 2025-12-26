@@ -1,6 +1,8 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, ViewEncapsulation } from '@angular/core';
 
 import { DrawerStateManagerService, StateListener } from '../state-listener.component';
+import { NgIf } from '@angular/common';
+import { MatDivider } from '@angular/material/divider';
 
 /**
  * [DrawerSubheader Component](https://brightlayer-ui-components.github.io/angular/?path=/info/components-drawer--readme)
@@ -9,11 +11,11 @@ import { DrawerStateManagerService, StateListener } from '../state-listener.comp
  * It can be used to support custom content (passed as children), such as filtering options or to display additional information.
  */
 @Component({
-  selector: 'blui-drawer-subheader',
-  standalone: false,
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  encapsulation: ViewEncapsulation.None,
-  template: `
+    selector: 'blui-drawer-subheader',
+    standalone: true,
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    encapsulation: ViewEncapsulation.None,
+    template: `
     <div
       class="blui-drawer-subheader-content"
       [style.visibility]="hideContentOnCollapse ? (isOpen() ? 'visible' : 'hidden') : 'visible'"
@@ -22,10 +24,11 @@ import { DrawerStateManagerService, StateListener } from '../state-listener.comp
     </div>
     <mat-divider *ngIf="divider"></mat-divider>
   `,
-  styleUrls: ['./drawer-subheader.component.scss'],
-  host: {
-    class: 'blui-drawer-subheader',
-  },
+    styleUrls: ['./drawer-subheader.component.scss'],
+    host: {
+        class: 'blui-drawer-subheader',
+    },
+    imports: [NgIf, MatDivider],
 })
 export class DrawerSubheaderComponent extends StateListener {
   /** Whether to show a dividing line below the SubHeader

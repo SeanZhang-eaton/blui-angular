@@ -13,6 +13,11 @@ import {
 } from '@angular/core';
 
 import { isEmptyContent, isEmptyView, requireContent } from '../../utils/utils';
+import { MatListItem, MatListItemIcon, MatListItemAvatar, MatListItemTitle, MatListItemLine, MatListItemMeta } from '@angular/material/list';
+import { SpacerComponent } from '../utility/spacer.module';
+import { NgIf } from '@angular/common';
+import { MatIcon } from '@angular/material/icon';
+import { MatDivider } from '@angular/material/divider';
 
 type IconAlignType = 'left' | 'center' | 'right' | undefined;
 type DividerType = 'full' | 'partial' | undefined;
@@ -24,11 +29,11 @@ type DividerType = 'full' | 'partial' | undefined;
  * It positions a title as well as optional subtitle(s), icon, and status stripe.
  */
 @Component({
-  selector: 'blui-info-list-item',
-  standalone: false,
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  encapsulation: ViewEncapsulation.None,
-  template: `
+    selector: 'blui-info-list-item',
+    standalone: true,
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    encapsulation: ViewEncapsulation.None,
+    template: `
     <mat-list-item class="blui-info-list-item-content" [disabled]="disabled">
       <div
         #icon
@@ -82,17 +87,29 @@ type DividerType = 'full' | 'partial' | undefined;
     >
     </mat-divider>
   `,
-  styleUrls: ['./info-list-item.component.scss'],
-  host: {
-    class: 'blui-info-list-item',
-    '[class.blui-info-list-item-wrap]': 'wrapSubtitle || wrapTitle || wrapInfo',
-    '[class.blui-info-list-item-dense]': 'dense',
-    '[class.blui-info-list-item-default]': '!hasIcon() && !statusColor',
-    '[class.blui-info-list-item-status]': 'statusColor',
-    '[class.blui-info-list-item-icon]': 'hasIcon()',
-    '[style.border-left-color]': 'statusColor',
-    '[style.border-right-color]': 'statusColor',
-  },
+    styleUrls: ['./info-list-item.component.scss'],
+    host: {
+        class: 'blui-info-list-item',
+        '[class.blui-info-list-item-wrap]': 'wrapSubtitle || wrapTitle || wrapInfo',
+        '[class.blui-info-list-item-dense]': 'dense',
+        '[class.blui-info-list-item-default]': '!hasIcon() && !statusColor',
+        '[class.blui-info-list-item-status]': 'statusColor',
+        '[class.blui-info-list-item-icon]': 'hasIcon()',
+        '[style.border-left-color]': 'statusColor',
+        '[style.border-right-color]': 'statusColor',
+    },
+    imports: [
+        MatListItem,
+        MatListItemIcon,
+        MatListItemAvatar,
+        MatListItemTitle,
+        MatListItemLine,
+        SpacerComponent,
+        MatListItemMeta,
+        NgIf,
+        MatIcon,
+        MatDivider,
+    ],
 })
 export class InfoListItemComponent implements AfterViewInit {
   /** Show a colored background for the icon

@@ -1,11 +1,12 @@
 import { Component, Input, OnChanges } from '@angular/core';
 
 import Color from 'color';
+import { NgIf, NgStyle } from '@angular/common';
 
 @Component({
-  selector: 'blui-progress-icon,pxb-progress-icon',
-  standalone: false,
-  template: `
+    selector: 'blui-progress-icon,pxb-progress-icon',
+    standalone: true,
+    template: `
     <span
       class="pxb-progress-icon"
       [style.flexDirection]="getFlexDirection()"
@@ -29,7 +30,8 @@ import Color from 'color';
       <ng-content></ng-content>
     </span>
   `,
-  styleUrls: ['./pxb-progress-icon.scss'],
+    styleUrls: ['./pxb-progress-icon.scss'],
+    imports: [NgIf, NgStyle],
 })
 export class PxbProgressIconComponent implements OnChanges {
   @Input() size = 24;

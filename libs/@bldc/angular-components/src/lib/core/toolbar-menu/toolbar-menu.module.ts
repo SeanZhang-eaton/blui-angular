@@ -9,8 +9,7 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { ToolbarMenuComponent } from './toolbar-menu.component';
 
 @NgModule({
-  declarations: [ToolbarMenuComponent],
-  imports: [CommonModule, MatToolbarModule, MatSelectModule, MatFormFieldModule, MatIconModule, MatMenuModule],
-  exports: [ToolbarMenuComponent],
+    imports: [CommonModule, MatToolbarModule, MatSelectModule, MatFormFieldModule, MatIconModule, MatMenuModule, ToolbarMenuComponent],
+    exports: [ToolbarMenuComponent],
 })
 export class ToolbarMenuModule {}
