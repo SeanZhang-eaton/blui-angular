@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, Input, OnChanges, ViewEncapsulation } from '@angular/core';
 
 import { requireInput } from '../../utils/utils';
-import { NgIf, NgFor } from '@angular/common';
+
 import { MatProgressBar } from '@angular/material/progress-bar';
 
 export type MobileStepperVariant = 'dots' | 'text' | 'progress';
@@ -23,10 +23,8 @@ export type MobileStepperVariant = 'dots' | 'text' | 'progress';
         class: 'blui-mobile-stepper',
     },
     imports: [
-        NgIf,
-        NgFor,
-        MatProgressBar,
-    ],
+    MatProgressBar
+],
 })
 export class MobileStepperComponent implements OnChanges {
   /** The index of the active step */

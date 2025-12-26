@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, Input, OnChanges, ViewEncapsulation } from '@angular/core';
 
 import { requireInput } from '../../utils/utils';
-import { NgIf } from '@angular/common';
+
 
 export type UnitSpaceType = 'show' | 'hide' | 'auto';
 /** [ChannelValue Component](https://brightlayer-ui-components.github.io/angular/?path=/info/components-channel-value--readme)
@@ -19,34 +19,37 @@ export type UnitSpaceType = 'show' | 'hide' | 'auto';
       <span class="blui-channel-value-icon-wrapper">
         <ng-content></ng-content>
       </span>
-      <div
-        *ngIf="units && prefix"
-        class="blui-channel-value-units"
-        [class.blui-channel-value-units-prefix]="!isWhiteListedUnit || unitSpace === 'show'"
-      >
-        {{ units }}
-      </div>
-      <div
-        *ngIf="getValueAsString()"
-        class="blui-channel-value-value"
-        [class.blui-channel-value-remove-space]="unitSpace === 'hide'"
-      >
-        {{ getValueAsString() }}
-      </div>
-      <div
-        *ngIf="units && !prefix"
-        class="blui-channel-value-units"
-        [class.blui-channel-value-units-suffix]="!isWhiteListedUnit || unitSpace === 'show'"
-      >
-        {{ units }}
-      </div>
+      @if (units && prefix) {
+        <div
+          class="blui-channel-value-units"
+          [class.blui-channel-value-units-prefix]="!isWhiteListedUnit || unitSpace === 'show'"
+          >
+          {{ units }}
+        </div>
+      }
+      @if (getValueAsString()) {
+        <div
+          class="blui-channel-value-value"
+          [class.blui-channel-value-remove-space]="unitSpace === 'hide'"
+          >
+          {{ getValueAsString() }}
+        </div>
+      }
+      @if (units && !prefix) {
+        <div
+          class="blui-channel-value-units"
+          [class.blui-channel-value-units-suffix]="!isWhiteListedUnit || unitSpace === 'show'"
+          >
+          {{ units }}
+        </div>
+      }
     </span>
-  `,
+    `,
     styleUrls: ['./channel-value.component.scss'],
     host: {
         class: 'blui-channel-value',
     },
-    imports: [NgIf],
+    imports: [],
 })
 export class ChannelValueComponent implements OnChanges {
   /** If true, shows units before the value

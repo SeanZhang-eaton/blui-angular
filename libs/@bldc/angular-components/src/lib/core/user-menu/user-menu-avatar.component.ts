@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, Input, ViewEncapsulation } from '@angular/core';
-import { NgIf } from '@angular/common';
+
 
 @Component({
     selector: 'blui-user-menu-avatar',
@@ -8,15 +8,19 @@ import { NgIf } from '@angular/common';
     encapsulation: ViewEncapsulation.None,
     template: `
     <div class="blui-user-menu-avatar-content">
-      <div *ngIf="avatarValue" class="mat-h2 blui-user-menu-text-avatar">{{ avatarValue }}</div>
-      <img *ngIf="avatarImage" [src]="avatarImage" alt="User Menu Avatar" />
+      @if (avatarValue) {
+        <div class="mat-h2 blui-user-menu-text-avatar">{{ avatarValue }}</div>
+      }
+      @if (avatarImage) {
+        <img [src]="avatarImage" alt="User Menu Avatar" />
+      }
       <ng-content></ng-content>
     </div>
-  `,
+    `,
     host: {
         class: 'blui-user-menu-avatar',
     },
-    imports: [NgIf],
+    imports: [],
 })
 export class UserMenuAvatarComponent {
   @Input() avatarValue: string;

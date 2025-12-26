@@ -14,7 +14,7 @@ import { Subscription } from 'rxjs';
 
 import { DrawerStateManagerService, StateListener } from '../../state-listener.component';
 import { DrawerNavItem, DrawerNavItemComponent } from '../nav-item/drawer-nav-item.component';
-import { NgIf } from '@angular/common';
+
 import { MatDivider } from '@angular/material/divider';
 import { MatNavList } from '@angular/material/list';
 
@@ -58,28 +58,30 @@ export type DrawerNavGroup = {
     ],
     template: `
     <div class="blui-drawer-nav-group-content">
-      <div
-        *ngIf="title"
-        class="blui-drawer-nav-group-title mat-overline"
-        [class.blui-drawer-nav-group-title-closed]="!isOpen()"
-      >
-        {{ title }}
-      </div>
+      @if (title) {
+        <div
+          class="blui-drawer-nav-group-title mat-overline"
+          [class.blui-drawer-nav-group-title-closed]="!isOpen()"
+          >
+          {{ title }}
+        </div>
+      }
       <ng-content select="[blui-title-content]"></ng-content>
-      <mat-divider *ngIf="divider"></mat-divider>
+      @if (divider) {
+        <mat-divider></mat-divider>
+      }
       <mat-nav-list>
         <ng-content select="blui-drawer-nav-item"></ng-content>
       </mat-nav-list>
     </div>
-  `,
+    `,
     host: {
         class: 'blui-drawer-nav-group',
     },
     imports: [
-        NgIf,
-        MatDivider,
-        MatNavList,
-    ],
+    MatDivider,
+    MatNavList
+],
 })
 export class DrawerNavGroupComponent
   extends StateListener

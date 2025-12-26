@@ -22,7 +22,7 @@ import { map, startWith } from 'rxjs/operators';
 
 import { requireInput } from '../../utils/utils';
 import { UserMenuAvatarComponent } from './user-menu-avatar.component';
-import { NgIf, NgTemplateOutlet } from '@angular/common';
+import { NgTemplateOutlet } from '@angular/common';
 import { UserMenuHeaderComponent } from './user-menu-header/user-menu-header.component';
 import { MatCard } from '@angular/material/card';
 
@@ -58,31 +58,32 @@ import { MatCard } from '@angular/material/card';
       [avatarImage]="avatarImage"
       (click)="openOverlay()"
       #trigger="cdkOverlayOrigin"
-    >
+      >
       <ng-content select="[blui-avatar]"></ng-content>
     </blui-user-menu-avatar>
-
+    
     <ng-template #menu>
-      <blui-user-menu-header
-        *ngIf="menuTitle"
-        class="blui-user-menu-header"
-        [title]="menuTitle"
-        [subtitle]="menuSubtitle"
-        [divider]="true"
-      >
-        <blui-user-menu-avatar
-          blui-icon
-          [avatarValue]="avatarValue"
-          [avatarImage]="avatarImage"
-          class="blui-user-menu-header-avatar"
-        >
-          <ng-content select="[blui-menu-avatar]"></ng-content>
-        </blui-user-menu-avatar>
-      </blui-user-menu-header>
+      @if (menuTitle) {
+        <blui-user-menu-header
+          class="blui-user-menu-header"
+          [title]="menuTitle"
+          [subtitle]="menuSubtitle"
+          [divider]="true"
+          >
+          <blui-user-menu-avatar
+            blui-icon
+            [avatarValue]="avatarValue"
+            [avatarImage]="avatarImage"
+            class="blui-user-menu-header-avatar"
+            >
+            <ng-content select="[blui-menu-avatar]"></ng-content>
+          </blui-user-menu-avatar>
+        </blui-user-menu-header>
+      }
       <ng-content select="[blui-menu-header]"></ng-content>
       <ng-content select="[blui-menu-body]"></ng-content>
     </ng-template>
-
+    
     <ng-template
       cdkConnectedOverlay
       (overlayKeydown)="dismissViaEscape($event)"
@@ -94,24 +95,23 @@ import { MatCard } from '@angular/material/card';
       [cdkConnectedOverlayPositions]="positions"
       [cdkConnectedOverlayViewportMargin]="16"
       [cdkConnectedOverlayBackdropClass]="'blui-user-menu-overlay-backdrop'"
-    >
+      >
       <mat-card appearance="outlined" class="blui-user-menu-overlay mat-elevation-z8" [@fade-in-out]>
         <ng-template [ngTemplateOutlet]="menu"></ng-template>
       </mat-card>
     </ng-template>
-  `,
+    `,
     host: {
         class: 'blui-user-menu',
     },
     imports: [
-        UserMenuAvatarComponent,
-        CdkOverlayOrigin,
-        NgIf,
-        UserMenuHeaderComponent,
-        CdkConnectedOverlay,
-        MatCard,
-        NgTemplateOutlet,
-    ],
+    UserMenuAvatarComponent,
+    CdkOverlayOrigin,
+    UserMenuHeaderComponent,
+    CdkConnectedOverlay,
+    MatCard,
+    NgTemplateOutlet
+],
 })
 export class UserMenuComponent implements OnInit, OnChanges, OnDestroy {
   /** Image source for avatar */

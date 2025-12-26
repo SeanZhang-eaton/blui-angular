@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, Input, ViewEncapsulation } from '@angular/core';
-import { NgIf } from '@angular/common';
+
 import { MatDivider } from '@angular/material/divider';
 
 /**
@@ -16,13 +16,15 @@ import { MatDivider } from '@angular/material/divider';
     <div class="blui-hero-banner-content">
       <ng-content select="blui-hero"></ng-content>
     </div>
-    <mat-divider class="blui-hero-banner-divider" *ngIf="divider"></mat-divider>
-  `,
+    @if (divider) {
+      <mat-divider class="blui-hero-banner-divider"></mat-divider>
+    }
+    `,
     styleUrls: ['./hero-banner.component.scss'],
     host: {
         class: 'blui-hero-banner',
     },
-    imports: [NgIf, MatDivider],
+    imports: [MatDivider],
 })
 export class HeroBannerComponent {
   /** Whether to show the line separator

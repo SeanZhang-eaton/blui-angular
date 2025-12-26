@@ -2,7 +2,7 @@ import { Component, Input, OnChanges } from '@angular/core';
 
 import { PxbProgressIconComponent } from '../pxb-progress-icon.component';
 import { getCoordinates, rangeValue } from '../utilities';
-import { NgIf } from '@angular/common';
+
 
 @Component({
     selector: 'blui-pie-progress,pie-progress',
@@ -16,7 +16,7 @@ import { NgIf } from '@angular/common';
       [labelColor]="labelColor"
       [labelSize]="labelSize"
       [color]="color"
-    >
+      >
       <svg
         [attr.height]="size + 'px'"
         [attr.width]="size + 'px'"
@@ -24,42 +24,45 @@ import { NgIf } from '@angular/common';
         y="0px"
         viewBox="0 0 24 24"
         style="transform: rotate(-.25turn)"
-      >
+        >
         <clipPath [attr.id]="'pxb-donut-clip-' + stroke">
           <path [attr.d]="clipPath" />
         </clipPath>
-        <path
-          *ngIf="outlined && backgroundColor"
-          [attr.d]="twoToneBase"
-          [attr.clip-path]="'url(#pxb-donut-clip-' + stroke + ')'"
-          [attr.fill]="backgroundColor"
-        />
+        @if (outlined && backgroundColor) {
+          <path
+            [attr.d]="twoToneBase"
+            [attr.clip-path]="'url(#pxb-donut-clip-' + stroke + ')'"
+            [attr.fill]="backgroundColor"
+            />
+        }
         <path
           [attr.clip-path]="'url(#pxb-donut-clip-' + stroke + ')'"
           [attr.fill]="(!outlined && backgroundColor) || color || 'currentColor'"
           [attr.fill-opacity]="outlined || percent >= 100 || (!outlined && backgroundColor) ? '1' : '0.3'"
           [attr.d]="outlined ? outlineBase : twoToneBase"
-        />
-        <path
-          *ngIf="rv(percent, 0, 100) > 0 && rv(percent, 0, 100) < 100"
-          [attr.fill]="color || 'currentColor'"
-          [attr.clip-path]="'url(#pxb-donut-clip-' + stroke + ')'"
-          [attr.d]="getPath()"
-        />
-
-        <circle
-          *ngIf="rv(percent, 0, 100) === 100 && outlined"
-          [attr.clip-path]="'url(#pxb-donut-clip-' + stroke + ')'"
-          cx="12"
-          cy="12"
-          r="10"
-          [attr.fill]="color || 'currentColor'"
-        ></circle>
+          />
+        @if (rv(percent, 0, 100) > 0 && rv(percent, 0, 100) < 100) {
+          <path
+            [attr.fill]="color || 'currentColor'"
+            [attr.clip-path]="'url(#pxb-donut-clip-' + stroke + ')'"
+            [attr.d]="getPath()"
+            />
+        }
+    
+        @if (rv(percent, 0, 100) === 100 && outlined) {
+          <circle
+            [attr.clip-path]="'url(#pxb-donut-clip-' + stroke + ')'"
+            cx="12"
+            cy="12"
+            r="10"
+            [attr.fill]="color || 'currentColor'"
+          ></circle>
+        }
       </svg>
     </pxb-progress-icon>
-  `,
+    `,
     styleUrls: ['../pxb-progress-icon.scss'],
-    imports: [PxbProgressIconComponent, NgIf],
+    imports: [PxbProgressIconComponent],
 })
 export class PieComponent extends PxbProgressIconComponent implements OnChanges {
   @Input() ring = 10;

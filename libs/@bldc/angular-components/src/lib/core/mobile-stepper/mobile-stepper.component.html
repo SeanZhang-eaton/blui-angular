@@ -2,17 +2,24 @@
   <div class="blui-mobile-stepper-back-button-wrapper">
     <ng-content select="[blui-back-button]"></ng-content>
   </div>
-  <div *ngIf="variant === 'dots'" class="blui-mobile-stepper-dots">
-    <div
-      *ngFor="let step of stepsArray; let index = index"
-      class="blui-mobile-stepper-dot"
-      [class.blui-mobile-stepper-dot-visited]="index < activeStep"
-      [class.blui-mobile-stepper-dot-active]="index === activeStep"
-      [class.blui-mobile-stepper-dot-unvisited]="index > activeStep"
-    ></div>
-  </div>
-  <div *ngIf="variant === 'text'" class="mat-subtitle-1">{{ activeStep + 1 }} / {{ stepsArray.length }}</div>
-  <mat-progress-bar *ngIf="variant === 'progress'" mode="determinate" [value]="getProgressFill()"></mat-progress-bar>
+  @if (variant === 'dots') {
+    <div class="blui-mobile-stepper-dots">
+      @for (step of stepsArray; track step; let index = $index) {
+        <div
+          class="blui-mobile-stepper-dot"
+          [class.blui-mobile-stepper-dot-visited]="index < activeStep"
+          [class.blui-mobile-stepper-dot-active]="index === activeStep"
+          [class.blui-mobile-stepper-dot-unvisited]="index > activeStep"
+        ></div>
+      }
+    </div>
+  }
+  @if (variant === 'text') {
+    <div class="mat-subtitle-1">{{ activeStep + 1 }} / {{ stepsArray.length }}</div>
+  }
+  @if (variant === 'progress') {
+    <mat-progress-bar mode="determinate" [value]="getProgressFill()"></mat-progress-bar>
+  }
 
   <div class="blui-mobile-stepper-next-button-wrapper">
     <ng-content select="[blui-next-button]"></ng-content>

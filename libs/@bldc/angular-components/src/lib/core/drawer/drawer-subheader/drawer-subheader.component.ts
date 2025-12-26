@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, ViewEncapsulation } from '@angular/core';
 
 import { DrawerStateManagerService, StateListener } from '../state-listener.component';
-import { NgIf } from '@angular/common';
+
 import { MatDivider } from '@angular/material/divider';
 
 /**
@@ -19,16 +19,18 @@ import { MatDivider } from '@angular/material/divider';
     <div
       class="blui-drawer-subheader-content"
       [style.visibility]="hideContentOnCollapse ? (isOpen() ? 'visible' : 'hidden') : 'visible'"
-    >
+      >
       <ng-content></ng-content>
     </div>
-    <mat-divider *ngIf="divider"></mat-divider>
-  `,
+    @if (divider) {
+      <mat-divider></mat-divider>
+    }
+    `,
     styleUrls: ['./drawer-subheader.component.scss'],
     host: {
         class: 'blui-drawer-subheader',
     },
-    imports: [NgIf, MatDivider],
+    imports: [MatDivider],
 })
 export class DrawerSubheaderComponent extends StateListener {
   /** Whether to show a dividing line below the SubHeader

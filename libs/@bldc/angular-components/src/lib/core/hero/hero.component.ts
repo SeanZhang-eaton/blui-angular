@@ -13,7 +13,7 @@ import {
 
 import { requireContent, requireInput } from '../../utils/utils';
 import { UnitSpaceType, ChannelValueComponent } from '../channel-value/channel-value.component';
-import { NgIf } from '@angular/common';
+
 /**
  * [Hero Component](https://brightlayer-ui-components.github.io/angular/?path=/info/components-hero--readme)
  *
@@ -37,28 +37,31 @@ import { NgIf } from '@angular/common';
         [style.width.px]="iSize"
         [style.height.px]="iSize"
         [class.blui-hero-svgIcon]="hasMatSvgIcon"
-      >
+        >
         <ng-content select="[blui-primary]"></ng-content>
       </div>
       <span class="blui-hero-channel-value-wrapper">
-        <ng-content select="blui-channel-value" *ngIf="value === undefined"></ng-content>
-        <blui-channel-value
-          *ngIf="value !== undefined"
-          [value]="value"
-          [units]="units"
-          [unitSpace]="unitSpace"
-          [prefix]="prefix"
-        >
-          <ng-content select="[blui-secondary]"></ng-content>
-        </blui-channel-value>
+        @if (value === undefined) {
+          <ng-content select="blui-channel-value"></ng-content>
+        }
+        @if (value !== undefined) {
+          <blui-channel-value
+            [value]="value"
+            [units]="units"
+            [unitSpace]="unitSpace"
+            [prefix]="prefix"
+            >
+            <ng-content select="[blui-secondary]"></ng-content>
+          </blui-channel-value>
+        }
       </span>
       <h5 class="blui-hero-label">{{ label }}</h5>
     </div>
-  `,
+    `,
     host: {
         class: 'blui-hero',
     },
-    imports: [NgIf, ChannelValueComponent],
+    imports: [ChannelValueComponent],
 })
 export class HeroComponent implements OnChanges, AfterViewInit, AfterContentChecked {
   /** If true, shows units before the value

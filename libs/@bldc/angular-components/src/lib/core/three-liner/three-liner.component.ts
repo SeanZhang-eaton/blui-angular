@@ -9,7 +9,7 @@ import {
 } from '@angular/core';
 
 import { isEmptyView } from '../../utils/utils';
-import { NgIf } from '@angular/common';
+
 
 /**
  * [ThreeLiner Component](https://brightlayer-ui-components.github.io/angular/?path=/info/components-three-liner--readme)
@@ -28,34 +28,34 @@ import { NgIf } from '@angular/common';
         <div #titleVc>
           <ng-content select="[blui-title]"></ng-content>
         </div>
-        <ng-container *ngIf="isEmpty(titleEl)">
+        @if (isEmpty(titleEl)) {
           {{ title }}
-        </ng-container>
+        }
       </div>
-
+    
       <div class="blui-three-liner-subtitle">
         <div #subtitleVc>
           <ng-content select="[blui-subtitle]"></ng-content>
         </div>
-        <ng-container *ngIf="isEmpty(subtitleEl)">
+        @if (isEmpty(subtitleEl)) {
           {{ subtitle }}
-        </ng-container>
+        }
       </div>
-
+    
       <div class="blui-three-liner-info">
         <div #infoVc>
           <ng-content select="[blui-info]"></ng-content>
         </div>
-        <ng-container *ngIf="isEmpty(infoEl)">
+        @if (isEmpty(infoEl)) {
           {{ info }}
-        </ng-container>
+        }
       </div>
     </div>
-  `,
+    `,
     host: {
         class: 'blui-three-liner',
     },
-    imports: [NgIf],
+    imports: [],
 })
 export class ThreeLinerComponent implements AfterViewInit {
   /** First line content */

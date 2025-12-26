@@ -2,7 +2,7 @@ import { Component, Input, OnChanges } from '@angular/core';
 
 import { PxbProgressIconComponent } from '../pxb-progress-icon.component';
 import { rangeValue } from '../utilities';
-import { NgIf } from '@angular/common';
+
 
 @Component({
     selector: 'blui-battery-progress,battery-progress',
@@ -16,7 +16,7 @@ import { NgIf } from '@angular/common';
       [labelColor]="labelColor"
       [labelSize]="labelSize"
       [color]="color"
-    >
+      >
       <svg
         [attr.height]="size + 'px'"
         [attr.width]="size + 'px'"
@@ -25,39 +25,44 @@ import { NgIf } from '@angular/common';
         viewBox="0 0 24 24"
         style="enable-background:new 0 0 24 24;"
         xml:space="preserve"
-      >
+        >
         <defs>
-          <mask *ngIf="outlined" [attr.id]="maskIDleft">
-            <rect width="100%" height="100%" fill="white" />
-            <polygon fill="black" points="11.5,13 11.5,15 4,11 9.5,11 9.5,9 17,13 " />
-          </mask>
-          <mask *ngIf="outlined" [attr.id]="maskIDright">
-            <rect width="100%" height="100%" fill="white" />
-            <rect
-              [attr.x]="startX"
-              y="7"
-              fill="black"
-              [attr.width]="(rv(percent, 0, 100) / 100) * fillWidth"
-              height="10"
-            />
-          </mask>
+          @if (outlined) {
+            <mask [attr.id]="maskIDleft">
+              <rect width="100%" height="100%" fill="white" />
+              <polygon fill="black" points="11.5,13 11.5,15 4,11 9.5,11 9.5,9 17,13 " />
+            </mask>
+          }
+          @if (outlined) {
+            <mask [attr.id]="maskIDright">
+              <rect width="100%" height="100%" fill="white" />
+              <rect
+                [attr.x]="startX"
+                y="7"
+                fill="black"
+                [attr.width]="(rv(percent, 0, 100) / 100) * fillWidth"
+                height="10"
+                />
+            </mask>
+          }
           <clipPath [id]="getID()">
             <path overflow="visible" [attr.d]="getClipPath()" />
           </clipPath>
         </defs>
-        <path
-          *ngIf="backgroundColor"
-          [attr.d]="basePath"
-          [attr.fill]="backgroundColor"
-          [attr.clip-path]="outlined ? undefined : 'url(#' + getID() + ')'"
-        />
+        @if (backgroundColor) {
+          <path
+            [attr.d]="basePath"
+            [attr.fill]="backgroundColor"
+            [attr.clip-path]="outlined ? undefined : 'url(#' + getID() + ')'"
+            />
+        }
         <path
           [attr.fill]="(!outlined && backgroundColor) || color || 'currentColor'"
           [attr.fill-opacity]="outlined || percent >= 100 || (!outlined && backgroundColor) ? '1' : '0.3'"
           [attr.clip-path]="'url(#' + getID() + ')'"
           [attr.d]="getBasePath()"
-        />
-
+          />
+    
         <g [attr.fill]="color || 'currentColor'">
           <rect
             [attr.fill]="color || 'currentColor'"
@@ -67,18 +72,19 @@ import { NgIf } from '@angular/common';
             [attr.width]="(rv(percent, 0, 100) / 100) * fillWidth"
             height="10"
             [attr.mask]="outlined && charging ? 'url(#' + maskIDleft + ')' : null"
-          />
-          <polygon
-            *ngIf="outlined && charging"
-            points="11.5,13 11.5,15 4,11 9.5,11 9.5,9 17,13"
-            [attr.mask]="'url(#' + maskIDright + ')'"
-          />
+            />
+          @if (outlined && charging) {
+            <polygon
+              points="11.5,13 11.5,15 4,11 9.5,11 9.5,9 17,13"
+              [attr.mask]="'url(#' + maskIDright + ')'"
+              />
+          }
         </g>
       </svg>
     </pxb-progress-icon>
-  `,
+    `,
     styleUrls: ['../pxb-progress-icon.scss'],
-    imports: [PxbProgressIconComponent, NgIf],
+    imports: [PxbProgressIconComponent],
 })
 export class BatteryComponent extends PxbProgressIconComponent implements OnChanges {
   @Input() charging = false;

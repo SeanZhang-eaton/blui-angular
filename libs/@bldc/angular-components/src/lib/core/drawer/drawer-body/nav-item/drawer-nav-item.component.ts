@@ -17,7 +17,7 @@ import { MatExpansionPanel, MatAccordion } from '@angular/material/expansion';
 
 import { isEmptyView } from '../../../../utils/utils';
 import { DrawerStateManagerService, StateListener } from '../../state-listener.component';
-import { NgIf, NgTemplateOutlet } from '@angular/common';
+import { NgTemplateOutlet } from '@angular/common';
 import { MatRipple } from '@angular/material/core';
 import { InfoListItemComponent } from '../../../info-list-item/info-list-item.component';
 import { MatTooltip } from '@angular/material/tooltip';
@@ -53,7 +53,7 @@ export type ActiveItemBackgroundShape = 'round' | 'square';
     encapsulation: ViewEncapsulation.None,
     styleUrls: ['./drawer-nav-item.component.scss'],
     template: `
-    <ng-container *ngIf="!hidden && depth">
+    @if (!hidden && depth) {
       <ng-template #navIcon><ng-content select="[blui-icon]"></ng-content></ng-template>
       <div
         class="blui-drawer-nav-item-content"
@@ -62,94 +62,107 @@ export type ActiveItemBackgroundShape = 'round' | 'square';
         [matRippleDisabled]="!ripple ?? true"
         [class.blui-drawer-nav-item-active]="selected"
         [class.blui-drawer-nav-item-compact]="false"
-      >
+        >
         <div
           [class.blui-drawer-nav-item-active-highlight]="selected"
           [class.blui-drawer-nav-item-active-round]="activeItemBackgroundShape === 'round' && isOpen() && !isRail()"
           [class.blui-drawer-nav-item-active-square]="activeItemBackgroundShape === 'square' || !isOpen() || isRail()"
         ></div>
-        <blui-info-list-item
-          *ngIf="!isRail()"
-          (click)="selectItem()"
-          [dense]="true"
-          [statusColor]="statusColor"
-          [chevron]="chevron && isOpen()"
-          [hidePadding]="hidePadding"
-          [divider]="divider ? 'full' : undefined"
-          [class.blui-drawer-nav-item-no-icon-closed]="isEmpty(iconEl) && !isOpen()"
-          [matTooltip]="title"
-          [matTooltipDisabled]="isOpen() || isOpenOnHover() || !showTooltipOnRailHover()"
-          matTooltipPosition="right"
-        >
-          <ng-container blui-icon #icon>
-            <ng-container *ngTemplateOutlet="navIcon"></ng-container>
-          </ng-container>
-          <div
-            blui-title
-            [class.blui-drawer-nav-item-depth-1]="depth === 1"
-            [class.blui-drawer-nav-item-depth-2]="depth === 2"
-            [class.blui-drawer-nav-item-depth-3]="depth === 3"
-          >
-            {{ title }}
-          </div>
-          @if (subtitle !== null || subtitle !== undefined) {
-            <div blui-subtitle>{{ subtitle }}</div>
-          }
-          <div blui-right-content *ngIf="hasChildren && isOpen()">
-            <div #expandIcon *ngIf="!expanded">
-              <ng-content select="[blui-expand-icon]"></ng-content>
-            </div>
-            <div #collapseIcon *ngIf="expanded">
-              <ng-content select="[blui-collapse-icon]"></ng-content>
-            </div>
-            <mat-icon
-              *ngIf="isEmpty(collapseIconEl) && isEmpty(expandIconEl)"
-              class="blui-drawer-nav-item-expand-icon"
-              [class.blui-drawer-nav-item-expanded]="expanded"
-              >{{ depth > 1 ? 'arrow_drop_down' : 'expand_more' }}</mat-icon
-            >
-          </div>
-        </blui-info-list-item>
-        <div class="blui-drawer-nav-item-rail-container" *ngIf="isRail()">
-          <div
+        @if (!isRail()) {
+          <blui-info-list-item
             (click)="selectItem()"
-            (keydown.enter)="selectItem()"
-            (keydown.space)="selectItem()"
-            [attr.tabindex]="0"
-            role="button"
-            class="blui-drawer-nav-item-rail"
-            [matTooltip]="showTooltipOnRailHover() ? title : ''"
-            [matTooltipDisabled]="!isRailCondensed()"
+            [dense]="true"
+            [statusColor]="statusColor"
+            [chevron]="chevron && isOpen()"
+            [hidePadding]="hidePadding"
+            [divider]="divider ? 'full' : undefined"
+            [class.blui-drawer-nav-item-no-icon-closed]="isEmpty(iconEl) && !isOpen()"
+            [matTooltip]="title"
+            [matTooltipDisabled]="isOpen() || isOpenOnHover() || !showTooltipOnRailHover()"
             matTooltipPosition="right"
-          >
-            <ng-container *ngTemplateOutlet="navIcon"></ng-container>
-            <div class="blui-drawer-nav-item-rail-text">{{ title }}</div>
-          </div>
-          <mat-divider *ngIf="divider"></mat-divider>
+            >
+            <ng-container blui-icon #icon>
+              <ng-container *ngTemplateOutlet="navIcon"></ng-container>
+            </ng-container>
+            <div
+              blui-title
+              [class.blui-drawer-nav-item-depth-1]="depth === 1"
+              [class.blui-drawer-nav-item-depth-2]="depth === 2"
+              [class.blui-drawer-nav-item-depth-3]="depth === 3"
+              >
+              {{ title }}
+            </div>
+            @if (subtitle !== null || subtitle !== undefined) {
+              <div blui-subtitle>{{ subtitle }}</div>
+            }
+            @if (hasChildren && isOpen()) {
+              <div blui-right-content>
+                @if (!expanded) {
+                  <div #expandIcon>
+                    <ng-content select="[blui-expand-icon]"></ng-content>
+                  </div>
+                }
+                @if (expanded) {
+                  <div #collapseIcon>
+                    <ng-content select="[blui-collapse-icon]"></ng-content>
+                  </div>
+                }
+                @if (isEmpty(collapseIconEl) && isEmpty(expandIconEl)) {
+                  <mat-icon
+                    class="blui-drawer-nav-item-expand-icon"
+                    [class.blui-drawer-nav-item-expanded]="expanded"
+                    >{{ depth > 1 ? 'arrow_drop_down' : 'expand_more' }}</mat-icon
+                    >
+                  }
+                </div>
+              }
+            </blui-info-list-item>
+          }
+          @if (isRail()) {
+            <div class="blui-drawer-nav-item-rail-container">
+              <div
+                (click)="selectItem()"
+                (keydown.enter)="selectItem()"
+                (keydown.space)="selectItem()"
+                [attr.tabindex]="0"
+                role="button"
+                class="blui-drawer-nav-item-rail"
+                [matTooltip]="showTooltipOnRailHover() ? title : ''"
+                [matTooltipDisabled]="!isRailCondensed()"
+                matTooltipPosition="right"
+                >
+                <ng-container *ngTemplateOutlet="navIcon"></ng-container>
+                <div class="blui-drawer-nav-item-rail-text">{{ title }}</div>
+              </div>
+              @if (divider) {
+                <mat-divider></mat-divider>
+              }
+            </div>
+          }
         </div>
-      </div>
-      <!-- Nested Nav Items -->
-      <mat-accordion displayMode="flat" class="blui-drawer-nested-nav-item" *ngIf="!isRail()">
-        <mat-expansion-panel #matExpansionPanel>
-          <ng-content select="blui-drawer-nav-item"></ng-content>
-        </mat-expansion-panel>
-      </mat-accordion>
-    </ng-container>
-  `,
+        <!-- Nested Nav Items -->
+        @if (!isRail()) {
+          <mat-accordion displayMode="flat" class="blui-drawer-nested-nav-item">
+            <mat-expansion-panel #matExpansionPanel>
+              <ng-content select="blui-drawer-nav-item"></ng-content>
+            </mat-expansion-panel>
+          </mat-accordion>
+        }
+      }
+    `,
     host: {
         class: 'blui-drawer-nav-item',
     },
     imports: [
-        NgIf,
-        MatRipple,
-        InfoListItemComponent,
-        MatTooltip,
-        NgTemplateOutlet,
-        MatIcon,
-        MatDivider,
-        MatAccordion,
-        MatExpansionPanel,
-    ],
+    MatRipple,
+    InfoListItemComponent,
+    MatTooltip,
+    NgTemplateOutlet,
+    MatIcon,
+    MatDivider,
+    MatAccordion,
+    MatExpansionPanel
+],
 })
 export class DrawerNavItemComponent
   extends StateListener

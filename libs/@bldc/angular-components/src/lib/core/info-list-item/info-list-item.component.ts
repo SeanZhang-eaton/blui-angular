@@ -15,7 +15,7 @@ import {
 import { isEmptyContent, isEmptyView, requireContent } from '../../utils/utils';
 import { MatListItem, MatListItemIcon, MatListItemAvatar, MatListItemTitle, MatListItemLine, MatListItemMeta } from '@angular/material/list';
 import { SpacerComponent } from '../utility/spacer.module';
-import { NgIf } from '@angular/common';
+
 import { MatIcon } from '@angular/material/icon';
 import { MatDivider } from '@angular/material/divider';
 
@@ -42,7 +42,7 @@ type DividerType = 'full' | 'partial' | undefined;
         [class.blui-info-list-item-hide-padding]="hidePadding"
         [class.blui-info-list-item-avatar]="avatar"
         [style.justify-content]="iconAlign === 'right' ? 'flex-end' : iconAlign === 'center' ? 'center' : 'flex-start'"
-      >
+        >
         <ng-content select="[blui-icon]"></ng-content>
       </div>
       <div matListItemAvatar class="blui-info-list-item-left-content-wrapper">
@@ -53,7 +53,7 @@ type DividerType = 'full' | 'partial' | undefined;
         matListItemTitle
         [class.blui-info-list-item-wrap]="wrapTitle"
         #title
-      >
+        >
         <ng-content select="[blui-title]"></ng-content>
       </div>
       <div
@@ -62,14 +62,14 @@ type DividerType = 'full' | 'partial' | undefined;
         matListItemLine
         [class.blui-info-list-item-wrap]="wrapSubtitle"
         [class.is-empty]="!hasSubtitle()"
-      >
+        >
         <ng-content select="[blui-subtitle]"></ng-content>
       </div>
       <div
         class="mat-subtitle-2 blui-info-list-item-info-wrapper"
         matListItemLine
         [class.blui-info-list-item-wrap]="wrapInfo"
-      >
+        >
         <ng-content select="[blui-info]"></ng-content>
       </div>
       <blui-spacer class="blui-info-list-item-spacer"></blui-spacer>
@@ -77,16 +77,19 @@ type DividerType = 'full' | 'partial' | undefined;
         <div #right class="blui-info-list-item-right-content-wrapper">
           <ng-content select="[blui-right-content]"></ng-content>
         </div>
-        <mat-icon *ngIf="chevron" class="blui-chevron">chevron_right</mat-icon>
+        @if (chevron) {
+          <mat-icon class="blui-chevron">chevron_right</mat-icon>
+        }
       </div>
     </mat-list-item>
-    <mat-divider
-      *ngIf="divider"
-      class="blui-info-list-item-divider"
-      [class.blui-info-list-item-partial-divider]="divider === 'partial'"
-    >
-    </mat-divider>
-  `,
+    @if (divider) {
+      <mat-divider
+        class="blui-info-list-item-divider"
+        [class.blui-info-list-item-partial-divider]="divider === 'partial'"
+        >
+      </mat-divider>
+    }
+    `,
     styleUrls: ['./info-list-item.component.scss'],
     host: {
         class: 'blui-info-list-item',
@@ -99,17 +102,16 @@ type DividerType = 'full' | 'partial' | undefined;
         '[style.border-right-color]': 'statusColor',
     },
     imports: [
-        MatListItem,
-        MatListItemIcon,
-        MatListItemAvatar,
-        MatListItemTitle,
-        MatListItemLine,
-        SpacerComponent,
-        MatListItemMeta,
-        NgIf,
-        MatIcon,
-        MatDivider,
-    ],
+    MatListItem,
+    MatListItemIcon,
+    MatListItemAvatar,
+    MatListItemTitle,
+    MatListItemLine,
+    SpacerComponent,
+    MatListItemMeta,
+    MatIcon,
+    MatDivider
+],
 })
 export class InfoListItemComponent implements AfterViewInit {
   /** Show a colored background for the icon

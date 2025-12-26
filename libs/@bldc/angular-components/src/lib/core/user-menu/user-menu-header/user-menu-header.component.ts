@@ -2,7 +2,7 @@ import { ChangeDetectionStrategy, Component, ElementRef, Input, ViewChild, ViewE
 
 import { isEmptyView } from '../../../utils/utils';
 import { MatToolbar } from '@angular/material/toolbar';
-import { NgIf } from '@angular/common';
+
 import { MatDivider } from '@angular/material/divider';
 
 /**
@@ -20,29 +20,34 @@ import { MatDivider } from '@angular/material/divider';
       class="blui-user-menu-header-content"
       [color]="color"
       [class.blui-user-menu-header-no-icon]="isEmpty(iconEl)"
-    >
+      >
       <div class="blui-user-menu-header-text">
         <div #icon class="blui-user-menu-header-icon-wrapper">
           <ng-content select="[blui-icon]"></ng-content>
         </div>
-        <div *ngIf="title" class="blui-user-menu-header-title-wrapper">
-          <div class="blui-user-menu-header-title">{{ title }}</div>
-          <div *ngIf="subtitle" class="blui-user-menu-header-subtitle mat-subtitle-1">{{ subtitle }}</div>
-        </div>
+        @if (title) {
+          <div class="blui-user-menu-header-title-wrapper">
+            <div class="blui-user-menu-header-title">{{ title }}</div>
+            @if (subtitle) {
+              <div class="blui-user-menu-header-subtitle mat-subtitle-1">{{ subtitle }}</div>
+            }
+          </div>
+        }
         <ng-content select="[blui-title-content]"></ng-content>
       </div>
     </mat-toolbar>
-    <mat-divider *ngIf="divider"></mat-divider>
-  `,
+    @if (divider) {
+      <mat-divider></mat-divider>
+    }
+    `,
     styleUrls: ['./user-menu-header.component.scss'],
     host: {
         class: 'blui-user-menu-header',
     },
     imports: [
-        MatToolbar,
-        NgIf,
-        MatDivider,
-    ],
+    MatToolbar,
+    MatDivider
+],
 })
 export class UserMenuHeaderComponent {
   /** Mat toolbar color variant

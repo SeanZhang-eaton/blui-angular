@@ -2,7 +2,7 @@ import { ChangeDetectionStrategy, Component, Input, OnChanges, ViewEncapsulation
 
 import { requireInput } from '../../utils/utils';
 import { MatCard, MatCardTitle, MatCardSubtitle, MatCardContent } from '@angular/material/card';
-import { NgIf } from '@angular/common';
+
 import { MatDivider } from '@angular/material/divider';
 
 /**
@@ -37,25 +37,26 @@ import { MatDivider } from '@angular/material/divider';
             <ng-content select="[blui-badge]"></ng-content>
           </div>
         </div>
-        <mat-divider *ngIf="actionRow.childNodes.length !== 0"></mat-divider>
+        @if (actionRow.childNodes.length !== 0) {
+          <mat-divider></mat-divider>
+        }
         <div class="blui-score-card-action-row-wrapper" #actionRow>
           <ng-content select="[blui-action-row]"></ng-content>
         </div>
       </mat-card-content>
     </mat-card>
-  `,
+    `,
     styleUrls: ['./score-card.component.scss'],
     host: {
         class: 'blui-score-card',
     },
     imports: [
-        MatCard,
-        MatCardTitle,
-        MatCardSubtitle,
-        MatCardContent,
-        NgIf,
-        MatDivider,
-    ],
+    MatCard,
+    MatCardTitle,
+    MatCardSubtitle,
+    MatCardContent,
+    MatDivider
+],
 })
 export class ScoreCardComponent implements OnChanges {
   /** Vertical offset for the badge content

@@ -2,7 +2,7 @@ import { Component, Input, OnChanges } from '@angular/core';
 
 import { PxbProgressIconComponent } from '../pxb-progress-icon.component';
 import { rangeValue } from '../utilities';
-import { NgIf } from '@angular/common';
+
 
 @Component({
     selector: 'blui-ups-progress,ups-progress',
@@ -16,7 +16,7 @@ import { NgIf } from '@angular/common';
       [labelColor]="labelColor"
       [labelSize]="labelSize"
       [color]="color"
-    >
+      >
       <svg [attr.height]="size + 'px'" [attr.width]="size + 'px'" x="0px" y="0px" viewBox="0 0 24 24">
         <defs>
           <clipPath id="outlined-progress-clip">
@@ -26,54 +26,61 @@ import { NgIf } from '@angular/common';
             <rect x="2" y="2" width="20" [attr.height]="startY - 2" />
           </clipPath>
         </defs>
-
-        <mask
-          id="mask-filled"
-          mask-type="alpha"
-          maskUnits="userSpaceOnUse"
-          x="2"
-          y="2"
-          width="20"
-          height="20"
-          *ngIf="!outlined"
-        >
-          <path [attr.d]="basePath" [attr.fill]="color || 'currentColor'" />
-        </mask>
-        <g mask="url(#mask-filled)" *ngIf="!outlined">
-          <path
-            [attr.opacity]="backgroundColor ? 1 : 0.3"
-            [attr.d]="basePath"
-            [attr.fill]="backgroundColor || color || 'currentColor'"
-          />
-          <rect x="2" [attr.y]="startY" width="20" [attr.height]="fillHeight" [attr.fill]="color || 'currentColor'" />
-        </g>
-
-        <g [attr.fill]="color || 'currentColor'" *ngIf="outlined">
-          <rect *ngIf="backgroundColor" x="4" y="4" width="16" height="16" [attr.fill]="backgroundColor" />
-          <path
-            fill-rule="evenodd"
-            d="M22 4C22 2.89543 21.1046 2 20 2H4C2.89543 2 2 2.89543 2 4V20C2 21.1046 2.89543 22 4 22H20C21.1046 22 22 21.1046 22 20V4ZM4 4V8H7V9H4V12H7V13H4V16H7V17H4V20H20V17H17V16H20V13H17V12H20V9H17V8H20V4H4Z"
-            [attr.clip-path]="'url(#outlined-border-clip-' + rangedPercent + ')'"
-            clip-rule="evenodd"
-          />
-          <path
-            fill-rule="evenodd"
-            clip-rule="evenodd"
-            d="M4 2C2.89543 2 2 2.89543 2 4V20C2 21.1046 2.89543 22 4 22H20C21.1046 22 22 21.1046 22 20V4C22 2.89543 21.1046 2 20 2H4ZM20 4H4V20H20V4Z"
-          />
-          <rect
-            x="4"
-            [attr.y]="startY"
-            width="16"
-            [attr.height]="fillHeight"
-            clip-path="url(#outlined-progress-clip)"
-          />
-        </g>
+    
+        @if (!outlined) {
+          <mask
+            id="mask-filled"
+            mask-type="alpha"
+            maskUnits="userSpaceOnUse"
+            x="2"
+            y="2"
+            width="20"
+            height="20"
+            >
+            <path [attr.d]="basePath" [attr.fill]="color || 'currentColor'" />
+          </mask>
+        }
+        @if (!outlined) {
+          <g mask="url(#mask-filled)">
+            <path
+              [attr.opacity]="backgroundColor ? 1 : 0.3"
+              [attr.d]="basePath"
+              [attr.fill]="backgroundColor || color || 'currentColor'"
+              />
+            <rect x="2" [attr.y]="startY" width="20" [attr.height]="fillHeight" [attr.fill]="color || 'currentColor'" />
+          </g>
+        }
+    
+        @if (outlined) {
+          <g [attr.fill]="color || 'currentColor'">
+            @if (backgroundColor) {
+              <rect x="4" y="4" width="16" height="16" [attr.fill]="backgroundColor" />
+            }
+            <path
+              fill-rule="evenodd"
+              d="M22 4C22 2.89543 21.1046 2 20 2H4C2.89543 2 2 2.89543 2 4V20C2 21.1046 2.89543 22 4 22H20C21.1046 22 22 21.1046 22 20V4ZM4 4V8H7V9H4V12H7V13H4V16H7V17H4V20H20V17H17V16H20V13H17V12H20V9H17V8H20V4H4Z"
+              [attr.clip-path]="'url(#outlined-border-clip-' + rangedPercent + ')'"
+              clip-rule="evenodd"
+              />
+            <path
+              fill-rule="evenodd"
+              clip-rule="evenodd"
+              d="M4 2C2.89543 2 2 2.89543 2 4V20C2 21.1046 2.89543 22 4 22H20C21.1046 22 22 21.1046 22 20V4C22 2.89543 21.1046 2 20 2H4ZM20 4H4V20H20V4Z"
+              />
+            <rect
+              x="4"
+              [attr.y]="startY"
+              width="16"
+              [attr.height]="fillHeight"
+              clip-path="url(#outlined-progress-clip)"
+              />
+          </g>
+        }
       </svg>
     </pxb-progress-icon>
-  `,
+    `,
     styleUrls: ['../pxb-progress-icon.scss'],
-    imports: [PxbProgressIconComponent, NgIf],
+    imports: [PxbProgressIconComponent],
 })
 export class UpsComponent extends PxbProgressIconComponent implements OnChanges {
   @Input() outlined = false;

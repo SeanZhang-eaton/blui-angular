@@ -3,7 +3,7 @@ import { ChangeDetectorRef, Component, ElementRef, Input, ViewChild, ViewEncapsu
 import { isEmptyView } from '../../../utils/utils';
 import { DrawerStateManagerService, StateListener } from '../state-listener.component';
 import { MatToolbar } from '@angular/material/toolbar';
-import { NgIf } from '@angular/common';
+
 import { MatDivider } from '@angular/material/divider';
 
 /**
@@ -21,30 +21,35 @@ import { MatDivider } from '@angular/material/divider';
       [class.rail]="isRail()"
       [color]="color"
       [class.blui-drawer-header-no-icon]="isEmpty(iconEl)"
-    >
+      >
       <div class="blui-drawer-header-background"></div>
       <div class="blui-drawer-header-text">
         <div #icon class="blui-drawer-header-icon-wrapper">
           <ng-content select="[blui-icon]"></ng-content>
         </div>
-        <div *ngIf="title" class="blui-drawer-header-title-wrapper">
-          <div class="blui-drawer-header-title">{{ title }}</div>
-          <div *ngIf="subtitle" class="blui-drawer-header-subtitle mat-subtitle-1">{{ subtitle }}</div>
-        </div>
+        @if (title) {
+          <div class="blui-drawer-header-title-wrapper">
+            <div class="blui-drawer-header-title">{{ title }}</div>
+            @if (subtitle) {
+              <div class="blui-drawer-header-subtitle mat-subtitle-1">{{ subtitle }}</div>
+            }
+          </div>
+        }
         <ng-content select="[blui-title-content]"></ng-content>
       </div>
     </mat-toolbar>
-    <mat-divider *ngIf="divider"></mat-divider>
-  `,
+    @if (divider) {
+      <mat-divider></mat-divider>
+    }
+    `,
     styleUrls: ['./drawer-header.component.scss'],
     host: {
         class: 'blui-drawer-header',
     },
     imports: [
-        MatToolbar,
-        NgIf,
-        MatDivider,
-    ],
+    MatToolbar,
+    MatDivider
+],
 })
 export class DrawerHeaderComponent extends StateListener {
   /** Mat toolbar color variant

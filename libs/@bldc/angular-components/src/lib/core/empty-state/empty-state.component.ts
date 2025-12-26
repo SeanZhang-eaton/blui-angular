@@ -10,7 +10,7 @@ import {
 } from '@angular/core';
 
 import { hasChildren, requireContent } from '../../utils/utils';
-import { NgIf } from '@angular/common';
+
 
 /**
  * [EmptyState Component](https://brightlayer-ui-components.github.io/angular/?path=/info/components-empty-state--readme)
@@ -28,7 +28,7 @@ import { NgIf } from '@angular/common';
     host: {
         class: 'blui-empty-state',
     },
-    imports: [NgIf],
+    imports: [],
 })
 export class EmptyStateComponent implements AfterViewInit {
   /** The secondary text to display (second line) */

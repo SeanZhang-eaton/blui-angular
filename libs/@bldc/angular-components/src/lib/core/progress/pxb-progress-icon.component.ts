@@ -1,7 +1,7 @@
 import { Component, Input, OnChanges } from '@angular/core';
 
 import Color from 'color';
-import { NgIf, NgStyle } from '@angular/common';
+import { NgStyle } from '@angular/common';
 
 @Component({
     selector: 'blui-progress-icon,pxb-progress-icon',
@@ -11,27 +11,28 @@ import { NgIf, NgStyle } from '@angular/common';
       class="pxb-progress-icon"
       [style.flexDirection]="getFlexDirection()"
       [style.display]="labelPosition === 'center' ? '' : 'inline-flex'"
-    >
-      <span
-        *ngIf="showPercentLabel"
-        class="pxb-progress-icon-label"
-        [class.inverted]="inverted"
-        [class.center]="labelPosition === 'center'"
-        [style.color]="labelColor"
-        [ngStyle]="{ '-webkit-text-stroke-width.px': labelPosition === 'center' ? size / 60 : 0 }"
-        [style.fontSize.px]="labelSize || size / 4"
-        [style.height.px]="labelPosition === 'center' ? size : 'unset'"
-        [style.width.px]="labelPosition === 'center' ? size : 'unset'"
-        [style.lineHeight.px]="labelPosition === 'top' || labelPosition === 'bottom' ? 'unset' : size"
-        [style.webkitTextStrokeColor]="getStrokeColor()"
-        [style.webkitTextFillColor]="labelColor"
-        >{{ percent }}%</span
       >
-      <ng-content></ng-content>
-    </span>
-  `,
+      @if (showPercentLabel) {
+        <span
+          class="pxb-progress-icon-label"
+          [class.inverted]="inverted"
+          [class.center]="labelPosition === 'center'"
+          [style.color]="labelColor"
+          [ngStyle]="{ '-webkit-text-stroke-width.px': labelPosition === 'center' ? size / 60 : 0 }"
+          [style.fontSize.px]="labelSize || size / 4"
+          [style.height.px]="labelPosition === 'center' ? size : 'unset'"
+          [style.width.px]="labelPosition === 'center' ? size : 'unset'"
+          [style.lineHeight.px]="labelPosition === 'top' || labelPosition === 'bottom' ? 'unset' : size"
+          [style.webkitTextStrokeColor]="getStrokeColor()"
+          [style.webkitTextFillColor]="labelColor"
+          >{{ percent }}%</span
+          >
+        }
+        <ng-content></ng-content>
+      </span>
+    `,
     styleUrls: ['./pxb-progress-icon.scss'],
-    imports: [NgIf, NgStyle],
+    imports: [NgStyle],
 })
 export class PxbProgressIconComponent implements OnChanges {
   @Input() size = 24;
