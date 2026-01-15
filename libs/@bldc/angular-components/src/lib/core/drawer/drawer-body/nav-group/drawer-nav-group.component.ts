@@ -9,14 +9,13 @@ import {
   OnDestroy,
   ViewEncapsulation,
 } from '@angular/core';
+import { MatDivider } from '@angular/material/divider';
+import { MatNavList } from '@angular/material/list';
 
 import { Subscription } from 'rxjs';
 
 import { DrawerStateManagerService, StateListener } from '../../state-listener.component';
 import { DrawerNavItem, DrawerNavItemComponent } from '../nav-item/drawer-nav-item.component';
-
-import { MatDivider } from '@angular/material/divider';
-import { MatNavList } from '@angular/material/list';
 
 export type DrawerNavGroup = {
   divider?: boolean;
@@ -31,12 +30,12 @@ export type DrawerNavGroup = {
  * Each group consists of an (optional) group title and a series of NavItems.
  */
 @Component({
-    selector: 'blui-drawer-nav-group',
-    standalone: true,
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    encapsulation: ViewEncapsulation.None,
-    styles: [
-        `
+  selector: 'blui-drawer-nav-group',
+  standalone: true,
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  encapsulation: ViewEncapsulation.None,
+  styles: [
+    `
       .blui-drawer-nav-group-content .mat-mdc-list-base {
         font-weight: 600;
         padding: unset;
@@ -55,14 +54,11 @@ export type DrawerNavGroup = {
         visibility: hidden;
       }
     `,
-    ],
-    template: `
+  ],
+  template: `
     <div class="blui-drawer-nav-group-content">
       @if (title) {
-        <div
-          class="blui-drawer-nav-group-title mat-overline"
-          [class.blui-drawer-nav-group-title-closed]="!isOpen()"
-          >
+        <div class="blui-drawer-nav-group-title mat-overline" [class.blui-drawer-nav-group-title-closed]="!isOpen()">
           {{ title }}
         </div>
       }
@@ -74,14 +70,11 @@ export type DrawerNavGroup = {
         <ng-content select="blui-drawer-nav-item"></ng-content>
       </mat-nav-list>
     </div>
-    `,
-    host: {
-        class: 'blui-drawer-nav-group',
-    },
-    imports: [
-    MatDivider,
-    MatNavList
-],
+  `,
+  host: {
+    class: 'blui-drawer-nav-group',
+  },
+  imports: [MatDivider, MatNavList],
 })
 export class DrawerNavGroupComponent
   extends StateListener

@@ -14,7 +14,7 @@ import {
   ViewChild,
   ViewEncapsulation,
 } from '@angular/core';
-import { MatDrawerMode, MatSidenavContainer, MatSidenav } from '@angular/material/sidenav';
+import { MatDrawerMode, MatSidenav,MatSidenavContainer } from '@angular/material/sidenav';
 
 import { Subscription } from 'rxjs';
 
@@ -31,11 +31,11 @@ export type DrawerLayoutVariantType = 'permanent' | 'persistent' | 'temporary' |
  * It accepts a drawer and content as child elements;
  */
 @Component({
-    selector: 'blui-drawer-layout',
-    standalone: true,
-    encapsulation: ViewEncapsulation.None,
-    styleUrls: ['./drawer-layout.component.scss'],
-    template: `
+  selector: 'blui-drawer-layout',
+  standalone: true,
+  encapsulation: ViewEncapsulation.None,
+  styleUrls: ['./drawer-layout.component.scss'],
+  template: `
     <mat-sidenav-container class="blui-drawer-layout-content" (backdropClick)="closeDrawer()" autosize="false">
       <mat-sidenav
         class="blui-drawer-layout-sidenav"
@@ -60,10 +60,10 @@ export type DrawerLayoutVariantType = 'permanent' | 'persistent' | 'temporary' |
       <div style="display:none; font-size: 1rem" #remElement></div>
     </mat-sidenav-container>
   `,
-    host: {
-        class: 'blui-drawer-layout',
-    },
-    imports: [MatSidenavContainer, MatSidenav],
+  host: {
+    class: 'blui-drawer-layout',
+  },
+  imports: [MatSidenavContainer, MatSidenav],
 })
 export class DrawerLayoutComponent extends StateListener implements AfterViewInit, OnChanges, OnDestroy {
   /** Controls how the Drawer behaves and appears on the screen.  Can be `permanent` | `peristent` | `temporary` | `rail`.

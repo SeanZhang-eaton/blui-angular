@@ -1,4 +1,3 @@
-import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 
 import { BatteryComponent } from './battery/battery.component';
@@ -8,7 +7,7 @@ import { UpsComponent } from './ups/ups.component';
 import { PxbProgressIconComponent } from './pxb-progress-icon.component';
 
 @NgModule({
-    imports: [CommonModule, PxbProgressIconComponent, BatteryComponent, HeartComponent, PieComponent, UpsComponent],
-    exports: [PxbProgressIconComponent, BatteryComponent, HeartComponent, PieComponent, UpsComponent],
+  imports: [PxbProgressIconComponent, BatteryComponent, HeartComponent, PieComponent, UpsComponent],
+  exports: [PxbProgressIconComponent, BatteryComponent, HeartComponent, PieComponent, UpsComponent],
 })
 export class ProgressIconsModule {}

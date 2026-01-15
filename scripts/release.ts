@@ -205,7 +205,7 @@ async function main() {
     console.log(
       pico.yellow(
         '\nRelease will be done via GitHub Actions.\n' +
-        'Check status at https://github.com/etn-ccis/blui-angular/actions/workflows/release.yml'
+          'Check status at https://github.com/etn-ccis/blui-angular/actions/workflows/release.yml'
       )
     );
   }
@@ -265,7 +265,7 @@ async function getCIResult() {
 
     const res = await fetch(
       `https://api.github.com/repos/etn-ccis/blui-angular/actions/runs?head_sha=${sha}` +
-      `&status=success&exclude_pull_requests=true`
+        `&status=success&exclude_pull_requests=true`
     );
     const data: WorkflowRuns = await res.json();
     return data.workflow_runs.some(({ name, conclusion }) => {

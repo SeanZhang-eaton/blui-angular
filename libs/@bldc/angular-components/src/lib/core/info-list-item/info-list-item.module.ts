@@ -1,15 +1,9 @@
-import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { MatDividerModule } from '@angular/material/divider';
-import { MatIconModule } from '@angular/material/icon';
-import { MatListModule } from '@angular/material/list';
-
-import { SpacerModule } from '../utility/spacer.module';
 
 import { InfoListItemComponent } from './info-list-item.component';
 
 @NgModule({
-    imports: [SpacerModule, MatIconModule, CommonModule, MatListModule, MatDividerModule, InfoListItemComponent],
-    exports: [InfoListItemComponent, MatIconModule, MatListModule, SpacerModule, MatDividerModule],
+  imports: [InfoListItemComponent],
+  exports: [InfoListItemComponent],
 })
 export class InfoListItemModule {}

@@ -7,6 +7,8 @@ import { DrawerComponent } from './drawer.component';
 import { DrawerModule } from './drawer.module';
 
 @Component({
+  standalone: true,
+  imports: [DrawerModule],
   template: `
     <blui-drawer>
       <blui-drawer-header id="test-header"></blui-drawer-header>
@@ -16,6 +18,8 @@ import { DrawerModule } from './drawer.module';
 class DrawerHeaderRenderTestComponent {}
 
 @Component({
+  standalone: true,
+  imports: [DrawerModule],
   template: `
     <blui-drawer>
       <blui-drawer-subheader id="test-subheader"></blui-drawer-subheader>
@@ -25,6 +29,8 @@ class DrawerHeaderRenderTestComponent {}
 class DrawerSubheaderRenderTestComponent {}
 
 @Component({
+  standalone: true,
+  imports: [DrawerModule],
   template: `
     <blui-drawer>
       <blui-drawer-body id="test-body"></blui-drawer-body>
@@ -34,6 +40,8 @@ class DrawerSubheaderRenderTestComponent {}
 class DrawerBodyRenderTestComponent {}
 
 @Component({
+  standalone: true,
+  imports: [DrawerModule],
   template: `
     <blui-drawer>
       <blui-drawer-footer id="test-footer"></blui-drawer-footer>
@@ -48,13 +56,12 @@ describe('DrawerComponent', () => {
 
   beforeEach(() => {
     void TestBed.configureTestingModule({
-      declarations: [
+      imports: [
         DrawerHeaderRenderTestComponent,
         DrawerSubheaderRenderTestComponent,
         DrawerBodyRenderTestComponent,
         DrawerFooterRenderTestComponent,
       ],
-      imports: [DrawerModule],
     }).compileComponents();
     fixture = TestBed.createComponent(DrawerComponent);
     component = fixture.componentInstance;

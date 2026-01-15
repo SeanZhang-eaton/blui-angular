@@ -11,7 +11,6 @@ import {
 
 import { hasChildren, requireContent } from '../../utils/utils';
 
-
 /**
  * [EmptyState Component](https://brightlayer-ui-components.github.io/angular/?path=/info/components-empty-state--readme)
  *
@@ -19,16 +18,16 @@ import { hasChildren, requireContent } from '../../utils/utils';
  * Icon components are passed as a child element with the `emptyIcon` attribute - these will typically be a Material icon, Brightlayer UI icon, or Progress Icon.
  */
 @Component({
-    selector: 'blui-empty-state',
-    standalone: true,
-    templateUrl: './empty-state.component.html',
-    styleUrls: ['./empty-state.component.scss'],
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    encapsulation: ViewEncapsulation.None,
-    host: {
-        class: 'blui-empty-state',
-    },
-    imports: [],
+  selector: 'blui-empty-state',
+  standalone: true,
+  templateUrl: './empty-state.component.html',
+  styleUrls: ['./empty-state.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  encapsulation: ViewEncapsulation.None,
+  host: {
+    class: 'blui-empty-state',
+  },
+  imports: [],
 })
 export class EmptyStateComponent implements AfterViewInit {
   /** The secondary text to display (second line) */

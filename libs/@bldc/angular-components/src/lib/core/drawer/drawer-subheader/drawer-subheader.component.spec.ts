@@ -4,9 +4,10 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { count, mockVoidFunction } from '../../../utils/test-utils';
 
 import { DrawerSubheaderComponent } from './drawer-subheader.component';
-import { DrawerSubheaderModule } from './drawer-subheader.module';
 
 @Component({
+  standalone: true,
+  imports: [DrawerSubheaderComponent],
   template: `
     <blui-drawer-subheader>
       <div id="test-subheader-content">test subheader content</div>
@@ -21,8 +22,7 @@ describe('DrawerSubheaderComponent', () => {
 
   beforeEach(() => {
     void TestBed.configureTestingModule({
-      declarations: [TestDrawerSubheaderComponent],
-      imports: [DrawerSubheaderModule],
+      imports: [TestDrawerSubheaderComponent],
     }).compileComponents();
     fixture = TestBed.createComponent(DrawerSubheaderComponent);
     component = fixture.componentInstance;

@@ -9,11 +9,15 @@ import { UserMenuModule } from '../user-menu.module';
 import { UserMenuHeaderComponent } from './user-menu-header.component';
 
 @Component({
+  standalone: true,
+  imports: [UserMenuHeaderComponent],
   template: `<blui-user-menu-header title="title" subtitle="subtitle"></blui-user-menu-header>`,
 })
 class TestUserMenuHeaderComponent {}
 
 @Component({
+  standalone: true,
+  imports: [UserMenuHeaderComponent],
   template: `
     <blui-user-menu-header>
       <div blui-title-content id="test-title-content">test title content</div>
@@ -23,6 +27,8 @@ class TestUserMenuHeaderComponent {}
 class TestUserMenuHeaderWithTitleContentComponent {}
 
 @Component({
+  standalone: true,
+  imports: [UserMenuHeaderComponent, MatIconModule],
   template: `
     <blui-user-menu-header>
       <button id="test-icon" mat-icon-button blui-icon>
@@ -39,12 +45,11 @@ describe('UserMenuHeaderComponent', () => {
 
   beforeEach(() => {
     void TestBed.configureTestingModule({
-      declarations: [
+      imports: [
         TestUserMenuHeaderComponent,
         TestUserMenuHeaderWithTitleContentComponent,
         TestUserMenuHeaderWithIconComponent,
       ],
-      imports: [UserMenuModule, MatIconModule],
     }).compileComponents();
     fixture = TestBed.createComponent(UserMenuHeaderComponent);
     component = fixture.componentInstance;

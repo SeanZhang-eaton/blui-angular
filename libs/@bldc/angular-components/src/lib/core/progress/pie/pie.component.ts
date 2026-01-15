@@ -3,11 +3,10 @@ import { Component, Input, OnChanges } from '@angular/core';
 import { PxbProgressIconComponent } from '../pxb-progress-icon.component';
 import { getCoordinates, rangeValue } from '../utilities';
 
-
 @Component({
-    selector: 'blui-pie-progress,pie-progress',
-    standalone: true,
-    template: `
+  selector: 'blui-pie-progress,pie-progress',
+  standalone: true,
+  template: `
     <pxb-progress-icon
       [size]="size"
       [labelPosition]="labelPosition"
@@ -16,7 +15,7 @@ import { getCoordinates, rangeValue } from '../utilities';
       [labelColor]="labelColor"
       [labelSize]="labelSize"
       [color]="color"
-      >
+    >
       <svg
         [attr.height]="size + 'px'"
         [attr.width]="size + 'px'"
@@ -24,7 +23,7 @@ import { getCoordinates, rangeValue } from '../utilities';
         y="0px"
         viewBox="0 0 24 24"
         style="transform: rotate(-.25turn)"
-        >
+      >
         <clipPath [attr.id]="'pxb-donut-clip-' + stroke">
           <path [attr.d]="clipPath" />
         </clipPath>
@@ -33,22 +32,22 @@ import { getCoordinates, rangeValue } from '../utilities';
             [attr.d]="twoToneBase"
             [attr.clip-path]="'url(#pxb-donut-clip-' + stroke + ')'"
             [attr.fill]="backgroundColor"
-            />
+          />
         }
         <path
           [attr.clip-path]="'url(#pxb-donut-clip-' + stroke + ')'"
           [attr.fill]="(!outlined && backgroundColor) || color || 'currentColor'"
           [attr.fill-opacity]="outlined || percent >= 100 || (!outlined && backgroundColor) ? '1' : '0.3'"
           [attr.d]="outlined ? outlineBase : twoToneBase"
-          />
+        />
         @if (rv(percent, 0, 100) > 0 && rv(percent, 0, 100) < 100) {
           <path
             [attr.fill]="color || 'currentColor'"
             [attr.clip-path]="'url(#pxb-donut-clip-' + stroke + ')'"
             [attr.d]="getPath()"
-            />
+          />
         }
-    
+
         @if (rv(percent, 0, 100) === 100 && outlined) {
           <circle
             [attr.clip-path]="'url(#pxb-donut-clip-' + stroke + ')'"
@@ -60,9 +59,9 @@ import { getCoordinates, rangeValue } from '../utilities';
         }
       </svg>
     </pxb-progress-icon>
-    `,
-    styleUrls: ['../pxb-progress-icon.scss'],
-    imports: [PxbProgressIconComponent],
+  `,
+  styleUrls: ['../pxb-progress-icon.scss'],
+  imports: [PxbProgressIconComponent],
 })
 export class PieComponent extends PxbProgressIconComponent implements OnChanges {
   @Input() ring = 10;

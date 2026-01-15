@@ -5,7 +5,6 @@ import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { count, mockVoidFunction } from '../../../../utils/test-utils';
 
 import { DrawerNavItemComponent } from './drawer-nav-item.component';
-import { DrawerNavItemModule } from './drawer-nav-item.module';
 
 @Component({
   template: ` <blui-drawer-nav-item [hidden]="true"></blui-drawer-nav-item> `,
@@ -19,7 +18,7 @@ describe('DrawerNavItemComponent', () => {
   beforeEach(() => {
     void TestBed.configureTestingModule({
       declarations: [DrawerHiddenNavItemComponent],
-      imports: [DrawerNavItemModule, NoopAnimationsModule],
+      imports: [DrawerNavItemComponent, NoopAnimationsModule],
     }).compileComponents();
     fixture = TestBed.createComponent(DrawerNavItemComponent);
     component = fixture.componentInstance;

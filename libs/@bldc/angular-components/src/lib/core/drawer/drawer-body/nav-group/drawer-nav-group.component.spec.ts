@@ -1,7 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { count, mockVoidFunction } from '../../../../utils/test-utils';
-import { DrawerBodyModule } from '../drawer-body.module';
 
 import { DrawerNavGroupComponent } from './drawer-nav-group.component';
 
@@ -11,7 +10,7 @@ describe('DrawerNavGroupComponent', () => {
 
   beforeEach(() => {
     void TestBed.configureTestingModule({
-      imports: [DrawerBodyModule],
+      imports: [DrawerNavGroupComponent],
     }).compileComponents();
     fixture = TestBed.createComponent(DrawerNavGroupComponent);
     component = fixture.componentInstance;

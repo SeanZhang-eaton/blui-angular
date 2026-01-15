@@ -1,21 +1,19 @@
-import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 
-import { InfoListItemModule } from '../../info-list-item/public-api';
+import { InfoListItemComponent } from '../../info-list-item/public-api';
 
 import { DrawerNavGroupComponent } from './nav-group/drawer-nav-group.component';
-import { DrawerNavGroupModule } from './nav-group/drawer-nav-group.module';
-import { DrawerNavItemModule } from './nav-item/drawer-nav-item.module';
+import { DrawerNavItemComponent } from './nav-item/drawer-nav-item.component';
 import { DrawerBodyComponent } from './drawer-body.component';
 
 @NgModule({
-    imports: [CommonModule, InfoListItemModule, DrawerNavGroupModule, DrawerNavItemModule, DrawerBodyComponent],
-    exports: [
-        DrawerBodyComponent,
-        DrawerNavGroupComponent,
-        InfoListItemModule,
-        DrawerNavGroupModule,
-        DrawerNavItemModule,
-    ],
+  imports: [InfoListItemComponent, DrawerNavGroupComponent, DrawerNavItemComponent, DrawerBodyComponent],
+  exports: [
+    DrawerBodyComponent,
+    DrawerNavGroupComponent,
+    InfoListItemComponent,
+    DrawerNavGroupComponent,
+    DrawerNavItemComponent,
+  ],
 })
 export class DrawerBodyModule {}

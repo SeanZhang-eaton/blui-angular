@@ -1,6 +1,6 @@
 import { Component, Input, ViewChild, ViewEncapsulation } from '@angular/core';
-import { MatMenuTrigger, MatMenu } from '@angular/material/menu';
 import { MatIcon } from '@angular/material/icon';
+import { MatMenu,MatMenuTrigger } from '@angular/material/menu';
 
 /**
  * [ToolbarMenu Component]()
@@ -8,10 +8,10 @@ import { MatIcon } from '@angular/material/icon';
  * The `<blui-toolbar-menu>` component is used to display a menu within a toolbar.
  */
 @Component({
-    selector: 'blui-toolbar-menu',
-    standalone: true,
-    encapsulation: ViewEncapsulation.None,
-    template: `
+  selector: 'blui-toolbar-menu',
+  standalone: true,
+  encapsulation: ViewEncapsulation.None,
+  template: `
     <div class="blui-toolbar-icon-wrapper">
       <ng-content select="[blui-icon]"></ng-content>
     </div>
@@ -25,15 +25,11 @@ import { MatIcon } from '@angular/material/icon';
       <ng-content select="[blui-toolbar-menu-items]"></ng-content>
     </mat-menu>
   `,
-    styleUrls: ['./toolbar-menu.component.scss'],
-    host: {
-        class: 'blui-toolbar-menu',
-    },
-    imports: [
-        MatMenuTrigger,
-        MatIcon,
-        MatMenu,
-    ],
+  styleUrls: ['./toolbar-menu.component.scss'],
+  host: {
+    class: 'blui-toolbar-menu',
+  },
+  imports: [MatMenuTrigger, MatIcon, MatMenu],
 })
 export class ToolbarMenuComponent {
   /** The text to display for label */

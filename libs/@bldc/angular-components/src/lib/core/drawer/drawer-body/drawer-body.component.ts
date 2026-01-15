@@ -7,17 +7,17 @@ import { DrawerStateManagerService, StateListener } from '../state-listener.comp
  * The typical use case is to display `<blui-drawer-nav-group>` elements, but custom elements (e.g., for spacing) are accepted as well.
  */
 @Component({
-    selector: 'blui-drawer-body',
-    standalone: true,
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    encapsulation: ViewEncapsulation.None,
-    template: `
+  selector: 'blui-drawer-body',
+  standalone: true,
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  encapsulation: ViewEncapsulation.None,
+  template: `
     <div class="blui-drawer-body-content" [class.blui-drawer-body-closed]="!isOpen()">
       <ng-content></ng-content>
     </div>
   `,
-    styles: [
-        `
+  styles: [
+    `
       .blui-drawer-body-content {
         max-height: 100%;
         display: flex;
@@ -28,10 +28,10 @@ import { DrawerStateManagerService, StateListener } from '../state-listener.comp
         overflow-x: hidden;
       }
     `,
-    ],
-    host: {
-        class: 'blui-drawer-body',
-    },
+  ],
+  host: {
+    class: 'blui-drawer-body',
+  },
 })
 export class DrawerBodyComponent extends StateListener {
   constructor(stateManagerService: DrawerStateManagerService, changeDetectorRef: ChangeDetectorRef) {

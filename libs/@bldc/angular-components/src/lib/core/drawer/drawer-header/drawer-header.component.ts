@@ -1,10 +1,9 @@
 import { ChangeDetectorRef, Component, ElementRef, Input, ViewChild, ViewEncapsulation } from '@angular/core';
+import { MatDivider } from '@angular/material/divider';
+import { MatToolbar } from '@angular/material/toolbar';
 
 import { isEmptyView } from '../../../utils/utils';
 import { DrawerStateManagerService, StateListener } from '../state-listener.component';
-import { MatToolbar } from '@angular/material/toolbar';
-
-import { MatDivider } from '@angular/material/divider';
 
 /**
  * [DrawerHeader Component](https://brightlayer-ui-components.github.io/angular/?path=/info/components-drawer--readme)
@@ -12,16 +11,16 @@ import { MatDivider } from '@angular/material/divider';
  * The `<blui-drawer-header>` contains the content found at the top of the `<blui-drawer>`.
  */
 @Component({
-    selector: 'blui-drawer-header',
-    standalone: true,
-    encapsulation: ViewEncapsulation.None,
-    template: `
+  selector: 'blui-drawer-header',
+  standalone: true,
+  encapsulation: ViewEncapsulation.None,
+  template: `
     <mat-toolbar
       class="blui-drawer-header-content"
       [class.rail]="isRail()"
       [color]="color"
       [class.blui-drawer-header-no-icon]="isEmpty(iconEl)"
-      >
+    >
       <div class="blui-drawer-header-background"></div>
       <div class="blui-drawer-header-text">
         <div #icon class="blui-drawer-header-icon-wrapper">
@@ -41,15 +40,12 @@ import { MatDivider } from '@angular/material/divider';
     @if (divider) {
       <mat-divider></mat-divider>
     }
-    `,
-    styleUrls: ['./drawer-header.component.scss'],
-    host: {
-        class: 'blui-drawer-header',
-    },
-    imports: [
-    MatToolbar,
-    MatDivider
-],
+  `,
+  styleUrls: ['./drawer-header.component.scss'],
+  host: {
+    class: 'blui-drawer-header',
+  },
+  imports: [MatToolbar, MatDivider],
 })
 export class DrawerHeaderComponent extends StateListener {
   /** Mat toolbar color variant

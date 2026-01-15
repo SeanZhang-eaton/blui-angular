@@ -12,7 +12,7 @@ import {
 } from '@angular/core';
 
 import { requireContent, requireInput } from '../../utils/utils';
-import { UnitSpaceType, ChannelValueComponent } from '../channel-value/channel-value.component';
+import { ChannelValueComponent,UnitSpaceType } from '../channel-value/channel-value.component';
 
 /**
  * [Hero Component](https://brightlayer-ui-components.github.io/angular/?path=/info/components-hero--readme)
@@ -21,12 +21,12 @@ import { UnitSpaceType, ChannelValueComponent } from '../channel-value/channel-v
  * These are typically displayed in a banner.
  */
 @Component({
-    selector: 'blui-hero',
-    standalone: true,
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    encapsulation: ViewEncapsulation.None,
-    styleUrls: ['./hero.component.scss'],
-    template: `
+  selector: 'blui-hero',
+  standalone: true,
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  encapsulation: ViewEncapsulation.None,
+  styleUrls: ['./hero.component.scss'],
+  template: `
     <div class="blui-hero-content">
       <div
         class="blui-hero-primary-wrapper"
@@ -37,7 +37,7 @@ import { UnitSpaceType, ChannelValueComponent } from '../channel-value/channel-v
         [style.width.px]="iSize"
         [style.height.px]="iSize"
         [class.blui-hero-svgIcon]="hasMatSvgIcon"
-        >
+      >
         <ng-content select="[blui-primary]"></ng-content>
       </div>
       <span class="blui-hero-channel-value-wrapper">
@@ -45,23 +45,18 @@ import { UnitSpaceType, ChannelValueComponent } from '../channel-value/channel-v
           <ng-content select="blui-channel-value"></ng-content>
         }
         @if (value !== undefined) {
-          <blui-channel-value
-            [value]="value"
-            [units]="units"
-            [unitSpace]="unitSpace"
-            [prefix]="prefix"
-            >
+          <blui-channel-value [value]="value" [units]="units" [unitSpace]="unitSpace" [prefix]="prefix">
             <ng-content select="[blui-secondary]"></ng-content>
           </blui-channel-value>
         }
       </span>
       <h5 class="blui-hero-label">{{ label }}</h5>
     </div>
-    `,
-    host: {
-        class: 'blui-hero',
-    },
-    imports: [ChannelValueComponent],
+  `,
+  host: {
+    class: 'blui-hero',
+  },
+  imports: [ChannelValueComponent],
 })
 export class HeroComponent implements OnChanges, AfterViewInit, AfterContentChecked {
   /** If true, shows units before the value

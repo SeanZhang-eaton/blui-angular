@@ -1,30 +1,28 @@
-import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 
 import { DrawerBodyModule } from './drawer-body/drawer-body.module';
-import { DrawerFooterModule } from './drawer-footer/drawer-footer.module';
-import { DrawerHeaderModule } from './drawer-header/drawer-header.module';
-import { DrawerLayoutModule } from './drawer-layout/drawer-layout.module';
-import { DrawerSubheaderModule } from './drawer-subheader/drawer-subheader.module';
+import { DrawerFooterComponent } from './drawer-footer/drawer-footer.component';
+import { DrawerHeaderComponent } from './drawer-header/drawer-header.component';
+import { DrawerLayoutComponent } from './drawer-layout/drawer-layout.component';
+import { DrawerSubheaderComponent } from './drawer-subheader/drawer-subheader.component';
 import { DrawerComponent } from './drawer.component';
 
 @NgModule({
-    imports: [
-        CommonModule,
-        DrawerHeaderModule,
-        DrawerSubheaderModule,
-        DrawerBodyModule,
-        DrawerFooterModule,
-        DrawerLayoutModule,
-        DrawerComponent,
-    ],
-    exports: [
-        DrawerComponent,
-        DrawerHeaderModule,
-        DrawerSubheaderModule,
-        DrawerBodyModule,
-        DrawerFooterModule,
-        DrawerLayoutModule,
-    ],
+  imports: [
+    DrawerHeaderComponent,
+    DrawerSubheaderComponent,
+    DrawerBodyModule,
+    DrawerFooterComponent,
+    DrawerLayoutComponent,
+    DrawerComponent,
+  ],
+  exports: [
+    DrawerBodyModule,
+    DrawerComponent,
+    DrawerHeaderComponent,
+    DrawerSubheaderComponent,
+    DrawerFooterComponent,
+    DrawerLayoutComponent,
+  ],
 })
 export class DrawerModule {}

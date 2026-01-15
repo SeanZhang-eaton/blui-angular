@@ -1,17 +1,17 @@
+import { NgStyle } from '@angular/common';
 import { Component, Input, OnChanges } from '@angular/core';
 
 import Color from 'color';
-import { NgStyle } from '@angular/common';
 
 @Component({
-    selector: 'blui-progress-icon,pxb-progress-icon',
-    standalone: true,
-    template: `
+  selector: 'blui-progress-icon,pxb-progress-icon',
+  standalone: true,
+  template: `
     <span
       class="pxb-progress-icon"
       [style.flexDirection]="getFlexDirection()"
       [style.display]="labelPosition === 'center' ? '' : 'inline-flex'"
-      >
+    >
       @if (showPercentLabel) {
         <span
           class="pxb-progress-icon-label"
@@ -26,13 +26,13 @@ import { NgStyle } from '@angular/common';
           [style.webkitTextStrokeColor]="getStrokeColor()"
           [style.webkitTextFillColor]="labelColor"
           >{{ percent }}%</span
-          >
-        }
-        <ng-content></ng-content>
-      </span>
-    `,
-    styleUrls: ['./pxb-progress-icon.scss'],
-    imports: [NgStyle],
+        >
+      }
+      <ng-content></ng-content>
+    </span>
+  `,
+  styleUrls: ['./pxb-progress-icon.scss'],
+  imports: [NgStyle],
 })
 export class PxbProgressIconComponent implements OnChanges {
   @Input() size = 24;

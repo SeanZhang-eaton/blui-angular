@@ -1,7 +1,4 @@
-import { CommonModule } from '@angular/common';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-
-import { PxbProgressIconComponent } from '../pxb-progress-icon.component';
 
 import { HeartComponent } from './heart.component';
 
@@ -11,8 +8,7 @@ describe('HeartComponent', () => {
 
   beforeEach(waitForAsync((): void => {
     void TestBed.configureTestingModule({
-      imports: [CommonModule],
-      declarations: [PxbProgressIconComponent, HeartComponent],
+      imports: [HeartComponent],
     }).compileComponents();
   }));
 

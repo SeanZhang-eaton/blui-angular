@@ -3,7 +3,6 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 
 import { count, mockVoidFunction } from '../../../utils/test-utils';
-import { DrawerModule } from '../drawer.module';
 
 import { DrawerLayoutComponent } from './public-api';
 
@@ -24,7 +23,7 @@ describe('DrawerLayoutComponent', () => {
   beforeEach(() => {
     void TestBed.configureTestingModule({
       declarations: [DrawerRenderTestComponent],
-      imports: [DrawerModule, NoopAnimationsModule],
+      imports: [DrawerLayoutComponent, NoopAnimationsModule],
     }).compileComponents();
     fixture = TestBed.createComponent(DrawerLayoutComponent);
     component = fixture.componentInstance;

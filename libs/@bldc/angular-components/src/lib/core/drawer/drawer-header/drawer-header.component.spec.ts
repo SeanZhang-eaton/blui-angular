@@ -1,19 +1,22 @@
 import { Component } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { MatIconModule } from '@angular/material/icon';
+import { MatIcon } from '@angular/material/icon';
 import { By } from '@angular/platform-browser';
 
 import { count, mockVoidFunction } from '../../../utils/test-utils';
 
 import { DrawerHeaderComponent } from './drawer-header.component';
-import { DrawerHeaderModule } from './drawer-header.module';
 
 @Component({
+  standalone: true,
+  imports: [DrawerHeaderComponent],
   template: ` <blui-drawer-header title="title" subtitle="subtitle"></blui-drawer-header> `,
 })
 class TestDrawerHeaderComponent {}
 
 @Component({
+  standalone: true,
+  imports: [DrawerHeaderComponent],
   template: `
     <blui-drawer-header>
       <div blui-title-content id="test-title-content">test title content</div>
@@ -23,6 +26,8 @@ class TestDrawerHeaderComponent {}
 class TestDrawerHeaderWithTitleContentComponent {}
 
 @Component({
+  standalone: true,
+  imports: [DrawerHeaderComponent, MatIcon],
   template: `
     <blui-drawer-header>
       <button id="test-icon" mat-icon-button blui-icon>
@@ -39,12 +44,11 @@ describe('DrawerHeaderComponent', () => {
 
   beforeEach(() => {
     void TestBed.configureTestingModule({
-      declarations: [
+      imports: [
         TestDrawerHeaderComponent,
         TestDrawerHeaderWithTitleContentComponent,
         TestDrawerHeaderWithIconComponent,
       ],
-      imports: [DrawerHeaderModule, MatIconModule],
     }).compileComponents();
     fixture = TestBed.createComponent(DrawerHeaderComponent);
     component = fixture.componentInstance;

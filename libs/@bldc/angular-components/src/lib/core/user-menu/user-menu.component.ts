@@ -1,5 +1,6 @@
 import { animate, state, style, transition, trigger } from '@angular/animations';
-import { ConnectionPositionPair, CdkOverlayOrigin, CdkConnectedOverlay } from '@angular/cdk/overlay';
+import { CdkConnectedOverlay, CdkOverlayOrigin, ConnectionPositionPair } from '@angular/cdk/overlay';
+import { NgTemplateOutlet } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
@@ -16,15 +17,15 @@ import {
   ViewEncapsulation,
 } from '@angular/core';
 import { MatBottomSheet } from '@angular/material/bottom-sheet';
+import { MatCard } from '@angular/material/card';
 
 import { fromEvent, Subscription } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
 
 import { requireInput } from '../../utils/utils';
-import { UserMenuAvatarComponent } from './user-menu-avatar.component';
-import { NgTemplateOutlet } from '@angular/common';
+
 import { UserMenuHeaderComponent } from './user-menu-header/user-menu-header.component';
-import { MatCard } from '@angular/material/card';
+import { UserMenuAvatarComponent } from './user-menu-avatar.component';
 
 /**
  * [UserMenu Component](https://brightlayer-ui-components.github.io/angular/?path=/info/components-user-menu--readme)
@@ -33,24 +34,24 @@ import { MatCard } from '@angular/material/card';
  * It is typically used in the top-right corner of an application and indicates who is logged in.
  */
 @Component({
-    selector: 'blui-user-menu',
-    standalone: true,
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    encapsulation: ViewEncapsulation.None,
-    styleUrls: ['./user-menu.component.scss'],
-    animations: [
-        trigger('fade-in-out', [
-            state('*', style({ opacity: 1, transform: 'scaleY(1)', 'transform-origin': 'top' })),
-            // Create
-            transition('void => *', [
-                style({ opacity: 0, transform: 'scaleY(0.9)', 'transform-origin': 'top' }),
-                animate('120ms cubic-bezier(0, 0, 0.2, 1)'),
-            ]),
-            // Destroy
-            transition('* => void', animate('100ms 25ms linear', style({ opacity: 0 }))),
-        ]),
-    ],
-    template: `
+  selector: 'blui-user-menu',
+  standalone: true,
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  encapsulation: ViewEncapsulation.None,
+  styleUrls: ['./user-menu.component.scss'],
+  animations: [
+    trigger('fade-in-out', [
+      state('*', style({ opacity: 1, transform: 'scaleY(1)', 'transform-origin': 'top' })),
+      // Create
+      transition('void => *', [
+        style({ opacity: 0, transform: 'scaleY(0.9)', 'transform-origin': 'top' }),
+        animate('120ms cubic-bezier(0, 0, 0.2, 1)'),
+      ]),
+      // Destroy
+      transition('* => void', animate('100ms 25ms linear', style({ opacity: 0 }))),
+    ]),
+  ],
+  template: `
     <!-- This button triggers the overlay and is it's origin -->
     <blui-user-menu-avatar
       cdkOverlayOrigin
@@ -58,10 +59,10 @@ import { MatCard } from '@angular/material/card';
       [avatarImage]="avatarImage"
       (click)="openOverlay()"
       #trigger="cdkOverlayOrigin"
-      >
+    >
       <ng-content select="[blui-avatar]"></ng-content>
     </blui-user-menu-avatar>
-    
+
     <ng-template #menu>
       @if (menuTitle) {
         <blui-user-menu-header
@@ -69,13 +70,13 @@ import { MatCard } from '@angular/material/card';
           [title]="menuTitle"
           [subtitle]="menuSubtitle"
           [divider]="true"
-          >
+        >
           <blui-user-menu-avatar
             blui-icon
             [avatarValue]="avatarValue"
             [avatarImage]="avatarImage"
             class="blui-user-menu-header-avatar"
-            >
+          >
             <ng-content select="[blui-menu-avatar]"></ng-content>
           </blui-user-menu-avatar>
         </blui-user-menu-header>
@@ -83,7 +84,7 @@ import { MatCard } from '@angular/material/card';
       <ng-content select="[blui-menu-header]"></ng-content>
       <ng-content select="[blui-menu-body]"></ng-content>
     </ng-template>
-    
+
     <ng-template
       cdkConnectedOverlay
       (overlayKeydown)="dismissViaEscape($event)"
@@ -95,23 +96,23 @@ import { MatCard } from '@angular/material/card';
       [cdkConnectedOverlayPositions]="positions"
       [cdkConnectedOverlayViewportMargin]="16"
       [cdkConnectedOverlayBackdropClass]="'blui-user-menu-overlay-backdrop'"
-      >
+    >
       <mat-card appearance="outlined" class="blui-user-menu-overlay mat-elevation-z8" [@fade-in-out]>
         <ng-template [ngTemplateOutlet]="menu"></ng-template>
       </mat-card>
     </ng-template>
-    `,
-    host: {
-        class: 'blui-user-menu',
-    },
-    imports: [
+  `,
+  host: {
+    class: 'blui-user-menu',
+  },
+  imports: [
     UserMenuAvatarComponent,
     CdkOverlayOrigin,
     UserMenuHeaderComponent,
     CdkConnectedOverlay,
     MatCard,
-    NgTemplateOutlet
-],
+    NgTemplateOutlet,
+  ],
 })
 export class UserMenuComponent implements OnInit, OnChanges, OnDestroy {
   /** Image source for avatar */

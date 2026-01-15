@@ -3,11 +3,10 @@ import { Component, Input, OnChanges } from '@angular/core';
 import { PxbProgressIconComponent } from '../pxb-progress-icon.component';
 import { rangeValue } from '../utilities';
 
-
 @Component({
-    selector: 'blui-battery-progress,battery-progress',
-    standalone: true,
-    template: `
+  selector: 'blui-battery-progress,battery-progress',
+  standalone: true,
+  template: `
     <pxb-progress-icon
       [size]="size"
       [labelPosition]="labelPosition"
@@ -16,7 +15,7 @@ import { rangeValue } from '../utilities';
       [labelColor]="labelColor"
       [labelSize]="labelSize"
       [color]="color"
-      >
+    >
       <svg
         [attr.height]="size + 'px'"
         [attr.width]="size + 'px'"
@@ -25,7 +24,7 @@ import { rangeValue } from '../utilities';
         viewBox="0 0 24 24"
         style="enable-background:new 0 0 24 24;"
         xml:space="preserve"
-        >
+      >
         <defs>
           @if (outlined) {
             <mask [attr.id]="maskIDleft">
@@ -42,7 +41,7 @@ import { rangeValue } from '../utilities';
                 fill="black"
                 [attr.width]="(rv(percent, 0, 100) / 100) * fillWidth"
                 height="10"
-                />
+              />
             </mask>
           }
           <clipPath [id]="getID()">
@@ -54,15 +53,15 @@ import { rangeValue } from '../utilities';
             [attr.d]="basePath"
             [attr.fill]="backgroundColor"
             [attr.clip-path]="outlined ? undefined : 'url(#' + getID() + ')'"
-            />
+          />
         }
         <path
           [attr.fill]="(!outlined && backgroundColor) || color || 'currentColor'"
           [attr.fill-opacity]="outlined || percent >= 100 || (!outlined && backgroundColor) ? '1' : '0.3'"
           [attr.clip-path]="'url(#' + getID() + ')'"
           [attr.d]="getBasePath()"
-          />
-    
+        />
+
         <g [attr.fill]="color || 'currentColor'">
           <rect
             [attr.fill]="color || 'currentColor'"
@@ -72,19 +71,16 @@ import { rangeValue } from '../utilities';
             [attr.width]="(rv(percent, 0, 100) / 100) * fillWidth"
             height="10"
             [attr.mask]="outlined && charging ? 'url(#' + maskIDleft + ')' : null"
-            />
+          />
           @if (outlined && charging) {
-            <polygon
-              points="11.5,13 11.5,15 4,11 9.5,11 9.5,9 17,13"
-              [attr.mask]="'url(#' + maskIDright + ')'"
-              />
+            <polygon points="11.5,13 11.5,15 4,11 9.5,11 9.5,9 17,13" [attr.mask]="'url(#' + maskIDright + ')'" />
           }
         </g>
       </svg>
     </pxb-progress-icon>
-    `,
-    styleUrls: ['../pxb-progress-icon.scss'],
-    imports: [PxbProgressIconComponent],
+  `,
+  styleUrls: ['../pxb-progress-icon.scss'],
+  imports: [PxbProgressIconComponent],
 })
 export class BatteryComponent extends PxbProgressIconComponent implements OnChanges {
   @Input() charging = false;

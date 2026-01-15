@@ -4,7 +4,6 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { count, mockVoidFunction } from '../../../utils/test-utils';
 
 import { DrawerFooterComponent } from './drawer-footer.component';
-import { DrawerFooterModule } from './drawer-footer.module';
 
 @Component({
   template: `
@@ -22,7 +21,7 @@ describe('DrawerFooterComponent', () => {
   beforeEach(() => {
     void TestBed.configureTestingModule({
       declarations: [TestDrawerFooterComponent],
-      imports: [DrawerFooterModule],
+      imports: [DrawerFooterComponent],
     }).compileComponents();
     fixture = TestBed.createComponent(DrawerFooterComponent);
     component = fixture.componentInstance;

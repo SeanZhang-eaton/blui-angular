@@ -13,10 +13,11 @@ import {
   SimpleChanges,
   ViewEncapsulation,
 } from '@angular/core';
+import { MatToolbar, MatToolbarRow } from '@angular/material/toolbar';
 
 import { fromEvent, interval, Subscription } from 'rxjs';
 import { throttle } from 'rxjs/operators';
-import { MatToolbar, MatToolbarRow } from '@angular/material/toolbar';
+
 import { SpacerComponent } from '../utility/spacer.module';
 
 /**
@@ -26,15 +27,15 @@ import { SpacerComponent } from '../utility/spacer.module';
  * It supports three variants: `snap`, `collapsed`, and `expanded`.
  * */
 @Component({
-    selector: 'blui-app-bar',
-    standalone: true,
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    encapsulation: ViewEncapsulation.None,
-    styleUrls: ['./app-bar.component.scss'],
-    host: {
-        class: 'blui-app-bar mat-elevation-z4',
-    },
-    template: `
+  selector: 'blui-app-bar',
+  standalone: true,
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  encapsulation: ViewEncapsulation.None,
+  styleUrls: ['./app-bar.component.scss'],
+  host: {
+    class: 'blui-app-bar mat-elevation-z4',
+  },
+  template: `
     <mat-toolbar
       [color]="color"
       class="blui-app-bar-content"
@@ -54,11 +55,7 @@ import { SpacerComponent } from '../utility/spacer.module';
       </mat-toolbar-row>
     </mat-toolbar>
   `,
-    imports: [
-        MatToolbar,
-        MatToolbarRow,
-        SpacerComponent,
-    ],
+  imports: [MatToolbar, MatToolbarRow, SpacerComponent],
 })
 export class AppBarComponent implements OnInit, AfterViewInit, OnChanges, OnDestroy {
   /** Height (pixels) of the AppBar when collapsed */
