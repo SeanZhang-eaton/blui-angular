@@ -1,21 +1,22 @@
 import { CommonModule } from '@angular/common';
 import { Component, ViewEncapsulation } from '@angular/core';
-import { MatButtonModule } from '@angular/material/button';
-import { MatCardModule } from '@angular/material/card';
-import { MatIconModule } from '@angular/material/icon';
-import { MatToolbarModule } from '@angular/material/toolbar';
+import { MatButton } from '@angular/material/button';
+import { MatCard, MatCardContent, MatCardHeader } from '@angular/material/card';
+import { MatDivider } from '@angular/material/divider';
+import { MatIcon } from '@angular/material/icon';
+import { MatNavList } from '@angular/material/list';
+import { MatToolbar } from '@angular/material/toolbar';
 import { BLUIColors } from '@brightlayer-ui/colors';
 import {
-  ChannelValueModule,
-  EmptyStateModule,
-  HeroModule,
-  InfoListItemModule,
-  ListItemTagModule,
-  MobileStepperModule,
-  ScoreCardModule,
-  ThreeLinerModule,
-  ToolbarMenuModule,
-  UserMenuModule,
+  ChannelValueComponent,
+  EmptyStateComponent,
+  HeroBannerComponent,
+  HeroComponent,
+  InfoListItemComponent,
+  ListItemTagComponent,
+  SpacerComponent,
+  ThreeLinerComponent,
+  UserMenuComponent,
 } from '@bldc/angular-components';
 
 import { RtlService } from '../../../services/rtl.service';
@@ -25,20 +26,24 @@ import { RtlService } from '../../../services/rtl.service';
   standalone: true,
   imports: [
     CommonModule,
-    MatIconModule,
-    MatCardModule,
-    MatToolbarModule,
-    MatButtonModule,
-    ChannelValueModule,
-    HeroModule,
-    InfoListItemModule,
-    ListItemTagModule,
-    MobileStepperModule,
-    ScoreCardModule,
-    ThreeLinerModule,
-    UserMenuModule,
-    ToolbarMenuModule,
-    EmptyStateModule,
+    MatCardContent,
+    MatCard,
+    MatCardHeader,
+    MatNavList,
+    MatDivider,
+    MatIcon,
+    MatButton,
+    MatToolbar,
+    MatButton,
+    ChannelValueComponent,
+    EmptyStateComponent,
+    HeroComponent,
+    InfoListItemComponent,
+    ListItemTagComponent,
+    ThreeLinerComponent,
+    UserMenuComponent,
+    SpacerComponent,
+    HeroBannerComponent,
   ],
   templateUrl: './display.component.html',
   styleUrls: ['./display.component.scss'],

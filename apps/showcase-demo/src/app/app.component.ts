@@ -1,11 +1,18 @@
 import { CommonModule } from '@angular/common';
 import { Component, ViewEncapsulation } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
-import { MatIconRegistry } from '@angular/material/icon';
+import { MatIcon, MatIconRegistry } from '@angular/material/icon';
+import { MatNavList } from '@angular/material/list';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { DomSanitizer } from '@angular/platform-browser';
 import { NavigationEnd, Router, RouterModule } from '@angular/router';
-import { DrawerLayoutVariantType, DrawerModule, UserMenuModule } from '@bldc/angular-components';
+import {
+  DrawerLayoutComponent,
+  DrawerLayoutVariantType,
+  InfoListItemComponent,
+  SpacerComponent,
+  UserMenuComponent,
+} from '@bldc/angular-components';
 
 import { DrawerComponent } from './drawer/drawer.component';
 import { RtlService } from './services/rtl.service';
@@ -22,11 +29,15 @@ import { ViewportService } from './services/viewport.service';
   imports: [
     CommonModule,
     RouterModule,
-    DrawerModule,
+    MatIcon,
+    MatNavList,
     DrawerComponent,
-    UserMenuModule,
     MatToolbarModule,
     MatButtonModule,
+    DrawerLayoutComponent,
+    SpacerComponent,
+    UserMenuComponent,
+    InfoListItemComponent,
   ],
 })
 export class AppComponent {

@@ -1,14 +1,13 @@
 import { CommonModule } from '@angular/common';
 import { Component, ViewEncapsulation } from '@angular/core';
-import { MatButtonModule } from '@angular/material/button';
-import { MatCardModule } from '@angular/material/card';
-import { MatIconModule } from '@angular/material/icon';
-import { MobileStepperModule } from '@bldc/angular-components';
+import { MatButton } from '@angular/material/button';
+import { MatCard ,MatCardContent,MatCardHeader } from '@angular/material/card';
+import { MobileStepperComponent } from '@bldc/angular-components';
 
 @Component({
   selector: 'app-blui-navigation',
   standalone: true,
-  imports: [CommonModule, MatCardModule, MatIconModule, MobileStepperModule, MatButtonModule],
+  imports: [CommonModule, MatCard,MatCardHeader,MatCardContent,  MobileStepperComponent, MatButton],
   templateUrl: './navigation.component.html',
   styleUrls: ['./navigation.component.scss'],
   encapsulation: ViewEncapsulation.None,

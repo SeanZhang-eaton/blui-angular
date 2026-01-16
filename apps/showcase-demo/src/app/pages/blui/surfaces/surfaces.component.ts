@@ -1,17 +1,20 @@
 import { CommonModule } from '@angular/common';
 import { Component, ViewEncapsulation } from '@angular/core';
-import { MatButtonModule } from '@angular/material/button';
-import { MatCardModule } from '@angular/material/card';
-import { MatIconModule } from '@angular/material/icon';
-import { MatToolbarModule } from '@angular/material/toolbar';
+import { MatIconButton } from '@angular/material/button';
+import { MatCard, MatCardContent, MatCardHeader, MatCardTitle } from '@angular/material/card';
+import { MatIcon } from '@angular/material/icon';
+import { MatList, MatListItem, MatNavList } from '@angular/material/list';
+import { MatMenuItem } from '@angular/material/menu';
+import { MatToolbar } from '@angular/material/toolbar';
 import { BLUIColors } from '@brightlayer-ui/colors';
 import {
-  AppBarModule,
-  HeroModule,
-  InfoListItemModule,
-  ScoreCardModule,
-  ThreeLinerModule,
-  ToolbarMenuModule,
+  AppBarComponent,
+  HeroBannerComponent,
+  HeroComponent,
+  InfoListItemComponent,
+  ScoreCardComponent,
+  ThreeLinerComponent,
+  ToolbarMenuComponent,
 } from '@bldc/angular-components';
 
 import { RtlService } from '../../../services/rtl.service';
@@ -21,16 +24,24 @@ import { RtlService } from '../../../services/rtl.service';
   standalone: true,
   imports: [
     CommonModule,
-    MatCardModule,
-    ScoreCardModule,
-    AppBarModule,
-    ThreeLinerModule,
-    ToolbarMenuModule,
-    MatToolbarModule,
-    MatIconModule,
-    InfoListItemModule,
-    HeroModule,
-    MatButtonModule,
+    MatCard,
+    MatCardTitle,
+    MatToolbar,
+    MatIcon,
+    MatIconButton,
+    MatNavList,
+    MatCardHeader,
+    MatCardContent,
+    MatList,
+    MatListItem,
+    MatMenuItem,
+    AppBarComponent,
+    HeroBannerComponent,
+    HeroComponent,
+    InfoListItemComponent,
+    ScoreCardComponent,
+    ThreeLinerComponent,
+    ToolbarMenuComponent,
   ],
   templateUrl: './surfaces.component.html',
   styleUrls: ['./surfaces.component.scss'],

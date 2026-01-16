@@ -1,9 +1,17 @@
 import { CommonModule } from '@angular/common';
 import { ChangeDetectorRef, Component, ViewEncapsulation } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
-import { MatIconModule } from '@angular/material/icon';
+import { MatIcon } from '@angular/material/icon';
 import { NavigationEnd, Router } from '@angular/router';
-import { DrawerModule, DrawerNavItem } from '@bldc/angular-components';
+import {
+  DrawerBodyComponent,
+  DrawerComponent as BLUIDrawerComponent,
+  DrawerFooterComponent,
+  DrawerHeaderComponent,
+  DrawerNavGroupComponent,
+  DrawerNavItem,
+  DrawerNavItemComponent,
+} from '@bldc/angular-components';
 
 import { StateService } from '../services/state.service';
 import { ViewportService } from '../services/viewport.service';
@@ -11,7 +19,17 @@ import { ViewportService } from '../services/viewport.service';
 @Component({
   selector: 'app-showcase-drawer,showcase-drawer',
   standalone: true,
-  imports: [CommonModule, DrawerModule, MatIconModule, MatButtonModule],
+  imports: [
+    CommonModule,
+    MatIcon,
+    MatButtonModule,
+    BLUIDrawerComponent,
+    DrawerNavItemComponent,
+    DrawerNavGroupComponent,
+    DrawerFooterComponent,
+    DrawerHeaderComponent,
+    DrawerBodyComponent,
+  ],
   styleUrls: ['./drawer.component.scss'],
   template: `
     <blui-drawer class="showcase-demo-drawer" [open]="isOpen()">
