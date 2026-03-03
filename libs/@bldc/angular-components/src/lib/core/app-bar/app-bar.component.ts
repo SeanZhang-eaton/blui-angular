@@ -1,25 +1,26 @@
-import { Element } from '@angular/compiler';
+import { DOCUMENT } from '@angular/common';
 import {
-  AfterViewInit,
+  afterNextRender,
   ChangeDetectionStrategy,
-  ChangeDetectorRef,
   Component,
-  EventEmitter,
-  Input,
-  OnChanges,
-  OnDestroy,
-  OnInit,
-  Output,
-  SimpleChanges,
+  computed,
+  effect,
+  inject,
+  Injector,
+  input,
+  output,
+  signal,
   ViewEncapsulation,
 } from '@angular/core';
+import { toObservable, toSignal } from '@angular/core/rxjs-interop';
 import { MatToolbar, MatToolbarRow } from '@angular/material/toolbar';
 
-import { fromEvent, interval, Subscription } from 'rxjs';
-import { throttle } from 'rxjs/operators';
+import { EMPTY, filter, fromEvent, interval, switchMap, throttle } from 'rxjs';
 
 import { SpacerComponent } from '../utility/spacer.module';
 
+/** Default collapsed height in pixels when collapsedHeight input is not provided */
+const DEFAULT_COLLAPSED_HEIGHT = 64;
 /**
  * [AppBar Component](https://brightlayer-ui-components.github.io/angular/?path=/info/components-app-bar--readme)
  *
@@ -37,12 +38,12 @@ import { SpacerComponent } from '../utility/spacer.module';
   },
   template: `
     <mat-toolbar
-      [color]="color"
+      [color]="$color()"
       class="blui-app-bar-content"
-      [class.blui-app-bar-collapsed]="isCollapsed"
-      [class.blui-app-bar-expanded]="!isCollapsed"
-      [class.blui-app-bar-view-init]="viewInit"
-      [style.height]="calcCurrentToolbarHeight()"
+      [class.blui-app-bar-collapsed]="$isCollapsed()"
+      [class.blui-app-bar-expanded]="!$isCollapsed()"
+      [class.blui-app-bar-view-init]="$viewInit()"
+      [style.height]="$currentToolbarHeight()"
     >
       <mat-toolbar-row>
         <div class="blui-app-bar-background"></div>
@@ -57,28 +58,32 @@ import { SpacerComponent } from '../utility/spacer.module';
   `,
   imports: [MatToolbar, MatToolbarRow, SpacerComponent],
 })
-export class AppBarComponent implements OnInit, AfterViewInit, OnChanges, OnDestroy {
+export class AppBarComponent {
+  private readonly document = inject(DOCUMENT);
+  private readonly injector = inject(Injector);
+
   /** Height (pixels) of the AppBar when collapsed */
-  @Input() collapsedHeight: number;
+  readonly $collapsedHeight = input<number | undefined>(undefined, { alias: 'collapsedHeight' });
   /** Color variant which is passed to the `<mat-toolbar>`
    *
    * @default primary
    * */
-  @Input() color: 'primary' | 'accent' | 'warn' | undefined = 'primary';
+  readonly $color = input<'primary' | 'accent' | 'warn' | undefined>('primary', { alias: 'color' });
   /** Height (pixels) of the AppBar when expanded
    *
    * @default 200
    * */
-  @Input() expandedHeight = 200;
-  // The thing that scrolls, we listen to this.
-  /** Scrollable element which dynamic app bar responds to.  This element is searched in the DOM `ngAfterViewInit`.*/
-  @Input() scrollContainerElement: Element;
-  /** Class name, index number of scrollable element. This element is searched in the DOM `ngAfterViewInit`. */
-  @Input() scrollContainerClassName: { name: string; index: number };
-  /** Id of the scrollable element. This element is searched in the DOM `ngAfterViewInit`.  */
-  @Input() scrollContainerId: string;
+  readonly $expandedHeight = input<number>(200, { alias: 'expandedHeight' });
+  /** Scrollable element which dynamic app bar responds to. Resolved after the first render. */
+  readonly $scrollContainerElement = input<Element>(null, { alias: 'scrollContainerElement' });
+  /** Class name and index of the scrollable element. Resolved after the first render. */
+  readonly $scrollContainerClassName = input<{ name: string; index: number }>(null, {
+    alias: 'scrollContainerClassName',
+  });
+  /** Id of the scrollable element. Resolved after the first render. */
+  readonly $scrollContainerId = input<string>(null, { alias: 'scrollContainerId' });
   /** Distance in pixels to scroll before collapsing toolbar. */
-  @Input() scrollThreshold: number;
+  readonly $scrollThreshold = input<number>(null, { alias: 'scrollThreshold' });
   /** Behavior of the App Bar
    *
    *  `collapsed` - Height set to `collapsedHeight` and does not respond to scroll distance
@@ -90,172 +95,174 @@ export class AppBarComponent implements OnInit, AfterViewInit, OnChanges, OnDest
    *  @default collapsed
    *
    * */
-  @Input() variant: 'collapsed' | 'expanded' | 'snap' = 'collapsed';
+  readonly $variant = input<'collapsed' | 'expanded' | 'snap'>('collapsed', { alias: 'variant' });
 
-  /** Event emitter for when the appbar opens or closes.  Emits a boolean that indicates whether the AppBar is expanded. */
-  @Output() collapsedChange: EventEmitter<boolean> = new EventEmitter();
+  /** Event emitted when the AppBar collapses or expands. Emits `true` when collapsed, `false` when expanded. */
+  readonly collapsedChange = output<boolean>();
 
-  scrollEl;
+  /** Whether the component has completed its first render */
+  readonly $viewInit = signal(false);
 
-  isCollapsed = false;
-  isWindow = false;
-  useDefaultCollapsedHeight = true;
-  isAnimating: boolean;
-  viewInit = false;
-
-  scrollListener: Subscription;
-  resizeListener: Subscription;
-
-  contentSize = 0;
-
-  constructor(private readonly _ref: ChangeDetectorRef) {}
-
-  ngOnInit(): void {
-    if (!this.scrollThreshold) {
-      this.scrollThreshold = this.expandedHeight - (this.collapsedHeight || 64);
-    }
+  private get window(): Window | null {
+    return this.document.defaultView;
   }
 
-  ngOnChanges(changes: SimpleChanges): void {
-    if (changes.variant) {
-      this._resizeOnModeChange();
+  /** Whether the collapse/expand animation is in progress. Used to prevent flickering. */
+  readonly $isAnimating = signal(false);
+
+  /** Resolved scroll container element. Falls back to window if no container is specified. */
+  private readonly $scrollEl = computed(() => {
+    this.$viewInit();
+    const scrollContainerElement = this.$scrollContainerElement();
+    const scrollContainerId = this.$scrollContainerId();
+    const scrollContainerClassName = this.$scrollContainerClassName();
+    if (scrollContainerElement) {
+      return scrollContainerElement;
     }
-    this.useDefaultCollapsedHeight = isNaN(this.collapsedHeight) || this.collapsedHeight === 0;
-    this.expandedHeight = Number(this.expandedHeight);
-    this.collapsedHeight = Number(this.collapsedHeight);
-
-    if (changes.scrollContainerClassName || changes.scrollContainerId || changes.scrollContainerElement) {
-      this._listenForScrollEvents();
+    if (scrollContainerId) {
+      return this.document.getElementById(scrollContainerId);
     }
+    if (scrollContainerClassName) {
+      return this.document.getElementsByClassName(scrollContainerClassName.name)[scrollContainerClassName.index];
+    }
+    return this.window;
+  });
 
-    this._ref.detectChanges();
-  }
+  /** Signal that emits on scroll events from the scroll container (throttled to 10ms) */
+  readonly $scrollEvent = toSignal(
+    toObservable(this.$scrollEl, { injector: this.injector }).pipe(
+      filter((el) => el != null),
+      switchMap((el) => fromEvent(el, 'scroll').pipe(throttle(() => interval(10))))
+    ),
+    { initialValue: null }
+  );
 
-  ngAfterViewInit(): void {
-    this._listenForScrollEvents();
-    setTimeout(() => {
-      // Used to listen for content rendered in ng-template.
-      if (!this.scrollEl) {
-        this._listenForScrollEvents();
-      }
+  /** Signal that emits on window resize events (throttled to 10ms) */
+  readonly $resizeEvent = toSignal(
+    toObservable(this.$scrollEl, { injector: this.injector }).pipe(
+      filter((el) => el != null),
+      switchMap(() => (this.window ? fromEvent(this.window, 'resize').pipe(throttle(() => interval(10))) : EMPTY))
+    ),
+    { initialValue: null }
+  );
+
+  /** Whether the scroll container is the window object */
+  readonly $isWindow = computed(() => this.$scrollEl() === this.window);
+
+  /** Whether to use the default responsive collapsed height (3.5rem mobile, 4rem desktop) */
+  readonly $useDefaultCollapsedHeight = computed(() => {
+    const height = this.$collapsedHeight();
+    return !Number.isFinite(height) || height === 0;
+  });
+
+  /** Calculated scroll threshold. Uses input value or defaults to expandedHeight - collapsedHeight. */
+  readonly $effectiveScrollThreshold = computed(() => {
+    const threshold = this.$scrollThreshold();
+    if (Number.isFinite(threshold)) {
+      return threshold;
+    }
+    return this.$expandedHeight() - (this.$collapsedHeight() ?? DEFAULT_COLLAPSED_HEIGHT);
+  });
+
+  /** Current collapsed state. Managed by effect for snap mode hysteresis behavior. */
+  readonly $isCollapsed = signal(true);
+
+  /** Computed toolbar height based on collapsed state and height inputs */
+  readonly $currentToolbarHeight = computed(() => {
+    if (!this.$isCollapsed()) {
+      return `${this.$expandedHeight()}px`;
+    } else if (!this.$useDefaultCollapsedHeight()) {
+      return `${this.$collapsedHeight()}px`;
+    }
+    return `${this.#calcDefaultCollapsedHeight()}rem`;
+  });
+
+  /** Current scroll position of the scroll container. Recomputes on scroll/resize events. */
+  private readonly $scrollDistance = computed(() => {
+    this.$scrollEvent();
+    this.$resizeEvent();
+    const el = this.$scrollEl();
+    if (this.$isWindow()) {
+      return this.document.scrollingElement?.scrollTop ?? 0;
+    }
+    return (el as HTMLElement)?.scrollTop ?? 0;
+  });
+
+  constructor() {
+    afterNextRender({
+      write: () => {
+        this.$viewInit.set(true);
+      },
     });
+
+    // Handle variant changes and scroll/resize events
+    effect(
+      () => {
+        const variant = this.$variant();
+        const scrollDistance = this.$scrollDistance();
+        const isAnimating = this.$isAnimating();
+        const isCollapsed = this.$isCollapsed();
+        const threshold = this.$effectiveScrollThreshold();
+
+        // Locked modes
+        if (variant === 'collapsed') {
+          this.#setCollapsed(true);
+          return;
+        }
+        if (variant === 'expanded') {
+          this.#setCollapsed(false);
+          return;
+        }
+
+        // Snap mode - uses hysteresis to prevent flickering
+        if (isAnimating) return;
+
+        // Only expand when scrolled back to top
+        if (isCollapsed && scrollDistance <= 0) {
+          this.#setCollapsed(false);
+        }
+        // Only collapse when scroll exceeds threshold
+        else if (!isCollapsed && scrollDistance > threshold) {
+          this.#collapse(scrollDistance);
+        }
+      },
+      { allowSignalWrites: true }
+    );
+
+    // Emit collapsed state changes to output
+    effect(() => this.collapsedChange.emit(this.$isCollapsed()));
   }
 
-  ngOnDestroy(): void {
-    this._stopListeningForScrollEvents();
+  /**
+   * Collapses the AppBar with animation lock.
+   * Prevents scroll position from jumping to 0 during collapse by adding 1px offset.
+   */
+  #collapse(scrollDistance: number): void {
+    this.#setCollapsed(true);
+    this.$isAnimating.set(true);
+
+    setTimeout(() => {
+      if (scrollDistance <= 0) {
+        if (this.$isWindow()) {
+          this.window?.scrollBy(0, 1);
+        } else {
+          const el = this.$scrollEl() as HTMLElement;
+          if (el) el.scrollTop = 1;
+        }
+      }
+      this.$isAnimating.set(false);
+    }, 300);
   }
 
-  private _stopListeningForScrollEvents(): void {
-    if (this.scrollListener) {
-      this.scrollListener.unsubscribe();
-    }
-    if (this.resizeListener) {
-      this.resizeListener.unsubscribe();
-    }
-  }
-
-  calcCurrentToolbarHeight(): string {
-    if (!this.isCollapsed) {
-      return `${this.expandedHeight}px`;
-    } else if (!this.useDefaultCollapsedHeight) {
-      return `${this.collapsedHeight}px`;
-    }
-    return `${this._calcDefaultCollapsedHeight()}rem`;
-  }
-
-  private _listenForScrollEvents(): void {
-    this._setScrollEl();
-    this._resizeOnModeChange();
-    this._stopListeningForScrollEvents();
-    this.viewInit = true;
-
-    if (this.scrollEl) {
-      this.scrollListener = fromEvent(this.scrollEl, 'scroll')
-        .pipe(throttle(() => interval(10)))
-        .subscribe(() => {
-          this._resizeEl();
-        });
-
-      this.resizeListener = fromEvent(window, 'resize')
-        .pipe(throttle(() => interval(10)))
-        .subscribe(() => {
-          this._resizeEl();
-        });
-    }
-  }
-
-  private _resizeOnModeChange(): void {
-    if (this.variant !== 'snap') {
-      return this._handleLockedModes();
-    } else if (this.scrollEl) {
-      this._resizeEl();
-    }
-  }
-
-  private _handleLockedModes(): void {
-    if (this.variant === 'collapsed') {
-      this._setCollapsed(true);
-      this._ref.detectChanges();
-      return;
-    }
-    if (this.variant === 'expanded') {
-      this._setCollapsed(false);
-      this._ref.detectChanges();
-      return;
-    }
-  }
-
-  private _setCollapsed(collapsed: boolean): void {
-    this.isCollapsed = collapsed;
+  /** Updates collapsed state if changed and emits the change event */
+  #setCollapsed(collapsed: boolean): void {
+    if (this.$isCollapsed() === collapsed) return;
+    this.$isCollapsed.set(collapsed);
     this.collapsedChange.emit(collapsed);
   }
 
-  private _resizeEl(): void {
-    if (this.isAnimating) {
-      return;
-    }
-    if (this.variant !== 'snap') {
-      return this._handleLockedModes();
-    }
-
-    const scrollDistance = this.isWindow ? document.scrollingElement.scrollTop : this.scrollEl.scrollTop;
-    if (this.isCollapsed && scrollDistance <= 0) {
-      this._setCollapsed(false);
-      this._ref.detectChanges();
-    } else if (scrollDistance > this.scrollThreshold && !this.isCollapsed) {
-      this._setCollapsed(true);
-      this.isAnimating = true;
-      this._ref.detectChanges();
-      setTimeout(() => {
-        const currScrollDistance = this.isWindow ? document.scrollingElement.scrollTop : this.scrollEl.scrollTop;
-        if (currScrollDistance <= 0) {
-          if (this.isWindow) {
-            window.scrollBy(0, 1);
-          } else {
-            this.scrollEl.scrollTop = 1;
-          }
-        }
-        this.isAnimating = false;
-      }, 300);
-    }
-  }
-
-  private _setScrollEl(): void {
-    if (this.scrollContainerElement) {
-      this.scrollEl = this.scrollContainerElement;
-    } else if (this.scrollContainerId) {
-      this.scrollEl = document.getElementById(this.scrollContainerId);
-    } else if (this.scrollContainerClassName) {
-      this.scrollEl = document.getElementsByClassName(this.scrollContainerClassName.name)[
-        this.scrollContainerClassName.index
-      ];
-    } else {
-      this.scrollEl = window;
-      this.isWindow = true;
-    }
-  }
-
-  private _calcDefaultCollapsedHeight(): number {
-    return document.documentElement.clientWidth <= 600 ? 3.5 : 4;
+  /** Returns responsive default height: 3.5rem for mobile (<=600px), 4rem for desktop */
+  #calcDefaultCollapsedHeight(): number {
+    return this.document.documentElement.clientWidth <= 600 ? 3.5 : 4;
   }
 }

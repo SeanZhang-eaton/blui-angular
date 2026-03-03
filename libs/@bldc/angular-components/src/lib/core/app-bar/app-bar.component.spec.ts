@@ -3,11 +3,13 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { count } from '../../utils/test-utils';
 
-import { AppBarModule } from './app-bar.module';
+import { AppBarComponent } from './app-bar.component';
 
 @Component({
+  standalone: true,
+  imports: [AppBarComponent],
   template: `
-    <blui-app-bar mode="collapsed">
+    <blui-app-bar variant="collapsed">
       <div>title</div>
     </blui-app-bar>
   `,
@@ -20,8 +22,7 @@ describe('AppBarComponent', () => {
 
   beforeEach(() => {
     void TestBed.configureTestingModule({
-      declarations: [TestBasicUsageComponent],
-      imports: [AppBarModule],
+      imports: [TestBasicUsageComponent],
     }).compileComponents();
     fixture = TestBed.createComponent(TestBasicUsageComponent);
     component = fixture.componentInstance;
