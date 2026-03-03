@@ -1,0 +1,26 @@
+<span class="blui-channel-value-content" [style.color]="$color()">
+  <span class="blui-channel-value-icon-wrapper">
+    <ng-content></ng-content>
+  </span>
+  @if ($units() && $prefix()) {
+    <div
+      class="blui-channel-value-units"
+      [class.blui-channel-value-units-prefix]="!$isWhiteListedUnit() || $unitSpace() === 'show'"
+    >
+      {{ $units() }}
+    </div>
+  }
+  @if ($valueAsString()) {
+    <div class="blui-channel-value-value" [class.blui-channel-value-remove-space]="$unitSpace() === 'hide'">
+      {{ $valueAsString() }}
+    </div>
+  }
+  @if ($units() && !$prefix()) {
+    <div
+      class="blui-channel-value-units"
+      [class.blui-channel-value-units-suffix]="!$isWhiteListedUnit() || $unitSpace() === 'show'"
+    >
+      {{ $units() }}
+    </div>
+  }
+</span>

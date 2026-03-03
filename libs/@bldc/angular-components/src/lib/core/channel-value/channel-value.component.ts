@@ -1,6 +1,4 @@
-import { ChangeDetectionStrategy, Component, Input, OnChanges, ViewEncapsulation } from '@angular/core';
-
-import { requireInput } from '../../utils/utils';
+import { ChangeDetectionStrategy, Component, computed, input, ViewEncapsulation } from '@angular/core';
 
 export type UnitSpaceType = 'show' | 'hide' | 'auto';
 /** [ChannelValue Component](https://brightlayer-ui-components.github.io/angular/?path=/info/components-channel-value--readme)
@@ -13,52 +11,25 @@ export type UnitSpaceType = 'show' | 'hide' | 'auto';
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
-  template: `
-    <span class="blui-channel-value-content" [style.color]="color">
-      <span class="blui-channel-value-icon-wrapper">
-        <ng-content></ng-content>
-      </span>
-      @if (units && prefix) {
-        <div
-          class="blui-channel-value-units"
-          [class.blui-channel-value-units-prefix]="!isWhiteListedUnit || unitSpace === 'show'"
-        >
-          {{ units }}
-        </div>
-      }
-      @if (getValueAsString()) {
-        <div class="blui-channel-value-value" [class.blui-channel-value-remove-space]="unitSpace === 'hide'">
-          {{ getValueAsString() }}
-        </div>
-      }
-      @if (units && !prefix) {
-        <div
-          class="blui-channel-value-units"
-          [class.blui-channel-value-units-suffix]="!isWhiteListedUnit || unitSpace === 'show'"
-        >
-          {{ units }}
-        </div>
-      }
-    </span>
-  `,
-  styleUrls: ['./channel-value.component.scss'],
+  templateUrl: './channel-value.component.html',
+  styleUrl: './channel-value.component.scss',
   host: {
     class: 'blui-channel-value',
   },
   imports: [],
 })
-export class ChannelValueComponent implements OnChanges {
+export class ChannelValueComponent {
   /** If true, shows units before the value
    *
    * @default false
    * */
-  @Input() prefix = false;
+  $prefix = input(false, { alias: 'prefix' });
   /** The text to display for the units (light text) */
-  @Input() units: string;
+  $units = input<string | undefined>(undefined, { alias: 'units' });
   /** The text to display for the value (bold text)*/
-  @Input() value: string | number;
+  $value = input.required<string | number>({ alias: 'value' });
   /** Text color */
-  @Input() color: string;
+  $color = input<string | undefined>(undefined, { alias: 'color' });
   /** Show a space between the value and units. Can be `show` | `hide` | `auto`
    *
    * `show` - Show a space between the value and units.
@@ -73,18 +44,18 @@ export class ChannelValueComponent implements OnChanges {
    *
    * @default auto;
    * */
-  @Input() unitSpace: UnitSpaceType = 'auto';
+  $unitSpace = input<UnitSpaceType>('auto', { alias: 'unitSpace' });
 
   prefixUnitWhitelist = ['$'];
   suffixUnitWhitelist = ['%', '℉', '°F', '℃', '°C', '°'];
-  isWhiteListedUnit = false;
-  ngOnChanges(): void {
-    requireInput<ChannelValueComponent>(['value'], this);
-    this.isWhiteListedUnit = this.prefix
-      ? this.prefixUnitWhitelist.includes(this.units)
-      : this.suffixUnitWhitelist.includes(this.units);
-  }
-  getValueAsString(): string {
-    return String(this.value);
-  }
+
+  $isWhiteListedUnit = computed(() => {
+    const units = this.$units();
+    if (!units) return false;
+    return this.$prefix()
+      ? this.prefixUnitWhitelist.includes(units)
+      : this.suffixUnitWhitelist.includes(units);
+  });
+
+  $valueAsString = computed(() => String(this.$value()));
 }

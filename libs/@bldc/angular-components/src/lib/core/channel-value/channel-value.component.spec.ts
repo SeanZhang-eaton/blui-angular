@@ -32,28 +32,29 @@ describe('ChannelValueComponent', () => {
   });
 
   it('should initialize', () => {
+    fixture.componentRef.setInput('value', 'test');
     fixture.detectChanges();
     void expect(component).toBeTruthy();
   });
 
   it('should render a value', () => {
-    component.value = 'Test Value';
+    fixture.componentRef.setInput('value', 'Test Value');
     fixture.detectChanges();
     const value = fixture.nativeElement.querySelector('.blui-channel-value-value');
     void expect(value.textContent.trim()).toBe('Test Value');
   });
 
   it('should render 0 integer value', () => {
-    component.value = 0;
+    fixture.componentRef.setInput('value', 0);
     fixture.detectChanges();
     const value = fixture.nativeElement.querySelector('.blui-channel-value-value');
     void expect(value.textContent.trim()).toBe('0');
   });
 
   it('should render units to the left', () => {
-    component.value = 'Test Value';
-    component.units = 'hz';
-    component.prefix = false;
+    fixture.componentRef.setInput('value', 'Test Value');
+    fixture.componentRef.setInput('units', 'hz');
+    fixture.componentRef.setInput('prefix', false);
     fixture.detectChanges();
     const container = fixture.nativeElement.querySelector('.blui-channel-value-content');
     const units = fixture.nativeElement.querySelector('.blui-channel-value-units');
@@ -62,9 +63,9 @@ describe('ChannelValueComponent', () => {
   });
 
   it('should render units to the right', () => {
-    component.value = '74';
-    component.units = 'C';
-    component.prefix = true;
+    fixture.componentRef.setInput('value', '74');
+    fixture.componentRef.setInput('units', 'C');
+    fixture.componentRef.setInput('prefix', true);
     fixture.detectChanges();
     const container = fixture.nativeElement.querySelector('.blui-channel-value-content');
     const units = fixture.nativeElement.querySelector('.blui-channel-value-units');
@@ -80,8 +81,8 @@ describe('ChannelValueComponent', () => {
   });
 
   it('should enforce class naming conventions', () => {
-    component.value = '123';
-    component.units = 'hz';
+    fixture.componentRef.setInput('value', '123');
+    fixture.componentRef.setInput('units', 'hz');
     fixture.detectChanges();
     const classList = [
       '.blui-channel-value-content',
@@ -95,9 +96,9 @@ describe('ChannelValueComponent', () => {
   });
 
   it('should add space between value and unit since default is auto', () => {
-    component.value = '123';
-    component.units = 'hz';
-    component.prefix = true;
+    fixture.componentRef.setInput('value', '123');
+    fixture.componentRef.setInput('units', 'hz');
+    fixture.componentRef.setInput('prefix', true);
     fixture.detectChanges();
     const classList = [
       '.blui-channel-value-content',
@@ -112,9 +113,9 @@ describe('ChannelValueComponent', () => {
   });
 
   it('should not add space between value and unit', () => {
-    component.value = '123';
-    component.units = 'hz';
-    component.unitSpace = 'hide';
+    fixture.componentRef.setInput('value', '123');
+    fixture.componentRef.setInput('units', 'hz');
+    fixture.componentRef.setInput('unitSpace', 'hide');
     fixture.detectChanges();
     const classList = [
       '.blui-channel-value-content',
@@ -129,19 +130,17 @@ describe('ChannelValueComponent', () => {
   });
 
   it('should not add space between value and unit if whitelist prefix added', () => {
-    component.value = '74';
-    component.units = '$';
-    component.prefix = true;
-    component.isWhiteListedUnit = true;
+    fixture.componentRef.setInput('value', '74');
+    fixture.componentRef.setInput('units', '$');
+    fixture.componentRef.setInput('prefix', true);
     fixture.detectChanges();
     const units = fixture.nativeElement.querySelector('.blui-channel-value-units-prefix');
     void expect(units).toBeNull();
   });
 
   it('should not add space between value and unit if whitelist prefix added', () => {
-    component.value = '74';
-    component.units = '%';
-    component.isWhiteListedUnit = true;
+    fixture.componentRef.setInput('value', '74');
+    fixture.componentRef.setInput('units', '%');
     fixture.detectChanges();
     const units = fixture.nativeElement.querySelector('.blui-channel-value-units-suffix');
     void expect(units).toBeNull();
