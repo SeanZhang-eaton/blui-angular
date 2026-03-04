@@ -5,11 +5,12 @@ import { MatIconModule } from '@angular/material/icon';
 import { count } from '../../utils/test-utils';
 
 import { ScoreCardComponent } from './score-card.component';
-import { ScoreCardModule } from './score-card.module';
 
 @Component({
+  standalone: true,
+  imports: [ScoreCardComponent, MatIconModule],
   template: `
-    <blui-score-card>
+    <blui-score-card headerTitle="Header Title">
       <ng-container blui-action-items>
         <mat-icon>mail</mat-icon>
         <mat-icon>cloud</mat-icon>
@@ -21,12 +22,16 @@ import { ScoreCardModule } from './score-card.module';
 class TestScoreCardActionsComponent {}
 
 @Component({
-  template: ` <blui-score-card><div blui-body id="test-content">Content Goes Here</div></blui-score-card> `,
+  standalone: true,
+  imports: [ScoreCardComponent],
+  template: ` <blui-score-card headerTitle="Header Title"><div blui-body id="test-content">Content Goes Here</div></blui-score-card> `,
 })
 class TestScoreCardContentComponent {}
 
 @Component({
-  template: ` <blui-score-card><div blui-action-row id="test-action-row">Show Details</div></blui-score-card> `,
+  standalone: true,
+  imports: [ScoreCardComponent],
+  template: ` <blui-score-card headerTitle="Header Title"><div blui-action-row id="test-action-row">Show Details</div></blui-score-card> `,
 })
 class TestScoreCardActionRowComponent {}
 
@@ -36,34 +41,36 @@ describe('ScoreCardComponent', () => {
 
   beforeEach(() => {
     void TestBed.configureTestingModule({
-      declarations: [TestScoreCardActionsComponent, TestScoreCardContentComponent, TestScoreCardActionRowComponent],
-      imports: [ScoreCardModule, MatIconModule],
+      imports: [TestScoreCardActionsComponent, TestScoreCardContentComponent, TestScoreCardActionRowComponent, ScoreCardComponent],
     }).compileComponents();
     fixture = TestBed.createComponent(ScoreCardComponent);
     component = fixture.componentInstance;
   });
 
   it('should initialize', () => {
+    fixture.componentRef.setInput('headerTitle', 'Header Title');
     fixture.detectChanges();
     void expect(component).toBeTruthy();
   });
 
   it('should display a header', () => {
-    component.headerTitle = 'Header Title';
+    fixture.componentRef.setInput('headerTitle', 'Header Title');
     fixture.detectChanges();
     const title = fixture.nativeElement.querySelector('.blui-score-card-title');
     void expect(title.innerHTML).toBe('Header Title');
   });
 
   it('should display a subheader', () => {
-    component.headerSubtitle = 'Header Subheader';
+    fixture.componentRef.setInput('headerTitle', 'Header Title');
+    fixture.componentRef.setInput('headerSubtitle', 'Header Subheader');
     fixture.detectChanges();
     const subtitle = fixture.nativeElement.querySelector('.blui-score-card-subtitle');
     void expect(subtitle.innerHTML).toBe('Header Subheader');
   });
 
   it('should display a third line of text in the header', () => {
-    component.headerInfo = 'Header Info';
+    fixture.componentRef.setInput('headerTitle', 'Header Title');
+    fixture.componentRef.setInput('headerInfo', 'Header Info');
     fixture.detectChanges();
     const info = fixture.nativeElement.querySelector('.blui-score-card-info');
     void expect(info.innerHTML).toBe('Header Info');

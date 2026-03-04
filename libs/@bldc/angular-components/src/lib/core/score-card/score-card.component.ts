@@ -1,8 +1,6 @@
-import { ChangeDetectionStrategy, Component, Input, OnChanges, ViewEncapsulation } from '@angular/core';
-import { MatCard, MatCardContent,MatCardSubtitle, MatCardTitle } from '@angular/material/card';
+import { ChangeDetectionStrategy, Component, computed, effect, input, ViewEncapsulation } from '@angular/core';
+import { MatCard, MatCardContent, MatCardSubtitle, MatCardTitle } from '@angular/material/card';
 import { MatDivider } from '@angular/material/divider';
-
-import { requireInput } from '../../utils/utils';
 
 /**
  * [ScoreCard Component](https://brightlayer-ui-components.github.io/angular/?path=/info/components-score-card--readme)
@@ -14,67 +12,34 @@ import { requireInput } from '../../utils/utils';
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
-  template: `
-    <mat-card appearance="outlined" class="blui-score-card-content">
-      <div class="blui-score-card-header">
-        <div class="blui-score-card-header-background"></div>
-        <div class="blui-score-card-header-wrapper">
-          <div class="blui-score-card-header-text">
-            <mat-card-title class="blui-score-card-title">{{ headerTitle }}</mat-card-title>
-            <mat-card-subtitle class="blui-score-card-subtitle">{{ headerSubtitle }}</mat-card-subtitle>
-            <mat-card-subtitle class="blui-score-card-info">{{ headerInfo }}</mat-card-subtitle>
-          </div>
-          <div class="blui-score-card-action-items-wrapper">
-            <ng-content select="[blui-action-items]"></ng-content>
-          </div>
-        </div>
-      </div>
-      <mat-card-content>
-        <div class="blui-score-card-body">
-          <ng-content select="[blui-body]"></ng-content>
-          <div class="blui-score-card-badge-wrapper" [style.marginTop.px]="getBadgeOffset()">
-            <ng-content select="[blui-badge]"></ng-content>
-          </div>
-        </div>
-        @if (actionRow.childNodes.length !== 0) {
-          <mat-divider></mat-divider>
-        }
-        <div class="blui-score-card-action-row-wrapper" #actionRow>
-          <ng-content select="[blui-action-row]"></ng-content>
-        </div>
-      </mat-card-content>
-    </mat-card>
-  `,
-  styleUrls: ['./score-card.component.scss'],
+  templateUrl: './score-card.component.html',
+  styleUrl: './score-card.component.scss',
   host: {
     class: 'blui-score-card',
   },
   imports: [MatCard, MatCardTitle, MatCardSubtitle, MatCardContent, MatDivider],
 })
-export class ScoreCardComponent implements OnChanges {
+export class ScoreCardComponent {
   /** Vertical offset for the badge content
    *
    * @default 0
    * */
-  @Input() badgeOffset = 0;
+  readonly $badgeOffset = input(0, { alias: 'badgeOffset' });
 
   /** The third line of text in the header */
-  @Input() headerInfo: string;
+  readonly $headerInfo = input<string>(undefined, { alias: 'headerInfo' });
 
   /** The second line of text in the header */
-  @Input() headerSubtitle: string;
+  readonly $headerSubtitle = input<string>(undefined, { alias: 'headerSubtitle' });
 
   /** The first line of text in the header */
-  @Input() headerTitle: string;
+  readonly $headerTitle = input.required<string>({ alias: 'headerTitle' });
 
-  ngOnChanges(): void {
-    requireInput<ScoreCardComponent>(['headerTitle'], this);
-  }
-
-  getBadgeOffset(): string | number {
-    if (isNaN(this.badgeOffset)) {
+  protected readonly $badgeOffsetValue = computed(() => {
+    const offset = this.$badgeOffset();
+    if (Number.isNaN(offset)) {
       return 'inherit';
     }
-    return this.badgeOffset;
-  }
+    return offset;
+  });
 }
