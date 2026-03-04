@@ -1,10 +1,10 @@
 import {
-  AfterViewInit,
-  ChangeDetectorRef,
+  ChangeDetectionStrategy,
   Component,
+  computed,
   ElementRef,
-  Input,
-  ViewChild,
+  input,
+  viewChild,
   ViewEncapsulation,
 } from '@angular/core';
 
@@ -19,59 +19,38 @@ import { isEmptyView } from '../../utils/utils';
 @Component({
   selector: 'blui-three-liner',
   standalone: true,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
-  styleUrls: ['three-liner.component.scss'],
-  template: `
-    <div class="blui-three-liner-content">
-      <div class="blui-three-liner-title">
-        <div #titleVc>
-          <ng-content select="[blui-title]"></ng-content>
-        </div>
-        @if (isEmpty(titleEl)) {
-          {{ title }}
-        }
-      </div>
-
-      <div class="blui-three-liner-subtitle">
-        <div #subtitleVc>
-          <ng-content select="[blui-subtitle]"></ng-content>
-        </div>
-        @if (isEmpty(subtitleEl)) {
-          {{ subtitle }}
-        }
-      </div>
-
-      <div class="blui-three-liner-info">
-        <div #infoVc>
-          <ng-content select="[blui-info]"></ng-content>
-        </div>
-        @if (isEmpty(infoEl)) {
-          {{ info }}
-        }
-      </div>
-    </div>
-  `,
+  templateUrl: './three-liner.component.html',
+  styleUrl: 'three-liner.component.scss',
   host: {
     class: 'blui-three-liner',
   },
-  imports: [],
 })
-export class ThreeLinerComponent implements AfterViewInit {
+export class ThreeLinerComponent {
   /** First line content */
-  @Input() title;
+  readonly $title = input<string>(undefined, { alias: 'title' });
   /** Second line content */
-  @Input() subtitle;
+  readonly $subtitle = input<string>(undefined, { alias: 'subtitle' });
   /** Third line content */
-  @Input() info;
+  readonly $info = input<string>(undefined, { alias: 'info' });
 
-  @ViewChild('titleVc') titleEl: ElementRef;
-  @ViewChild('subtitleVc') subtitleEl: ElementRef;
-  @ViewChild('infoVc') infoEl: ElementRef;
-  isEmpty = (el: ElementRef): boolean => isEmptyView(el);
+  protected readonly $titleEl = viewChild<ElementRef>('titleVc');
+  protected readonly $subtitleEl = viewChild<ElementRef>('subtitleVc');
+  protected readonly $infoEl = viewChild<ElementRef>('infoVc');
 
-  constructor(private readonly _ref: ChangeDetectorRef) {}
+  protected readonly $isTitleEmpty = computed(() => {
+    const el = this.$titleEl();
+    return !el || isEmptyView(el);
+  });
 
-  ngAfterViewInit(): void {
-    this._ref.detectChanges();
-  }
+  protected readonly $isSubtitleEmpty = computed(() => {
+    const el = this.$subtitleEl();
+    return !el || isEmptyView(el);
+  });
+
+  protected readonly $isInfoEmpty = computed(() => {
+    const el = this.$infoEl();
+    return !el || isEmptyView(el);
+  });
 }

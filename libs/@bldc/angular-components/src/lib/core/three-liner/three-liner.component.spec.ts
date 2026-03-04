@@ -3,9 +3,11 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { count } from '../../utils/test-utils';
 
-import { ThreeLinerModule } from './three-liner.module';
+import { ThreeLinerComponent } from './three-liner.component';
 
 @Component({
+  standalone: true,
+  imports: [ThreeLinerComponent],
   template: `
     <blui-three-liner>
       <div blui-title>title</div>
@@ -22,8 +24,7 @@ describe('ThreeLinerComponent', () => {
 
   beforeEach(() => {
     void TestBed.configureTestingModule({
-      declarations: [TestBasicUsageComponent],
-      imports: [ThreeLinerModule],
+      imports: [TestBasicUsageComponent],
     }).compileComponents();
     fixture = TestBed.createComponent(TestBasicUsageComponent);
     component = fixture.componentInstance;

@@ -1,0 +1,28 @@
+<div class="blui-three-liner-content">
+  <div class="blui-three-liner-title">
+    <div #titleVc>
+      <ng-content select="[blui-title]"></ng-content>
+    </div>
+    @if ($isTitleEmpty()) {
+      {{ $title() }}
+    }
+  </div>
+
+  <div class="blui-three-liner-subtitle">
+    <div #subtitleVc>
+      <ng-content select="[blui-subtitle]"></ng-content>
+    </div>
+    @if ($isSubtitleEmpty()) {
+      {{ $subtitle() }}
+    }
+  </div>
+
+  <div class="blui-three-liner-info">
+    <div #infoVc>
+      <ng-content select="[blui-info]"></ng-content>
+    </div>
+    @if ($isInfoEmpty()) {
+      {{ $info() }}
+    }
+  </div>
+</div>
