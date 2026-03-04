@@ -1,11 +1,11 @@
 import {
-  AfterViewInit,
+  afterNextRender,
   ChangeDetectionStrategy,
-  ChangeDetectorRef,
   Component,
   ElementRef,
-  Input,
-  ViewChild,
+  input,
+  signal,
+  viewChild,
   ViewEncapsulation,
 } from '@angular/core';
 
@@ -21,7 +21,7 @@ import { hasChildren, requireContent } from '../../utils/utils';
   selector: 'blui-empty-state',
   standalone: true,
   templateUrl: './empty-state.component.html',
-  styleUrls: ['./empty-state.component.scss'],
+  styleUrl: './empty-state.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
   host: {
@@ -29,25 +29,24 @@ import { hasChildren, requireContent } from '../../utils/utils';
   },
   imports: [],
 })
-export class EmptyStateComponent implements AfterViewInit {
+export class EmptyStateComponent {
   /** The secondary text to display (second line) */
-  @Input() description: string;
+  $description = input<string | undefined>(undefined, { alias: 'description' });
   /** The primary text to display (first line) */
-  @Input() title: string;
+  $title = input<string | undefined>(undefined, { alias: 'title' });
 
-  /** Used to check if an icon has been provided ngAfterViewInit */
-  @ViewChild('emptyIcon') emptyIcon: ElementRef;
+  /** Used to check if an icon has been provided */
+  $emptyIcon = viewChild<ElementRef>('emptyIcon');
+  $actionsRef = viewChild<ElementRef>('actionsRef');
+  $hasAction = signal(false);
 
-  @ViewChild('actionsRef') actionsRef: ElementRef;
-  hasAction = false;
-
-  constructor(private readonly _ref: ChangeDetectorRef) {}
-
-  ngAfterViewInit(): void {
-    const required = { selector: 'emptyIcon', ref: this.emptyIcon };
-    requireContent([required], this);
-
-    this.hasAction = hasChildren(this.actionsRef);
-    this._ref.detectChanges();
+  constructor() {
+    afterNextRender(() => {
+      const emptyIcon = this.$emptyIcon();
+      if (emptyIcon) {
+        requireContent([{ selector: 'emptyIcon', ref: emptyIcon }], this);
+      }
+      this.$hasAction.set(hasChildren(this.$actionsRef()));
+    });
   }
 }
