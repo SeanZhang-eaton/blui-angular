@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 
-import { count, mockVoidFunction } from '../../../utils/test-utils';
+import { count } from '../../../utils/test-utils';
 
 import { DrawerLayoutComponent } from './public-api';
 
@@ -27,8 +27,6 @@ describe('DrawerLayoutComponent', () => {
     }).compileComponents();
     fixture = TestBed.createComponent(DrawerLayoutComponent);
     component = fixture.componentInstance;
-    vi.spyOn(component, 'ngOnInit').mockImplementation(mockVoidFunction);
-    vi.spyOn(component, 'ngOnDestroy').mockImplementation(mockVoidFunction);
   });
 
   it('should render the drawer', () => {

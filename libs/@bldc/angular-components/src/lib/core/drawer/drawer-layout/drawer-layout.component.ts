@@ -1,27 +1,23 @@
-import { Direction, Directionality } from '@angular/cdk/bidi';
+import { Directionality } from '@angular/cdk/bidi';
 import {
-  AfterViewInit,
-  ChangeDetectorRef,
+  ChangeDetectionStrategy,
   Component,
-  ContentChild,
+  computed,
+  effect,
   ElementRef,
-  EventEmitter,
-  Input,
-  OnChanges,
-  OnDestroy,
-  Output,
-  SimpleChanges,
-  ViewChild,
+  inject,
+  input,
+  output,
+  viewChild,
   ViewEncapsulation,
 } from '@angular/core';
-import { MatDrawerMode, MatSidenav,MatSidenavContainer } from '@angular/material/sidenav';
+import { toSignal } from '@angular/core/rxjs-interop';
+import { MatDrawerMode, MatSidenav, MatSidenavContainer } from '@angular/material/sidenav';
 
-import { Subscription } from 'rxjs';
+import { DrawerStateRef } from '../drawer-state-ref';
+import { DrawerLayoutVariantType } from '../drawerState';
 
-import { DrawerComponent } from '../drawer.component';
-import { DrawerStateManagerService, StateListener } from '../state-listener.component';
-
-export type DrawerLayoutVariantType = 'permanent' | 'persistent' | 'temporary' | 'rail';
+export { DrawerLayoutVariantType } from '../drawerState';
 
 /**
  * [DrawerLayout Component](https://brightlayer-ui-components.github.io/angular/?path=/info/components-drawer--readme)
@@ -33,29 +29,30 @@ export type DrawerLayoutVariantType = 'permanent' | 'persistent' | 'temporary' |
 @Component({
   selector: 'blui-drawer-layout',
   standalone: true,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
-  styleUrls: ['./drawer-layout.component.scss'],
+  styleUrl: './drawer-layout.component.scss',
   template: `
     <mat-sidenav-container class="blui-drawer-layout-content" (backdropClick)="closeDrawer()" autosize="false">
       <mat-sidenav
         class="blui-drawer-layout-sidenav"
         [fixedInViewport]="false"
-        [class.blui-drawer-layout-smooth]="variant !== 'temporary'"
-        [class.mat-elevation-z6]="!hasSideBorder()"
-        [style.width.rem]="isCollapsed() ? getCollapsedWidth() : toRem(width)"
-        [mode]="getMode()"
+        [class.blui-drawer-layout-smooth]="!$isTemporary()"
+        [class.mat-elevation-z6]="!$drawerState().$isSideBorder()"
+        [style.width.rem]="$sidenavWidth()"
+        [mode]="$mode()"
         [disableClose]="true"
-        [opened]="isDrawerVisible()"
+        [opened]="$isDrawerVisible()"
       >
-        <ng-content select="[blui-drawer]"></ng-content>
+        <ng-content select="[blui-drawer]" />
       </mat-sidenav>
       <div
         class="blui-drawer-layout-nav-content"
-        [class.blui-drawer-layout-smooth]="variant !== 'temporary'"
-        [style.marginRight.rem]="isRtl ? getContentMargin() : 0"
-        [style.marginLeft.rem]="isRtl ? 0 : getContentMargin()"
+        [class.blui-drawer-layout-smooth]="!$isTemporary()"
+        [style.marginRight.rem]="$marginRight()"
+        [style.marginLeft.rem]="$marginLeft()"
       >
-        <ng-content select="[blui-content]"></ng-content>
+        <ng-content select="[blui-content]" />
       </div>
       <div style="display:none; font-size: 1rem" #remElement></div>
     </mat-sidenav-container>
@@ -64,8 +61,9 @@ export type DrawerLayoutVariantType = 'permanent' | 'persistent' | 'temporary' |
     class: 'blui-drawer-layout',
   },
   imports: [MatSidenavContainer, MatSidenav],
+  providers: [DrawerStateRef],
 })
-export class DrawerLayoutComponent extends StateListener implements AfterViewInit, OnChanges, OnDestroy {
+export class DrawerLayoutComponent {
   /** Controls how the Drawer behaves and appears on the screen.  Can be `permanent` | `peristent` | `temporary` | `rail`.
    *
    * `permanent` - `Drawer` appears on the side of the screen and cannot be dismissed.
@@ -78,139 +76,106 @@ export class DrawerLayoutComponent extends StateListener implements AfterViewIni
    *
    * @default temporary
    * */
-  @Input() variant: DrawerLayoutVariantType = 'temporary';
+  $variant = input<DrawerLayoutVariantType>('temporary', { alias: 'variant' });
   /** Drawer pixel width
    *
    * @default 350
    * */
-  @Input() width = 350;
+  $width = input(350, { alias: 'width' });
   /** Event triggered on 'temporary' variant backdrop click */
-  @Output() backdropClick: EventEmitter<void> = new EventEmitter();
-  @ViewChild('remElement') remElement: ElementRef;
+  backdropClick = output<void>();
+  $remElement = viewChild<ElementRef>('remElement');
 
-  isRtl = false;
+  private readonly stateRef = inject(DrawerStateRef);
+  private readonly dir = inject(Directionality);
+
+  /** Reactive reference to the current DrawerState held by the DrawerStateRef. */
+  readonly $drawerState = computed(() => this.stateRef.$state());
+
+  /** Track directionality reactively via toSignal. */
+  private readonly $direction = toSignal(this.dir.change, { initialValue: this.dir.value });
+  readonly $isRtl = computed(() => this.$direction() === 'rtl');
+
+  protected readonly $isTemporary = computed(() => this.$variant() === 'temporary');
+  protected readonly $isRail = computed(() => this.$variant() === 'rail');
+  protected readonly $isPersistent = computed(() => this.$variant() === 'persistent');
+
+  protected readonly $mode = computed<MatDrawerMode>(() => (this.$isTemporary() ? 'over' : 'side'));
+
+  // Is the drawer seen on the screen and expanded.
+
+  protected readonly $isDrawerVisible = computed(() => {
+    if (this.$isTemporary()) {
+      return this.$drawerState().$isOpen();
+    }
+    return true;
+  });
+
+  protected readonly $collapsedWidth = computed(() => {
+    return this.$isRail() && !this.$drawerState().$isCondensed()
+      ? 3.5 + this.toRem(16) // Rail (default)
+      : 1.5 + this.toRem(32); //  Rail (condensed) || closed persistent
+  });
+
+  protected readonly $contentMargin = computed(() => {
+    if (this.$isTemporary()) {
+      return 0;
+    }
+    return this.$isCollapsed() ? this.$collapsedWidth() : this.toRem(this.$width());
+  });
+
+  protected readonly $sidenavWidth = computed(() =>
+    this.$isCollapsed() ? this.$collapsedWidth() : this.toRem(this.$width())
+  );
+
+  protected readonly $marginRight = computed(() => (this.$isRtl() ? this.$contentMargin() : 0));
+  protected readonly $marginLeft = computed(() => (this.$isRtl() ? 0 : this.$contentMargin()));
 
   /** This is true whenever the drawer is in a collapsed state & its variant has been transitioned to temporary. */
-  hasCollapsedTransitionToTemporary = false;
+  readonly $hasCollapsedTransitionToTemporary = computed(() =>
+    this.$drawerState().$hasCollapsedTransitionToTemporary()
+  );
+
+  // Is the drawer condensed.
+  protected readonly $isCollapsed = computed(() => {
+    // Rail is always collapsed.
+    if (this.$isRail()) {
+      return true;
+    }
+
+    if (this.$isPersistent()) {
+      return !this.$drawerState().$isOpen();
+    }
+    if (this.$hasCollapsedTransitionToTemporary()) {
+      return true;
+    }
+    return false;
+  });
 
   remSizePx: number;
-  dirChangeSubscription = Subscription.EMPTY;
-
-  /** This is the immediate drawer child. */
-  @ContentChild(DrawerComponent) drawer: DrawerComponent;
-
-  /** Whenever there is not an immediate drawer child (nested content), listen for new state instance created. */
-  drawerInstanceCreatedListener: Subscription;
-
-  content: HTMLElement;
-
-  constructor(
-    stateManagerService: DrawerStateManagerService,
-    changeDetectorRef: ChangeDetectorRef,
-    private readonly _dir: Directionality
-  ) {
-    // The DrawerState that is created by the DrawerStateManagerService is temporary & replaced by the DrawerState found by its Drawer child.
-    super(stateManagerService, changeDetectorRef, true);
-    this.drawerInstanceCreatedListener = stateManagerService.newStateInstanceSubject.subscribe((drawerState) => {
-      // If there is no immediate drawer child, listen for a drawer state creation event and use that state.
-      if (!this.drawer) {
-        this.drawerState = drawerState;
-        this.drawerState.setDrawerVariant(this.variant);
-        this.drawerInstanceCreatedListener.unsubscribe();
-      }
-    });
-    this.dirChangeSubscription = _dir.change.subscribe((direction: Direction) => {
-      this.isRtl = direction === 'rtl';
-      changeDetectorRef.detectChanges();
-    });
-  }
-
-  ngAfterViewInit(): void {
-    this.isRtl = this._dir.value === 'rtl';
-    // Drawer Layout attempts to get its DrawerState instance from its immediate DrawerComponent child.
-    if (this.drawer) {
-      this.drawerState = this.drawer.drawerState;
-      this.drawerState.setDrawerVariant(this.variant);
-      this.changeDetector.detectChanges();
-    }
-  }
-
-  ngOnChanges(simpleChanges: SimpleChanges): void {
-    if (this.drawerState) {
-      this.drawerState.setDrawerVariant(this.variant);
-    }
-
-    // Whenever a drawer has transitioned from a closed persistent drawer to a temporary variant,
-    // this edge case prevents the drawer from being redrawn at an opened size before it dismissed.
-    if (simpleChanges && simpleChanges.variant) {
-      const variant = simpleChanges.variant;
-      if (
-        variant.currentValue === 'temporary' &&
-        (variant.previousValue === 'rail' || (variant.previousValue === 'persistent' && !this.isOpen()))
-      ) {
-        this.hasCollapsedTransitionToTemporary = true;
-        setTimeout(() => {
-          this.hasCollapsedTransitionToTemporary = false;
-        }, 500);
-      }
-    }
-
-    this.changeDetector.detectChanges();
-  }
-
-  ngOnDestroy(): void {
-    this.unsubscribeListeners();
-    this.dirChangeSubscription.unsubscribe();
-    if (this.drawerInstanceCreatedListener) {
-      this.drawerInstanceCreatedListener.unsubscribe();
-    }
-  }
-
-  getMode(): MatDrawerMode {
-    return this.variant === 'temporary' ? 'over' : 'side';
-  }
 
   toRem(px: number): number {
-    if (this.remElement && this.remElement.nativeElement) {
-      const style = getComputedStyle(this.remElement.nativeElement);
+    const remEl = this.$remElement();
+    if (remEl && remEl.nativeElement) {
+      const style = getComputedStyle(remEl.nativeElement);
       this.remSizePx = Number(style.fontSize.split('px')[0]);
     }
     return px / (this.remSizePx || 16);
   }
 
-  hasSideBorder(): boolean {
-    return this.drawerState.hasSideBorder();
-  }
-
   closeDrawer(): void {
-    this.drawerState.setDrawerOpen(false);
+    this.$drawerState().setDrawerOpen(false);
     this.backdropClick.emit();
   }
 
-  // Is the drawer seen on the screen and expanded.
-  isDrawerVisible(): boolean {
-    if (this.variant === 'temporary') return this.isOpen();
-    return true;
-  }
-
-  getContentMargin(): number {
-    if (this.variant === 'temporary') {
-      return 0;
-    }
-    return this.isCollapsed() ? this.getCollapsedWidth() : this.toRem(this.width);
-  }
-
-  getCollapsedWidth(): number {
-    return this.variant === 'rail' && !this.drawerState.isRailCondensed()
-      ? 3.5 + this.toRem(16) // Rail (default)
-      : 1.5 + this.toRem(32); //  Rail (condensed) || closed persistent
-  }
-
-  // Is the drawer condensed.
-  isCollapsed(): boolean {
-    if (this.variant === 'rail') return true; // Rail is always collapsed.
-    if (this.variant === 'persistent') return !this.isOpen();
-    if (this.hasCollapsedTransitionToTemporary) return true;
-    return false;
+  constructor() {
+    effect(
+      () => {
+        const variant = this.$variant();
+        const state = this.$drawerState();
+        state.setDrawerVariant(variant);
+      },
+      { allowSignalWrites: true }
+    );
   }
 }

@@ -1,7 +1,7 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, ViewEncapsulation } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, input, ViewEncapsulation } from '@angular/core';
 import { MatDivider } from '@angular/material/divider';
 
-import { DrawerStateManagerService, StateListener } from '../state-listener.component';
+import { DRAWER_STATE } from '../drawer-state-ref';
 
 /**
  * [DrawerSubheader Component](https://brightlayer-ui-components.github.io/angular/?path=/info/components-drawer--readme)
@@ -17,33 +17,31 @@ import { DrawerStateManagerService, StateListener } from '../state-listener.comp
   template: `
     <div
       class="blui-drawer-subheader-content"
-      [style.visibility]="hideContentOnCollapse ? (isOpen() ? 'visible' : 'hidden') : 'visible'"
+      [style.visibility]="$hideContentOnCollapse() ? (drawerState.$isOpen() ? 'visible' : 'hidden') : 'visible'"
     >
-      <ng-content></ng-content>
+      <ng-content />
     </div>
-    @if (divider) {
-      <mat-divider></mat-divider>
+    @if ($divider()) {
+      <mat-divider />
     }
   `,
-  styleUrls: ['./drawer-subheader.component.scss'],
+  styleUrl: './drawer-subheader.component.scss',
   host: {
     class: 'blui-drawer-subheader',
   },
   imports: [MatDivider],
 })
-export class DrawerSubheaderComponent extends StateListener {
+export class DrawerSubheaderComponent {
   /** Whether to show a dividing line below the SubHeader
    *
    * @default true
    * */
-  @Input() divider = true;
+  $divider = input(true, { alias: 'divider' });
   /** Hide subheader content when drawer is collapsed
    *
    * @default true
    * */
-  @Input() hideContentOnCollapse = true;
+  $hideContentOnCollapse = input(true, { alias: 'hideContentOnCollapse' });
 
-  constructor(stateManagerService: DrawerStateManagerService, changeDetectorRef: ChangeDetectorRef) {
-    super(stateManagerService, changeDetectorRef);
-  }
+  readonly drawerState = inject(DRAWER_STATE);
 }

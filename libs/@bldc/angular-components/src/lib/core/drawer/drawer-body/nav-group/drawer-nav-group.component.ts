@@ -1,20 +1,18 @@
 import {
-  AfterViewInit,
   ChangeDetectionStrategy,
-  ChangeDetectorRef,
   Component,
-  ContentChildren,
+  contentChildren,
+  effect,
   forwardRef,
-  Input,
-  OnDestroy,
+  inject,
+  input,
+  untracked,
   ViewEncapsulation,
 } from '@angular/core';
 import { MatDivider } from '@angular/material/divider';
 import { MatNavList } from '@angular/material/list';
 
-import { Subscription } from 'rxjs';
-
-import { DrawerStateManagerService, StateListener } from '../../state-listener.component';
+import { DRAWER_STATE } from '../../drawer-state-ref';
 import { DrawerNavItem, DrawerNavItemComponent } from '../nav-item/drawer-nav-item.component';
 
 export type DrawerNavGroup = {
@@ -57,17 +55,20 @@ export type DrawerNavGroup = {
   ],
   template: `
     <div class="blui-drawer-nav-group-content">
-      @if (title) {
-        <div class="blui-drawer-nav-group-title mat-overline" [class.blui-drawer-nav-group-title-closed]="!isOpen()">
-          {{ title }}
+      @if ($title()) {
+        <div
+          class="blui-drawer-nav-group-title mat-overline"
+          [class.blui-drawer-nav-group-title-closed]="!drawerState.$isOpen()"
+        >
+          {{ $title() }}
         </div>
       }
-      <ng-content select="[blui-title-content]"></ng-content>
-      @if (divider) {
-        <mat-divider></mat-divider>
+      <ng-content select="[blui-title-content]" />
+      @if ($divider()) {
+        <mat-divider />
       }
       <mat-nav-list>
-        <ng-content select="blui-drawer-nav-item"></ng-content>
+        <ng-content select="blui-drawer-nav-item" />
       </mat-nav-list>
     </div>
   `,
@@ -76,47 +77,33 @@ export type DrawerNavGroup = {
   },
   imports: [MatDivider, MatNavList],
 })
-export class DrawerNavGroupComponent
-  extends StateListener
-  implements Omit<DrawerNavGroup, 'items'>, AfterViewInit, OnDestroy
-{
+export class DrawerNavGroupComponent {
   /** Whether to show a dividing line below the title */
-  @Input() divider = false;
+  $divider = input(false, { alias: 'divider' });
   /** Component to render a group title */
-  @Input() title: string;
-  @ContentChildren(forwardRef(() => DrawerNavItemComponent)) navItems;
+  $title = input<string | undefined>(undefined, { alias: 'title' });
+  $navItems = contentChildren(forwardRef(() => DrawerNavItemComponent));
 
-  navItemLifeCycleListener: Subscription;
+  readonly drawerState = inject(DRAWER_STATE);
 
-  constructor(stateManagerService: DrawerStateManagerService, changeDetectorRef: ChangeDetectorRef) {
-    super(stateManagerService, changeDetectorRef);
-  }
-
-  /** Whenever a new navigation item is created async or conditionally,
-   * re-iterate through the navigation tree to assign the correct depth and top-level or nested state defaults to it. */
-  ngAfterViewInit(): void {
-    this._initializeNavItemDefaults(0, this.navItems);
-
-    // This is only called for async or conditionally loaded items.
-    this.navItemLifeCycleListener = this.drawerState.drawerNewNavItemCreated().subscribe(() => {
-      setTimeout(() => {
-        this._initializeNavItemDefaults(0, this.navItems);
-      });
-    });
-  }
-
-  ngOnDestroy(): void {
-    if (this.navItemLifeCycleListener) {
-      this.navItemLifeCycleListener.unsubscribe();
-    }
-  }
-
-  private _initializeNavItemDefaults(depth: number, navItems: DrawerNavItemComponent[]): void {
+  private _initializeNavItemDefaults(depth: number, navItems: readonly DrawerNavItemComponent[]): void {
     for (const item of navItems) {
       if (item && !item.changeDetectorRef['destroyed']) {
         item.incrementDepth(depth);
-        this._initializeNavItemDefaults(depth + 1, item.nestedNavItems);
+        this._initializeNavItemDefaults(depth + 1, item.$nestedNavItems());
       }
     }
+  }
+
+  constructor() {
+    /** Re-initialize nav item defaults whenever the content children change (items added/removed). */
+    effect(() => {
+      const navItems = this.$navItems();
+      untracked(() => {
+        setTimeout(() => {
+          this._initializeNavItemDefaults(0, navItems);
+        });
+      });
+    });
   }
 }

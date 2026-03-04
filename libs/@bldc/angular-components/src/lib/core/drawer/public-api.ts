@@ -5,3 +5,5 @@ export * from './drawer-layout/public-api';
 export * from './drawer-subheader/public-api';
 export * from './drawer.module';
 export * from './drawer.component';
+export * from './drawerState';
+export * from './drawer-state-ref';

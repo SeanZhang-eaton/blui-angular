@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { count, mockVoidFunction } from '../../utils/test-utils';
+import { count } from '../../utils/test-utils';
 
 import { DrawerComponent } from './drawer.component';
 import { DrawerModule } from './drawer.module';
@@ -65,8 +65,6 @@ describe('DrawerComponent', () => {
     }).compileComponents();
     fixture = TestBed.createComponent(DrawerComponent);
     component = fixture.componentInstance;
-    vi.spyOn(component, 'ngOnInit').mockImplementation(mockVoidFunction);
-    vi.spyOn(component, 'ngOnDestroy').mockImplementation(mockVoidFunction);
   });
 
   it('should create', () => {

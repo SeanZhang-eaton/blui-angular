@@ -1,6 +1,6 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ViewEncapsulation } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, ViewEncapsulation } from '@angular/core';
 
-import { DrawerStateManagerService, StateListener } from '../state-listener.component';
+import { DRAWER_STATE } from '../drawer-state-ref';
 
 /**
  * The `<blui-drawer-body>` is a wrapper for the main content of the Drawer.
@@ -12,8 +12,8 @@ import { DrawerStateManagerService, StateListener } from '../state-listener.comp
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
   template: `
-    <div class="blui-drawer-body-content" [class.blui-drawer-body-closed]="!isOpen()">
-      <ng-content></ng-content>
+    <div class="blui-drawer-body-content" [class.blui-drawer-body-closed]="!drawerState.$isOpen()">
+      <ng-content />
     </div>
   `,
   styles: [
@@ -33,8 +33,6 @@ import { DrawerStateManagerService, StateListener } from '../state-listener.comp
     class: 'blui-drawer-body',
   },
 })
-export class DrawerBodyComponent extends StateListener {
-  constructor(stateManagerService: DrawerStateManagerService, changeDetectorRef: ChangeDetectorRef) {
-    super(stateManagerService, changeDetectorRef);
-  }
+export class DrawerBodyComponent {
+  readonly drawerState = inject(DRAWER_STATE);
 }

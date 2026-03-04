@@ -1,6 +1,8 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { count, mockVoidFunction } from '../../../../utils/test-utils';
+import { count } from '../../../../utils/test-utils';
+import { DRAWER_STATE } from '../../drawer-state-ref';
+import { DrawerState } from '../../drawerState';
 
 import { DrawerNavGroupComponent } from './drawer-nav-group.component';
 
@@ -11,11 +13,10 @@ describe('DrawerNavGroupComponent', () => {
   beforeEach(() => {
     void TestBed.configureTestingModule({
       imports: [DrawerNavGroupComponent],
+      providers: [{ provide: DRAWER_STATE, useFactory: () => new DrawerState() }],
     }).compileComponents();
     fixture = TestBed.createComponent(DrawerNavGroupComponent);
     component = fixture.componentInstance;
-    vi.spyOn(component, 'ngOnInit').mockImplementation(mockVoidFunction);
-    vi.spyOn(component, 'ngOnDestroy').mockImplementation(mockVoidFunction);
   });
 
   it('should create', () => {
@@ -24,22 +25,21 @@ describe('DrawerNavGroupComponent', () => {
   });
 
   it('should render the title if the drawer is open', () => {
-    component.title = 'test';
-    vi.spyOn(component, 'isOpen').mockReturnValue(true);
+    fixture.componentRef.setInput('title', 'test');
+    component.drawerState.setDrawerOpen(true);
     fixture.detectChanges();
     void expect(fixture.nativeElement.querySelector('.blui-drawer-nav-group-title').innerHTML).toContain('test');
   });
 
   it('should hide the group title if the drawer is not open', () => {
-    component.title = 'test';
-    vi.spyOn(component, 'isOpen').mockReturnValue(false);
+    fixture.componentRef.setInput('title', 'test');
     fixture.detectChanges();
     void expect(fixture.nativeElement.querySelector('.blui-drawer-nav-group-title-closed')).toBeTruthy();
   });
 
   it('should enforce class naming conventions', () => {
-    component.title = 'test';
-    vi.spyOn(component, 'isOpen').mockReturnValue(true);
+    fixture.componentRef.setInput('title', 'test');
+    component.drawerState.setDrawerOpen(true);
     fixture.detectChanges();
     const classList = ['.blui-drawer-nav-group-content', '.blui-drawer-nav-group-title'];
     for (const className of classList) {

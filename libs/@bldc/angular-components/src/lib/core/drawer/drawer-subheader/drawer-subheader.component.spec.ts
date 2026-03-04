@@ -1,7 +1,9 @@
 import { Component } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { count, mockVoidFunction } from '../../../utils/test-utils';
+import { count } from '../../../utils/test-utils';
+import { DRAWER_STATE } from '../drawer-state-ref';
+import { DrawerState } from '../drawerState';
 
 import { DrawerSubheaderComponent } from './drawer-subheader.component';
 
@@ -23,11 +25,10 @@ describe('DrawerSubheaderComponent', () => {
   beforeEach(() => {
     void TestBed.configureTestingModule({
       imports: [TestDrawerSubheaderComponent],
+      providers: [{ provide: DRAWER_STATE, useFactory: () => new DrawerState() }],
     }).compileComponents();
     fixture = TestBed.createComponent(DrawerSubheaderComponent);
     component = fixture.componentInstance;
-    vi.spyOn(component, 'ngOnInit').mockImplementation(mockVoidFunction);
-    vi.spyOn(component, 'ngOnDestroy').mockImplementation(mockVoidFunction);
   });
 
   it('should create', () => {

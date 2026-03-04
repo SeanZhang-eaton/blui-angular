@@ -2,12 +2,18 @@ import { Component } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 
-import { count, mockVoidFunction } from '../../../../utils/test-utils';
+import { count } from '../../../../utils/test-utils';
+import { DRAWER_STATE } from '../../drawer-state-ref';
+import { DrawerState } from '../../drawerState';
 
 import { DrawerNavItemComponent } from './drawer-nav-item.component';
 
 @Component({
-  template: ` <blui-drawer-nav-item [hidden]="true"></blui-drawer-nav-item> `,
+  template: `
+    <blui-drawer-nav-item [hidden]="true">
+        <blui-drawer-nav-item [hidden]="true">Test</blui-drawer-nav-item>
+    </blui-drawer-nav-item>
+    `,
 })
 class DrawerHiddenNavItemComponent {}
 
@@ -19,11 +25,10 @@ describe('DrawerNavItemComponent', () => {
     void TestBed.configureTestingModule({
       declarations: [DrawerHiddenNavItemComponent],
       imports: [DrawerNavItemComponent, NoopAnimationsModule],
+      providers: [{ provide: DRAWER_STATE, useFactory: () => new DrawerState() }],
     }).compileComponents();
     fixture = TestBed.createComponent(DrawerNavItemComponent);
     component = fixture.componentInstance;
-    vi.spyOn(component, 'ngOnInit').mockImplementation(mockVoidFunction);
-    vi.spyOn(component, 'ngOnDestroy').mockImplementation(mockVoidFunction);
   });
 
   it('should create', () => {
@@ -39,12 +44,9 @@ describe('DrawerNavItemComponent', () => {
   });
 
   it('should enforce class naming conventions', () => {
-    component.hasChildren = true;
-    component.selected = true;
-    component.depth = 1;
-    vi.spyOn(component, 'isOpen').mockReturnValue(true);
-    vi.spyOn(component, 'ngAfterContentInit').mockImplementation(mockVoidFunction);
-    vi.spyOn(component, 'isEmpty').mockReturnValue(true);
+    component.incrementDepth(0);
+    fixture.componentRef.setInput('selected', true);
+    component.drawerState.setDrawerOpen(true);
     fixture.detectChanges();
     let classList = [
       '.blui-drawer-nav-item-content',
@@ -57,7 +59,7 @@ describe('DrawerNavItemComponent', () => {
     for (const className of classList) {
       count(fixture, className);
     }
-    vi.spyOn(component, 'isRail').mockReturnValue(true);
+    component.drawerState.setDrawerVariant('rail');
     fixture.detectChanges();
     classList = ['.blui-drawer-nav-item-rail', '.blui-drawer-nav-item-rail-text'];
     for (const className of classList) {

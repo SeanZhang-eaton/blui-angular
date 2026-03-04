@@ -1,16 +1,14 @@
 import {
   ChangeDetectionStrategy,
-  ChangeDetectorRef,
   Component,
-  Input,
-  OnChanges,
-  OnInit,
+  effect,
+  inject,
+  input,
   ViewEncapsulation,
 } from '@angular/core';
 
-import { Subscription } from 'rxjs';
-
-import { DrawerStateManagerService, StateListener } from './state-listener.component';
+import { DRAWER_STATE, DrawerStateRef } from './drawer-state-ref';
+import { DrawerState } from './drawerState';
 
 /**
  * [Drawer Component](https://brightlayer-ui-components.github.io/angular/?path=/info/components-drawer--readme)
@@ -26,113 +24,94 @@ import { DrawerStateManagerService, StateListener } from './state-listener.compo
   template: `
     <div
       class="blui-drawer-content"
-      [class.blui-drawer-side-border]="sideBorder"
-      [class.mat-elevation-z6]="!sideBorder"
-      [class.blui-drawer-condensed-rail]="condensed"
-      [class.blui-drawer-collapse]="!isOpen()"
-      [class.blui-drawer-temp-variant]="isTemporaryVariant()"
+      [class.blui-drawer-side-border]="drawerState.$isSideBorder()"
+      [class.mat-elevation-z6]="!drawerState.$isSideBorder()"
+      [class.blui-drawer-condensed-rail]="drawerState.$isCondensed()"
+      [class.blui-drawer-collapse]="!drawerState.$isOpen()"
+      [class.blui-drawer-temp-variant]="drawerState.$isTemporary()"
     >
       <!-- Drawer is responsible for managing the styles between the 4 subsections -->
-      <ng-content select="blui-drawer-header"></ng-content>
+      <ng-content select="blui-drawer-header" />
       <div class="blui-drawer-hover-area" (mouseenter)="hoverDrawer()" (mouseleave)="unhoverDrawer()">
-        <ng-content select="blui-drawer-subheader"></ng-content>
-        <ng-content select="blui-drawer-body"></ng-content>
-        <ng-content select="blui-drawer-footer"></ng-content>
+        <ng-content select="blui-drawer-subheader" />
+        <ng-content select="blui-drawer-body" />
+        <ng-content select="blui-drawer-footer" />
       </div>
     </div>
   `,
-  styleUrls: ['./drawer.component.scss'],
+  styleUrl: './drawer.component.scss',
   host: {
     class: 'blui-drawer',
   },
+  providers: [{ provide: DRAWER_STATE, useFactory: () => new DrawerState() }],
 })
-export class DrawerComponent extends StateListener implements OnInit, OnChanges {
+export class DrawerComponent {
   /** Enables a condensed view for the `rail` variant which removes NavItem labels and shows tooltips instead
    *
    * @default false
    * */
-  @Input() condensed = false;
+  $condensed = input(false, { alias: 'condensed' });
   /** Hides tooltips on hover for the `rail` variant
    *
    * @default false
    * */
-  @Input() disableRailTooltip = false;
+  $disableRailTooltip = input(false, { alias: 'disableRailTooltip' });
   /** If true, NavItems will not have a bold title when a child NavItem is selected
    *
    * @default false
    * */
-  @Input() disableActiveItemParentStyles = false;
+  $disableActiveItemParentStyles = input(false, { alias: 'disableActiveItemParentStyles' });
   /** State for the drawer */
-  @Input() open = true;
+  $open = input(true, { alias: 'open' });
   /** Automatically open the drawer on hover when closed (persistent variant only) */
-  @Input() openOnHover = true;
+  $openOnHover = input(true, { alias: 'openOnHover' });
   /** Delay in milliseconds before a hover event opens the drawer (persistent variant only)
    *
    * @default 500
    * */
-  @Input() openOnHoverDelay = 500;
+  $openOnHoverDelay = input(500, { alias: 'openOnHoverDelay' });
   /** Toggle a side border instead of shadow
    *
    * @default false
    * */
-  @Input() sideBorder = false;
+  $sideBorder = input(false, { alias: 'sideBorder' });
+
+  readonly drawerState = inject(DRAWER_STATE);
+  private readonly stateRef = inject(DrawerStateRef, { optional: true });
 
   hoverDelayTimeout: ReturnType<typeof setTimeout>;
-  drawerSelectionListener: Subscription;
 
-  /** Drawer component instantiates a new DrawerState object when it is constructed. */
-  constructor(stateManagerService: DrawerStateManagerService, changeDetectorRef: ChangeDetectorRef) {
-    super(stateManagerService, changeDetectorRef, true);
-    this.broadcastDrawerStateCreated();
-  }
+  constructor() {
+    // Register this drawer's state with the parent layout (if present).
+    this.stateRef?.register(this.drawerState);
 
-  ngOnInit(): void {
-    this.drawerState.setDrawerOpen(this.open);
-    this.listenForDrawerChanges();
-    this.listenForDrawerSelection();
-  }
-
-  // This broadcasts changes to all of the drawer state listeners.
-  ngOnChanges(): void {
-    this.drawerState.setSideBorder(this.sideBorder);
-    this.drawerState.setDrawerOpen(this.open);
-    this.drawerState.setIsCondensed(this.condensed);
-    this.drawerState.setDisableRailTooltip(this.disableRailTooltip);
-    this.drawerState.setDisableActiveItemParentStyles(this.disableActiveItemParentStyles);
-    this.drawerState.setOpenOnHover(this.openOnHover);
+    effect(
+      () => {
+        this.drawerState.setSideBorder(this.$sideBorder());
+        this.drawerState.setDrawerOpen(this.$open());
+        this.drawerState.setIsCondensed(this.$condensed());
+        this.drawerState.setDisableRailTooltip(this.$disableRailTooltip());
+        this.drawerState.setDisableActiveItemParentStyles(this.$disableActiveItemParentStyles());
+        this.drawerState.setOpenOnHover(this.$openOnHover());
+      },
+      { allowSignalWrites: true }
+    );
   }
 
   hoverDrawer(): void {
-    if (!this.open && this.openOnHover) {
+    if (!this.$open() && this.$openOnHover()) {
       this.hoverDelayTimeout = setTimeout(() => {
         this.drawerState.setDrawerTempOpen(true);
-        this.changeDetector.detectChanges();
-      }, this.openOnHoverDelay);
+      }, this.$openOnHoverDelay());
     }
   }
 
   unhoverDrawer(): void {
-    if (this.openOnHover) {
+    if (this.$openOnHover()) {
       clearTimeout(this.hoverDelayTimeout);
-      if (this.drawerState.isTempOpen()) {
+      if (this.drawerState.$tempOpen()) {
         this.drawerState.setDrawerTempOpen(false);
-        this.changeDetector.detectChanges();
       }
     }
-  }
-
-  // Close drawer on selection if drawer is only temporarily opened.
-  // Expanding nested navitems when temporarily opened will not close the drawer.
-  listenForDrawerSelection(): void {
-    this.drawerSelectionListener = this.drawerState.drawerSelectionChanges().subscribe((hasChildren) => {
-      if (this.drawerState.isTempOpen() && !hasChildren) {
-        this.drawerState.setDrawerTempOpen(false);
-        this.changeDetector.detectChanges();
-      }
-    });
-  }
-
-  isTemporaryVariant(): boolean {
-    return this.drawerState.getDrawerVariant() === 'temporary';
   }
 }

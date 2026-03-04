@@ -1,122 +1,139 @@
-import { Observable, Subject } from 'rxjs';
+import { computed, signal } from '@angular/core';
+import { toObservable, toSignal } from '@angular/core/rxjs-interop';
 
-import { DrawerLayoutVariantType } from './drawer-layout/drawer-layout.component';
+import { filter, map, pairwise, startWith, switchMap, timer } from 'rxjs';
+
+export type DrawerLayoutVariantType = 'permanent' | 'persistent' | 'temporary' | 'rail';
+
+type State = {
+  drawerOpen: boolean;
+  tempOpen: boolean;
+  condensed: boolean;
+  sideBorder: boolean;
+  disableRailTooltip: boolean;
+  disableActiveItemParentStyles: boolean;
+  openOnHover: boolean;
+  variant: DrawerLayoutVariantType;
+  activeItemVersion: number;
+};
 
 export class DrawerState {
-  private drawerOpen: boolean;
-  private disableActiveItemParentStyles: boolean;
-  private variant: DrawerLayoutVariantType;
-  private navItemCount = 0;
-  private tempOpen = false;
-  private isCondensed: boolean;
-  private sideBorder: boolean;
-  private disableRailTooltip: boolean;
-  private openOnHover: boolean;
 
-  private readonly drawerOpenObs = new Subject<boolean>();
-  private readonly drawerSelectObs = new Subject<boolean>();
-  private readonly drawerActiveItemChangeObs = new Subject<void>();
-  private readonly drawerNewNavItemInit = new Subject<void>();
+  #navItemCount = 0;
 
-  hasSideBorder(): boolean {
-    return this.sideBorder;
-  }
+  // Core state signals
 
-  setSideBorder(sideBorder: boolean): void {
-    this.sideBorder = sideBorder;
-  }
+  private readonly $state = signal<State>({
+    variant: 'temporary',
+    drawerOpen: false,
+    tempOpen: false,
+    condensed: false,
+    sideBorder: false,
+    disableRailTooltip: false,
+    disableActiveItemParentStyles: false,
+    openOnHover: false,
+    activeItemVersion: 0,
+  });
 
-  isOpenOnHover(): boolean {
-    return this.openOnHover;
-  }
 
-  setOpenOnHover(openOnHover: boolean): void {
-    this.openOnHover = openOnHover;
-  }
 
-  setDisableActiveItemParentStyles(disableActiveItemParentStyles: boolean): void {
-    this.disableActiveItemParentStyles = disableActiveItemParentStyles;
-  }
+  readonly $drawerOpen = computed(() => this.$state().drawerOpen);
+  readonly $tempOpen = computed(() => this.$state().tempOpen);
+  readonly $variant = computed(() => this.$state().variant);
+  readonly $disableRailTooltip = computed(() => this.$state().disableRailTooltip);
+  readonly $disableActiveItemParentStyles = computed(() => this.$state().disableActiveItemParentStyles);
+  readonly $openOnHover = computed(() => this.$state().openOnHover);
+  readonly $activeItemVersion = computed(() => this.$state().activeItemVersion);
+  readonly $isSideBorder = computed(() => this.$state().sideBorder);
+  readonly $isCondensed = computed(() => this.$state().condensed);
 
-  hasDisableActiveItemParentStyles(): boolean {
-    return this.disableActiveItemParentStyles;
+  readonly $isTemporary = computed(() => this.$variant() === 'temporary');
+  readonly $isRail = computed(() => this.$variant() === 'rail');
+  readonly $isPersistent = computed(() => this.$variant() === 'persistent');
+  readonly $isPermanent = computed(() => this.$variant() === 'permanent');
+
+
+  // Derived state
+  readonly $isOpen = computed(
+    () => this.$drawerOpen() || this.$isPermanent() || this.$tempOpen() || this.$isRail()
+  );
+
+  // Whenever a drawer has transitioned from a closed persistent drawer to a temporary variant,
+  // this edge case prevents the drawer from being redrawn at an opened size before it dismissed.
+  readonly $hasCollapsedTransitionToTemporary = toSignal(
+    toObservable(this.$variant).pipe(
+      startWith(undefined),
+      pairwise(),
+      filter(([prev, current]) => {
+        const isOpen = this.$isOpen();
+        if (prev === undefined) {
+          return false;
+        }
+        if ((current === 'temporary' && prev === 'rail') || (prev === 'persistent' && !isOpen)) {
+          return true;
+        }
+        return false;
+      }),
+      switchMap(() =>
+        timer(500).pipe(
+          map(() => false),
+          startWith(true)
+        )
+      )
+    ),
+    { initialValue: false }
+  );
+
+
+
+
+  // --- Setters ---
+
+  setDrawerOpen(drawerOpen: boolean): void {
+    this.$state.update((state) => ({ ...state, drawerOpen }));
   }
 
   setDrawerTempOpen(open: boolean): void {
-    this.tempOpen = open;
-    this.drawerOpenObs.next(this.isDrawerOpen());
-  }
-
-  setIsCondensed(condensed: boolean): void {
-    this.isCondensed = condensed;
-  }
-
-  setDrawerOpen(drawerOpen: boolean): void {
-    this.drawerOpen = drawerOpen;
-    this.drawerOpenObs.next(this.isDrawerOpen());
-  }
-
-  setDisableRailTooltip(disableRailTooltip: boolean): void {
-    this.disableRailTooltip = disableRailTooltip;
-  }
-
-  isDisableRailTooltip(): boolean {
-    return this.disableRailTooltip;
+    this.$state.update((state) => ({ ...state, tempOpen: open }));
   }
 
   setDrawerVariant(variant: DrawerLayoutVariantType): void {
-    this.variant = variant;
-    this.drawerOpenObs.next(this.isDrawerOpen());
+    this.$state.update((state) => ({ ...state, variant }));
   }
 
-  getDrawerVariant(): DrawerLayoutVariantType {
-    return this.variant;
+  setIsCondensed(condensed: boolean): void {
+    this.$state.update((state) => ({ ...state, condensed }));
   }
 
-  isDrawerOpen(): boolean {
-    return (
-      this.drawerOpen || this.getDrawerVariant() === 'permanent' || this.tempOpen || this.getDrawerVariant() === 'rail'
-    );
+  setSideBorder(sideBorder: boolean): void {
+    this.$state.update((state) => ({ ...state, sideBorder }));
   }
 
-  isTempOpen(): boolean {
-    return this.tempOpen;
+  setDisableRailTooltip(disableRailTooltip: boolean): void {
+    this.$state.update((state) => ({ ...state, disableRailTooltip }));
   }
 
-  isRailCondensed(): boolean {
-    return this.isCondensed;
+  setDisableActiveItemParentStyles(disableActiveItemParentStyles: boolean): void {
+    this.$state.update((state) => ({ ...state, disableActiveItemParentStyles }));
   }
 
-  drawerOpenChanges(): Observable<boolean> {
-    return this.drawerOpenObs;
+  setOpenOnHover(openOnHover: boolean): void {
+    this.$state.update((state) => ({ ...state, openOnHover }));
   }
 
   select(hasChildren: boolean): void {
-    this.drawerSelectObs.next(hasChildren);
-  }
-
-  drawerSelectionChanges(): Observable<boolean> {
-    return this.drawerSelectObs;
+    // Close drawer on selection if drawer is only temporarily opened.
+    if (this.$tempOpen() && !hasChildren) {
+      this.setDrawerTempOpen(false);
+    }
   }
 
   emitChangeActiveItemEvent(): void {
-    this.drawerActiveItemChangeObs.next();
-  }
-
-  drawerActiveItemChanges(): Observable<void> {
-    return this.drawerActiveItemChangeObs;
-  }
-
-  drawerNewNavItemCreated(): Observable<void> {
-    return this.drawerNewNavItemInit;
-  }
-
-  emitNewNavItemCreated(): void {
-    this.drawerNewNavItemInit.next();
+    this.$state.update((state) => ({ ...state, activeItemVersion: ++state.activeItemVersion }));
   }
 
   /** Each nav item has a unique id which is used to determine which item is selected. */
   createNavItemID(): number {
-    return ++this.navItemCount;
+    return ++this.#navItemCount;
   }
 }
