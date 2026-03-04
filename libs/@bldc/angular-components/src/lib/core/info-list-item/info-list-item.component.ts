@@ -6,8 +6,7 @@ import {
   ElementRef,
   inject,
   Injector,
-  Input,
-  ViewChild,
+  input,
   viewChild,
   ViewEncapsulation,
 } from '@angular/core';
@@ -39,73 +38,17 @@ type DividerType = 'full' | 'partial' | undefined;
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
-  template: `
-    <mat-list-item class="blui-info-list-item-content" [disabled]="disabled">
-      <div
-        #icon
-        matListItemIcon
-        class="blui-info-list-item-icon-wrapper"
-        [class.blui-info-list-item-hide-padding]="hidePadding"
-        [class.blui-info-list-item-avatar]="avatar"
-        [style.justify-content]="iconAlign === 'right' ? 'flex-end' : iconAlign === 'center' ? 'center' : 'flex-start'"
-      >
-        <ng-content select="[blui-icon]"></ng-content>
-      </div>
-      <div matListItemAvatar class="blui-info-list-item-left-content-wrapper">
-        <ng-content select="[blui-left-content]"></ng-content>
-      </div>
-      <div
-        class="mat-body-2 blui-info-list-item-title-wrapper"
-        matListItemTitle
-        [class.blui-info-list-item-wrap]="wrapTitle"
-        #title
-      >
-        <ng-content select="[blui-title]"></ng-content>
-      </div>
-      <div
-        #subtitle
-        class="mat-subtitle-2 blui-info-list-item-subtitle-wrapper"
-        matListItemLine
-        [class.blui-info-list-item-wrap]="wrapSubtitle"
-        [class.is-empty]="!hasSubtitle()"
-      >
-        <ng-content select="[blui-subtitle]"></ng-content>
-      </div>
-      <div
-        class="mat-subtitle-2 blui-info-list-item-info-wrapper"
-        matListItemLine
-        [class.blui-info-list-item-wrap]="wrapInfo"
-      >
-        <ng-content select="[blui-info]"></ng-content>
-      </div>
-      <blui-spacer class="blui-info-list-item-spacer"></blui-spacer>
-      <div matListItemMeta class="blui-info-list-item-right-content">
-        <div #right class="blui-info-list-item-right-content-wrapper">
-          <ng-content select="[blui-right-content]"></ng-content>
-        </div>
-        @if (chevron) {
-          <mat-icon class="blui-chevron">chevron_right</mat-icon>
-        }
-      </div>
-    </mat-list-item>
-    @if (divider) {
-      <mat-divider
-        class="blui-info-list-item-divider"
-        [class.blui-info-list-item-partial-divider]="divider === 'partial'"
-      >
-      </mat-divider>
-    }
-  `,
-  styleUrls: ['./info-list-item.component.scss'],
+  templateUrl: './info-list-item.component.html',
+  styleUrl: './info-list-item.component.scss',
   host: {
     class: 'blui-info-list-item',
-    '[class.blui-info-list-item-wrap]': 'wrapSubtitle || wrapTitle || wrapInfo',
-    '[class.blui-info-list-item-dense]': 'dense',
-    '[class.blui-info-list-item-default]': '!hasIcon() && !statusColor',
-    '[class.blui-info-list-item-status]': 'statusColor',
+    '[class.blui-info-list-item-wrap]': '$wrapSubtitle() || $wrapTitle() || $wrapInfo()',
+    '[class.blui-info-list-item-dense]': '$dense()',
+    '[class.blui-info-list-item-default]': '!hasIcon() && !$statusColor()',
+    '[class.blui-info-list-item-status]': '$statusColor()',
     '[class.blui-info-list-item-icon]': 'hasIcon()',
-    '[style.border-left-color]': 'statusColor',
-    '[style.border-right-color]': 'statusColor',
+    '[style.border-left-color]': '$statusColor()',
+    '[style.border-right-color]': '$statusColor()',
   },
   imports: [
     MatListItem,
@@ -124,31 +67,31 @@ export class InfoListItemComponent implements AfterViewInit {
    *
    * @default false
    * */
-  @Input() avatar = false;
+  readonly $avatar = input(false, { alias: 'avatar' });
   /** Add a chevron icon on the right
    *
    * @default false
    * */
-  @Input() chevron = false;
+  readonly $chevron = input(false, { alias: 'chevron' });
   /** Smaller height row with less padding
    *
    * @default false
    * */
-  @Input() dense = false;
+  readonly $dense = input(false, { alias: 'dense' });
   /** Show a row separator below the row.  Can be `partial` | `full`
    *
    * `partial` - Divider does not expand full width of the ListItem
    *
    * `full`- Divider spans full width of the ListItem
    * */
-  @Input() divider: DividerType;
+  readonly $divider = input<DividerType>(undefined, { alias: 'divider' });
   /** Disable the list item
    *
    * @default false
    * */
-  @Input() disabled = false;
+  readonly $disabled = input(false, { alias: 'disabled' });
   /** Remove left padding if no icon is used */
-  @Input() hidePadding = false;
+  readonly $hidePadding = input(false, { alias: 'hidePadding' });
   /** Icon alignment when avatar is set to false. Can be `left` | `right` | `center`
    *
    * `left` - Icon appears at the `flex-start` of the icon container.
@@ -159,41 +102,43 @@ export class InfoListItemComponent implements AfterViewInit {
    *
    * @default left
    * */
-  @Input() iconAlign: IconAlignType = 'left';
+  readonly $iconAlign = input<IconAlignType>('left', { alias: 'iconAlign' });
   /** Left border color */
-  @Input() statusColor: string;
+  readonly $statusColor = input<string | undefined>(undefined, { alias: 'statusColor' });
   /** When true, 3rd-line text overflow breaks onto the next line instead of using an ellipsis
    *
    * @default false
    * */
-  @Input() wrapInfo = false;
+  readonly $wrapInfo = input(false, { alias: 'wrapInfo' });
   /** When true, 2nd-line text overflow breaks onto the next line instead of using an ellipsis
    *
    * @default false
    * */
-  @Input() wrapSubtitle = false;
+  readonly $wrapSubtitle = input(false, { alias: 'wrapSubtitle' });
   /** When true, 1st-line text overflow breaks onto the next line instead of using an ellipsis
    *
    * @default false
    * */
-  @Input() wrapTitle = false;
+  readonly $wrapTitle = input(false, { alias: 'wrapTitle' });
 
-  @ViewChild('title') titleEl: ElementRef;
-  @ViewChild('right') rightEl: ElementRef;
+  private readonly titleEl = viewChild<ElementRef>('title');
+  private readonly rightEl = viewChild<ElementRef>('right');
   readonly injector = inject(Injector);
 
-  readonly iconEl = viewChild('icon', { read: ElementRef });
-  readonly subtitleEl = viewChild('subtitle', { read: ElementRef });
+  private readonly iconEl = viewChild('icon', { read: ElementRef });
+  private readonly subtitleEl = viewChild('subtitle', { read: ElementRef });
 
-  readonly hasIcon = computed(() => !isEmptyView(this.iconEl()));
-  readonly hasSubtitle = computed(
+  protected readonly hasIcon = computed(() => !isEmptyView(this.iconEl()));
+  protected readonly hasSubtitle = computed(
     () => !isEmptyContent(this.subtitleEl()?.nativeElement?.querySelector('[blui-subtitle]'))
   );
 
   isEmpty = (el: ElementRef): boolean => isEmptyView(el);
 
   ngAfterViewInit(): void {
-    const required = { selector: 'title', ref: this.titleEl };
-    requireContent([required], this);
+    const titleRef = this.titleEl();
+    if (titleRef) {
+      requireContent([{ selector: 'title', ref: titleRef }], this);
+    }
   }
 }

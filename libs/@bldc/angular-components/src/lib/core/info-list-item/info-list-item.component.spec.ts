@@ -1,22 +1,25 @@
-import { Component, Input } from '@angular/core';
+import { Component, signal } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { MatIcon } from '@angular/material/icon';
 import { By } from '@angular/platform-browser';
 
 import { count, mockVoidFunction } from '../../utils/test-utils';
 
-import { InfoListItemModule } from './info-list-item.module';
+import { InfoListItemComponent } from './info-list-item.component';
 
 @Component({
+  standalone: true,
+  imports: [InfoListItemComponent, MatIcon],
   template: `
     <blui-info-list-item
-      [statusColor]="statusColor"
-      [chevron]="chevron"
-      [dense]="dense"
-      [avatar]="avatar"
-      [hidePadding]="hidePadding"
-      [wrapSubtitle]="wrapSubtitle"
-      [wrapTitle]="wrapTitle"
-      [divider]="divider"
+      [statusColor]="$statusColor()"
+      [chevron]="$chevron()"
+      [dense]="$dense()"
+      [avatar]="$avatar()"
+      [hidePadding]="$hidePadding()"
+      [wrapSubtitle]="$wrapSubtitle()"
+      [wrapTitle]="$wrapTitle()"
+      [divider]="$divider()"
     >
       <div blui-title>Test Title</div>
       <div blui-subtitle>Test Subtitle</div>
@@ -25,17 +28,19 @@ import { InfoListItemModule } from './info-list-item.module';
   `,
 })
 class TestBasicUsageComponent {
-  @Input() statusColor;
-  @Input() chevron;
-  @Input() dense;
-  @Input() avatar;
-  @Input() hidePadding;
-  @Input() wrapSubtitle;
-  @Input() wrapTitle;
-  @Input() divider;
+  readonly $statusColor = signal<string | undefined>(undefined);
+  readonly $chevron = signal(false);
+  readonly $dense = signal(false);
+  readonly $avatar = signal(false);
+  readonly $hidePadding = signal(false);
+  readonly $wrapSubtitle = signal(false);
+  readonly $wrapTitle = signal(false);
+  readonly $divider = signal<'full' | 'partial' | undefined>(undefined);
 }
 
 @Component({
+  standalone: true,
+  imports: [InfoListItemComponent, MatIcon],
   template: `
     <blui-info-list-item>
       <div blui-title>title</div>
@@ -46,11 +51,15 @@ class TestBasicUsageComponent {
 class TestIconComponent {}
 
 @Component({
-  template: ` <blui-info-list-item> </blui-info-list-item> `,
+  standalone: true,
+  imports: [InfoListItemComponent],
+  template: `<blui-info-list-item />`,
 })
 class TestMissingTitleComponent {}
 
 @Component({
+  standalone: true,
+  imports: [InfoListItemComponent],
   template: `
     <blui-info-list-item>
       <div blui-title>title</div>
@@ -61,6 +70,8 @@ class TestMissingTitleComponent {}
 class TestLeftContentComponent {}
 
 @Component({
+  standalone: true,
+  imports: [InfoListItemComponent],
   template: `
     <blui-info-list-item>
       <div blui-title>title</div>
@@ -76,14 +87,13 @@ describe('InfoListItemComponent', () => {
 
   beforeEach(waitForAsync(() => {
     void TestBed.configureTestingModule({
-      declarations: [
+      imports: [
         TestBasicUsageComponent,
         TestMissingTitleComponent,
         TestIconComponent,
         TestLeftContentComponent,
         TestRightContentComponent,
       ],
-      imports: [InfoListItemModule],
     }).compileComponents();
   }));
 
@@ -143,16 +153,16 @@ describe('InfoListItemComponent', () => {
   });
 
   it('should apply dense class when dense is true', () => {
-    component.dense = true;
+    component.$dense.set(true);
     fixture.detectChanges();
     const root = fixture.debugElement.query(By.css('.blui-info-list-item'));
     void expect(root.nativeElement.classList.contains('blui-info-list-item-dense')).toBe(true);
   });
 
   it('should enforce class naming conventions', () => {
-    component.divider = 'full';
-    component.avatar = true;
-    component.hidePadding = true;
+    component.$divider.set('full');
+    component.$avatar.set(true);
+    component.$hidePadding.set(true);
     fixture.detectChanges();
     const classList = [
       '.blui-info-list-item-content',
