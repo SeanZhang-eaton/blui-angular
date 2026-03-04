@@ -1,6 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { SpacerComponent, SpacerModule } from './spacer.module';
+import { SpacerComponent } from './spacer.component';
+import { SpacerModule } from './spacer.module';
 
 describe('SpacerComponent', () => {
   let component: SpacerComponent;
@@ -21,7 +22,7 @@ describe('SpacerComponent', () => {
 
   it('should have a default flex value of 1', () => {
     fixture.detectChanges();
-    void expect(component.flex).toBe(1);
-    void expect(component.grow).toBe('1 1 0px');
+    void expect(component.$flex()).toBe(1);
+    void expect(component.$grow()).toBe('1 1 0px');
   });
 });
