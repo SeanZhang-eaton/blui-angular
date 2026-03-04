@@ -3,7 +3,6 @@ import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { count } from '../../utils/test-utils';
 
 import { ListItemTagComponent } from './list-item-tag.component';
-import { ListItemTagModule } from './list-item-tag.module';
 
 describe('ListItemTagComponent', () => {
   let component: ListItemTagComponent;
@@ -11,7 +10,7 @@ describe('ListItemTagComponent', () => {
 
   beforeEach(waitForAsync(() => {
     void TestBed.configureTestingModule({
-      imports: [ListItemTagModule],
+      imports: [ListItemTagComponent],
     }).compileComponents();
   }));
 

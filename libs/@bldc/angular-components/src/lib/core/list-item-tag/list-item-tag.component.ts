@@ -1,6 +1,4 @@
-import { ChangeDetectionStrategy, Component, Input, OnChanges, ViewEncapsulation } from '@angular/core';
-
-import { requireInput } from '../../utils/utils';
+import { ChangeDetectionStrategy, Component, effect, input, ViewEncapsulation } from '@angular/core';
 
 /**
  * [ListItemTag Component](https://brightlayer-ui-components.github.io/angular/?path=/info/components-list-item-tag--readme)
@@ -11,22 +9,27 @@ import { requireInput } from '../../utils/utils';
   selector: 'blui-list-item-tag',
   standalone: true,
   templateUrl: './list-item-tag.component.html',
-  styleUrls: ['./list-item-tag.component.scss'],
+  styleUrl: './list-item-tag.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
   host: {
     class: 'blui-list-item-tag',
   },
 })
-export class ListItemTagComponent implements OnChanges {
+export class ListItemTagComponent {
   /** Color of the label background */
-  @Input() backgroundColor: string;
+  readonly $backgroundColor = input<string | undefined>(undefined, { alias: 'backgroundColor' });
   /** Color of the label text */
-  @Input() fontColor: string;
+  readonly $fontColor = input<string | undefined>(undefined, { alias: 'fontColor' });
   /** The label text */
-  @Input() label: string;
+  readonly $label = input<string | undefined>(undefined, { alias: 'label' });
 
-  ngOnChanges(): void {
-    requireInput<ListItemTagComponent>(['label'], this);
+  constructor() {
+    effect(() => {
+      const label = this.$label();
+      if (label === undefined || label === null || label === '') {
+        console.warn(`Brightlayer UI ListItemTagComponent error: Property "label" is required.`);
+      }
+    });
   }
 }
