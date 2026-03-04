@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, ElementRef, Input, ViewChild, ViewEncapsulation } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, ElementRef, input, viewChild, ViewEncapsulation } from '@angular/core';
 import { MatDivider } from '@angular/material/divider';
 import { MatToolbar } from '@angular/material/toolbar';
 
@@ -14,32 +14,8 @@ import { isEmptyView } from '../../../utils/utils';
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
-  template: `
-    <mat-toolbar
-      class="blui-user-menu-header-content"
-      [color]="color"
-      [class.blui-user-menu-header-no-icon]="isEmpty(iconEl)"
-    >
-      <div class="blui-user-menu-header-text">
-        <div #icon class="blui-user-menu-header-icon-wrapper">
-          <ng-content select="[blui-icon]"></ng-content>
-        </div>
-        @if (title) {
-          <div class="blui-user-menu-header-title-wrapper">
-            <div class="blui-user-menu-header-title">{{ title }}</div>
-            @if (subtitle) {
-              <div class="blui-user-menu-header-subtitle mat-subtitle-1">{{ subtitle }}</div>
-            }
-          </div>
-        }
-        <ng-content select="[blui-title-content]"></ng-content>
-      </div>
-    </mat-toolbar>
-    @if (divider) {
-      <mat-divider></mat-divider>
-    }
-  `,
-  styleUrls: ['./user-menu-header.component.scss'],
+  templateUrl: './user-menu-header.component.html',
+  styleUrl: './user-menu-header.component.scss',
   host: {
     class: 'blui-user-menu-header',
   },
@@ -50,18 +26,21 @@ export class UserMenuHeaderComponent {
    *
    * @default primary
    * */
-  @Input() color: 'primary' | 'accent' | 'warn' | undefined = 'primary';
+  readonly $color = input<'primary' | 'accent' | 'warn' | undefined>('primary', { alias: 'color' });
   /** Show a divider below footer
    *
    * @default false
    * */
-  @Input() divider = false;
+  readonly $divider = input(false, { alias: 'divider' });
   /** The text to show on the second line */
-  @Input() subtitle: string;
+  readonly $subtitle = input<string>(undefined, { alias: 'subtitle' });
   /** The text to show on the first line */
-  @Input() title: string;
+  readonly $title = input<string>(undefined, { alias: 'title' });
 
-  @ViewChild('icon', { static: true }) iconEl: ElementRef;
+  protected readonly $iconEl = viewChild<ElementRef>('icon');
 
-  isEmpty = (el: ElementRef): boolean => isEmptyView(el);
+  protected readonly $isIconEmpty = computed(() => {
+    const el = this.$iconEl();
+    return !el || isEmptyView(el);
+  });
 }

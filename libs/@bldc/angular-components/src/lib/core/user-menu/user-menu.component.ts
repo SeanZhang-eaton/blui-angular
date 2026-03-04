@@ -5,24 +5,23 @@ import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
-  EventEmitter,
-  Input,
-  OnChanges,
-  OnDestroy,
-  OnInit,
-  Output,
-  SimpleChanges,
+  DestroyRef,
+  effect,
+  inject,
+  input,
+  model,
+  output,
+  signal,
   TemplateRef,
-  ViewChild,
+  untracked,
+  viewChild,
   ViewEncapsulation,
 } from '@angular/core';
 import { MatBottomSheet } from '@angular/material/bottom-sheet';
 import { MatCard } from '@angular/material/card';
 
-import { fromEvent, Subscription } from 'rxjs';
+import { fromEvent } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
-
-import { requireInput } from '../../utils/utils';
 
 import { UserMenuHeaderComponent } from './user-menu-header/user-menu-header.component';
 import { UserMenuAvatarComponent } from './user-menu-avatar.component';
@@ -38,7 +37,8 @@ import { UserMenuAvatarComponent } from './user-menu-avatar.component';
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
-  styleUrls: ['./user-menu.component.scss'],
+  templateUrl: './user-menu.component.html',
+  styleUrl: './user-menu.component.scss',
   animations: [
     trigger('fade-in-out', [
       state('*', style({ opacity: 1, transform: 'scaleY(1)', 'transform-origin': 'top' })),
@@ -51,195 +51,140 @@ import { UserMenuAvatarComponent } from './user-menu-avatar.component';
       transition('* => void', animate('100ms 25ms linear', style({ opacity: 0 }))),
     ]),
   ],
-  template: `
-    <!-- This button triggers the overlay and is it's origin -->
-    <blui-user-menu-avatar
-      cdkOverlayOrigin
-      [avatarValue]="avatarValue"
-      [avatarImage]="avatarImage"
-      (click)="openOverlay()"
-      #trigger="cdkOverlayOrigin"
-    >
-      <ng-content select="[blui-avatar]"></ng-content>
-    </blui-user-menu-avatar>
-
-    <ng-template #menu>
-      @if (menuTitle) {
-        <blui-user-menu-header
-          class="blui-user-menu-header"
-          [title]="menuTitle"
-          [subtitle]="menuSubtitle"
-          [divider]="true"
-        >
-          <blui-user-menu-avatar
-            blui-icon
-            [avatarValue]="avatarValue"
-            [avatarImage]="avatarImage"
-            class="blui-user-menu-header-avatar"
-          >
-            <ng-content select="[blui-menu-avatar]"></ng-content>
-          </blui-user-menu-avatar>
-        </blui-user-menu-header>
-      }
-      <ng-content select="[blui-menu-header]"></ng-content>
-      <ng-content select="[blui-menu-body]"></ng-content>
-    </ng-template>
-
-    <ng-template
-      cdkConnectedOverlay
-      (overlayKeydown)="dismissViaEscape($event)"
-      (backdropClick)="onClickMenuBackdrop()"
-      [cdkConnectedOverlayPush]="true"
-      [cdkConnectedOverlayHasBackdrop]="true"
-      [cdkConnectedOverlayOrigin]="trigger"
-      [cdkConnectedOverlayOpen]="isMenuOpen"
-      [cdkConnectedOverlayPositions]="positions"
-      [cdkConnectedOverlayViewportMargin]="16"
-      [cdkConnectedOverlayBackdropClass]="'blui-user-menu-overlay-backdrop'"
-    >
-      <mat-card appearance="outlined" class="blui-user-menu-overlay mat-elevation-z8" [@fade-in-out]>
-        <ng-template [ngTemplateOutlet]="menu"></ng-template>
-      </mat-card>
-    </ng-template>
-  `,
   host: {
     class: 'blui-user-menu',
   },
   imports: [
     UserMenuAvatarComponent,
-    CdkOverlayOrigin,
     UserMenuHeaderComponent,
     CdkConnectedOverlay,
+    CdkOverlayOrigin,
     MatCard,
     NgTemplateOutlet,
   ],
 })
-export class UserMenuComponent implements OnInit, OnChanges, OnDestroy {
+export class UserMenuComponent {
   /** Image source for avatar */
-  @Input() avatarImage: string;
+  readonly $avatarImage = input<string>(undefined, { alias: 'avatarImage' });
 
   /** Text value for avatar */
-  @Input() avatarValue: string;
+  readonly $avatarValue = input<string>(undefined, { alias: 'avatarValue' });
 
   /** Subtitle shown when menu is open */
-  @Input() menuSubtitle: string;
+  readonly $menuSubtitle = input<string>(undefined, { alias: 'menuSubtitle' });
 
   /** Title shown when menu is open */
-  @Input() menuTitle: string;
+  readonly $menuTitle = input<string>(undefined, { alias: 'menuTitle' });
 
   /** Where to render the menu relative to the avatar */
-  @Input() positions = [
-    new ConnectionPositionPair({ originX: 'start', originY: 'top' }, { overlayX: 'start', overlayY: 'top' }),
-  ];
+  readonly $positions = input(
+    [new ConnectionPositionPair({ originX: 'start', originY: 'top' }, { overlayX: 'start', overlayY: 'top' })],
+    { alias: 'positions' }
+  );
 
   /** Whether the menu overlay appears on screen. */
-  @Input() open;
+  readonly $open = model<boolean>(false, { alias: 'open' });
 
   /** Window pixel width at which the responsive bottom sheet menu is triggered (set to 0 to disable responsive behavior)
    *
    * @default 600
    * */
-  @Input() useBottomSheetAt = 600;
+  readonly $useBottomSheetAt = input(600, { alias: 'useBottomSheetAt' });
 
   /** Emits event when backdrop is clicked */
-  @Output() backdropClick: EventEmitter<void> = new EventEmitter<void>();
+  readonly backdropClick = output<void>();
 
-  /** Emits an event when the open prop changes */
-  @Output() openChange: EventEmitter<boolean> = new EventEmitter<boolean>();
+  protected readonly $menu = viewChild(TemplateRef);
 
-  @ViewChild(TemplateRef) menu: TemplateRef<unknown>;
+  private readonly bottomSheet = inject(MatBottomSheet);
+  private readonly destroyRef = inject(DestroyRef);
 
-  constructor(
-    private readonly _bottomSheet: MatBottomSheet,
-    private readonly _ref: ChangeDetectorRef
-  ) {}
+  readonly $isMenuOpen = signal(false);
+  readonly $useBottomSheet = signal(false);
+  private readonly $isBottomSheetDismissing = signal(false);
 
-  screenSizeChangeListener: Subscription;
-  useBottomSheet: boolean;
-  isMenuOpen: boolean;
-  isBottomSheetDismissing: boolean;
-
-  checkScreenSize = (): boolean => document.body.offsetWidth < this.useBottomSheetAt;
-
-  ngOnInit(): void {
-    requireInput<UserMenuComponent>(['open'], this);
-
+  constructor() {
     // Subscribe to resize events and transition from menu to bottomsheet (or vise versa) when open & resizing
-    this.screenSizeChangeListener = fromEvent(window, 'resize')
-      .pipe(map(this.checkScreenSize))
-      .pipe(startWith(this.checkScreenSize()))
+    const subscription = fromEvent(window, 'resize')
+      .pipe(
+        map(() => this.checkScreenSize()),
+        startWith(this.checkScreenSize())
+      )
       .subscribe((isMobile: boolean) => {
         // Transition from Desktop to Mobile
-        if (this.open && isMobile && !this.useBottomSheet) {
-          this.isMenuOpen = false;
+        if (this.$open() && isMobile && !this.$useBottomSheet()) {
+          this.$isMenuOpen.set(false);
           this.openBottomSheet();
-          this._ref.detectChanges();
         }
         // Transition from Mobile to Desktop
-        else if (this.open && !isMobile && this.useBottomSheet) {
-          this._bottomSheet.dismiss(true);
+        else if (this.$open() && !isMobile && this.$useBottomSheet()) {
+          this.bottomSheet.dismiss(true);
         }
-        this.useBottomSheet = isMobile;
+        this.$useBottomSheet.set(isMobile);
       });
+
+    effect(
+      () => {
+        const isOpen = this.$open();
+        untracked(() => {
+          if (isOpen) {
+            if (this.$useBottomSheet()) {
+              this.openBottomSheet();
+            } else {
+              this.$isMenuOpen.set(true);
+            }
+          } else {
+            this.$isMenuOpen.set(false);
+            this.bottomSheet.dismiss(false);
+          }
+        });
+      },
+      { allowSignalWrites: true }
+    );
+
+    effect(
+      () => {
+        this.$useBottomSheetAt(); // track
+        untracked(() => {
+          this.$useBottomSheet.set(this.checkScreenSize());
+        });
+      },
+      { allowSignalWrites: true }
+    );
+
+    this.destroyRef.onDestroy(() => subscription.unsubscribe());
   }
 
-  ngOnChanges(changes: SimpleChanges): void {
-    // Set state and dismiss bottom sheet when open() changes.
-    if (changes.open) {
-      // State changes from closed to open.
-      const openState = changes.open;
-      if (openState.currentValue === true && (openState.previousValue === false || openState.isFirstChange())) {
-        if (this.useBottomSheet) {
-          this.openBottomSheet();
-        } else {
-          this.isMenuOpen = true;
-        }
-      }
-      // State changes from open to closed.
-      if (openState.currentValue === false && (openState.previousValue === true || openState.isFirstChange())) {
-        this.isMenuOpen = false;
-        this._bottomSheet.dismiss(false);
-      }
-    }
-
-    if (changes.useBottomSheetAt) {
-      this.useBottomSheet = this.checkScreenSize();
-    }
-  }
-
-  ngOnDestroy(): void {
-    if (this.screenSizeChangeListener) {
-      this.screenSizeChangeListener.unsubscribe();
-    }
+  checkScreenSize(): boolean {
+    return document.body.offsetWidth < this.$useBottomSheetAt();
   }
 
   onClickMenuBackdrop(): void {
-    this.openChange.emit(false);
+    this.$open.set(false);
     this.backdropClick.emit();
   }
 
   openOverlay(): void {
     // If the bottom sheet is being dismissed, ignore subsequent open calls.
-    if (this.isBottomSheetDismissing) {
+    if (this.$isBottomSheetDismissing()) {
       return;
     }
-    this.openChange.emit(true);
+    this.$open.set(true);
   }
 
   openBottomSheet(): void {
-    // Do not invoke the bottom sheet until `menu` has been rendered.
-    this._ref.detectChanges();
+    const menu = this.$menu();
+    if (!menu) return;
 
-    const bottomSheetRef = this._bottomSheet.open(this.menu, {
+    const bottomSheetRef = this.bottomSheet.open(menu, {
       backdropClass: 'blui-user-menu-bottomsheet-backdrop',
       panelClass: 'blui-user-menu-bottomsheet',
       hasBackdrop: true,
     });
 
     bottomSheetRef.afterDismissed().subscribe((openMenu: boolean | undefined) => {
-      this.isBottomSheetDismissing = false;
-      this.isMenuOpen = Boolean(openMenu);
-      this._ref.detectChanges();
+      this.$isBottomSheetDismissing.set(false);
+      this.$isMenuOpen.set(Boolean(openMenu));
     });
 
     bottomSheetRef.keydownEvents().subscribe((key: KeyboardEvent) => {
@@ -247,15 +192,15 @@ export class UserMenuComponent implements OnInit, OnChanges, OnDestroy {
     });
 
     bottomSheetRef.backdropClick().subscribe(() => {
-      this.isBottomSheetDismissing = true;
-      this.openChange.emit(false);
+      this.$isBottomSheetDismissing.set(true);
+      this.$open.set(false);
       this.backdropClick.emit();
     });
   }
 
   dismissViaEscape(e: KeyboardEvent): void {
     if (e && e.key && e.key.toLowerCase() === 'escape') {
-      this.openChange.emit(false);
+      this.$open.set(false);
     }
   }
 }

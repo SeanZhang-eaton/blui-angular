@@ -6,10 +6,11 @@ import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { count } from '../../utils/test-utils';
 
 import { UserMenuComponent } from './user-menu.component';
-import { UserMenuModule } from './user-menu.module';
 
 /** Test component that contains an MatButton. */
 @Component({
+  standalone: true,
+  imports: [UserMenuComponent],
   selector: 'test-md',
   template: `
     <blui-user-menu avatarValue="HA" [(open)]="open">
@@ -25,6 +26,8 @@ class UserMenuCustomHeaderTestComponent {
 
 /** Test component that contains an MatButton. */
 @Component({
+  standalone: true,
+  imports: [UserMenuComponent, MatListModule],
   selector: 'test-md',
   template: `
     <blui-user-menu avatarValue="HA" [(open)]="open">
@@ -44,8 +47,7 @@ describe('UserMenuComponent', () => {
 
   beforeEach(() => {
     void TestBed.configureTestingModule({
-      declarations: [UserMenuNavItemsTestComponent, UserMenuCustomHeaderTestComponent],
-      imports: [UserMenuModule, MatListModule, NoopAnimationsModule],
+      imports: [UserMenuCustomHeaderTestComponent, UserMenuNavItemsTestComponent, UserMenuComponent, NoopAnimationsModule],
     }).compileComponents();
     fixture = TestBed.createComponent(UserMenuComponent);
     component = fixture.componentInstance;
@@ -53,48 +55,48 @@ describe('UserMenuComponent', () => {
   });
 
   it('should initialize', () => {
-    component.open = false;
+    fixture.componentRef.setInput('open', false);
     fixture.detectChanges();
     void expect(component).toBeTruthy();
   });
 
   it('should render text in the avatar', () => {
-    component.open = false;
-    component.avatarValue = 'HA';
+    fixture.componentRef.setInput('open', false);
+    fixture.componentRef.setInput('avatarValue', 'HA');
     fixture.detectChanges();
     const avatar = fixture.nativeElement.querySelector('.blui-user-menu-avatar');
     void expect(avatar.textContent.trim()).toBe('HA');
   });
 
   it('should render the menu open is true', () => {
-    component.open = false;
+    fixture.componentRef.setInput('open', false);
     fixture.detectChanges();
     let menu = document.getElementsByClassName('.blui-user-menu-overlay');
     void expect(menu).toBeTruthy();
-    component.open = true;
-    component.isMenuOpen = true;
-    component.useBottomSheet = false;
+    fixture.componentRef.setInput('open', true);
+    component.$isMenuOpen.set(true);
+    component.$useBottomSheet.set(false);
     fixture.detectChanges();
     menu = document.getElementsByClassName('.blui-user-menu-overlay');
     void expect(menu).toBeTruthy();
   });
 
   it('should render the title', () => {
-    component.menuTitle = 'Sample Title';
-    component.open = true;
-    component.isMenuOpen = true;
-    component.useBottomSheet = false;
+    fixture.componentRef.setInput('menuTitle', 'Sample Title');
+    fixture.componentRef.setInput('open', true);
+    component.$isMenuOpen.set(true);
+    component.$useBottomSheet.set(false);
     fixture.detectChanges();
     const title = document.getElementsByClassName('blui-user-menu-header-title')[0] as HTMLElement;
     void expect(title.textContent.trim()).toBe('Sample Title');
   });
 
   it('should render the subtitle', () => {
-    component.menuTitle = 'Sample Title';
-    component.menuSubtitle = 'Sample Subtitle';
-    component.open = true;
-    component.isMenuOpen = true;
-    component.useBottomSheet = false;
+    fixture.componentRef.setInput('menuTitle', 'Sample Title');
+    fixture.componentRef.setInput('menuSubtitle', 'Sample Subtitle');
+    fixture.componentRef.setInput('open', true);
+    component.$isMenuOpen.set(true);
+    component.$useBottomSheet.set(false);
     fixture.detectChanges();
     const title = document.getElementsByClassName('blui-user-menu-header-subtitle')[0] as HTMLElement;
     void expect(title.textContent.trim()).toBe('Sample Subtitle');
@@ -115,11 +117,11 @@ describe('UserMenuComponent', () => {
   });
 
   it('should enforce class naming conventions', () => {
-    component.avatarValue = 'EM';
-    component.open = true;
-    component.isMenuOpen = true;
-    component.useBottomSheet = false;
-    component.menuTitle = 'Title';
+    fixture.componentRef.setInput('avatarValue', 'EM');
+    fixture.componentRef.setInput('open', true);
+    component.$isMenuOpen.set(true);
+    component.$useBottomSheet.set(false);
+    fixture.componentRef.setInput('menuTitle', 'Title');
     fixture.detectChanges();
     const fixtureClassList = ['.blui-user-menu-avatar', '.blui-user-menu-text-avatar'];
     const menuOverlayClassList = [
@@ -135,8 +137,8 @@ describe('UserMenuComponent', () => {
     for (const className of menuOverlayClassList) {
       void expect(document.getElementsByClassName(className).length).toBe(1);
     }
-    component.useBottomSheet = true;
-    component.isMenuOpen = false;
+    component.$useBottomSheet.set(true);
+    component.$isMenuOpen.set(false);
     component.openBottomSheet();
     for (const className of bottomSheetClassList) {
       void expect(document.getElementsByClassName(className).length).toBe(1);

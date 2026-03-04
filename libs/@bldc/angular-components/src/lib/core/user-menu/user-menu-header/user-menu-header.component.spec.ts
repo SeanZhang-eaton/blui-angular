@@ -4,7 +4,6 @@ import { MatIconModule } from '@angular/material/icon';
 import { By } from '@angular/platform-browser';
 
 import { count } from '../../../utils/test-utils';
-import { UserMenuModule } from '../user-menu.module';
 
 import { UserMenuHeaderComponent } from './user-menu-header.component';
 
@@ -61,15 +60,15 @@ describe('UserMenuHeaderComponent', () => {
   });
 
   it('should render title', () => {
-    component.title = 'test title';
+    fixture.componentRef.setInput('title', 'test title');
     fixture.detectChanges();
     const title = fixture.debugElement.query(By.css('.blui-user-menu-header-title'));
     void expect(title.nativeElement.innerHTML.trim()).toBe('test title');
   });
 
   it('should render subtitle', () => {
-    component.title = 'test title';
-    component.subtitle = 'test subtitle';
+    fixture.componentRef.setInput('title', 'test title');
+    fixture.componentRef.setInput('subtitle', 'test subtitle');
     fixture.detectChanges();
     const subtitle = fixture.debugElement.query(By.css('.blui-user-menu-header-subtitle'));
     void expect(subtitle.nativeElement.innerHTML.trim()).toBe('test subtitle');
