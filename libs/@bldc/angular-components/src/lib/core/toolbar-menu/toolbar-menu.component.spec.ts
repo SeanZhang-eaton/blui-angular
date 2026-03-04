@@ -7,9 +7,10 @@ import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { count } from '../../utils/test-utils';
 
 import { ToolbarMenuComponent } from './toolbar-menu.component';
-import { ToolbarMenuModule } from './toolbar-menu.module';
 
 @Component({
+  standalone: true,
+  imports: [ToolbarMenuComponent, MatIconModule],
   template: `
     <blui-toolbar-menu label="title">
       <button id="test-icon" mat-icon-button blui-icon>
@@ -27,8 +28,7 @@ describe('ToolbarMenuComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [TestDropdownToolbarComponent],
-      imports: [ToolbarMenuModule, MatIconModule, NoopAnimationsModule],
+      imports: [TestDropdownToolbarComponent, ToolbarMenuComponent, NoopAnimationsModule],
     }).compileComponents();
     fixture = TestBed.createComponent(ToolbarMenuComponent);
     component = fixture.componentInstance;
@@ -40,7 +40,7 @@ describe('ToolbarMenuComponent', () => {
   });
 
   it('should render label', () => {
-    component.label = 'test title';
+    fixture.componentRef.setInput('label', 'test title');
     fixture.detectChanges();
     const title = fixture.debugElement.query(By.css('.blui-toolbar-menu-label'));
     expect(title.nativeElement.innerHTML.trim()).toBe('test title');

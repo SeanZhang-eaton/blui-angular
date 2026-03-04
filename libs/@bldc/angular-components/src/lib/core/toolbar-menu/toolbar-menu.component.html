@@ -1,0 +1,12 @@
+<div class="blui-toolbar-icon-wrapper">
+  <ng-content select="[blui-icon]"></ng-content>
+</div>
+<div [matMenuTriggerFor]="toolbarMenu" #menuTrigger="matMenuTrigger" class="blui-toolbar-menu-trigger">
+  <div class="blui-toolbar-menu-label mat-body-2">{{ $label() }}</div>
+  <mat-icon class="blui-toolbar-menu-toggle-icon" [class.blui-rotated-dropdown-arrow]="menuTrigger.menuOpen">
+    arrow_drop_down
+  </mat-icon>
+</div>
+<mat-menu #toolbarMenu="matMenu" [overlapTrigger]="false" class="blui-toolbar-menu-menu-wrapper">
+  <ng-content select="[blui-toolbar-menu-items]"></ng-content>
+</mat-menu>

@@ -1,6 +1,6 @@
-import { Component, Input, ViewChild, ViewEncapsulation } from '@angular/core';
+import { ChangeDetectionStrategy, Component, input, viewChild, ViewEncapsulation } from '@angular/core';
 import { MatIcon } from '@angular/material/icon';
-import { MatMenu,MatMenuTrigger } from '@angular/material/menu';
+import { MatMenu, MatMenuTrigger } from '@angular/material/menu';
 
 /**
  * [ToolbarMenu Component]()
@@ -10,22 +10,10 @@ import { MatMenu,MatMenuTrigger } from '@angular/material/menu';
 @Component({
   selector: 'blui-toolbar-menu',
   standalone: true,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
-  template: `
-    <div class="blui-toolbar-icon-wrapper">
-      <ng-content select="[blui-icon]"></ng-content>
-    </div>
-    <div [matMenuTriggerFor]="toolbarMenu" #menuTrigger="matMenuTrigger" class="blui-toolbar-menu-trigger">
-      <div class="blui-toolbar-menu-label mat-body-2">{{ label }}</div>
-      <mat-icon class="blui-toolbar-menu-toggle-icon" [class.blui-rotated-dropdown-arrow]="menuTrigger.menuOpen"
-        >arrow_drop_down</mat-icon
-      >
-    </div>
-    <mat-menu #toolbarMenu="matMenu" [overlapTrigger]="false" class="blui-toolbar-menu-menu-wrapper">
-      <ng-content select="[blui-toolbar-menu-items]"></ng-content>
-    </mat-menu>
-  `,
-  styleUrls: ['./toolbar-menu.component.scss'],
+  templateUrl: './toolbar-menu.component.html',
+  styleUrl: './toolbar-menu.component.scss',
   host: {
     class: 'blui-toolbar-menu',
   },
@@ -33,6 +21,6 @@ import { MatMenu,MatMenuTrigger } from '@angular/material/menu';
 })
 export class ToolbarMenuComponent {
   /** The text to display for label */
-  @Input() label: string;
-  @ViewChild('menuTrigger') menuTrigger: MatMenuTrigger;
+  readonly $label = input<string>(undefined, { alias: 'label' });
+  protected readonly $menuTrigger = viewChild<MatMenuTrigger>('menuTrigger');
 }
