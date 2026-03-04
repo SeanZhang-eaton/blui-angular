@@ -1,7 +1,5 @@
-import { ChangeDetectionStrategy, Component, Input, OnChanges, ViewEncapsulation } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, input, ViewEncapsulation } from '@angular/core';
 import { MatProgressBar } from '@angular/material/progress-bar';
-
-import { requireInput } from '../../utils/utils';
 
 export type MobileStepperVariant = 'dots' | 'text' | 'progress';
 
@@ -15,7 +13,7 @@ export type MobileStepperVariant = 'dots' | 'text' | 'progress';
   selector: 'blui-mobile-stepper',
   standalone: true,
   templateUrl: './mobile-stepper.component.html',
-  styleUrls: ['./mobile-stepper.component.scss'],
+  styleUrl: './mobile-stepper.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
   host: {
@@ -23,12 +21,12 @@ export type MobileStepperVariant = 'dots' | 'text' | 'progress';
   },
   imports: [MatProgressBar],
 })
-export class MobileStepperComponent implements OnChanges {
+export class MobileStepperComponent {
   /** The index of the active step */
-  @Input() activeStep: number;
+  readonly $activeStep = input.required<number>({ alias: 'activeStep' });
 
   /** Total number of steps to display */
-  @Input() steps: number;
+  readonly $steps = input.required<number>({ alias: 'steps' });
 
   /** Which type of indicator to use. Can be 'dots' | 'text' | 'progress'.
    *
@@ -40,19 +38,14 @@ export class MobileStepperComponent implements OnChanges {
    *
    * @default dots
    * */
-  @Input() variant: MobileStepperVariant = 'dots';
+  readonly $variant = input<MobileStepperVariant>('dots', { alias: 'variant' });
 
-  stepsArray: number[] = [];
-
-  ngOnChanges(): void {
-    requireInput<MobileStepperComponent>(['steps', 'activeStep'], this);
-    this.stepsArray = Array(this.steps)
-      .fill(0)
-      .map((i) => i);
-  }
+  protected readonly $stepsArray = computed(() => Array.from({ length: this.$steps() }, (_, i) => i));
 
   /** This is only used for progress variant. */
-  getProgressFill(): number {
-    return this.activeStep === 0 ? 0 : (this.activeStep / (this.stepsArray.length - 1)) * 100;
-  }
+  protected readonly $progressFill = computed(() => {
+    const activeStep = this.$activeStep();
+    const stepsArrayLength = this.$stepsArray().length - 1;
+    return activeStep === 0 ? 0 : (activeStep / stepsArrayLength) * 100;
+  });
 }

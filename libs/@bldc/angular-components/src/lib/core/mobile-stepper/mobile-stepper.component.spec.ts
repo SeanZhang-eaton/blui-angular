@@ -3,15 +3,19 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { count } from '../../utils/test-utils';
 
-import { MobileStepperModule } from './mobile-stepper.module';
+import { MobileStepperComponent } from './mobile-stepper.component';
 
 @Component({
-  template: ` <blui-mobile-stepper [steps]="4" [activeStep]="0"></blui-mobile-stepper> `,
+  standalone: true,
+  imports: [MobileStepperComponent],
+  template: ` <blui-mobile-stepper [steps]="4" [activeStep]="0" /> `,
 })
 class TestMobileStepperDotComponent {}
 
 @Component({
-  template: ` <blui-mobile-stepper [steps]="4" [activeStep]="0" variant="progress"></blui-mobile-stepper> `,
+  standalone: true,
+  imports: [MobileStepperComponent],
+  template: ` <blui-mobile-stepper [steps]="4" [activeStep]="0" variant="progress" /> `,
 })
 class TestMobileStepperProgressComponent {}
 
@@ -21,8 +25,7 @@ describe('DotStepperComponent', () => {
 
   beforeEach(() => {
     void TestBed.configureTestingModule({
-      declarations: [TestMobileStepperDotComponent, TestMobileStepperProgressComponent],
-      imports: [MobileStepperModule],
+      imports: [TestMobileStepperDotComponent, TestMobileStepperProgressComponent],
     }).compileComponents();
   });
 
