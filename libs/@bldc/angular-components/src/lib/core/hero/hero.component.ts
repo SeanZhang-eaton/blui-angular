@@ -2,17 +2,20 @@ import {
   AfterContentChecked,
   AfterViewInit,
   ChangeDetectionStrategy,
-  ChangeDetectorRef,
   Component,
+  computed,
+  effect,
   ElementRef,
-  Input,
-  OnChanges,
-  ViewChild,
+  inject,
+  Injector,
+  input,
+  signal,
+  viewChild,
   ViewEncapsulation,
 } from '@angular/core';
 
-import { requireContent, requireInput } from '../../utils/utils';
-import { ChannelValueComponent,UnitSpaceType } from '../channel-value/channel-value.component';
+import { requireContent } from '../../utils/utils';
+import { ChannelValueComponent, UnitSpaceType } from '../channel-value/channel-value.component';
 
 /**
  * [Hero Component](https://brightlayer-ui-components.github.io/angular/?path=/info/components-hero--readme)
@@ -25,81 +28,57 @@ import { ChannelValueComponent,UnitSpaceType } from '../channel-value/channel-va
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
-  styleUrls: ['./hero.component.scss'],
-  template: `
-    <div class="blui-hero-content">
-      <div
-        class="blui-hero-primary-wrapper"
-        #primaryContainer
-        [style.backgroundColor]="iconBackgroundColor"
-        [style.lineHeight.px]="iSize"
-        [style.fontSize.px]="iSize"
-        [style.width.px]="iSize"
-        [style.height.px]="iSize"
-        [class.blui-hero-svgIcon]="hasMatSvgIcon"
-      >
-        <ng-content select="[blui-primary]"></ng-content>
-      </div>
-      <span class="blui-hero-channel-value-wrapper">
-        @if (value === undefined) {
-          <ng-content select="blui-channel-value"></ng-content>
-        }
-        @if (value !== undefined) {
-          <blui-channel-value [value]="value" [units]="units" [unitSpace]="unitSpace" [prefix]="prefix">
-            <ng-content select="[blui-secondary]"></ng-content>
-          </blui-channel-value>
-        }
-      </span>
-      <h5 class="blui-hero-label">{{ label }}</h5>
-    </div>
-  `,
+  templateUrl: './hero.component.html',
+  styleUrl: './hero.component.scss',
   host: {
     class: 'blui-hero',
   },
   imports: [ChannelValueComponent],
 })
-export class HeroComponent implements OnChanges, AfterViewInit, AfterContentChecked {
+export class HeroComponent implements AfterViewInit, AfterContentChecked {
   /** If true, shows units before the value
    *
    * @default false
    * */
-  @Input() prefix = false;
+  readonly $prefix = input(false, { alias: 'prefix' });
   /** Color of the hero icon */
-  @Input() color: string;
+  readonly $color = input<string | undefined>(undefined, { alias: 'color' });
   /** Color of the hero background */
-  @Input() iconBackgroundColor: string;
+  readonly $iconBackgroundColor = input<string | undefined>(undefined, { alias: 'iconBackgroundColor' });
   /** The size of the primary icon (10-48) */
-  @Input() iconSize = 36;
+  readonly $iconSize = input(36, { alias: 'iconSize' });
   /** The text shown below the Channel Value */
-  @Input() label: string;
+  readonly $label = input<string | undefined>(undefined, { alias: 'label' });
   /** Transforms an SVG icon based on the provided `iconSize` */
-  @Input() scaleSvgIcon = true;
+  readonly $scaleSvgIcon = input(true, { alias: 'scaleSvgIcon' });
   /** Text to show after the value */
-  @Input() units: string;
+  readonly $units = input<string | undefined>(undefined, { alias: 'units' });
   /** The value for the channel */
-  @Input() value: string;
+  readonly $value = input<string | undefined>(undefined, { alias: 'value' });
   /** Show a space between the value and units for the channel, default is `auto` */
-  @Input() unitSpace: UnitSpaceType = 'auto';
+  readonly $unitSpace = input<UnitSpaceType>('auto', { alias: 'unitSpace' });
 
-  @ViewChild('primaryContainer') primaryContainer: ElementRef;
+  private readonly $primaryContainer = viewChild<ElementRef>('primaryContainer');
 
-  iSize: number;
-  iconString: string;
-  hasMatSvgIcon: boolean;
+  protected readonly $iSize = computed(() => this.$iconSize());
+  protected readonly $hasMatSvgIcon = signal(false);
 
-  constructor(private readonly _ref: ChangeDetectorRef) {}
+  private iconString: string;
+  private readonly injector = inject(Injector);
 
-  ngOnChanges(): void {
-    requireInput<HeroComponent>(['label'], this);
-    this.iSize = this.iconSize;
-  }
+  private readonly labelEffect = effect(() => {
+    const label = this.$label();
+    if (label === undefined || label === null || label === '') {
+      console.warn(`Brightlayer UI HeroComponent error: Property "label" is required.`);
+    }
+  });
 
   ngAfterViewInit(): void {
-    const required = { selector: 'primaryContainer', ref: this.primaryContainer };
-    requireContent([required], this);
-
-    this.hasMatSvgIcon = Boolean(this.getMatSvgIcon());
-    this._ref.detectChanges();
+    const container = this.$primaryContainer();
+    if (container) {
+      requireContent([{ selector: 'primaryContainer', ref: container }], this);
+      this.$hasMatSvgIcon.set(Boolean(this.getMatSvgIcon()));
+    }
   }
 
   ngAfterContentChecked(): void {
@@ -108,13 +87,14 @@ export class HeroComponent implements OnChanges, AfterViewInit, AfterContentChec
 
   // Used to listen for changes in the primary icon content.
   // SVG icon content might be loaded post-render (fetching icon via http)
-  scaleSvgIconOnChanges(): void {
-    if (!this.hasMatSvgIcon || !this.primaryContainer || !this.scaleSvgIcon) {
+  private scaleSvgIconOnChanges(): void {
+    const container = this.$primaryContainer();
+    if (!this.$hasMatSvgIcon() || !container || !this.$scaleSvgIcon()) {
       return;
     }
 
     // If the primary ng-content did not change, no action required.
-    const iconHtml = this.primaryContainer.nativeElement.innerHTML;
+    const iconHtml = container.nativeElement.innerHTML;
     if (iconHtml === this.iconString) {
       return;
     }
@@ -122,16 +102,18 @@ export class HeroComponent implements OnChanges, AfterViewInit, AfterContentChec
     this.iconString = iconHtml;
     const matIcon = this.getMatSvgIcon();
     if (matIcon) {
-      this.hasMatSvgIcon = true;
+      this.$hasMatSvgIcon.set(true);
       const svg = matIcon.querySelector('svg');
       if (svg) {
-        svg.style.setProperty('transform', `scale(${this.iSize / 24})`);
+        svg.style.setProperty('transform', `scale(${this.$iSize() / 24})`);
       }
     }
   }
 
   // Returns projected <mat-icon> with attribute [svgIcon] if it exists
-  getMatSvgIcon(): HTMLElement {
-    return this.primaryContainer.nativeElement.querySelector('div mat-icon[svgicon]');
+  private getMatSvgIcon(): HTMLElement | null {
+    const container = this.$primaryContainer();
+    if (!container) return null;
+    return container.nativeElement.querySelector('div mat-icon[svgicon]');
   }
 }

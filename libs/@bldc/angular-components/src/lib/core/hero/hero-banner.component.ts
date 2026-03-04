@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, Input, ViewEncapsulation } from '@angular/core';
+import { ChangeDetectionStrategy, Component, input, ViewEncapsulation } from '@angular/core';
 import { MatDivider } from '@angular/material/divider';
 
 /**
@@ -11,15 +11,8 @@ import { MatDivider } from '@angular/material/divider';
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
-  template: `
-    <div class="blui-hero-banner-content">
-      <ng-content select="blui-hero"></ng-content>
-    </div>
-    @if (divider) {
-      <mat-divider class="blui-hero-banner-divider"></mat-divider>
-    }
-  `,
-  styleUrls: ['./hero-banner.component.scss'],
+  templateUrl: './hero-banner.component.html',
+  styleUrl: './hero-banner.component.scss',
   host: {
     class: 'blui-hero-banner',
   },
@@ -30,5 +23,5 @@ export class HeroBannerComponent {
    *
    * @default false
    * */
-  @Input() divider = false;
+  readonly $divider = input(false, { alias: 'divider' });
 }

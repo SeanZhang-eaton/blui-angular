@@ -1,0 +1,25 @@
+<div class="blui-hero-content">
+  <div
+    class="blui-hero-primary-wrapper"
+    #primaryContainer
+    [style.backgroundColor]="$iconBackgroundColor()"
+    [style.lineHeight.px]="$iSize()"
+    [style.fontSize.px]="$iSize()"
+    [style.width.px]="$iSize()"
+    [style.height.px]="$iSize()"
+    [class.blui-hero-svgIcon]="$hasMatSvgIcon()"
+  >
+    <ng-content select="[blui-primary]"></ng-content>
+  </div>
+  <span class="blui-hero-channel-value-wrapper">
+    @if ($value() === undefined) {
+      <ng-content select="blui-channel-value"></ng-content>
+    }
+    @if ($value() !== undefined) {
+      <blui-channel-value [value]="$value()!" [units]="$units()" [unitSpace]="$unitSpace()" [prefix]="$prefix()">
+        <ng-content select="[blui-secondary]"></ng-content>
+      </blui-channel-value>
+    }
+  </span>
+  <h5 class="blui-hero-label">{{ $label() }}</h5>
+</div>

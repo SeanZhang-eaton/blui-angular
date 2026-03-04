@@ -3,14 +3,16 @@ import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
 import { count } from '../../utils/test-utils';
 
-import { HeroModule } from './hero.module';
+import { HeroComponent } from './hero.component';
 import { HeroBannerComponent } from './hero-banner.component';
 
 @Component({
+  standalone: true,
+  imports: [HeroBannerComponent, HeroComponent],
   template: `
     <blui-hero-banner>
-      <blui-hero label="Hero 1" value="96" units="/100"></blui-hero>
-      <blui-hero label="Hero 2" value="96" units="/100"></blui-hero>
+      <blui-hero label="Hero 1" value="96" units="/100" />
+      <blui-hero label="Hero 2" value="96" units="/100" />
     </blui-hero-banner>
   `,
 })
@@ -22,8 +24,7 @@ describe('HeroBannerComponent', () => {
 
   beforeEach(waitForAsync(() => {
     void TestBed.configureTestingModule({
-      declarations: [TestRenderHeroesComponent],
-      imports: [HeroModule],
+      imports: [HeroBannerComponent, TestRenderHeroesComponent],
     }).compileComponents();
   }));
 
@@ -38,14 +39,14 @@ describe('HeroBannerComponent', () => {
   });
 
   it('should render a divider', () => {
-    component.divider = true;
+    fixture.componentRef.setInput('divider', true);
     fixture.detectChanges();
     const divider = fixture.nativeElement.querySelector('.blui-hero-banner-divider');
     void expect(divider).toBeTruthy();
   });
 
   it('should not render a divider', () => {
-    component.divider = false;
+    fixture.componentRef.setInput('divider', false);
     fixture.detectChanges();
     const divider = fixture.nativeElement.querySelector('.blui-hero-banner-divider');
     void expect(divider).toBeFalsy();
@@ -59,7 +60,7 @@ describe('HeroBannerComponent', () => {
   });
 
   it('should enforce class naming conventions', () => {
-    component.divider = true;
+    fixture.componentRef.setInput('divider', true);
     fixture.detectChanges();
     const classList = ['.blui-hero-banner-content', '.blui-hero-banner-divider'];
     for (const className of classList) {

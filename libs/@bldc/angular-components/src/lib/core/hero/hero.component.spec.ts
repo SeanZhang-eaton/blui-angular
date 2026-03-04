@@ -2,21 +2,24 @@ import { Component } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
 import { count } from '../../utils/test-utils';
-import { ChannelValueModule } from '..';
+import { ChannelValueComponent } from '../channel-value/channel-value.component';
 
 import { HeroComponent } from './hero.component';
-import { HeroModule } from './hero.module';
 
 @Component({
+  standalone: true,
+  imports: [HeroComponent, ChannelValueComponent],
   template: `
     <blui-hero label="Duration">
-      <blui-channel-value value="60" units="hours"></blui-channel-value>
+      <blui-channel-value value="60" units="hours" />
     </blui-hero>
   `,
 })
 class TestChannelValueComponent {}
 
 @Component({
+  standalone: true,
+  imports: [HeroComponent],
   template: `
     <blui-hero label="Duration">
       <div blui-primary id="test-primary-icon">Icon</div>
@@ -26,6 +29,8 @@ class TestChannelValueComponent {}
 class TestPrimaryIconComponent {}
 
 @Component({
+  standalone: true,
+  imports: [HeroComponent],
   template: `
     <blui-hero label="Duration" value="60" units="hours">
       <div blui-secondary id="test-secondary-icon">Icon</div>
@@ -40,8 +45,12 @@ describe('HeroComponent', () => {
 
   beforeEach(waitForAsync(() => {
     void TestBed.configureTestingModule({
-      declarations: [TestChannelValueComponent, TestPrimaryIconComponent, TestSecondaryIconComponent],
-      imports: [HeroModule, ChannelValueModule],
+      imports: [
+        HeroComponent,
+        TestChannelValueComponent,
+        TestPrimaryIconComponent,
+        TestSecondaryIconComponent,
+      ],
     }).compileComponents();
   }));
 
@@ -56,16 +65,16 @@ describe('HeroComponent', () => {
   });
 
   it('should render a label', () => {
-    component.label = 'Test Label';
+    fixture.componentRef.setInput('label', 'Test Label');
     fixture.detectChanges();
     const label = fixture.nativeElement.querySelector('.blui-hero-label');
     void expect(label.innerHTML).toBe('Test Label');
   });
 
   it('should create and render a blui-channel-value', () => {
-    component.label = 'Temp';
-    component.value = '80';
-    component.units = 'C';
+    fixture.componentRef.setInput('label', 'Temp');
+    fixture.componentRef.setInput('value', '80');
+    fixture.componentRef.setInput('units', 'C');
     fixture.detectChanges();
     const value = fixture.nativeElement.querySelector('.blui-channel-value-value');
     const units = fixture.nativeElement.querySelector('.blui-channel-value-units');
