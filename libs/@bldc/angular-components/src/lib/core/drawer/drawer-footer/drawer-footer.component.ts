@@ -14,17 +14,7 @@ import { DRAWER_STATE } from '../drawer-state-ref';
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
-  template: `
-    @if ($divider()) {
-      <mat-divider />
-    }
-    <div
-      class="blui-drawer-footer-content"
-      [style.visibility]="$hideContentOnCollapse() ? (drawerState.$isOpen() ? 'visible' : 'hidden') : 'visible'"
-    >
-      <ng-content />
-    </div>
-  `,
+  templateUrl: './drawer-footer.component.html',
   styleUrl: './drawer-footer.component.scss',
   host: {
     class: 'blui-drawer-footer',
@@ -36,12 +26,12 @@ export class DrawerFooterComponent {
    *
    * @default true
    * */
-  $divider = input(true, { alias: 'divider' });
+  readonly $divider = input(true, { alias: 'divider' });
   /** Hide footer content when closed
    *
    * @default true
    * */
-  $hideContentOnCollapse = input(true, { alias: 'hideContentOnCollapse' });
+  readonly $hideContentOnCollapse = input(true, { alias: 'hideContentOnCollapse' });
 
-  readonly drawerState = inject(DRAWER_STATE);
+  protected readonly drawerState = inject(DRAWER_STATE);
 }

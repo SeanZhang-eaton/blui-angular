@@ -15,7 +15,8 @@ import {
   signal,
   untracked,
   viewChild,
-  ViewEncapsulation} from '@angular/core';
+  ViewEncapsulation,
+} from '@angular/core';
 import { MatRipple } from '@angular/material/core';
 import { MatDivider } from '@angular/material/divider';
 import { MatAccordion, MatExpansionPanel } from '@angular/material/expansion';
@@ -55,108 +56,7 @@ export type ActiveItemBackgroundShape = 'round' | 'square';
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
   styleUrl: './drawer-nav-item.component.scss',
-  template: `
-    @if (!$hidden() && $depth()) {
-      <ng-template #navIcon><ng-content select="[blui-icon]" /></ng-template>
-      <div
-        class="blui-drawer-nav-item-content"
-        #navItem
-        matRipple
-        [matRippleDisabled]="!$ripple() ?? true"
-        [class.blui-drawer-nav-item-active]="$selected()"
-        [class.blui-drawer-nav-item-compact]="false"
-      >
-        <div
-          [class.blui-drawer-nav-item-active-highlight]="$selected()"
-          [class.blui-drawer-nav-item-active-round]="
-            $activeItemBackgroundShape() === 'round' && drawerState.$isOpen() && !drawerState.$isRail()
-          "
-          [class.blui-drawer-nav-item-active-square]="
-            $activeItemBackgroundShape() === 'square' || !drawerState.$isOpen() || drawerState.$isRail()
-          "
-        ></div>
-        @if (!drawerState.$isRail()) {
-          <blui-info-list-item
-            (click)="selectItem()"
-            [dense]="true"
-            [statusColor]="$statusColor()"
-            [chevron]="$chevron() && drawerState.$isOpen()"
-            [hidePadding]="$hidePadding()"
-            [divider]="$divider() ? 'full' : undefined"
-            [class.blui-drawer-nav-item-no-icon-closed]="$isNoIcon() && !drawerState.$isOpen()"
-            [matTooltip]="$title()"
-            [matTooltipDisabled]="drawerState.$isOpen() || drawerState.$openOnHover() || !$showTooltipOnRailHover()"
-            matTooltipPosition="right"
-          >
-            <ng-container blui-icon #icon>
-              <ng-container *ngTemplateOutlet="navIcon"></ng-container>
-            </ng-container>
-            <div
-              blui-title
-              [class.blui-drawer-nav-item-depth-1]="$depth() === 1"
-              [class.blui-drawer-nav-item-depth-2]="$depth() === 2"
-              [class.blui-drawer-nav-item-depth-3]="$depth() === 3"
-            >
-              {{ $title() }}
-            </div>
-            @if ($subtitle() !== null || $subtitle() !== undefined) {
-              <div blui-subtitle>{{ $subtitle() }}</div>
-            }
-            @if ($hasChildren() && drawerState.$isOpen()) {
-              <div blui-right-content>
-                @if (!$expanded()) {
-                  <div #expandIcon>
-                    <ng-content select="[blui-expand-icon]" />
-                  </div>
-                }
-                @if ($expanded()) {
-                  <div #collapseIcon>
-                    <ng-content select="[blui-collapse-icon]" />
-                  </div>
-                }
-                @if ($hideExpandIcon()) {
-                  <mat-icon
-                    class="blui-drawer-nav-item-expand-icon"
-                    [class.blui-drawer-nav-item-expanded]="$expanded()"
-                    >{{ $depth() > 1 ? 'arrow_drop_down' : 'expand_more' }}</mat-icon
-                  >
-                }
-              </div>
-            }
-          </blui-info-list-item>
-        }
-        @if (drawerState.$isRail()) {
-          <div class="blui-drawer-nav-item-rail-container">
-            <div
-              (click)="selectItem()"
-              (keydown.enter)="selectItem()"
-              (keydown.space)="selectItem()"
-              [attr.tabindex]="0"
-              role="button"
-              class="blui-drawer-nav-item-rail"
-              [matTooltip]="$showTooltipOnRailHover() ? $title() : ''"
-              [matTooltipDisabled]="!drawerState.$isCondensed()"
-              matTooltipPosition="right"
-            >
-              <ng-container *ngTemplateOutlet="navIcon"></ng-container>
-              <div class="blui-drawer-nav-item-rail-text">{{ $title() }}</div>
-            </div>
-            @if ($divider()) {
-              <mat-divider />
-            }
-          </div>
-        }
-      </div>
-      <!-- Nested Nav Items -->
-      @if (!drawerState.$isRail()) {
-        <mat-accordion displayMode="flat" class="blui-drawer-nested-nav-item">
-          <mat-expansion-panel #matExpansionPanel>
-            <ng-content select="blui-drawer-nav-item" />
-          </mat-expansion-panel>
-        </mat-accordion>
-      }
-    }
-  `,
+  templateUrl: './drawer-nav-item.component.html',
   host: {
     class: 'blui-drawer-nav-item',
   },
@@ -179,68 +79,67 @@ export class DrawerNavItemComponent {
    *
    * @default square
    * */
-  $activeItemBackgroundShape = input<ActiveItemBackgroundShape>('square', { alias: 'activeItemBackgroundShape' });
+  readonly $activeItemBackgroundShape = input<ActiveItemBackgroundShape>('square', { alias: 'activeItemBackgroundShape' });
   /** Sets whether to show a chevron icon on the left side of a `NavItem`
    *
    * @default false
    * */
-  $chevron = input(false, { alias: 'chevron' });
+  readonly $chevron = input(false, { alias: 'chevron' });
   /** Whether to show a dividing line below each NavItem
    *
    * @default false
    * */
-  $divider = input(false, { alias: 'divider' });
+  readonly $divider = input(false, { alias: 'divider' });
   /** Sets whether to show nested nav items
    *
    * @default false
    * */
-  $expanded = model(false, { alias: 'expanded' });
+  readonly $expanded = model(false, { alias: 'expanded' });
   /** Sets whether to show/hide padding whenever a NavItem does not have an icon */
-  $hidePadding = model<boolean | undefined>(undefined, { alias: 'hidePadding' });
+  readonly $hidePadding = model<boolean | undefined>(undefined, { alias: 'hidePadding' });
   /** Sets whether to hide the nav item
    *
    * @default false
    * */
-  $hidden = input(false, { alias: 'hidden' });
+  readonly $hidden = input(false, { alias: 'hidden' });
   /** Sets whether to show/hide Angular ripple animation effect onClick
    *
    * @default true
    * */
-  $ripple = input(true, { alias: 'ripple' });
+  readonly $ripple = input(true, { alias: 'ripple' });
   /** Sets whether an item is selected.  A selected item will have the `activeBackgroundShape` applied to it and appear different from all other NavItems.*/
-  $selected = input(false, { alias: 'selected' });
+  readonly $selected = input(false, { alias: 'selected' });
   /** Left border color */
-  $statusColor = input<string | undefined>(undefined, { alias: 'statusColor' });
+  readonly $statusColor = input<string | undefined>(undefined, { alias: 'statusColor' });
   /** Text to display as a subtitle */
-  $subtitle = input<string | undefined>(undefined, { alias: 'subtitle' });
+  readonly $subtitle = input<string | undefined>(undefined, { alias: 'subtitle' });
   /** Text to display as a title */
-  $title = input<string | undefined>(undefined, { alias: 'title' });
+  readonly $title = input<string | undefined>(undefined, { alias: 'title' });
 
   /** Event triggered on nav item select */
-  select = output<void>();
+  readonly select = output<void>();
 
-  $nestedNavItems = contentChildren(
+  readonly $nestedNavItems = contentChildren(
     forwardRef(() => DrawerNavItemComponent),
     { descendants: false }
   );
-  $expandIconEl = viewChild<ElementRef>('expandIcon');
-  $iconEl = viewChild<ElementRef>('icon');
-  $collapseIconEl = viewChild<ElementRef>('collapseIcon');
-  $navItemEl = viewChild<ElementRef>('navItem');
-  $matExpansionPanel = viewChild<MatExpansionPanel>('matExpansionPanel');
+  private readonly $expandIconEl = viewChild<ElementRef>('expandIcon');
+  private readonly $iconEl = viewChild<ElementRef>('icon');
+  private readonly $collapseIconEl = viewChild<ElementRef>('collapseIcon');
+  private readonly $navItemEl = viewChild<ElementRef>('navItem');
+  private readonly $matExpansionPanel = viewChild<MatExpansionPanel>('matExpansionPanel');
 
-  readonly drawerState = inject(DRAWER_STATE);
-  readonly changeDetectorRef = inject(ChangeDetectorRef);
+  protected readonly drawerState = inject(DRAWER_STATE);
+  private readonly changeDetectorRef = inject(ChangeDetectorRef);
 
   protected readonly $isNoIcon = computed(() => isEmptyView(this.$iconEl()));
   protected readonly $hideExpandIcon = computed(
     () => isEmptyView(this.$collapseIconEl()) && isEmptyView(this.$expandIconEl())
   );
 
-   protected readonly $showTooltipOnRailHover = computed(()=> 
-     !this.drawerState.$disableRailTooltip()
-  )
-
+  protected readonly $showTooltipOnRailHover = computed(() =>
+    !this.drawerState.$disableRailTooltip()
+  );
 
   /** Controls the expansion icon. */
   protected readonly $hasChildren = signal(false);
@@ -250,9 +149,6 @@ export class DrawerNavItemComponent {
   /** The depth of the navigation item when appearing within a nested structure.
    *  Depth is populated by iterating through the Drawer navigation tree.  See DrawerNavGroupComponent for details. */
   protected readonly $depth = signal(0);
-
-
-
 
   constructor() {
     this.id = this.drawerState.createNavItemID();
@@ -311,7 +207,6 @@ export class DrawerNavItemComponent {
     });
   }
 
-
   /** Whenever the selected item in the drawer state changes, we need to check to see we should apply a hierarchical highlight. */
   manageActiveItemTreeHighlight(): void {
     const navItemEl = this.$navItemEl();
@@ -350,7 +245,7 @@ export class DrawerNavItemComponent {
     if (hasChildren && this.$expanded() === true) {
       this.handleExpand();
     }
-    this.$hasChildren.set(hasChildren)
+    this.$hasChildren.set(hasChildren);
   }
 
   /** Sets default state values for non-nested nav items. Invoked by DrawerNavGroupComponent on content init. */
@@ -364,7 +259,7 @@ export class DrawerNavItemComponent {
   }
 
   selectItem(): void {
-    const hasChildren = this.$hasChildren()
+    const hasChildren = this.$hasChildren();
     this.drawerState.select(hasChildren);
     this.select.emit();
     if (hasChildren) {

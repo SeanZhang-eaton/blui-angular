@@ -14,17 +14,7 @@ import { DRAWER_STATE } from '../drawer-state-ref';
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
-  template: `
-    <div
-      class="blui-drawer-subheader-content"
-      [style.visibility]="$hideContentOnCollapse() ? (drawerState.$isOpen() ? 'visible' : 'hidden') : 'visible'"
-    >
-      <ng-content />
-    </div>
-    @if ($divider()) {
-      <mat-divider />
-    }
-  `,
+  templateUrl: './drawer-subheader.component.html',
   styleUrl: './drawer-subheader.component.scss',
   host: {
     class: 'blui-drawer-subheader',
@@ -36,12 +26,12 @@ export class DrawerSubheaderComponent {
    *
    * @default true
    * */
-  $divider = input(true, { alias: 'divider' });
+  readonly $divider = input(true, { alias: 'divider' });
   /** Hide subheader content when drawer is collapsed
    *
    * @default true
    * */
-  $hideContentOnCollapse = input(true, { alias: 'hideContentOnCollapse' });
+  readonly $hideContentOnCollapse = input(true, { alias: 'hideContentOnCollapse' });
 
-  readonly drawerState = inject(DRAWER_STATE);
+  protected readonly drawerState = inject(DRAWER_STATE);
 }

@@ -15,33 +15,7 @@ import { DRAWER_STATE } from '../drawer-state-ref';
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
-  template: `
-    <mat-toolbar
-      class="blui-drawer-header-content"
-      [class.rail]="drawerState.$isRail()"
-      [color]="$color()"
-      [class.blui-drawer-header-no-icon]="$isNoIcon()"
-    >
-      <div class="blui-drawer-header-background"></div>
-      <div class="blui-drawer-header-text">
-        <div #icon class="blui-drawer-header-icon-wrapper">
-          <ng-content select="[blui-icon]" />
-        </div>
-        @if ($title()) {
-          <div class="blui-drawer-header-title-wrapper">
-            <div class="blui-drawer-header-title">{{ $title() }}</div>
-            @if ($subtitle()) {
-              <div class="blui-drawer-header-subtitle mat-subtitle-1">{{ $subtitle() }}</div>
-            }
-          </div>
-        }
-        <ng-content select="[blui-title-content]" />
-      </div>
-    </mat-toolbar>
-    @if ($divider()) {
-      <mat-divider />
-    }
-  `,
+  templateUrl: './drawer-header.component.html',
   styleUrl: './drawer-header.component.scss',
   host: {
     class: 'blui-drawer-header',
@@ -53,19 +27,19 @@ export class DrawerHeaderComponent {
    *
    * @default primary
    * */
-  $color = input<'primary' | 'accent' | 'warn' | undefined>('primary', { alias: 'color' });
+  readonly $color = input<'primary' | 'accent' | 'warn' | undefined>('primary', { alias: 'color' });
   /** Show a divider below footer
    *
    * @default false
    * */
-  $divider = input(false, { alias: 'divider' });
+  readonly $divider = input(false, { alias: 'divider' });
   /** The text to show on the second line */
-  $subtitle = input<string | undefined>(undefined, { alias: 'subtitle' });
+  readonly $subtitle = input<string | undefined>(undefined, { alias: 'subtitle' });
   /** The text to show on the first line */
-  $title = input<string | undefined>(undefined, { alias: 'title' });
-  $iconEl = viewChild<ElementRef>('icon');
+  readonly $title = input<string | undefined>(undefined, { alias: 'title' });
+  private readonly $iconEl = viewChild<ElementRef>('icon');
 
-  readonly drawerState = inject(DRAWER_STATE);
+  protected readonly drawerState = inject(DRAWER_STATE);
 
   protected readonly $isNoIcon = computed(() => isEmptyView(this.$iconEl()));
 }

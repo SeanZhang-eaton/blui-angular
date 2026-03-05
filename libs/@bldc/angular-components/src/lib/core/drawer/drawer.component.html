@@ -1,0 +1,16 @@
+<div
+  class="blui-drawer-content"
+  [class.blui-drawer-side-border]="drawerState.$isSideBorder()"
+  [class.mat-elevation-z6]="!drawerState.$isSideBorder()"
+  [class.blui-drawer-condensed-rail]="drawerState.$isCondensed()"
+  [class.blui-drawer-collapse]="!drawerState.$isOpen()"
+  [class.blui-drawer-temp-variant]="drawerState.$isTemporary()"
+>
+  <!-- Drawer is responsible for managing the styles between the 4 subsections -->
+  <ng-content select="blui-drawer-header" />
+  <div class="blui-drawer-hover-area" (mouseenter)="hoverDrawer()" (mouseleave)="unhoverDrawer()">
+    <ng-content select="blui-drawer-subheader" />
+    <ng-content select="blui-drawer-body" />
+    <ng-content select="blui-drawer-footer" />
+  </div>
+</div>

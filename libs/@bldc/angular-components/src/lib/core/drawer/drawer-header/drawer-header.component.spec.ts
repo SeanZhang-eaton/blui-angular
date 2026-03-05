@@ -12,7 +12,7 @@ import { DrawerHeaderComponent } from './drawer-header.component';
 @Component({
   standalone: true,
   imports: [DrawerHeaderComponent],
-  template: ` <blui-drawer-header title="title" subtitle="subtitle"></blui-drawer-header> `,
+  template: ` <blui-drawer-header title="title" subtitle="subtitle" /> `,
 })
 class TestDrawerHeaderComponent {}
 

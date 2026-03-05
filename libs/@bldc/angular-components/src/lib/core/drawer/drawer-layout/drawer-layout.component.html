@@ -1,0 +1,23 @@
+<mat-sidenav-container class="blui-drawer-layout-content" (backdropClick)="closeDrawer()" autosize="false">
+  <mat-sidenav
+    class="blui-drawer-layout-sidenav"
+    [fixedInViewport]="false"
+    [class.blui-drawer-layout-smooth]="!$isTemporary()"
+    [class.mat-elevation-z6]="!$drawerState().$isSideBorder()"
+    [style.width.rem]="$sidenavWidth()"
+    [mode]="$mode()"
+    [disableClose]="true"
+    [opened]="$isDrawerVisible()"
+  >
+    <ng-content select="[blui-drawer]" />
+  </mat-sidenav>
+  <div
+    class="blui-drawer-layout-nav-content"
+    [class.blui-drawer-layout-smooth]="!$isTemporary()"
+    [style.marginRight.rem]="$marginRight()"
+    [style.marginLeft.rem]="$marginLeft()"
+  >
+    <ng-content select="[blui-content]" />
+  </div>
+  <div style="display: none; font-size: 1rem" #remElement></div>
+</mat-sidenav-container>

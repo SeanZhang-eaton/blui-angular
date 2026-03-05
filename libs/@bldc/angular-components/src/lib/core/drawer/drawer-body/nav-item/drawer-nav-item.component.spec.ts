@@ -9,6 +9,8 @@ import { DrawerState } from '../../drawerState';
 import { DrawerNavItemComponent } from './drawer-nav-item.component';
 
 @Component({
+  standalone: true,
+  imports: [DrawerNavItemComponent],
   template: `
     <blui-drawer-nav-item [hidden]="true">
         <blui-drawer-nav-item [hidden]="true">Test</blui-drawer-nav-item>
@@ -23,8 +25,7 @@ describe('DrawerNavItemComponent', () => {
 
   beforeEach(() => {
     void TestBed.configureTestingModule({
-      declarations: [DrawerHiddenNavItemComponent],
-      imports: [DrawerNavItemComponent, NoopAnimationsModule],
+      imports: [DrawerHiddenNavItemComponent, DrawerNavItemComponent, NoopAnimationsModule],
       providers: [{ provide: DRAWER_STATE, useFactory: () => new DrawerState() }],
     }).compileComponents();
     fixture = TestBed.createComponent(DrawerNavItemComponent);
@@ -46,7 +47,7 @@ describe('DrawerNavItemComponent', () => {
   it('should enforce class naming conventions', () => {
     component.incrementDepth(0);
     fixture.componentRef.setInput('selected', true);
-    component.drawerState.setDrawerOpen(true);
+    component['drawerState'].setDrawerOpen(true);
     fixture.detectChanges();
     let classList = [
       '.blui-drawer-nav-item-content',
@@ -59,7 +60,7 @@ describe('DrawerNavItemComponent', () => {
     for (const className of classList) {
       count(fixture, className);
     }
-    component.drawerState.setDrawerVariant('rail');
+    component['drawerState'].setDrawerVariant('rail');
     fixture.detectChanges();
     classList = ['.blui-drawer-nav-item-rail', '.blui-drawer-nav-item-rail-text'];
     for (const className of classList) {

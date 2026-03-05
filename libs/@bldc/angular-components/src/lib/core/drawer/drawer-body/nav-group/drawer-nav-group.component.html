@@ -1,0 +1,17 @@
+<div class="blui-drawer-nav-group-content">
+  @if ($title()) {
+    <div
+      class="blui-drawer-nav-group-title mat-overline"
+      [class.blui-drawer-nav-group-title-closed]="!drawerState.$isOpen()"
+    >
+      {{ $title() }}
+    </div>
+  }
+  <ng-content select="[blui-title-content]" />
+  @if ($divider()) {
+    <mat-divider />
+  }
+  <mat-nav-list>
+    <ng-content select="blui-drawer-nav-item" />
+  </mat-nav-list>
+</div>

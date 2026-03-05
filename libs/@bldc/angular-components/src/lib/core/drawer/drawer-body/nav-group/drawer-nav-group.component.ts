@@ -32,46 +32,8 @@ export type DrawerNavGroup = {
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
-  styles: [
-    `
-      .blui-drawer-nav-group-content .mat-mdc-list-base {
-        font-weight: 600;
-        padding: unset;
-      }
-      .blui-drawer-nav-group-content .blui-drawer-nav-group-title {
-        font-weight: 600;
-        height: 3rem;
-        line-height: 3rem;
-        padding: 0 16px;
-        overflow: hidden;
-        white-space: nowrap;
-        text-overflow: ellipsis;
-        display: block;
-      }
-      .blui-drawer-nav-group-content .blui-drawer-nav-group-title-closed {
-        visibility: hidden;
-      }
-    `,
-  ],
-  template: `
-    <div class="blui-drawer-nav-group-content">
-      @if ($title()) {
-        <div
-          class="blui-drawer-nav-group-title mat-overline"
-          [class.blui-drawer-nav-group-title-closed]="!drawerState.$isOpen()"
-        >
-          {{ $title() }}
-        </div>
-      }
-      <ng-content select="[blui-title-content]" />
-      @if ($divider()) {
-        <mat-divider />
-      }
-      <mat-nav-list>
-        <ng-content select="blui-drawer-nav-item" />
-      </mat-nav-list>
-    </div>
-  `,
+  styleUrl: './drawer-nav-group.component.scss',
+  templateUrl: './drawer-nav-group.component.html',
   host: {
     class: 'blui-drawer-nav-group',
   },
@@ -79,12 +41,12 @@ export type DrawerNavGroup = {
 })
 export class DrawerNavGroupComponent {
   /** Whether to show a dividing line below the title */
-  $divider = input(false, { alias: 'divider' });
+  readonly $divider = input(false, { alias: 'divider' });
   /** Component to render a group title */
-  $title = input<string | undefined>(undefined, { alias: 'title' });
-  $navItems = contentChildren(forwardRef(() => DrawerNavItemComponent));
+  readonly $title = input<string | undefined>(undefined, { alias: 'title' });
+  private readonly $navItems = contentChildren(forwardRef(() => DrawerNavItemComponent));
 
-  readonly drawerState = inject(DRAWER_STATE);
+  protected readonly drawerState = inject(DRAWER_STATE);
 
   private _initializeNavItemDefaults(depth: number, navItems: readonly DrawerNavItemComponent[]): void {
     for (const item of navItems) {

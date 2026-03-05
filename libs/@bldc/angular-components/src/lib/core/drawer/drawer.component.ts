@@ -21,24 +21,7 @@ import { DrawerState } from './drawerState';
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
-  template: `
-    <div
-      class="blui-drawer-content"
-      [class.blui-drawer-side-border]="drawerState.$isSideBorder()"
-      [class.mat-elevation-z6]="!drawerState.$isSideBorder()"
-      [class.blui-drawer-condensed-rail]="drawerState.$isCondensed()"
-      [class.blui-drawer-collapse]="!drawerState.$isOpen()"
-      [class.blui-drawer-temp-variant]="drawerState.$isTemporary()"
-    >
-      <!-- Drawer is responsible for managing the styles between the 4 subsections -->
-      <ng-content select="blui-drawer-header" />
-      <div class="blui-drawer-hover-area" (mouseenter)="hoverDrawer()" (mouseleave)="unhoverDrawer()">
-        <ng-content select="blui-drawer-subheader" />
-        <ng-content select="blui-drawer-body" />
-        <ng-content select="blui-drawer-footer" />
-      </div>
-    </div>
-  `,
+  templateUrl: './drawer.component.html',
   styleUrl: './drawer.component.scss',
   host: {
     class: 'blui-drawer',
@@ -50,36 +33,36 @@ export class DrawerComponent {
    *
    * @default false
    * */
-  $condensed = input(false, { alias: 'condensed' });
+  readonly $condensed = input(false, { alias: 'condensed' });
   /** Hides tooltips on hover for the `rail` variant
    *
    * @default false
    * */
-  $disableRailTooltip = input(false, { alias: 'disableRailTooltip' });
+  readonly $disableRailTooltip = input(false, { alias: 'disableRailTooltip' });
   /** If true, NavItems will not have a bold title when a child NavItem is selected
    *
    * @default false
    * */
-  $disableActiveItemParentStyles = input(false, { alias: 'disableActiveItemParentStyles' });
+  readonly $disableActiveItemParentStyles = input(false, { alias: 'disableActiveItemParentStyles' });
   /** State for the drawer */
-  $open = input(true, { alias: 'open' });
+  readonly $open = input(true, { alias: 'open' });
   /** Automatically open the drawer on hover when closed (persistent variant only) */
-  $openOnHover = input(true, { alias: 'openOnHover' });
+  readonly $openOnHover = input(true, { alias: 'openOnHover' });
   /** Delay in milliseconds before a hover event opens the drawer (persistent variant only)
    *
    * @default 500
    * */
-  $openOnHoverDelay = input(500, { alias: 'openOnHoverDelay' });
+  readonly $openOnHoverDelay = input(500, { alias: 'openOnHoverDelay' });
   /** Toggle a side border instead of shadow
    *
    * @default false
    * */
-  $sideBorder = input(false, { alias: 'sideBorder' });
+  readonly $sideBorder = input(false, { alias: 'sideBorder' });
 
-  readonly drawerState = inject(DRAWER_STATE);
+  protected readonly drawerState = inject(DRAWER_STATE);
   private readonly stateRef = inject(DrawerStateRef, { optional: true });
 
-  hoverDelayTimeout: ReturnType<typeof setTimeout>;
+  private hoverDelayTimeout: ReturnType<typeof setTimeout>;
 
   constructor() {
     // Register this drawer's state with the parent layout (if present).

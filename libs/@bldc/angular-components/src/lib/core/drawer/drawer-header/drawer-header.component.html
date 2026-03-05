@@ -1,0 +1,25 @@
+<mat-toolbar
+  class="blui-drawer-header-content"
+  [class.rail]="drawerState.$isRail()"
+  [color]="$color()"
+  [class.blui-drawer-header-no-icon]="$isNoIcon()"
+>
+  <div class="blui-drawer-header-background"></div>
+  <div class="blui-drawer-header-text">
+    <div #icon class="blui-drawer-header-icon-wrapper">
+      <ng-content select="[blui-icon]" />
+    </div>
+    @if ($title()) {
+      <div class="blui-drawer-header-title-wrapper">
+        <div class="blui-drawer-header-title">{{ $title() }}</div>
+        @if ($subtitle()) {
+          <div class="blui-drawer-header-subtitle mat-subtitle-1">{{ $subtitle() }}</div>
+        }
+      </div>
+    }
+    <ng-content select="[blui-title-content]" />
+  </div>
+</mat-toolbar>
+@if ($divider()) {
+  <mat-divider />
+}

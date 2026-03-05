@@ -32,31 +32,7 @@ export { DrawerLayoutVariantType } from '../drawerState';
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
   styleUrl: './drawer-layout.component.scss',
-  template: `
-    <mat-sidenav-container class="blui-drawer-layout-content" (backdropClick)="closeDrawer()" autosize="false">
-      <mat-sidenav
-        class="blui-drawer-layout-sidenav"
-        [fixedInViewport]="false"
-        [class.blui-drawer-layout-smooth]="!$isTemporary()"
-        [class.mat-elevation-z6]="!$drawerState().$isSideBorder()"
-        [style.width.rem]="$sidenavWidth()"
-        [mode]="$mode()"
-        [disableClose]="true"
-        [opened]="$isDrawerVisible()"
-      >
-        <ng-content select="[blui-drawer]" />
-      </mat-sidenav>
-      <div
-        class="blui-drawer-layout-nav-content"
-        [class.blui-drawer-layout-smooth]="!$isTemporary()"
-        [style.marginRight.rem]="$marginRight()"
-        [style.marginLeft.rem]="$marginLeft()"
-      >
-        <ng-content select="[blui-content]" />
-      </div>
-      <div style="display:none; font-size: 1rem" #remElement></div>
-    </mat-sidenav-container>
-  `,
+  templateUrl: './drawer-layout.component.html',
   host: {
     class: 'blui-drawer-layout',
   },
@@ -76,15 +52,15 @@ export class DrawerLayoutComponent {
    *
    * @default temporary
    * */
-  $variant = input<DrawerLayoutVariantType>('temporary', { alias: 'variant' });
+  readonly $variant = input<DrawerLayoutVariantType>('temporary', { alias: 'variant' });
   /** Drawer pixel width
    *
    * @default 350
    * */
-  $width = input(350, { alias: 'width' });
+  readonly $width = input(350, { alias: 'width' });
   /** Event triggered on 'temporary' variant backdrop click */
-  backdropClick = output<void>();
-  $remElement = viewChild<ElementRef>('remElement');
+  readonly backdropClick = output<void>();
+  private readonly $remElement = viewChild<ElementRef>('remElement');
 
   private readonly stateRef = inject(DrawerStateRef);
   private readonly dir = inject(Directionality);
@@ -152,7 +128,7 @@ export class DrawerLayoutComponent {
     return false;
   });
 
-  remSizePx: number;
+  private remSizePx: number;
 
   toRem(px: number): number {
     const remEl = this.$remElement();

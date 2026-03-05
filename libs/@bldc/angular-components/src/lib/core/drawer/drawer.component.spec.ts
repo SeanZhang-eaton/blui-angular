@@ -11,7 +11,7 @@ import { DrawerModule } from './drawer.module';
   imports: [DrawerModule],
   template: `
     <blui-drawer>
-      <blui-drawer-header id="test-header"></blui-drawer-header>
+      <blui-drawer-header id="test-header" />
     </blui-drawer>
   `,
 })
@@ -22,7 +22,7 @@ class DrawerHeaderRenderTestComponent {}
   imports: [DrawerModule],
   template: `
     <blui-drawer>
-      <blui-drawer-subheader id="test-subheader"></blui-drawer-subheader>
+      <blui-drawer-subheader id="test-subheader" />
     </blui-drawer>
   `,
 })
@@ -33,7 +33,7 @@ class DrawerSubheaderRenderTestComponent {}
   imports: [DrawerModule],
   template: `
     <blui-drawer>
-      <blui-drawer-body id="test-body"></blui-drawer-body>
+      <blui-drawer-body id="test-body" />
     </blui-drawer>
   `,
 })
@@ -44,7 +44,7 @@ class DrawerBodyRenderTestComponent {}
   imports: [DrawerModule],
   template: `
     <blui-drawer>
-      <blui-drawer-footer id="test-footer"></blui-drawer-footer>
+      <blui-drawer-footer id="test-footer" />
     </blui-drawer>
   `,
 })

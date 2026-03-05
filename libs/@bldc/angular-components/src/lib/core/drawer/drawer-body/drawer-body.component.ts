@@ -11,28 +11,12 @@ import { DRAWER_STATE } from '../drawer-state-ref';
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
-  template: `
-    <div class="blui-drawer-body-content" [class.blui-drawer-body-closed]="!drawerState.$isOpen()">
-      <ng-content />
-    </div>
-  `,
-  styles: [
-    `
-      .blui-drawer-body-content {
-        max-height: 100%;
-        display: flex;
-        flex-direction: column;
-        overflow-y: auto;
-      }
-      .blui-drawer-body-closed {
-        overflow-x: hidden;
-      }
-    `,
-  ],
+  templateUrl: './drawer-body.component.html',
+  styleUrl: './drawer-body.component.scss',
   host: {
     class: 'blui-drawer-body',
   },
 })
 export class DrawerBodyComponent {
-  readonly drawerState = inject(DRAWER_STATE);
+  protected readonly drawerState = inject(DRAWER_STATE);
 }

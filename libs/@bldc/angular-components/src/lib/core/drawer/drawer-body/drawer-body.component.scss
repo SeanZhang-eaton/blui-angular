@@ -1,0 +1,9 @@
+.blui-drawer-body-content {
+  max-height: 100%;
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+}
+.blui-drawer-body-closed {
+  overflow-x: hidden;
+}

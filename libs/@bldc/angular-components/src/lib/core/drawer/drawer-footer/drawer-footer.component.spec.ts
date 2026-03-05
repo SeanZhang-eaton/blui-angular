@@ -8,6 +8,8 @@ import { DrawerState } from '../drawerState';
 import { DrawerFooterComponent } from './drawer-footer.component';
 
 @Component({
+  standalone: true,
+  imports: [DrawerFooterComponent],
   template: `
     <blui-drawer-footer>
       <div id="test-footer-content">test footer content</div>
@@ -22,8 +24,7 @@ describe('DrawerFooterComponent', () => {
 
   beforeEach(() => {
     void TestBed.configureTestingModule({
-      declarations: [TestDrawerFooterComponent],
-      imports: [DrawerFooterComponent],
+      imports: [TestDrawerFooterComponent],
       providers: [{ provide: DRAWER_STATE, useFactory: () => new DrawerState() }],
     }).compileComponents();
     fixture = TestBed.createComponent(DrawerFooterComponent);

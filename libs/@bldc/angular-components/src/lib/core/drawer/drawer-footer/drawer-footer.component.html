@@ -1,0 +1,9 @@
+@if ($divider()) {
+  <mat-divider />
+}
+<div
+  class="blui-drawer-footer-content"
+  [style.visibility]="$hideContentOnCollapse() ? (drawerState.$isOpen() ? 'visible' : 'hidden') : 'visible'"
+>
+  <ng-content />
+</div>
