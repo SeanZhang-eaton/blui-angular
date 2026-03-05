@@ -3,7 +3,6 @@ import { CdkConnectedOverlay, CdkOverlayOrigin, ConnectionPositionPair } from '@
 import { NgTemplateOutlet } from '@angular/common';
 import {
   ChangeDetectionStrategy,
-  ChangeDetectorRef,
   Component,
   DestroyRef,
   effect,

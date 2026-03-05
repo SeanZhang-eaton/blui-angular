@@ -1,17 +1,16 @@
 import { Component } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { MatListModule } from '@angular/material/list';
+import { MatListItem, MatNavList } from '@angular/material/list';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 
 import { count } from '../../utils/test-utils';
 
 import { UserMenuComponent } from './user-menu.component';
 
-/** Test component that contains an MatButton. */
 @Component({
   standalone: true,
   imports: [UserMenuComponent],
-  selector: 'test-md',
+  selector: 'test-user-menu-custom-header',
   template: `
     <blui-user-menu avatarValue="HA" [(open)]="open">
       <div blui-menu-header>
@@ -24,11 +23,10 @@ class UserMenuCustomHeaderTestComponent {
   open = true;
 }
 
-/** Test component that contains an MatButton. */
 @Component({
   standalone: true,
-  imports: [UserMenuComponent, MatListModule],
-  selector: 'test-md',
+  imports: [UserMenuComponent, MatNavList, MatListItem],
+  selector: 'test-user-menu-nav-items',
   template: `
     <blui-user-menu avatarValue="HA" [(open)]="open">
       <mat-nav-list blui-menu-body>
