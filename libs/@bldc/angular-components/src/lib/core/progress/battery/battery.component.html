@@ -1,0 +1,71 @@
+<pxb-progress-icon
+  [size]="$size()"
+  [labelPosition]="$labelPosition()"
+  [percent]="$percent()"
+  [showPercentLabel]="$showPercentLabel()"
+  [labelColor]="$labelColor()"
+  [labelSize]="$labelSize()"
+  [color]="$color()"
+>
+  <svg
+    [attr.height]="$size() + 'px'"
+    [attr.width]="$size() + 'px'"
+    x="0px"
+    y="0px"
+    viewBox="0 0 24 24"
+    style="enable-background: new 0 0 24 24"
+    xml:space="preserve"
+  >
+    <defs>
+      @if ($outlined()) {
+        <mask [attr.id]="$maskIDleft()">
+          <rect width="100%" height="100%" fill="white" />
+          <polygon fill="black" points="11.5,13 11.5,15 4,11 9.5,11 9.5,9 17,13 " />
+        </mask>
+      }
+      @if ($outlined()) {
+        <mask [attr.id]="$maskIDright()">
+          <rect width="100%" height="100%" fill="white" />
+          <rect
+            [attr.x]="$startX()"
+            y="7"
+            fill="black"
+            [attr.width]="(rv($percent(), 0, 100) / 100) * $fillWidth()"
+            height="10"
+          />
+        </mask>
+      }
+      <clipPath [id]="$resolvedID()">
+        <path overflow="visible" [attr.d]="$resolvedClipPath()" />
+      </clipPath>
+    </defs>
+    @if ($backgroundColor()) {
+      <path
+        [attr.d]="basePath"
+        [attr.fill]="$backgroundColor()"
+        [attr.clip-path]="$outlined() ? undefined : 'url(#' + $resolvedID() + ')'"
+      />
+    }
+    <path
+      [attr.fill]="(!$outlined() && $backgroundColor()) || $color() || 'currentColor'"
+      [attr.fill-opacity]="$outlined() || $percent() >= 100 || (!$outlined() && $backgroundColor()) ? '1' : '0.3'"
+      [attr.clip-path]="'url(#' + $resolvedID() + ')'"
+      [attr.d]="$resolvedBasePath()"
+    />
+
+    <g [attr.fill]="$color() || 'currentColor'">
+      <rect
+        [attr.fill]="$color() || 'currentColor'"
+        [attr.x]="$startX()"
+        y="7"
+        [attr.clip-path]="'url(#' + $resolvedID() + ')'"
+        [attr.width]="(rv($percent(), 0, 100) / 100) * $fillWidth()"
+        height="10"
+        [attr.mask]="$outlined() && $charging() ? 'url(#' + $maskIDleft() + ')' : null"
+      />
+      @if ($outlined() && $charging()) {
+        <polygon points="11.5,13 11.5,15 4,11 9.5,11 9.5,9 17,13" [attr.mask]="'url(#' + $maskIDright() + ')'" />
+      }
+    </g>
+  </svg>
+</pxb-progress-icon>

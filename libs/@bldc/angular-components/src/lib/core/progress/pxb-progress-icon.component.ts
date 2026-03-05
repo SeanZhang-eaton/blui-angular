@@ -1,67 +1,47 @@
 import { NgStyle } from '@angular/common';
-import { Component, Input, OnChanges } from '@angular/core';
+import { ChangeDetectionStrategy, Component, ViewEncapsulation, computed, input } from '@angular/core';
 
 import Color from 'color';
 
 @Component({
   selector: 'blui-progress-icon,pxb-progress-icon',
   standalone: true,
-  template: `
-    <span
-      class="pxb-progress-icon"
-      [style.flexDirection]="getFlexDirection()"
-      [style.display]="labelPosition === 'center' ? '' : 'inline-flex'"
-    >
-      @if (showPercentLabel) {
-        <span
-          class="pxb-progress-icon-label"
-          [class.inverted]="inverted"
-          [class.center]="labelPosition === 'center'"
-          [style.color]="labelColor"
-          [ngStyle]="{ '-webkit-text-stroke-width.px': labelPosition === 'center' ? size / 60 : 0 }"
-          [style.fontSize.px]="labelSize || size / 4"
-          [style.height.px]="labelPosition === 'center' ? size : 'unset'"
-          [style.width.px]="labelPosition === 'center' ? size : 'unset'"
-          [style.lineHeight.px]="labelPosition === 'top' || labelPosition === 'bottom' ? 'unset' : size"
-          [style.webkitTextStrokeColor]="getStrokeColor()"
-          [style.webkitTextFillColor]="labelColor"
-          >{{ percent }}%</span
-        >
-      }
-      <ng-content></ng-content>
-    </span>
-  `,
-  styleUrls: ['./pxb-progress-icon.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  encapsulation: ViewEncapsulation.None,
+  templateUrl: './pxb-progress-icon.component.html',
+  styleUrl: './pxb-progress-icon.scss',
   imports: [NgStyle],
 })
-export class PxbProgressIconComponent implements OnChanges {
-  @Input() size = 24;
-  @Input() percent = 100;
-  @Input() showPercentLabel = false;
-  @Input() labelPosition: 'top' | 'bottom' | 'left' | 'right' | 'center' = 'center';
-  @Input() color: string;
-  @Input() labelColor: string;
-  @Input() labelSize: number;
-  @Input() backgroundColor: string;
+export class PxbProgressIconComponent {
+  readonly $size = input(24, { alias: 'size' });
+  readonly $percent = input(100, { alias: 'percent' });
+  readonly $showPercentLabel = input(false, { alias: 'showPercentLabel' });
+  readonly $labelPosition = input<'top' | 'bottom' | 'left' | 'right' | 'center'>('center', {
+    alias: 'labelPosition',
+  });
+  readonly $color = input<string | undefined>(undefined, { alias: 'color' });
+  readonly $labelColor = input<string | undefined>(undefined, { alias: 'labelColor' });
+  readonly $labelSize = input<number | undefined>(undefined, { alias: 'labelSize' });
+  readonly $backgroundColor = input<string | undefined>(undefined, { alias: 'backgroundColor' });
 
-  inverted: boolean;
-
-  ngOnChanges(): void {
-    if (this.color) {
-      // Inverted class applies only to center-aligned label.
-      this.inverted = this.labelPosition === 'center' && Color(this.color).isDark();
+  protected readonly $inverted = computed(() => {
+    const color = this.$color();
+    if (color) {
+      return this.$labelPosition() === 'center' && Color(color).isDark();
     }
-  }
+    return false;
+  });
 
-  getStrokeColor(): string {
-    if (this.labelPosition === 'center' && this.labelColor && this.color) {
-      return Color(this.labelColor).isDark() ? 'white' : 'black';
+  protected readonly $strokeColor = computed(() => {
+    const labelColor = this.$labelColor();
+    if (this.$labelPosition() === 'center' && labelColor && this.$color()) {
+      return Color(labelColor).isDark() ? 'white' : 'black';
     }
     return '';
-  }
+  });
 
-  getFlexDirection(): string {
-    switch (this.labelPosition) {
+  protected readonly $flexDirection = computed(() => {
+    switch (this.$labelPosition()) {
       case 'left':
         return 'row';
       case 'right':
@@ -73,5 +53,5 @@ export class PxbProgressIconComponent implements OnChanges {
       default:
         return '';
     }
-  }
+  });
 }

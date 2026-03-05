@@ -1,4 +1,4 @@
-import { Component, Input, OnChanges } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, input } from '@angular/core';
 
 import { PxbProgressIconComponent } from '../pxb-progress-icon.component';
 import { getCoordinates, rangeValue } from '../utilities';
@@ -6,136 +6,98 @@ import { getCoordinates, rangeValue } from '../utilities';
 @Component({
   selector: 'blui-pie-progress,pie-progress',
   standalone: true,
-  template: `
-    <pxb-progress-icon
-      [size]="size"
-      [labelPosition]="labelPosition"
-      [percent]="percent"
-      [showPercentLabel]="showPercentLabel"
-      [labelColor]="labelColor"
-      [labelSize]="labelSize"
-      [color]="color"
-    >
-      <svg
-        [attr.height]="size + 'px'"
-        [attr.width]="size + 'px'"
-        x="0px"
-        y="0px"
-        viewBox="0 0 24 24"
-        style="transform: rotate(-.25turn)"
-      >
-        <clipPath [attr.id]="'pxb-donut-clip-' + stroke">
-          <path [attr.d]="clipPath" />
-        </clipPath>
-        @if (outlined && backgroundColor) {
-          <path
-            [attr.d]="twoToneBase"
-            [attr.clip-path]="'url(#pxb-donut-clip-' + stroke + ')'"
-            [attr.fill]="backgroundColor"
-          />
-        }
-        <path
-          [attr.clip-path]="'url(#pxb-donut-clip-' + stroke + ')'"
-          [attr.fill]="(!outlined && backgroundColor) || color || 'currentColor'"
-          [attr.fill-opacity]="outlined || percent >= 100 || (!outlined && backgroundColor) ? '1' : '0.3'"
-          [attr.d]="outlined ? outlineBase : twoToneBase"
-        />
-        @if (rv(percent, 0, 100) > 0 && rv(percent, 0, 100) < 100) {
-          <path
-            [attr.fill]="color || 'currentColor'"
-            [attr.clip-path]="'url(#pxb-donut-clip-' + stroke + ')'"
-            [attr.d]="getPath()"
-          />
-        }
-
-        @if (rv(percent, 0, 100) === 100 && outlined) {
-          <circle
-            [attr.clip-path]="'url(#pxb-donut-clip-' + stroke + ')'"
-            cx="12"
-            cy="12"
-            r="10"
-            [attr.fill]="color || 'currentColor'"
-          ></circle>
-        }
-      </svg>
-    </pxb-progress-icon>
-  `,
-  styleUrls: ['../pxb-progress-icon.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  templateUrl: './pie.component.html',
+  styleUrl: '../pxb-progress-icon.scss',
   imports: [PxbProgressIconComponent],
 })
-export class PieComponent extends PxbProgressIconComponent implements OnChanges {
-  @Input() ring = 10;
-  @Input() outlined = false;
+export class PieComponent {
+  readonly $size = input(24, { alias: 'size' });
+  readonly $percent = input(100, { alias: 'percent' });
+  readonly $showPercentLabel = input(false, { alias: 'showPercentLabel' });
+  readonly $labelPosition = input<'top' | 'bottom' | 'left' | 'right' | 'center'>('center', { alias: 'labelPosition' });
+  readonly $color = input<string | undefined>(undefined, { alias: 'color' });
+  readonly $labelColor = input<string | undefined>(undefined, { alias: 'labelColor' });
+  readonly $labelSize = input<number | undefined>(undefined, { alias: 'labelSize' });
+  readonly $backgroundColor = input<string | undefined>(undefined, { alias: 'backgroundColor' });
+  readonly $ring = input(10, { alias: 'ring' });
+  readonly $outlined = input(false, { alias: 'outlined' });
 
-  rv = rangeValue;
+  protected readonly rv = rangeValue;
 
-  outlineBase: string;
-  twoToneBase: string;
-  clipPath: string;
-  iconStroke = 2;
-  stroke: number;
+  private readonly iconStroke = 2;
+  private readonly centerX = 12;
+  private readonly centerY = 12;
+  private readonly outerRadiusLarge = 10;
+  private readonly innerRadiusLarge = 8; // outerRadiusLarge - iconStroke
 
-  // Ring properties
-  centerX = 12;
-  centerY = 12;
+  protected readonly $stroke = computed(() => {
+    let stroke = Math.max(1, Math.min(10, Math.round(this.$ring())));
+    stroke = this.$outlined() ? Math.max(stroke, 2 * this.iconStroke + 1) : stroke;
+    return stroke;
+  });
 
-  // Outer ring
-  outerRadiusLarge = 10;
-  innerRadiusLarge: number;
+  private readonly $innerRadiusSmall = computed(() => this.outerRadiusLarge - this.$stroke());
+  private readonly $outerRadiusSmall = computed(() => {
+    if (this.$innerRadiusSmall() === 0) return 0;
+    return this.outerRadiusLarge - this.$stroke() + this.iconStroke;
+  });
 
-  // Inner Ring
-  outerRadiusSmall: number;
-  innerRadiusSmall: number;
+  protected readonly $path = computed(() => {
+    const rv = rangeValue(this.$percent(), 0, 100);
+    return `M 12,12 H 24 A 12,12,0,${rv >= 50 ? 1 : 0},1,${getCoordinates(rv)['x']},${getCoordinates(rv)['y']}Z`;
+  });
 
-  getPath(): string {
-    return `M 12,12 H 24 A 12,12,0,${this.rv(this.percent, 0, 100) >= 50 ? 1 : 0},1,${
-      getCoordinates(this.rv(this.percent, 0, 100))['x']
-    },${getCoordinates(this.rv(this.percent, 0, 100))['y']}Z`;
-  }
-
-  ngOnChanges(): void {
-    this.stroke = Math.max(1, Math.min(10, Math.round(this.ring)));
-    this.stroke = this.outlined ? Math.max(this.stroke, 2 * this.iconStroke + 1) : this.stroke;
-    this.innerRadiusLarge = 10 - this.iconStroke;
-    this.outerRadiusSmall = 10 - this.stroke + this.iconStroke;
-    this.innerRadiusSmall = 10 - this.stroke;
-    if (this.innerRadiusSmall === 0) {
-      this.outerRadiusSmall = 0;
-    }
-
-    this.outlineBase = `
-  M ${this.centerX} ${this.centerY - this.outerRadiusLarge}
-  A ${this.outerRadiusLarge} ${this.outerRadiusLarge} 0 1 0 ${this.centerX} ${this.centerY + this.outerRadiusLarge}
-  A ${this.outerRadiusLarge} ${this.outerRadiusLarge} 0 1 0 ${this.centerX} ${this.centerY - this.outerRadiusLarge}
+  protected readonly $outlineBase = computed(() => {
+    const cx = this.centerX;
+    const cy = this.centerY;
+    const orl = this.outerRadiusLarge;
+    const irl = this.innerRadiusLarge;
+    const ors = this.$outerRadiusSmall();
+    const irs = this.$innerRadiusSmall();
+    return `
+  M ${cx} ${cy - orl}
+  A ${orl} ${orl} 0 1 0 ${cx} ${cy + orl}
+  A ${orl} ${orl} 0 1 0 ${cx} ${cy - orl}
   Z
-  M ${this.centerX} ${this.centerY - this.innerRadiusLarge}
-  A ${this.innerRadiusLarge} ${this.innerRadiusLarge} 0 1 1 ${this.centerX} ${this.centerY + this.innerRadiusLarge}
-  A ${this.innerRadiusLarge} ${this.innerRadiusLarge} 0 1 1 ${this.centerX} ${this.centerY - this.innerRadiusLarge}
+  M ${cx} ${cy - irl}
+  A ${irl} ${irl} 0 1 1 ${cx} ${cy + irl}
+  A ${irl} ${irl} 0 1 1 ${cx} ${cy - irl}
   Z
-  M ${this.centerX} ${this.centerY - this.outerRadiusSmall}
-  A ${this.outerRadiusSmall} ${this.outerRadiusSmall} 0 1 0 ${this.centerX} ${this.centerY + this.outerRadiusSmall}
-  A ${this.outerRadiusSmall} ${this.outerRadiusSmall} 0 1 0 ${this.centerX} ${this.centerY - this.outerRadiusSmall}
+  M ${cx} ${cy - ors}
+  A ${ors} ${ors} 0 1 0 ${cx} ${cy + ors}
+  A ${ors} ${ors} 0 1 0 ${cx} ${cy - ors}
   Z
-  M ${this.centerX} ${this.centerY - this.innerRadiusSmall}
-  A ${this.innerRadiusSmall} ${this.innerRadiusSmall} 0 1 1 ${this.centerX} ${this.centerY + this.innerRadiusSmall}
-  A ${this.innerRadiusSmall} ${this.innerRadiusSmall} 0 1 1 ${this.centerX} ${this.centerY - this.innerRadiusSmall}
+  M ${cx} ${cy - irs}
+  A ${irs} ${irs} 0 1 1 ${cx} ${cy + irs}
+  A ${irs} ${irs} 0 1 1 ${cx} ${cy - irs}
   Z
 `;
-    this.twoToneBase = `
-M ${this.centerX} ${this.centerY - this.outerRadiusLarge}
-A ${this.outerRadiusLarge} ${this.outerRadiusLarge} 0 1 0 ${this.centerX} ${this.centerY + this.outerRadiusLarge}
-A ${this.outerRadiusLarge} ${this.outerRadiusLarge} 0 1 0 ${this.centerX} ${this.centerY - this.outerRadiusLarge}
+  });
+
+  protected readonly $twoToneBase = computed(() => {
+    const cx = this.centerX;
+    const cy = this.centerY;
+    const orl = this.outerRadiusLarge;
+    return `
+M ${cx} ${cy - orl}
+A ${orl} ${orl} 0 1 0 ${cx} ${cy + orl}
+A ${orl} ${orl} 0 1 0 ${cx} ${cy - orl}
 Z
 `;
-    this.clipPath = `
+  });
+
+  protected readonly $clipPath = computed(() => {
+    const stroke = this.$stroke();
+    return `
 M12,2
 A10,10,0,1,0,22,12,
 10,10,0,0,0,12,2
 Z
-m0,${20 - this.stroke} 
-A ${10 - this.stroke},${10 - this.stroke},0,1,1,${22 - this.stroke},12,
-${10 - this.stroke},${10 - this.stroke},0,0,1,12,${22 - this.stroke}
+m0,${20 - stroke} 
+A ${10 - stroke},${10 - stroke},0,1,1,${22 - stroke},12,
+${10 - stroke},${10 - stroke},0,0,1,12,${22 - stroke}
 Z
 `;
-  }
+  });
 }

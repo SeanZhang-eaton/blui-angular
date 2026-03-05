@@ -1,0 +1,52 @@
+<pxb-progress-icon
+  [size]="$size()"
+  [labelPosition]="$labelPosition()"
+  [percent]="$percent()"
+  [showPercentLabel]="$showPercentLabel()"
+  [labelColor]="$labelColor()"
+  [labelSize]="$labelSize()"
+  [color]="$color()"
+>
+  <svg
+    [attr.height]="$size() + 'px'"
+    [attr.width]="$size() + 'px'"
+    x="0px"
+    y="0px"
+    viewBox="0 0 24 24"
+    style="transform: rotate(-0.25turn)"
+  >
+    <clipPath [attr.id]="'pxb-donut-clip-' + $stroke()">
+      <path [attr.d]="$clipPath()" />
+    </clipPath>
+    @if ($outlined() && $backgroundColor()) {
+      <path
+        [attr.d]="$twoToneBase()"
+        [attr.clip-path]="'url(#pxb-donut-clip-' + $stroke() + ')'"
+        [attr.fill]="$backgroundColor()"
+      />
+    }
+    <path
+      [attr.clip-path]="'url(#pxb-donut-clip-' + $stroke() + ')'"
+      [attr.fill]="(!$outlined() && $backgroundColor()) || $color() || 'currentColor'"
+      [attr.fill-opacity]="$outlined() || $percent() >= 100 || (!$outlined() && $backgroundColor()) ? '1' : '0.3'"
+      [attr.d]="$outlined() ? $outlineBase() : $twoToneBase()"
+    />
+    @if (rv($percent(), 0, 100) > 0 && rv($percent(), 0, 100) < 100) {
+      <path
+        [attr.fill]="$color() || 'currentColor'"
+        [attr.clip-path]="'url(#pxb-donut-clip-' + $stroke() + ')'"
+        [attr.d]="$path()"
+      />
+    }
+
+    @if (rv($percent(), 0, 100) === 100 && $outlined()) {
+      <circle
+        [attr.clip-path]="'url(#pxb-donut-clip-' + $stroke() + ')'"
+        cx="12"
+        cy="12"
+        r="10"
+        [attr.fill]="$color() || 'currentColor'"
+      ></circle>
+    }
+  </svg>
+</pxb-progress-icon>
