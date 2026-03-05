@@ -27,7 +27,7 @@
     class="mat-subtitle-2 blui-info-list-item-subtitle-wrapper"
     matListItemLine
     [class.blui-info-list-item-wrap]="$wrapSubtitle()"
-    [class.is-empty]="!hasSubtitle()"
+    [class.is-empty]="!$hasSubtitle()"
   >
     <ng-content select="[blui-subtitle]"></ng-content>
   </div>

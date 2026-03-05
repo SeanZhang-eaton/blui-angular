@@ -4,8 +4,6 @@ import {
   Component,
   computed,
   ElementRef,
-  inject,
-  Injector,
   input,
   viewChild,
   ViewEncapsulation,
@@ -44,9 +42,9 @@ type DividerType = 'full' | 'partial' | undefined;
     class: 'blui-info-list-item',
     '[class.blui-info-list-item-wrap]': '$wrapSubtitle() || $wrapTitle() || $wrapInfo()',
     '[class.blui-info-list-item-dense]': '$dense()',
-    '[class.blui-info-list-item-default]': '!hasIcon() && !$statusColor()',
+    '[class.blui-info-list-item-default]': '!$hasIcon() && !$statusColor()',
     '[class.blui-info-list-item-status]': '$statusColor()',
-    '[class.blui-info-list-item-icon]': 'hasIcon()',
+    '[class.blui-info-list-item-icon]': '$hasIcon()',
     '[style.border-left-color]': '$statusColor()',
     '[style.border-right-color]': '$statusColor()',
   },
@@ -121,22 +119,19 @@ export class InfoListItemComponent implements AfterViewInit {
    * */
   readonly $wrapTitle = input(false, { alias: 'wrapTitle' });
 
-  private readonly titleEl = viewChild<ElementRef>('title');
-  private readonly rightEl = viewChild<ElementRef>('right');
-  readonly injector = inject(Injector);
+  private readonly $titleEl = viewChild<ElementRef>('title');
+  private readonly $rightEl = viewChild<ElementRef>('right');
 
-  private readonly iconEl = viewChild('icon', { read: ElementRef });
-  private readonly subtitleEl = viewChild('subtitle', { read: ElementRef });
+  private readonly $iconEl = viewChild('icon', { read: ElementRef });
+  private readonly $subtitleEl = viewChild('subtitle', { read: ElementRef });
 
-  protected readonly hasIcon = computed(() => !isEmptyView(this.iconEl()));
-  protected readonly hasSubtitle = computed(
-    () => !isEmptyContent(this.subtitleEl()?.nativeElement?.querySelector('[blui-subtitle]'))
+  protected readonly $hasIcon = computed(() => !isEmptyView(this.$iconEl()));
+  protected readonly $hasSubtitle = computed(
+    () => !isEmptyContent(this.$subtitleEl()?.nativeElement?.querySelector('[blui-subtitle]'))
   );
 
-  isEmpty = (el: ElementRef): boolean => isEmptyView(el);
-
   ngAfterViewInit(): void {
-    const titleRef = this.titleEl();
+    const titleRef = this.$titleEl();
     if (titleRef) {
       requireContent([{ selector: 'title', ref: titleRef }], this);
     }
