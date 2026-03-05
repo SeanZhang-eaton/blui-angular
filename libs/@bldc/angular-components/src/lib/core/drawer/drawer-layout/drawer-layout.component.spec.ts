@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { TestBed } from '@angular/core/testing';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 
 import { count } from '../../../utils/test-utils';
@@ -20,15 +20,11 @@ import { DrawerLayoutComponent } from './public-api';
 class DrawerRenderTestComponent {}
 
 describe('DrawerLayoutComponent', () => {
-  let component: DrawerLayoutComponent;
-  let fixture: ComponentFixture<DrawerLayoutComponent>;
 
   beforeEach(() => {
     void TestBed.configureTestingModule({
       imports: [DrawerRenderTestComponent, DrawerLayoutComponent, NoopAnimationsModule],
     }).compileComponents();
-    fixture = TestBed.createComponent(DrawerLayoutComponent);
-    component = fixture.componentInstance;
   });
 
   it('should render the drawer', () => {
