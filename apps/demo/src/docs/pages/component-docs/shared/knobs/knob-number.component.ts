@@ -1,9 +1,16 @@
+import { OverlayModule } from '@angular/cdk/overlay';
+import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormControl, Validators } from '@angular/forms';
-import { MatSliderChange } from '@angular/material/slider';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatSliderModule } from '@angular/material/slider';
 
 @Component({
+  standalone: true,
   selector: 'app-number-knob',
+  imports: [CommonModule, OverlayModule, MatSliderModule, MatFormFieldModule, MatInputModule,FormsModule, ReactiveFormsModule],
   template: `
     <mat-form-field appearance="fill" style="margin-bottom: 1rem" #input (click)="isOpen = true" [class]="label">
       <mat-label>{{ label }}: number</mat-label>
@@ -34,12 +41,14 @@ import { MatSliderChange } from '@angular/material/slider';
       <div style="padding-top: 12px">
         <div style="margin-left: -16px; padding: 0 8px" class="slider-knob-overlay divider-border">
           <!-- TODO: The 'tickInterval' property no longer exists -->
-          <mat-slider style="width: 332px" [(ngModel)]="value" [min]="min" [max]="max" [step]="step" #ngSlider
-            ><input
+          <mat-slider style="width: 332px" [min]="min" [max]="max" [step]="step" #ngSlider>
+            <input
               matSliderThumb
-              (input)="updateValue({ source: ngSliderThumb, parent: ngSlider, value: ngSliderThumb.value })"
+              [(ngModel)]="value"
+              (input)="updateValue(ngSliderThumb.value)"
               #ngSliderThumb="matSliderThumb"
-          /></mat-slider>
+            />
+          </mat-slider>
         </div>
       </div>
     </ng-template>
@@ -79,10 +88,9 @@ export class KnobNumberComponent implements OnInit {
     this.control.markAsTouched();
   }
 
-  updateValue(e: MatSliderChange): void {
-    this.value = e.value;
-    this.control.setValue(e.value);
-    this.valueChange.emit(e.value);
+  updateValue(value: number): void {
+    this.control.setValue(value);
+    this.valueChange.emit(value);
   }
 
   clickedBackdrop(): void {

@@ -43,7 +43,6 @@ import { ScaffoldComponent } from './scaffold/scaffold.component';
     KnobBooleanComponent,
     KnobColorComponent,
     KnobSelectComponent,
-    KnobNumberComponent,
   ],
   exports: [
     ExampleCodeComponent,
@@ -76,6 +75,7 @@ import { ScaffoldComponent } from './scaffold/scaffold.component';
     MatSelectModule,
     FormsModule,
     MatButtonModule,
+    KnobNumberComponent,
     MarkdownModule.forRoot({
       loader: HttpClient,
       sanitize: SecurityContext.NONE,

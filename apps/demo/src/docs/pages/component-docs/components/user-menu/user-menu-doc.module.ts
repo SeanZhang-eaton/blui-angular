@@ -1,8 +1,9 @@
 import { NgModule } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
+import { MatNavList  } from '@angular/material/list';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { RouterModule } from '@angular/router';
-import { InfoListItemModule, SpacerModule, UserMenuModule } from '@bldc/angular-components/core';
+import { InfoListItemModule, SpacerModule, UserMenuComponent } from '@bldc/angular-components/core';
 
 import { SharedCompDocsModule } from '../../shared/shared-comp-docs.module';
 
@@ -31,12 +32,13 @@ import { UserMenuDocComponent } from './user-menu-doc.component';
     PlaygroundComponent,
   ],
   imports: [
-    UserMenuModule,
+    UserMenuComponent,
     SpacerModule,
     InfoListItemModule,
     SharedCompDocsModule,
     MatToolbarModule,
     MatIconModule,
+    MatNavList,
     RouterModule,
   ],
   exports: [UserMenuDocComponent],

@@ -22,7 +22,8 @@
   src: url(MaterialIcons-Regular.woff2) format('woff2');
 }
 
-.material-icons {
+.material-icons,
+[blui-icon] {
   display: inline-block;
 
   font-weight: normal;
