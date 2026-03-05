@@ -53,7 +53,8 @@ describe('DrawerComponent', () => {
       void expect(component.selectedItemId).toBe('Page TemplatesDashboard');
     });
 
-    it('should navigate to BLUI Data Display page', () => {
+    it('should navigate to BLUI Data Display page', async () => {
+      await new Promise((resolve) => setTimeout(resolve));
       fixture.detectChanges();
       const navMenuItem = fixture.debugElement.query(By.css('.nav-menuData'));
       const navigateSpy = vi.spyOn(component, 'navigate').mockImplementation(() => Promise.resolve());
@@ -61,7 +62,8 @@ describe('DrawerComponent', () => {
       void expect(navigateSpy).toHaveBeenCalledWith('/blui-components/data-display-components');
     });
 
-    it('should navigate to BLUI Navigation Components page', () => {
+    it('should navigate to BLUI Navigation Components page', async () => {
+      await new Promise((resolve) => setTimeout(resolve));
       fixture.detectChanges();
       const navMenuItem = fixture.debugElement.query(By.css('.nav-menuNavigation'));
       const navigateSpy = vi.spyOn(component, 'navigate').mockImplementation(() => Promise.resolve());
@@ -69,7 +71,8 @@ describe('DrawerComponent', () => {
       void expect(navigateSpy).toHaveBeenCalledWith('/blui-components/navigation-components');
     });
 
-    it('should navigate to BLUI Surface Components page', () => {
+    it('should navigate to BLUI Surface Components page', async () => {
+      await new Promise((resolve) => setTimeout(resolve));
       fixture.detectChanges();
       const navMenuItem = fixture.debugElement.query(By.css('.nav-menuSurfaces'));
       const navigateSpy = vi.spyOn(component, 'navigate').mockImplementation(() => Promise.resolve());
@@ -77,7 +80,8 @@ describe('DrawerComponent', () => {
       void expect(navigateSpy).toHaveBeenCalledWith('/blui-components/surface-components');
     });
 
-    it('should navigate to Mat Feedback Components page', () => {
+    it('should navigate to Mat Feedback Components page', async () => {
+      await new Promise((resolve) => setTimeout(resolve));
       fixture.detectChanges();
       const navMenuItem = fixture.debugElement.query(By.css('.nav-menuFeedback'));
       const navigateSpy = vi.spyOn(component, 'navigate').mockImplementation(() => Promise.resolve());
@@ -86,7 +90,8 @@ describe('DrawerComponent', () => {
       void expect(navigateSpy).toHaveBeenCalledWith('/material-components/feedback-components');
     });
 
-    it('should navigate to Mat Input Components page', () => {
+    it('should navigate to Mat Input Components page', async () => {
+      await new Promise((resolve) => setTimeout(resolve));
       fixture.detectChanges();
       const navMenuItem = fixture.debugElement.query(By.css('.nav-menuInputs'));
       const navigateSpy = vi.spyOn(component, 'navigate').mockImplementation(() => Promise.resolve());
@@ -94,7 +99,8 @@ describe('DrawerComponent', () => {
       void expect(navigateSpy).toHaveBeenCalledWith('/material-components/input-components');
     });
 
-    it('should navigate to Alarms template', () => {
+    it('should navigate to Alarms template', async () => {
+      await new Promise((resolve) => setTimeout(resolve));
       fixture.detectChanges();
       const navMenuItem = fixture.debugElement.query(By.css('.nav-menuAlarms'));
       const navigateSpy = vi.spyOn(component, 'navigate').mockImplementation(() => Promise.resolve());
@@ -102,7 +108,8 @@ describe('DrawerComponent', () => {
       void expect(navigateSpy).toHaveBeenCalledWith('/templates/alarms');
     });
 
-    it('should navigate to Dashboard template', () => {
+    it('should navigate to Dashboard template', async () => {
+      await new Promise((resolve) => setTimeout(resolve));
       fixture.detectChanges();
       const navMenuItem = fixture.debugElement.query(By.css('.nav-menuDashboard'));
       const navigateSpy = vi.spyOn(component, 'navigate').mockImplementation(() => Promise.resolve());
@@ -110,7 +117,8 @@ describe('DrawerComponent', () => {
       void expect(navigateSpy).toHaveBeenCalledWith('/templates/dashboard');
     });
 
-    it('should navigate to Settings template', () => {
+    it('should navigate to Settings template', async () => {
+      await new Promise((resolve) => setTimeout(resolve));
       fixture.detectChanges();
       const navMenuItem = fixture.debugElement.query(By.css('.nav-menuSettings'));
       const navigateSpy = vi.spyOn(component, 'navigate').mockImplementation(() => Promise.resolve());

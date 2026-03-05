@@ -62,9 +62,7 @@ export class DrawerNavGroupComponent {
     effect(() => {
       const navItems = this.$navItems();
       untracked(() => {
-        setTimeout(() => {
-          this._initializeNavItemDefaults(0, navItems);
-        });
+        this._initializeNavItemDefaults(0, navItems);
       });
     });
   }
