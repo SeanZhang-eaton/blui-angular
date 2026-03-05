@@ -130,7 +130,7 @@ export class DrawerNavItemComponent {
   private readonly $matExpansionPanel = viewChild<MatExpansionPanel>('matExpansionPanel');
 
   protected readonly drawerState = inject(DRAWER_STATE);
-  private readonly changeDetectorRef = inject(ChangeDetectorRef);
+  protected readonly changeDetectorRef = inject(ChangeDetectorRef);
 
   protected readonly $isNoIcon = computed(() => isEmptyView(this.$iconEl()));
   protected readonly $hideExpandIcon = computed(

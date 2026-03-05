@@ -50,7 +50,7 @@ export class DrawerNavGroupComponent {
 
   private _initializeNavItemDefaults(depth: number, navItems: readonly DrawerNavItemComponent[]): void {
     for (const item of navItems) {
-      if (item && !item.changeDetectorRef['destroyed']) {
+      if (item && !item['changeDetectorRef']?.['destroyed']) {
         item.incrementDepth(depth);
         this._initializeNavItemDefaults(depth + 1, item.$nestedNavItems());
       }
