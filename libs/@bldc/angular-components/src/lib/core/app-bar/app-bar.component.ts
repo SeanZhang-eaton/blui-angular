@@ -32,30 +32,11 @@ const DEFAULT_COLLAPSED_HEIGHT = 64;
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
-  styleUrls: ['./app-bar.component.scss'],
+  styleUrl: './app-bar.component.scss',
+  templateUrl: './app-bar.component.html',
   host: {
     class: 'blui-app-bar mat-elevation-z4',
   },
-  template: `
-    <mat-toolbar
-      [color]="$color()"
-      class="blui-app-bar-content"
-      [class.blui-app-bar-collapsed]="$isCollapsed()"
-      [class.blui-app-bar-expanded]="!$isCollapsed()"
-      [class.blui-app-bar-view-init]="$viewInit()"
-      [style.height]="$currentToolbarHeight()"
-    >
-      <mat-toolbar-row>
-        <div class="blui-app-bar-background"></div>
-        <ng-content select="[blui-icon]"></ng-content>
-        <div class="blui-app-bar-body-wrapper">
-          <ng-content></ng-content>
-        </div>
-        <blui-spacer></blui-spacer>
-        <ng-content select="[blui-actions]"></ng-content>
-      </mat-toolbar-row>
-    </mat-toolbar>
-  `,
   imports: [MatToolbar, MatToolbarRow, SpacerComponent],
 })
 export class AppBarComponent {
@@ -101,14 +82,14 @@ export class AppBarComponent {
   readonly collapsedChange = output<boolean>();
 
   /** Whether the component has completed its first render */
-  readonly $viewInit = signal(false);
+  protected readonly $viewInit = signal(false);
 
   private get window(): Window | null {
     return this.document.defaultView;
   }
 
   /** Whether the collapse/expand animation is in progress. Used to prevent flickering. */
-  readonly $isAnimating = signal(false);
+  private readonly $isAnimating = signal(false);
 
   /** Resolved scroll container element. Falls back to window if no container is specified. */
   private readonly $scrollEl = computed(() => {
@@ -129,7 +110,7 @@ export class AppBarComponent {
   });
 
   /** Signal that emits on scroll events from the scroll container (throttled to 10ms) */
-  readonly $scrollEvent = toSignal(
+  private readonly $scrollEvent = toSignal(
     toObservable(this.$scrollEl, { injector: this.injector }).pipe(
       filter((el) => el != null),
       switchMap((el) => fromEvent(el, 'scroll').pipe(throttle(() => interval(10))))
@@ -138,7 +119,7 @@ export class AppBarComponent {
   );
 
   /** Signal that emits on window resize events (throttled to 10ms) */
-  readonly $resizeEvent = toSignal(
+  private readonly $resizeEvent = toSignal(
     toObservable(this.$scrollEl, { injector: this.injector }).pipe(
       filter((el) => el != null),
       switchMap(() => (this.window ? fromEvent(this.window, 'resize').pipe(throttle(() => interval(10))) : EMPTY))
@@ -147,16 +128,16 @@ export class AppBarComponent {
   );
 
   /** Whether the scroll container is the window object */
-  readonly $isWindow = computed(() => this.$scrollEl() === this.window);
+  private readonly $isWindow = computed(() => this.$scrollEl() === this.window);
 
   /** Whether to use the default responsive collapsed height (3.5rem mobile, 4rem desktop) */
-  readonly $useDefaultCollapsedHeight = computed(() => {
+  private readonly $useDefaultCollapsedHeight = computed(() => {
     const height = this.$collapsedHeight();
     return !Number.isFinite(height) || height === 0;
   });
 
   /** Calculated scroll threshold. Uses input value or defaults to expandedHeight - collapsedHeight. */
-  readonly $effectiveScrollThreshold = computed(() => {
+  private readonly $effectiveScrollThreshold = computed(() => {
     const threshold = this.$scrollThreshold();
     if (Number.isFinite(threshold)) {
       return threshold;
@@ -165,10 +146,10 @@ export class AppBarComponent {
   });
 
   /** Current collapsed state. Managed by effect for snap mode hysteresis behavior. */
-  readonly $isCollapsed = signal(true);
+  protected readonly $isCollapsed = signal(true);
 
   /** Computed toolbar height based on collapsed state and height inputs */
-  readonly $currentToolbarHeight = computed(() => {
+  protected readonly $currentToolbarHeight = computed(() => {
     if (!this.$isCollapsed()) {
       return `${this.$expandedHeight()}px`;
     } else if (!this.$useDefaultCollapsedHeight()) {

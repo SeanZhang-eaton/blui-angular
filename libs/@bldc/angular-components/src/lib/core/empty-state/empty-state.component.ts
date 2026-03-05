@@ -36,9 +36,9 @@ export class EmptyStateComponent {
   $title = input<string | undefined>(undefined, { alias: 'title' });
 
   /** Used to check if an icon has been provided */
-  $emptyIcon = viewChild<ElementRef>('emptyIcon');
-  $actionsRef = viewChild<ElementRef>('actionsRef');
-  $hasAction = signal(false);
+  private readonly $emptyIcon = viewChild<ElementRef>('emptyIcon');
+  private readonly $actionsRef = viewChild<ElementRef>('actionsRef');
+  protected readonly $hasAction = signal(false);
 
   constructor() {
     afterNextRender(() => {

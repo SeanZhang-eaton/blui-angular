@@ -23,13 +23,13 @@ export class ChannelValueComponent {
    *
    * @default false
    * */
-  $prefix = input(false, { alias: 'prefix' });
+  readonly $prefix = input(false, { alias: 'prefix' });
   /** The text to display for the units (light text) */
-  $units = input<string | undefined>(undefined, { alias: 'units' });
+  readonly $units = input<string | undefined>(undefined, { alias: 'units' });
   /** The text to display for the value (bold text)*/
-  $value = input.required<string | number>({ alias: 'value' });
+  readonly $value = input.required<string | number>({ alias: 'value' });
   /** Text color */
-  $color = input<string | undefined>(undefined, { alias: 'color' });
+  readonly $color = input<string | undefined>(undefined, { alias: 'color' });
   /** Show a space between the value and units. Can be `show` | `hide` | `auto`
    *
    * `show` - Show a space between the value and units.
@@ -44,12 +44,12 @@ export class ChannelValueComponent {
    *
    * @default auto;
    * */
-  $unitSpace = input<UnitSpaceType>('auto', { alias: 'unitSpace' });
+  readonly $unitSpace = input<UnitSpaceType>('auto', { alias: 'unitSpace' });
 
-  prefixUnitWhitelist = ['$'];
-  suffixUnitWhitelist = ['%', '℉', '°F', '℃', '°C', '°'];
+  private readonly prefixUnitWhitelist = ['$'];
+  private readonly suffixUnitWhitelist = ['%', '℉', '°F', '℃', '°C', '°'];
 
-  $isWhiteListedUnit = computed(() => {
+  protected readonly $isWhiteListedUnit = computed(() => {
     const units = this.$units();
     if (!units) return false;
     return this.$prefix()
@@ -57,5 +57,5 @@ export class ChannelValueComponent {
       : this.suffixUnitWhitelist.includes(units);
   });
 
-  $valueAsString = computed(() => String(this.$value()));
+  protected readonly $valueAsString = computed(() => String(this.$value()));
 }

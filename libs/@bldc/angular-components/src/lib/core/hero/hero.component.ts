@@ -1,13 +1,11 @@
 import {
-  AfterContentChecked,
+  afterRender,
   AfterViewInit,
   ChangeDetectionStrategy,
   Component,
   computed,
   effect,
   ElementRef,
-  inject,
-  Injector,
   input,
   signal,
   viewChild,
@@ -35,7 +33,7 @@ import { ChannelValueComponent, UnitSpaceType } from '../channel-value/channel-v
   },
   imports: [ChannelValueComponent],
 })
-export class HeroComponent implements AfterViewInit, AfterContentChecked {
+export class HeroComponent implements AfterViewInit {
   /** If true, shows units before the value
    *
    * @default false
@@ -58,13 +56,12 @@ export class HeroComponent implements AfterViewInit, AfterContentChecked {
   /** Show a space between the value and units for the channel, default is `auto` */
   readonly $unitSpace = input<UnitSpaceType>('auto', { alias: 'unitSpace' });
 
-  private readonly $primaryContainer = viewChild<ElementRef>('primaryContainer');
+  private readonly $primaryContainer = viewChild.required<ElementRef>('primaryContainer');
 
   protected readonly $iSize = computed(() => this.$iconSize());
   protected readonly $hasMatSvgIcon = signal(false);
 
   private iconString: string;
-  private readonly injector = inject(Injector);
 
   private readonly labelEffect = effect(() => {
     const label = this.$label();
@@ -73,16 +70,18 @@ export class HeroComponent implements AfterViewInit, AfterContentChecked {
     }
   });
 
+  constructor() {
+    afterRender(() => {
+      this.scaleSvgIconOnChanges();
+    });
+  }
+
   ngAfterViewInit(): void {
     const container = this.$primaryContainer();
     if (container) {
       requireContent([{ selector: 'primaryContainer', ref: container }], this);
       this.$hasMatSvgIcon.set(Boolean(this.getMatSvgIcon()));
     }
-  }
-
-  ngAfterContentChecked(): void {
-    this.scaleSvgIconOnChanges();
   }
 
   // Used to listen for changes in the primary icon content.

@@ -1,0 +1,18 @@
+<mat-toolbar
+  [color]="$color()"
+  class="blui-app-bar-content"
+  [class.blui-app-bar-collapsed]="$isCollapsed()"
+  [class.blui-app-bar-expanded]="!$isCollapsed()"
+  [class.blui-app-bar-view-init]="$viewInit()"
+  [style.height]="$currentToolbarHeight()"
+>
+  <mat-toolbar-row>
+    <div class="blui-app-bar-background"></div>
+    <ng-content select="[blui-icon]"></ng-content>
+    <div class="blui-app-bar-body-wrapper">
+      <ng-content></ng-content>
+    </div>
+    <blui-spacer></blui-spacer>
+    <ng-content select="[blui-actions]"></ng-content>
+  </mat-toolbar-row>
+</mat-toolbar>

@@ -11,7 +11,7 @@ import { ChangeDetectionStrategy, Component, computed, input, ViewEncapsulation 
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
-  template: `<ng-content></ng-content>`,
+  templateUrl: './spacer.component.html',
   host: {
     '[style.height.px]': '$height()',
     '[style.width.px]': '$width()',
