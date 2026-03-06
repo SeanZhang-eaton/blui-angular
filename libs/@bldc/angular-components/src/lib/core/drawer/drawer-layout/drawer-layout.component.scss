@@ -1,3 +1,5 @@
+@use '@angular/material' as mat;
+
 $transition: 300ms cubic-bezier(0.4, 0, 0.2, 1);
 
 .blui-drawer-layout {
@@ -27,6 +29,9 @@ $transition: 300ms cubic-bezier(0.4, 0, 0.2, 1);
 
   > .mat-drawer-side {
     border-right: none;
+    &.blui-drawer-shadow {
+      box-shadow: var(--mat-app-elevation-shadow-level-6, none);
+    }
   }
 
   > .blui-drawer-layout-sidenav .blui-drawer-content {
