@@ -26,7 +26,7 @@ export type Knob = {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   value: any;
   componentDefault?: string | boolean | number;
-  range?: { min: number; max: number; tickInterval: number; step: number };
+  range?: { min: number; max: number; step: number };
   type: 'string' | 'color' | 'select' | 'number' | 'boolean';
   hint: string;
   options?: string[];
@@ -164,7 +164,6 @@ export type Knob = {
           [isRequired]="required"
           [max]="knob.range.max"
           [min]="knob.range.min"
-          [tickInterval]="knob.range.tickInterval"
           [step]="knob.range.step"
           [hint]="knob.hint"
           (valueChange)="emitKnobChange()"
@@ -302,7 +301,7 @@ export class ScaffoldComponent implements OnInit, OnChanges, OnDestroy {
     if (this.mdFileName === 'MobileStepper.md') {
       const required = this.knobGroups[0].knobs as { [key: string]: Knob };
       if (required.activeStep && required.steps) {
-        required.activeStep.range = { min: 0, max: required.steps.value - 1, tickInterval: 1, step: 1 };
+        required.activeStep.range = { min: 0, max: required.steps.value - 1, step: 1 };
         if (required.activeStep.value >= required.steps.value) {
           required.activeStep.value = required.steps.value - 1;
         }

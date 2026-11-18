@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
-import { DrawerModule } from '@bldc/angular-components/core';
+import { DrawerModule } from '@bldc/angular-components';
 
 import { SharedCompDocsModule } from '../../../shared/shared-comp-docs.module';
 

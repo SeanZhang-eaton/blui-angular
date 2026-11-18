@@ -1,6 +1,6 @@
 import { AfterViewInit, Component, EventEmitter, Input, OnDestroy, Output } from '@angular/core';
 import * as Colors from '@brightlayer-ui/colors';
-import { DrawerNavItem } from '@bldc/angular-components/core';
+import { DrawerNavItem } from '@bldc/angular-components';
 
 import { Subscription } from 'rxjs';
 

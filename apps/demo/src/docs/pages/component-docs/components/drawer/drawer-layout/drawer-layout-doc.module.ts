@@ -1,7 +1,6 @@
 import { NgModule } from '@angular/core';
 import { MatToolbarModule } from '@angular/material/toolbar';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { DrawerModule } from '@bldc/angular-components/core';
+import { DrawerModule } from '@bldc/angular-components';
 
 import { SharedCompDocsModule } from '../../../shared/shared-comp-docs.module';
 
@@ -23,7 +22,7 @@ import { DrawerLayoutDocComponent } from './drawer-layout-doc.component';
     PlaygroundComponent,
     RailCondensedVariantExampleComponent,
   ],
-  imports: [DrawerModule, BrowserAnimationsModule, SharedCompDocsModule, MatToolbarModule],
+  imports: [DrawerModule, SharedCompDocsModule, MatToolbarModule],
   exports: [DrawerLayoutDocComponent],
 })
 export class DrawerLayoutDocModule {}

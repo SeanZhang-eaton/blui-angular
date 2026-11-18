@@ -118,7 +118,7 @@ export class DrawerDocComponent implements OnInit {
       componentDefault: 500,
       type: 'number',
       hint: 'Delay in milliseconds before a hover event opens the drawer (persistent variant only)',
-      range: { min: 100, max: 1000, tickInterval: 1, step: 100 },
+      range: { min: 100, max: 1000, step: 100 },
     },
     sideBorder: {
       value: false,

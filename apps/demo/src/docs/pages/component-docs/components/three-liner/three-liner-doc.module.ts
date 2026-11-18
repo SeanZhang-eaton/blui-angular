@@ -3,7 +3,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatMenuModule } from '@angular/material/menu';
 import { RouterModule } from '@angular/router';
-import { ThreeLinerModule, ToolbarMenuModule } from '@bldc/angular-components/core';
+import { ThreeLinerModule, ToolbarMenuModule } from '@bldc/angular-components';
 
 import { SharedCompDocsModule } from '../../shared/shared-comp-docs.module';
 

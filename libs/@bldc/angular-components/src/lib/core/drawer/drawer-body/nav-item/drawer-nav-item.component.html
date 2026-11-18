@@ -4,9 +4,8 @@
     class="blui-drawer-nav-item-content"
     #navItem
     matRipple
-    [matRippleDisabled]="!$ripple() ?? true"
+    [matRippleDisabled]="!$ripple()"
     [class.blui-drawer-nav-item-active]="$selected()"
-    [class.blui-drawer-nav-item-compact]="false"
   >
     <div
       [class.blui-drawer-nav-item-active-highlight]="$selected()"
@@ -41,7 +40,7 @@
         >
           {{ $title() }}
         </div>
-        @if ($subtitle() !== null || $subtitle() !== undefined) {
+        @if ($subtitle() !== null && $subtitle() !== undefined) {
           <div blui-subtitle>{{ $subtitle() }}</div>
         }
         @if ($hasChildren() && drawerState.$isOpen()) {

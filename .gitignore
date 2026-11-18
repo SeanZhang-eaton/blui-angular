@@ -21,7 +21,6 @@ yarn-error.log*
 coverage
 .angular
 
-/showcase/src/lib/
 
 build
 

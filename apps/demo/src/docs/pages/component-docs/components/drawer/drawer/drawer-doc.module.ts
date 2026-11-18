@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
-import { DrawerModule, SpacerModule } from '@bldc/angular-components/core';
+import { DrawerModule, SpacerModule } from '@bldc/angular-components';
 
 import { SharedCompDocsModule } from '../../../shared/shared-comp-docs.module';
 

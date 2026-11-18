@@ -31,9 +31,9 @@ import { hasChildren, requireContent } from '../../utils/utils';
 })
 export class EmptyStateComponent {
   /** The secondary text to display (second line) */
-  $description = input<string | undefined>(undefined, { alias: 'description' });
+  readonly $description = input<string | undefined>(undefined, { alias: 'description' });
   /** The primary text to display (first line) */
-  $title = input<string | undefined>(undefined, { alias: 'title' });
+  readonly $title = input<string | undefined>(undefined, { alias: 'title' });
 
   /** Used to check if an icon has been provided */
   private readonly $emptyIcon = viewChild<ElementRef>('emptyIcon');

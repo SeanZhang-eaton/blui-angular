@@ -15,8 +15,7 @@
       "@bldc/angular-components": ["libs/@bldc/angular-components/src/public-api.ts"],
       "@bldc/angular-components/*": ["libs/@bldc/angular-components/src/lib/*"],
       "@bldc/angular-themes/*": ["libs/@bldc/angular-themes/src/lib/*"],
-      "@blui-apps/demo/*": ["apps/demo/src/*"],
-      "@blui-lab/angular": ["src/lab"]
+      "@blui-apps/demo/*": ["apps/demo/src/*"]
     },
     "lib": ["es2018", "dom"],
     "useDefineForClassFields": false,

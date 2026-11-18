@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
-import { ChannelValueModule, InfoListItemModule, ListItemTagModule } from '@bldc/angular-components/core';
+import { ChannelValueModule, InfoListItemModule, ListItemTagModule } from '@bldc/angular-components';
 
 import { SharedCompDocsModule } from '../../shared/shared-comp-docs.module';
 

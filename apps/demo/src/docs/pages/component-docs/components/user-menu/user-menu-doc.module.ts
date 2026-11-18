@@ -3,7 +3,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatNavList  } from '@angular/material/list';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { RouterModule } from '@angular/router';
-import { InfoListItemModule, SpacerModule, UserMenuComponent } from '@bldc/angular-components/core';
+import { InfoListItemModule, SpacerModule, UserMenuComponent } from '@bldc/angular-components';
 
 import { SharedCompDocsModule } from '../../shared/shared-comp-docs.module';
 

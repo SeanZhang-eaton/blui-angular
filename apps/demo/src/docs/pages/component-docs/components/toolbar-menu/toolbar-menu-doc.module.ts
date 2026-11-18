@@ -4,7 +4,7 @@ import { MatListModule } from '@angular/material/list';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { RouterModule } from '@angular/router';
-import { ToolbarMenuModule } from '@bldc/angular-components/core';
+import { ToolbarMenuModule } from '@bldc/angular-components';
 
 import { SharedCompDocsModule } from '../../shared/shared-comp-docs.module';
 

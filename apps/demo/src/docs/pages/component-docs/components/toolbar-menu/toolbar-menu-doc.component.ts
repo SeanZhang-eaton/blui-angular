@@ -85,7 +85,7 @@ export class ToolbarMenuDocComponent {
     menuItemsCount: {
       value: 3,
       type: 'number',
-      range: { min: 1, max: 4, step: 1, tickInterval: 1 },
+      range: { min: 1, max: 4, step: 1 },
       label: 'Menu Item Labels',
       hint: '',
     },

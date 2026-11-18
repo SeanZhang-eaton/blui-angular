@@ -118,19 +118,19 @@ export class AppBarDocComponent {
       componentDefault: 200,
       type: 'number',
       hint: 'Height of the AppBar when expanded',
-      range: { min: 50, max: 300, step: 1, tickInterval: 1 },
+      range: { min: 50, max: 300, step: 1 },
     },
     collapsedHeight: {
       value: 64,
       type: 'number',
       hint: 'Height of the AppBar when collapsed',
-      range: { min: 56, max: 100, step: 1, tickInterval: 1 },
+      range: { min: 56, max: 100, step: 1 },
     },
     scrollThreshold: {
       value: 100,
       type: 'number',
       hint: 'Distance in pixels to scroll before collapsing toolbar',
-      range: { min: 50, max: 400, step: 10, tickInterval: 1 },
+      range: { min: 50, max: 400, step: 10 },
     },
     variant: {
       value: 'snap',

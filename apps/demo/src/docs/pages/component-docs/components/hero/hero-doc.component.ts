@@ -131,7 +131,7 @@ export class HeroDocComponent {
       componentDefault: 36,
       value: 36,
       type: 'number',
-      range: { min: 1, max: 96, step: 1, tickInterval: 1 },
+      range: { min: 1, max: 96, step: 1 },
       hint: 'The size of the primary icon',
     },
     unitSpace: {

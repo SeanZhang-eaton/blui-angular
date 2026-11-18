@@ -11,8 +11,8 @@ It supports three variants: `'snap'`, `'collapsed'`, and `'expanded'`.
 ## Usage
 
 <div style="width: 100%; text-align: center">
-    <img width="100%" style="max-width: 600px" alt="User Menu Anatomy" src="./images/appBarExpanded.png">
-    <img width="100%" style="max-width: 600px" alt="User Menu Anatomy Selector" src="./images/appBarCollapsed.png">
+    <img width="100%" style="max-width: 600px" alt="App Bar expanded" src="./images/appBarExpanded.png">
+    <img width="100%" style="max-width: 600px" alt="App Bar collapsed" src="./images/appBarCollapsed.png">
 </div>
 
 ```typescript

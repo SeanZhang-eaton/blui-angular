@@ -123,7 +123,7 @@ export class ScoreCardDocComponent {
       componentDefault: 0,
       value: -80,
       type: 'number',
-      range: { min: -100, max: 100, step: 1, tickInterval: 1 },
+      range: { min: -100, max: 100, step: 1 },
       hint: 'Vertical offset for the badge content',
     },
   };
@@ -132,7 +132,7 @@ export class ScoreCardDocComponent {
     numberOfHeroes: {
       value: 1,
       type: 'number',
-      range: { min: 0, max: 2, step: 1, tickInterval: 1 },
+      range: { min: 0, max: 2, step: 1 },
       hint: '',
     },
   };

@@ -210,7 +210,7 @@ export class UserMenuDocComponent {
       componentDefault: 600,
       type: 'number',
       hint: 'Window pixel width at which the responsive bottom sheet menu is triggered',
-      range: { min: 0, max: 2500, step: 100, tickInterval: 1 },
+      range: { min: 0, max: 2500, step: 100 },
     },
   };
 

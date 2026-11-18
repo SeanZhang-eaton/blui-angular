@@ -20,7 +20,7 @@ import {
 } from '@angular/material/list';
 
 import { isEmptyContent, isEmptyView, requireContent } from '../../utils/utils';
-import { SpacerComponent } from '../utility/spacer.module';
+import { SpacerComponent } from '../utility/spacer.component';
 
 type IconAlignType = 'left' | 'center' | 'right' | undefined;
 type DividerType = 'full' | 'partial' | undefined;

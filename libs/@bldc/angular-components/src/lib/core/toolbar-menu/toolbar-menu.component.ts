@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, input, viewChild, ViewEncapsulation } from '@angular/core';
+import { ChangeDetectionStrategy, Component, input, ViewEncapsulation } from '@angular/core';
 import { MatIcon } from '@angular/material/icon';
 import { MatMenu, MatMenuTrigger } from '@angular/material/menu';
 
@@ -22,5 +22,4 @@ import { MatMenu, MatMenuTrigger } from '@angular/material/menu';
 export class ToolbarMenuComponent {
   /** The text to display for label */
   readonly $label = input<string>(undefined, { alias: 'label' });
-  protected readonly $menuTrigger = viewChild<MatMenuTrigger>('menuTrigger');
 }

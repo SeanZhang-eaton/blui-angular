@@ -59,14 +59,14 @@ export class MobileStepperDocComponent {
       componentDefault: undefined,
       type: 'number',
       hint: 'The index of the active step',
-      range: { min: 0, max: 3, tickInterval: 1, step: 1 },
+      range: { min: 0, max: 3, step: 1 },
     },
     steps: {
       value: 4,
       componentDefault: undefined,
       type: 'number',
       hint: 'Total number of steps to display',
-      range: { min: 2, max: 8, tickInterval: 1, step: 1 },
+      range: { min: 2, max: 8, step: 1 },
     },
   };
 

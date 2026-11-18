@@ -128,7 +128,7 @@ export class DrawerLayoutDocComponent implements OnInit {
       componentDefault: 350,
       type: 'number',
       hint: 'Sets the drawer width (not applicable to rail variant)',
-      range: { min: 50, max: 500, step: 50, tickInterval: 1 },
+      range: { min: 50, max: 500, step: 50 },
     },
   };
   drawerOptionalProps: { [key: string]: Knob } = {

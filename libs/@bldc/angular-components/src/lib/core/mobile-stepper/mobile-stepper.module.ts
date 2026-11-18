@@ -6,4 +6,4 @@ import { MobileStepperComponent } from './mobile-stepper.component';
   imports: [MobileStepperComponent],
   exports: [MobileStepperComponent],
 })
-export class MobileStepperModule { }
+export class MobileStepperModule {}

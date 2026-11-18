@@ -4,6 +4,7 @@ import {
   ChangeDetectionStrategy,
   Component,
   computed,
+  DestroyRef,
   effect,
   inject,
   Injector,
@@ -17,7 +18,7 @@ import { MatToolbar, MatToolbarRow } from '@angular/material/toolbar';
 
 import { EMPTY, filter, fromEvent, interval, switchMap, throttle } from 'rxjs';
 
-import { SpacerComponent } from '../utility/spacer.module';
+import { SpacerComponent } from '../utility/spacer.component';
 
 /** Default collapsed height in pixels when collapsedHeight input is not provided */
 const DEFAULT_COLLAPSED_HEIGHT = 64;
@@ -169,7 +170,11 @@ export class AppBarComponent {
     return (el as HTMLElement)?.scrollTop ?? 0;
   });
 
+  #collapseTimeout: ReturnType<typeof setTimeout> | undefined;
+
   constructor() {
+    inject(DestroyRef).onDestroy(() => clearTimeout(this.#collapseTimeout));
+
     afterNextRender({
       write: () => {
         this.$viewInit.set(true);
@@ -222,7 +227,8 @@ export class AppBarComponent {
     this.#setCollapsed(true);
     this.$isAnimating.set(true);
 
-    setTimeout(() => {
+    clearTimeout(this.#collapseTimeout);
+    this.#collapseTimeout = setTimeout(() => {
       if (scrollDistance <= 0) {
         if (this.$isWindow()) {
           this.window?.scrollBy(0, 1);
@@ -235,11 +241,10 @@ export class AppBarComponent {
     }, 300);
   }
 
-  /** Updates collapsed state if changed and emits the change event */
+  /** Updates collapsed state if changed. The `collapsedChange` output is emitted by the effect in the constructor. */
   #setCollapsed(collapsed: boolean): void {
     if (this.$isCollapsed() === collapsed) return;
     this.$isCollapsed.set(collapsed);
-    this.collapsedChange.emit(collapsed);
   }
 
   /** Returns responsive default height: 3.5rem for mobile (<=600px), 4rem for desktop */

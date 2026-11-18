@@ -18,7 +18,6 @@ type State = {
 };
 
 export class DrawerState {
-
   #navItemCount = 0;
 
   // Core state signals
@@ -35,8 +34,6 @@ export class DrawerState {
     activeItemVersion: 0,
   });
 
-
-
   readonly $drawerOpen = computed(() => this.$state().drawerOpen);
   readonly $tempOpen = computed(() => this.$state().tempOpen);
   readonly $variant = computed(() => this.$state().variant);
@@ -51,7 +48,6 @@ export class DrawerState {
   readonly $isRail = computed(() => this.$variant() === 'rail');
   readonly $isPersistent = computed(() => this.$variant() === 'persistent');
   readonly $isPermanent = computed(() => this.$variant() === 'permanent');
-
 
   // Derived state
   readonly $isOpen = computed(
@@ -83,9 +79,6 @@ export class DrawerState {
     ),
     { initialValue: false }
   );
-
-
-
 
   // --- Setters ---
 
@@ -129,7 +122,7 @@ export class DrawerState {
   }
 
   emitChangeActiveItemEvent(): void {
-    this.$state.update((state) => ({ ...state, activeItemVersion: ++state.activeItemVersion }));
+    this.$state.update((state) => ({ ...state, activeItemVersion: state.activeItemVersion + 1 }));
   }
 
   /** Each nav item has a unique id which is used to determine which item is selected. */

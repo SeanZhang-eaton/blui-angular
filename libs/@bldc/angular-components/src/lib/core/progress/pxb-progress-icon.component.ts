@@ -1,4 +1,3 @@
-import { NgStyle } from '@angular/common';
 import { ChangeDetectionStrategy, Component, computed, input, ViewEncapsulation } from '@angular/core';
 
 import Color from 'color';
@@ -10,7 +9,6 @@ import Color from 'color';
   encapsulation: ViewEncapsulation.None,
   templateUrl: './pxb-progress-icon.component.html',
   styleUrl: './pxb-progress-icon.scss',
-  imports: [NgStyle],
 })
 export class PxbProgressIconComponent {
   readonly $size = input(24, { alias: 'size' });

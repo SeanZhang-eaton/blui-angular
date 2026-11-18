@@ -1,6 +1,6 @@
 import { animate, state, style, transition, trigger } from '@angular/animations';
 import { CdkConnectedOverlay, CdkOverlayOrigin, ConnectionPositionPair } from '@angular/cdk/overlay';
-import { NgTemplateOutlet } from '@angular/common';
+import { DOCUMENT, NgTemplateOutlet } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -93,9 +93,10 @@ export class UserMenuComponent {
   /** Emits event when backdrop is clicked */
   readonly backdropClick = output<void>();
 
-  protected readonly $menu = viewChild(TemplateRef);
+  protected readonly $menu = viewChild<TemplateRef<unknown>>('menu');
 
   private readonly bottomSheet = inject(MatBottomSheet);
+  private readonly document = inject(DOCUMENT);
   private readonly destroyRef = inject(DestroyRef);
 
   readonly $isMenuOpen = signal(false);
@@ -104,7 +105,7 @@ export class UserMenuComponent {
 
   constructor() {
     // Subscribe to resize events and transition from menu to bottomsheet (or vise versa) when open & resizing
-    const subscription = fromEvent(window, 'resize')
+    const subscription = fromEvent(this.document.defaultView, 'resize')
       .pipe(
         map(() => this.checkScreenSize()),
         startWith(this.checkScreenSize())
@@ -155,7 +156,7 @@ export class UserMenuComponent {
   }
 
   checkScreenSize(): boolean {
-    return document.body.offsetWidth < this.$useBottomSheetAt();
+    return this.document.body.offsetWidth < this.$useBottomSheetAt();
   }
 
   onClickMenuBackdrop(): void {

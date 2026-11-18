@@ -8,7 +8,6 @@ import { rangeValue } from '../utilities';
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './battery.component.html',
-  styleUrl: '../pxb-progress-icon.scss',
   imports: [PxbProgressIconComponent],
 })
 export class BatteryComponent {

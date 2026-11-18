@@ -1,8 +1,7 @@
 import { NgModule } from '@angular/core';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatIconModule } from '@angular/material/icon';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { EmptyStateModule } from '@bldc/angular-components/core';
+import { EmptyStateModule } from '@bldc/angular-components';
 
 import { SharedCompDocsModule } from '../../shared/shared-comp-docs.module';
 
@@ -24,7 +23,7 @@ import { EmptyStateDocComponent } from './empty-state-doc.component';
     WithinCardComponent,
     PlaygroundComponent,
   ],
-  imports: [EmptyStateModule, SharedCompDocsModule, MatIconModule, MatExpansionModule, BrowserAnimationsModule],
+  imports: [EmptyStateModule, SharedCompDocsModule, MatIconModule, MatExpansionModule],
   exports: [EmptyStateDocComponent],
 })
 export class EmptyStateDocModule {}

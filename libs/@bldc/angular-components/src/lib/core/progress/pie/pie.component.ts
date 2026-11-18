@@ -8,7 +8,6 @@ import { getCoordinates, rangeValue } from '../utilities';
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './pie.component.html',
-  styleUrl: '../pxb-progress-icon.scss',
   imports: [PxbProgressIconComponent],
 })
 export class PieComponent {

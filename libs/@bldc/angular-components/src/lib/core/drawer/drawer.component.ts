@@ -1,6 +1,7 @@
 import {
   ChangeDetectionStrategy,
   Component,
+  DestroyRef,
   effect,
   inject,
   input,
@@ -62,9 +63,11 @@ export class DrawerComponent {
   protected readonly drawerState = inject(DRAWER_STATE);
   private readonly stateRef = inject(DrawerStateRef, { optional: true });
 
-  private hoverDelayTimeout: ReturnType<typeof setTimeout>;
+  private hoverDelayTimeout: ReturnType<typeof setTimeout> | undefined;
 
   constructor() {
+    inject(DestroyRef).onDestroy(() => clearTimeout(this.hoverDelayTimeout));
+
     // Register this drawer's state with the parent layout (if present).
     this.stateRef?.register(this.drawerState);
 
@@ -83,6 +86,7 @@ export class DrawerComponent {
 
   hoverDrawer(): void {
     if (!this.$open() && this.$openOnHover()) {
+      clearTimeout(this.hoverDelayTimeout);
       this.hoverDelayTimeout = setTimeout(() => {
         this.drawerState.setDrawerTempOpen(true);
       }, this.$openOnHoverDelay());

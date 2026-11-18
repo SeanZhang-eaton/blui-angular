@@ -40,7 +40,6 @@ import { MatSliderModule } from '@angular/material/slider';
     >
       <div style="padding-top: 12px">
         <div style="margin-left: -16px; padding: 0 8px" class="slider-knob-overlay divider-border">
-          <!-- TODO: The 'tickInterval' property no longer exists -->
           <mat-slider style="width: 332px" [min]="min" [max]="max" [step]="step" #ngSlider>
             <input
               matSliderThumb
@@ -72,7 +71,6 @@ import { MatSliderModule } from '@angular/material/slider';
 export class KnobNumberComponent implements OnInit {
   @Input() max: number;
   @Input() min: number;
-  @Input() tickInterval: number;
   @Input() step: number;
   @Input() value;
   @Input() hint;
