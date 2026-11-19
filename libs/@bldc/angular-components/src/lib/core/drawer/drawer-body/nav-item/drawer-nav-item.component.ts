@@ -1,5 +1,6 @@
 import { NgTemplateOutlet } from '@angular/common';
 import {
+  booleanAttribute,
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
@@ -23,7 +24,7 @@ import { MatAccordion, MatExpansionPanel } from '@angular/material/expansion';
 import { MatIcon } from '@angular/material/icon';
 import { MatTooltip } from '@angular/material/tooltip';
 
-import { isEmptyView } from '../../../../utils/utils';
+import { hasProjectedContent, isEmptyView } from '../../../../utils/utils';
 import { InfoListItemComponent } from '../../../info-list-item/info-list-item.component';
 import { DRAWER_STATE } from '../../drawer-state-ref';
 
@@ -34,7 +35,7 @@ export type DrawerNavItem = {
   chevron?: boolean;
   divider?: boolean;
   items?: Array<Omit<DrawerNavItem, 'icon'>>;
-  onSelect?: unknown;
+  onSelect?: () => void;
   icon?: string;
   hasChildren?: boolean;
   ripple?: boolean;
@@ -87,6 +88,11 @@ export class DrawerNavItemComponent {
    * @default false
    * */
   readonly $chevron = input(false, { alias: 'chevron' });
+  /** Renders a narrower (2.5rem tall) nav item with vertical spacing around it.
+   *
+   * @default false
+   * */
+  readonly $compact = input(false, { alias: 'compact', transform: booleanAttribute });
   /** Whether to show a dividing line below each NavItem
    *
    * @default false
@@ -119,7 +125,11 @@ export class DrawerNavItemComponent {
   readonly $title = input<string | undefined>(undefined, { alias: 'title' });
 
   /** Event triggered on nav item select */
-  // Public API name kept for backwards compatibility.
+  readonly itemSelect = output<void>();
+  /**
+   * Event triggered on nav item select.
+   * @deprecated Use (itemSelect) instead. (select) collides with the native DOM select event and will be removed in the next major version.
+   */
   // eslint-disable-next-line @angular-eslint/no-output-native
   readonly select = output<void>();
 
@@ -137,9 +147,9 @@ export class DrawerNavItemComponent {
   protected readonly changeDetectorRef = inject(ChangeDetectorRef);
 
   protected readonly $isNoIcon = computed(() => isEmptyView(this.$iconEl()));
-  protected readonly $hideExpandIcon = computed(
-    () => isEmptyView(this.$collapseIconEl()) && isEmptyView(this.$expandIconEl())
-  );
+  private readonly $hasExpandIcon = hasProjectedContent(this.$expandIconEl);
+  private readonly $hasCollapseIcon = hasProjectedContent(this.$collapseIconEl);
+  protected readonly $hideExpandIcon = computed(() => !this.$hasExpandIcon() && !this.$hasCollapseIcon());
 
   protected readonly $showTooltipOnRailHover = computed(() => !this.drawerState.$disableRailTooltip());
 
@@ -260,6 +270,7 @@ export class DrawerNavItemComponent {
   selectItem(): void {
     const hasChildren = this.$hasChildren();
     this.drawerState.select(hasChildren);
+    this.itemSelect.emit();
     this.select.emit();
     if (hasChildren) {
       this.toggleNestedNavItems();

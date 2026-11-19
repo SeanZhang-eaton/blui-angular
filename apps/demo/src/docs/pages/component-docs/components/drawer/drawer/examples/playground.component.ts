@@ -43,14 +43,14 @@ type Group = {
               <blui-drawer-nav-item
                 [title]="navItem.title"
                 [selected]="selectedItem === navItem.title"
-                (select)="setActive(navItem)"
+                (itemSelect)="setActive(navItem)"
               >
                 <mat-icon blui-icon>{{ navItem.icon }}</mat-icon>
                 @for (nestedItem of navItem.items; track nestedItem) {
                   <blui-drawer-nav-item
                     [title]="nestedItem.title"
                     [selected]="selectedItem === nestedItem.title"
-                    (select)="setActive(nestedItem)"
+                    (itemSelect)="setActive(nestedItem)"
                   >
                   </blui-drawer-nav-item>
                 }
@@ -175,14 +175,14 @@ export class PlaygroundComponent implements AfterViewInit, OnDestroy {
                     *ngFor="let navItem of navGroup.items"
                     [title]="navItem.title"
                     [selected]="selectedItem === navItem.title"
-                    (select)="setActive(navItem)"
+                    (itemSelect)="setActive(navItem)"
                 >
                     <mat-icon blui-icon>{{ navItem.icon }}</mat-icon>
                     <blui-drawer-nav-item
                         *ngFor="let nestedItem of navItem.items"
                         [title]="nestedItem.title"
                         [selected]="selectedItem === nestedItem.title"
-                        (select)="setActive(nestedItem)"
+                        (itemSelect)="setActive(nestedItem)"
                     >
                     </blui-drawer-nav-item>
                 </blui-drawer-nav-item>

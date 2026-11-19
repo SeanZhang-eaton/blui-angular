@@ -2,7 +2,6 @@ import {
   AfterViewInit,
   ChangeDetectionStrategy,
   Component,
-  computed,
   ElementRef,
   input,
   viewChild,
@@ -19,7 +18,7 @@ import {
   MatListItemTitle,
 } from '@angular/material/list';
 
-import { isEmptyContent, isEmptyView, requireContent } from '../../utils/utils';
+import { hasProjectedContent, isEmptyContent, requireContent } from '../../utils/utils';
 import { SpacerComponent } from '../utility/spacer.component';
 
 type IconAlignType = 'left' | 'center' | 'right' | undefined;
@@ -125,9 +124,9 @@ export class InfoListItemComponent implements AfterViewInit {
   private readonly $iconEl = viewChild('icon', { read: ElementRef });
   private readonly $subtitleEl = viewChild('subtitle', { read: ElementRef });
 
-  protected readonly $hasIcon = computed(() => !isEmptyView(this.$iconEl()));
-  protected readonly $hasSubtitle = computed(
-    () => !isEmptyContent(this.$subtitleEl()?.nativeElement?.querySelector('[blui-subtitle]'))
+  protected readonly $hasIcon = hasProjectedContent(this.$iconEl);
+  protected readonly $hasSubtitle = hasProjectedContent(this.$subtitleEl, (el) =>
+    isEmptyContent(el.querySelector<HTMLElement>('[blui-subtitle]'))
   );
 
   ngAfterViewInit(): void {

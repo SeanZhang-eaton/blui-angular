@@ -17,12 +17,12 @@ export const FROM_LIST = `<blui-drawer style="width: 300px; height: 620px;">
                     [statusColor]="navItem.statusColor"
                     [selected]="selectedItem === navItem.title"
                     [divider]="true"
-                    (select)="setActive(navItem)">
+                    (itemSelect)="setActive(navItem)">
                     <mat-icon blui-icon>{{ navItem.icon }}</mat-icon>
                     <blui-drawer-nav-item *ngFor="let nestedItem of navItem.items"
                         [title]="nestedItem.title"
                         [selected]="selectedItem === nestedItem.title"
-                        (select)="setActive(nestedItem);">       
+                        (itemSelect)="setActive(nestedItem);">       
                     </blui-drawer-nav-item>
                 </blui-drawer-nav-item>
              </blui-drawer-nav-group>

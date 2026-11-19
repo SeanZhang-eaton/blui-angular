@@ -48,3 +48,36 @@ describe('AppBarComponent', () => {
     }
   });
 });
+
+describe('AppBarComponent snap variant', () => {
+  it('collapses after scrolling past the threshold and expands again at the top', async () => {
+    const container = document.createElement('div');
+    document.body.appendChild(container);
+    let scrollTop = 0;
+    Object.defineProperty(container, 'scrollTop', { get: () => scrollTop, configurable: true });
+    const scrollTo = async (top: number): Promise<void> => {
+      scrollTop = top;
+      container.dispatchEvent(new Event('scroll'));
+      await new Promise((resolve) => setTimeout(resolve, 20));
+      await fixture.whenStable();
+    };
+
+    const fixture = TestBed.createComponent(AppBarComponent);
+    const emitted: boolean[] = [];
+    fixture.componentInstance.collapsedChange.subscribe((collapsed) => emitted.push(collapsed));
+    fixture.componentRef.setInput('variant', 'snap');
+    fixture.componentRef.setInput('expandedHeight', 200);
+    fixture.componentRef.setInput('collapsedHeight', 64);
+    fixture.componentRef.setInput('scrollContainerElement', container);
+    await fixture.whenStable();
+    void expect(emitted.at(-1)).toBe(false);
+
+    await scrollTo(300);
+    void expect(emitted.at(-1)).toBe(true);
+
+    await new Promise((resolve) => setTimeout(resolve, 350));
+    await scrollTo(0);
+    void expect(emitted.at(-1)).toBe(false);
+    container.remove();
+  });
+});

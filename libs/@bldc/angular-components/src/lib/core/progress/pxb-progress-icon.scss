@@ -1,9 +1,12 @@
+// `.pxb-*` class names are deprecated aliases of the `.blui-*` ones and will be removed in the next major version.
+.blui-progress-icon,
 .pxb-progress-icon {
   position: relative;
   justify-content: center;
   align-items: center;
   display: inline-block;
 }
+.blui-progress-icon-label,
 .pxb-progress-icon-label {
   text-align: center;
   z-index: 2;

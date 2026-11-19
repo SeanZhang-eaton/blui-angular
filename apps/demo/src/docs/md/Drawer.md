@@ -281,6 +281,7 @@ Parent element (`<blui-drawer-nav-item>`) attributes:
 | ------------------------- | ------------------------------------- | --------------------------- | -------- | ---------- |
 | activeItemBackgroundShape | Sets the active item background shape | `'round'` &#124; `'square'` | no       | `'square'` |
 | chevron                   | Sets whether to show chevron          | `boolean`                   | no       | false      |
+| compact                   | Renders a narrower (2.5rem) nav item  | `boolean`                   | no       | false      |
 | divider                   | Sets whether to show divider          | `boolean`                   | no       | false      |
 | expanded                  | Sets whether to show nested nav items | `boolean`                   | no       | false      |
 | hidePadding               | Sets whether to show/hide padding     | `boolean`                   | no       |            |
@@ -295,9 +296,10 @@ Parent element (`<blui-drawer-nav-item>`) attributes:
 
 <div style="overflow: auto;">
 
-| @Output | Description                        | Type                 |
-| ------- | ---------------------------------- | -------------------- |
-| select  | Event triggered on nav item select | `EventEmitter<void>` |
+| @Output    | Description                                                         | Type                     |
+| ---------- | ------------------------------------------------------------------- | ------------------------ |
+| itemSelect | Event triggered on nav item select                                  | `OutputEmitterRef<void>` |
+| select     | **Deprecated**, use `itemSelect`. Will be removed in the next major | `OutputEmitterRef<void>` |
 
 </div>
 
@@ -328,7 +330,7 @@ Each Brightlayer UI component has classes which can be used to override componen
 | blui-drawer-nav-item-active-highlight | Styles applied to 'selected' nav item        |
 | blui-drawer-nav-item-active-round     | Styles applied to round 'selected' nav item  |
 | blui-drawer-nav-item-active-square    | Styles applied to square 'selected' nav item |
-| blui-drawer-nav-item-compact          | Class used to toggle narrow nav items        |
+| blui-drawer-nav-item-compact          | Applied when `compact` is true               |
 | blui-drawer-nav-item-expand-icon      | Styles applied to expand icon                |
 | blui-drawer-nav-item-depth-1          | Styles applied to top-level nav items        |
 | blui-drawer-nav-item-depth-2          | Styles applied to nested nav items           |

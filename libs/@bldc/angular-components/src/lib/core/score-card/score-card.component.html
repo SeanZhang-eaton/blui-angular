@@ -19,7 +19,7 @@
         <ng-content select="[blui-badge]"></ng-content>
       </div>
     </div>
-    @if (actionRow.childNodes.length !== 0) {
+    @if ($hasActionRow()) {
       <mat-divider />
     }
     <div class="blui-score-card-action-row-wrapper" #actionRow>

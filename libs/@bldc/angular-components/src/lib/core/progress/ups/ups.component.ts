@@ -1,16 +1,22 @@
-import { ChangeDetectionStrategy, Component, computed, input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, ElementRef, inject, input } from '@angular/core';
 
-import { PxbProgressIconComponent } from '../pxb-progress-icon.component';
+import { warnDeprecatedSelector } from '../../../utils/utils';
+import { ProgressIconComponent } from '../pxb-progress-icon.component';
 import { rangeValue } from '../utilities';
 
+/** The `<ups-progress>` selector is deprecated and will be removed in the next major version; use `<blui-ups-progress>`. */
 @Component({
   selector: 'blui-ups-progress,ups-progress',
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './ups.component.html',
-  imports: [PxbProgressIconComponent],
+  imports: [ProgressIconComponent],
 })
 export class UpsComponent {
+  constructor() {
+    warnDeprecatedSelector(inject(ElementRef), 'blui-ups-progress');
+  }
+
   readonly $size = input(24, { alias: 'size' });
   readonly $percent = input(100, { alias: 'percent' });
   readonly $showPercentLabel = input(false, { alias: 'showPercentLabel' });

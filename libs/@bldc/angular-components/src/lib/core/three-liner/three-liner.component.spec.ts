@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, signal } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { count } from '../../utils/test-utils';
@@ -46,5 +46,36 @@ describe('ThreeLinerComponent', () => {
     for (const className of classList) {
       count(fixture, className);
     }
+  });
+});
+
+@Component({
+  standalone: true,
+  imports: [ThreeLinerComponent],
+  template: `
+    <blui-three-liner title="Fallback title">
+      @if ($showTitle()) {
+        <div blui-title id="projected-title">Projected title</div>
+      }
+    </blui-three-liner>
+  `,
+})
+class TestToggledContentComponent {
+  readonly $showTitle = signal(false);
+}
+
+describe('ThreeLinerComponent projected content changes', () => {
+  it('hides the input text once content is projected after the first render', async () => {
+    const fixture = TestBed.createComponent(TestToggledContentComponent);
+    await fixture.whenStable();
+    const title = (): HTMLElement => fixture.nativeElement.querySelector('.blui-three-liner-title');
+    void expect(title().textContent).toContain('Fallback title');
+
+    fixture.componentInstance.$showTitle.set(true);
+    await fixture.whenStable();
+    await new Promise((resolve) => setTimeout(resolve));
+    await fixture.whenStable();
+    void expect(title().textContent).toContain('Projected title');
+    void expect(title().textContent).not.toContain('Fallback title');
   });
 });

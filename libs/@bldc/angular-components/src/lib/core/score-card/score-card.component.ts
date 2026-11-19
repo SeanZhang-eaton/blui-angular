@@ -1,6 +1,8 @@
-import { ChangeDetectionStrategy, Component, computed, input, ViewEncapsulation } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, ElementRef, input, viewChild, ViewEncapsulation } from '@angular/core';
 import { MatCard, MatCardContent, MatCardSubtitle, MatCardTitle } from '@angular/material/card';
 import { MatDivider } from '@angular/material/divider';
+
+import { hasProjectedContent } from '../../utils/utils';
 
 /**
  * [ScoreCard Component](https://brightlayer-ui-components.github.io/angular/?path=/info/components-score-card--readme)
@@ -34,6 +36,9 @@ export class ScoreCardComponent {
 
   /** The first line of text in the header */
   readonly $headerTitle = input.required<string>({ alias: 'headerTitle' });
+
+  private readonly $actionRowEl = viewChild<ElementRef<HTMLElement>>('actionRow');
+  protected readonly $hasActionRow = hasProjectedContent(this.$actionRowEl);
 
   protected readonly $badgeOffsetValue = computed(() => {
     const offset = this.$badgeOffset();

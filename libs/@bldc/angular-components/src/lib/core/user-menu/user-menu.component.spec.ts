@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { MatBottomSheet } from '@angular/material/bottom-sheet';
 import { MatListItem, MatNavList } from '@angular/material/list';
 
 import { count } from '../../utils/test-utils';
@@ -140,5 +141,33 @@ describe('UserMenuComponent', () => {
     for (const className of bottomSheetClassList) {
       void expect(document.getElementsByClassName(className).length).toBe(1);
     }
+  });
+});
+
+describe('UserMenuComponent responsive menu', () => {
+  it('opens a bottom sheet when the screen is narrower than useBottomSheetAt', async () => {
+    const bottomSheet = TestBed.inject(MatBottomSheet);
+    const openSpy = vi.spyOn(bottomSheet, 'open');
+    const fixture = TestBed.createComponent(UserMenuComponent);
+    fixture.componentRef.setInput('useBottomSheetAt', Number.MAX_SAFE_INTEGER);
+    await fixture.whenStable();
+
+    fixture.componentInstance.openOverlay();
+    await fixture.whenStable();
+    void expect(openSpy).toHaveBeenCalledTimes(1);
+    void expect(fixture.componentInstance.$isMenuOpen()).toBe(false);
+    bottomSheet.dismiss();
+  });
+
+  it('opens the overlay menu instead of a bottom sheet when responsive behavior is disabled', async () => {
+    const openSpy = vi.spyOn(TestBed.inject(MatBottomSheet), 'open');
+    const fixture = TestBed.createComponent(UserMenuComponent);
+    fixture.componentRef.setInput('useBottomSheetAt', 0);
+    await fixture.whenStable();
+
+    fixture.componentInstance.openOverlay();
+    await fixture.whenStable();
+    void expect(openSpy).not.toHaveBeenCalled();
+    void expect(fixture.componentInstance.$isMenuOpen()).toBe(true);
   });
 });

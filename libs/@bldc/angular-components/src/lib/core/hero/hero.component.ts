@@ -1,18 +1,20 @@
 import {
-  afterEveryRender,
-  AfterViewInit,
+  afterNextRender,
+  afterRenderEffect,
   ChangeDetectionStrategy,
   Component,
   computed,
+  DestroyRef,
   effect,
   ElementRef,
+  inject,
   input,
   signal,
   viewChild,
   ViewEncapsulation,
 } from '@angular/core';
 
-import { requireContent } from '../../utils/utils';
+import { devWarn, isDevMode, requireContent } from '../../utils/utils';
 import { ChannelValueComponent, UnitSpaceType } from '../channel-value/channel-value.component';
 
 /**
@@ -33,7 +35,7 @@ import { ChannelValueComponent, UnitSpaceType } from '../channel-value/channel-v
   },
   imports: [ChannelValueComponent],
 })
-export class HeroComponent implements AfterViewInit {
+export class HeroComponent {
   /** If true, shows units before the value
    *
    * @default false
@@ -52,67 +54,52 @@ export class HeroComponent implements AfterViewInit {
   /** Text to show after the value */
   readonly $units = input<string | undefined>(undefined, { alias: 'units' });
   /** The value for the channel */
-  readonly $value = input<string | undefined>(undefined, { alias: 'value' });
+  readonly $value = input<string | number | undefined>(undefined, { alias: 'value' });
   /** Show a space between the value and units for the channel, default is `auto` */
   readonly $unitSpace = input<UnitSpaceType>('auto', { alias: 'unitSpace' });
 
-  private readonly $primaryContainer = viewChild.required<ElementRef>('primaryContainer');
+  private readonly $primaryContainer = viewChild.required<ElementRef<HTMLElement>>('primaryContainer');
 
   protected readonly $iSize = computed(() => this.$iconSize());
   protected readonly $hasMatSvgIcon = signal(false);
 
-  private iconString: string;
-
-  private readonly labelEffect = effect(() => {
-    const label = this.$label();
-    if (label === undefined || label === null || label === '') {
-      console.warn(`Brightlayer UI HeroComponent error: Property "label" is required.`);
-    }
-  });
-
   constructor() {
-    afterEveryRender(() => {
-      this.scaleSvgIconOnChanges();
+    if (isDevMode()) {
+      effect(() => {
+        const label = this.$label();
+        if (label === undefined || label === null || label === '') {
+          devWarn('HeroComponent error: Property "label" is required.');
+        }
+      });
+    }
+
+    // Re-scale when the icon size / scaling inputs change.
+    afterRenderEffect(() => {
+      this.$iSize();
+      this.$scaleSvgIcon();
+      this.updateSvgIcon();
+    });
+
+    // SVG icon content may be projected or loaded (e.g. fetched over http) after the first render.
+    const destroyRef = inject(DestroyRef);
+    afterNextRender(() => {
+      const container = this.$primaryContainer();
+      requireContent([{ selector: 'primaryContainer', ref: container }], this);
+      if (typeof MutationObserver === 'undefined') {
+        return;
+      }
+      const observer = new MutationObserver(() => this.updateSvgIcon());
+      observer.observe(container.nativeElement, { childList: true, subtree: true });
+      destroyRef.onDestroy(() => observer.disconnect());
     });
   }
 
-  ngAfterViewInit(): void {
-    const container = this.$primaryContainer();
-    if (container) {
-      requireContent([{ selector: 'primaryContainer', ref: container }], this);
-      this.$hasMatSvgIcon.set(Boolean(this.getMatSvgIcon()));
-    }
-  }
-
-  // Used to listen for changes in the primary icon content.
-  // SVG icon content might be loaded post-render (fetching icon via http)
-  private scaleSvgIconOnChanges(): void {
-    const container = this.$primaryContainer();
-    if (!this.$hasMatSvgIcon() || !container || !this.$scaleSvgIcon()) {
+  private updateSvgIcon(): void {
+    const matIcon = this.$primaryContainer().nativeElement.querySelector<HTMLElement>('mat-icon[svgicon]');
+    this.$hasMatSvgIcon.set(Boolean(matIcon));
+    if (!matIcon || !this.$scaleSvgIcon()) {
       return;
     }
-
-    // If the primary ng-content did not change, no action required.
-    const iconHtml = container.nativeElement.innerHTML;
-    if (iconHtml === this.iconString) {
-      return;
-    }
-    // Update icon data.
-    this.iconString = iconHtml;
-    const matIcon = this.getMatSvgIcon();
-    if (matIcon) {
-      this.$hasMatSvgIcon.set(true);
-      const svg = matIcon.querySelector('svg');
-      if (svg) {
-        svg.style.setProperty('transform', `scale(${this.$iSize() / 24})`);
-      }
-    }
-  }
-
-  // Returns projected <mat-icon> with attribute [svgIcon] if it exists
-  private getMatSvgIcon(): HTMLElement | null {
-    const container = this.$primaryContainer();
-    if (!container) return null;
-    return container.nativeElement.querySelector('div mat-icon[svgicon]');
+    matIcon.querySelector('svg')?.style.setProperty('transform', `scale(${this.$iSize() / 24})`);
   }
 }

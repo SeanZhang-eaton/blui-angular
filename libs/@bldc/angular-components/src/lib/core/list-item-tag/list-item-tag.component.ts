@@ -1,5 +1,7 @@
 import { ChangeDetectionStrategy, Component, effect, input, ViewEncapsulation } from '@angular/core';
 
+import { devWarn, isDevMode } from '../../utils/utils';
+
 /**
  * [ListItemTag Component](https://brightlayer-ui-components.github.io/angular/?path=/info/components-list-item-tag--readme)
  *
@@ -25,11 +27,13 @@ export class ListItemTagComponent {
   readonly $label = input<string | undefined>(undefined, { alias: 'label' });
 
   constructor() {
-    effect(() => {
-      const label = this.$label();
-      if (label === undefined || label === null || label === '') {
-        console.warn(`Brightlayer UI ListItemTagComponent error: Property "label" is required.`);
-      }
-    });
+    if (isDevMode()) {
+      effect(() => {
+        const label = this.$label();
+        if (label === undefined || label === null || label === '') {
+          devWarn('ListItemTagComponent error: Property "label" is required.');
+        }
+      });
+    }
   }
 }

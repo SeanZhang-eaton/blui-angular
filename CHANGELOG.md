@@ -9,8 +9,22 @@
 - `@bldc/angular-themes` requires `@brightlayer-ui/colors` `^3.3.0` (updated Eaton brand blue).
 - `@angular/animations` is no longer used; applications do not need `provideAnimations()` for these components.
 
+### Added
+
+- `<blui-drawer-nav-item>`: `itemSelect` output and `compact` input (2.5rem tall nav items).
+- `ProgressIconComponent` (`<blui-progress-icon>`) and `.blui-progress-icon*` class names.
+
+### Deprecated
+
+- `<blui-drawer-nav-item>` `(select)` output — use `(itemSelect)`. `select` collides with the native DOM event and will be removed in the next major version.
+- Legacy progress icon selectors `<pxb-progress-icon>`, `<battery-progress>`, `<heart-progress>`, `<pie-progress>`, `<ups-progress>`, the `PxbProgressIconComponent` export and `.pxb-progress-icon*` classes — use the `blui-` prefixed equivalents. A warning is logged in development mode when a legacy selector is used.
+
 ### Changed
 
+- `<blui-hero>` `value` accepts `string | number` (same as `<blui-channel-value>`); SVG icon scaling uses a `MutationObserver` instead of running after every render.
+- Empty-content detection in `<blui-three-liner>`, `<blui-drawer-header>`, `<blui-user-menu-header>`, `<blui-info-list-item>`, `<blui-drawer-nav-item>` and `<blui-score-card>` (action row divider) now reacts to projected content that changes after the first render.
+- Missing-content / required-input warnings are only logged in development mode.
+- `DrawerNavItem.onSelect` is typed as `() => void`.
 - `@bldc/angular-components` is now published in the Angular Package Format (built with ng-packagr) with proper `exports` and type definitions. Build tooling was removed from its peer dependencies.
 - Both themes share Brightlayer UI design tokens (`--blui-*` CSS variables) aligned with `@brightlayer-ui/react-themes` (colors, shadows, typography).
 - `.mat-elevation-z*` classes are emitted again by the themes (`mat.core()` is a no-op in Angular Material 22).

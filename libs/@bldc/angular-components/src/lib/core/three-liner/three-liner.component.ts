@@ -8,7 +8,7 @@ import {
   ViewEncapsulation,
 } from '@angular/core';
 
-import { isEmptyView } from '../../utils/utils';
+import { hasProjectedContent } from '../../utils/utils';
 
 /**
  * [ThreeLiner Component](https://brightlayer-ui-components.github.io/angular/?path=/info/components-three-liner--readme)
@@ -39,18 +39,11 @@ export class ThreeLinerComponent {
   protected readonly $subtitleEl = viewChild<ElementRef>('subtitleVc');
   protected readonly $infoEl = viewChild<ElementRef>('infoVc');
 
-  protected readonly $isTitleEmpty = computed(() => {
-    const el = this.$titleEl();
-    return !el || isEmptyView(el);
-  });
+  private readonly $hasTitleContent = hasProjectedContent(this.$titleEl);
+  private readonly $hasSubtitleContent = hasProjectedContent(this.$subtitleEl);
+  private readonly $hasInfoContent = hasProjectedContent(this.$infoEl);
 
-  protected readonly $isSubtitleEmpty = computed(() => {
-    const el = this.$subtitleEl();
-    return !el || isEmptyView(el);
-  });
-
-  protected readonly $isInfoEmpty = computed(() => {
-    const el = this.$infoEl();
-    return !el || isEmptyView(el);
-  });
+  protected readonly $isTitleEmpty = computed(() => !this.$hasTitleContent());
+  protected readonly $isSubtitleEmpty = computed(() => !this.$hasSubtitleContent());
+  protected readonly $isInfoEmpty = computed(() => !this.$hasInfoContent());
 }

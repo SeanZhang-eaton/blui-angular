@@ -2,7 +2,7 @@ import { ChangeDetectionStrategy, Component, computed, ElementRef, inject, input
 import { MatDivider } from '@angular/material/divider';
 import { MatToolbar } from '@angular/material/toolbar';
 
-import { isEmptyView } from '../../../utils/utils';
+import { hasProjectedContent } from '../../../utils/utils';
 import { DRAWER_STATE } from '../drawer-state-ref';
 
 /**
@@ -41,5 +41,6 @@ export class DrawerHeaderComponent {
 
   protected readonly drawerState = inject(DRAWER_STATE);
 
-  protected readonly $isNoIcon = computed(() => isEmptyView(this.$iconEl()));
+  private readonly $hasIcon = hasProjectedContent(this.$iconEl);
+  protected readonly $isNoIcon = computed(() => !this.$hasIcon());
 }

@@ -27,7 +27,7 @@
             [hidePadding]="true"
             [selected]="navItem.title === getSelectedItem()"
             activeItemBackgroundShape="round"
-            (select)="selectItem(navItem)"
+            (itemSelect)="selectItem(navItem)"
           >
             @for (nestedNavItem of navItem.children; track nestedNavItem) {
               <blui-drawer-nav-item
@@ -35,7 +35,7 @@
                 [hidePadding]="false"
                 [selected]="nestedNavItem.title === getSelectedItem()"
                 activeItemBackgroundShape="round"
-                (select)="selectItem(nestedNavItem)"
+                (itemSelect)="selectItem(nestedNavItem)"
               >
               </blui-drawer-nav-item>
             }

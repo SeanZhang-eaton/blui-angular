@@ -1,16 +1,22 @@
-import { ChangeDetectionStrategy, Component, computed, input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, ElementRef, inject, input } from '@angular/core';
 
-import { PxbProgressIconComponent } from '../pxb-progress-icon.component';
+import { warnDeprecatedSelector } from '../../../utils/utils';
+import { ProgressIconComponent } from '../pxb-progress-icon.component';
 import { rangeValue } from '../utilities';
 
+/** The `<battery-progress>` selector is deprecated and will be removed in the next major version; use `<blui-battery-progress>`. */
 @Component({
   selector: 'blui-battery-progress,battery-progress',
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './battery.component.html',
-  imports: [PxbProgressIconComponent],
+  imports: [ProgressIconComponent],
 })
 export class BatteryComponent {
+  constructor() {
+    warnDeprecatedSelector(inject(ElementRef), 'blui-battery-progress');
+  }
+
   readonly $size = input(24, { alias: 'size' });
   readonly $percent = input(100, { alias: 'percent' });
   readonly $showPercentLabel = input(false, { alias: 'showPercentLabel' });
@@ -30,8 +36,8 @@ export class BatteryComponent {
     'M20,10V8.33a1.319,1.319,0,0,0-1-1.263A1.257,1.257,0,0,0,18.67,7H3.34A1.338,1.338,0,0,0,2,8.33v7.33A1.338,1.338,0,0,0,3.33,17H18.67a1.257,1.257,0,0,0,.33-.067,1.319,1.319,0,0,0,1-1.263V14h2V10Zm-8.5,3v2L4,11H9.5V9L17,13Z';
   private readonly outlinedPath =
     'M18,9v6H4V9H18m.7-2H3.3A1.324,1.324,0,0,0,2,8.3v7.3A1.347,1.347,0,0,0,3.3,17H18.6a1.324,1.324,0,0,0,1.3-1.3V14h2V10H20V8.3A1.324,1.324,0,0,0,18.7,7Z';
-  private readonly baseID = 'pxb-battery-clip';
-  private readonly chargeID = 'pxb-battery-clip-charge';
+  private readonly baseID = 'blui-battery-clip';
+  private readonly chargeID = 'blui-battery-clip-charge';
 
   protected readonly $maskIDleft = computed(() => `maskLeft-${this.$percent()}`);
   protected readonly $maskIDright = computed(() => `maskRight-${this.$percent()}`);

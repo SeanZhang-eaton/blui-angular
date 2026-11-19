@@ -1,16 +1,22 @@
-import { ChangeDetectionStrategy, Component, computed, input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, ElementRef, inject, input } from '@angular/core';
 
-import { PxbProgressIconComponent } from '../pxb-progress-icon.component';
+import { warnDeprecatedSelector } from '../../../utils/utils';
+import { ProgressIconComponent } from '../pxb-progress-icon.component';
 import { getCoordinates, rangeValue } from '../utilities';
 
+/** The `<pie-progress>` selector is deprecated and will be removed in the next major version; use `<blui-pie-progress>`. */
 @Component({
   selector: 'blui-pie-progress,pie-progress',
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './pie.component.html',
-  imports: [PxbProgressIconComponent],
+  imports: [ProgressIconComponent],
 })
 export class PieComponent {
+  constructor() {
+    warnDeprecatedSelector(inject(ElementRef), 'blui-pie-progress');
+  }
+
   readonly $size = input(24, { alias: 'size' });
   readonly $percent = input(100, { alias: 'percent' });
   readonly $showPercentLabel = input(false, { alias: 'showPercentLabel' });

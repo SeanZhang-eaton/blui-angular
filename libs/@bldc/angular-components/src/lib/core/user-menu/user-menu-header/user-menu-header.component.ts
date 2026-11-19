@@ -2,7 +2,7 @@ import { ChangeDetectionStrategy, Component, computed, ElementRef, input, viewCh
 import { MatDivider } from '@angular/material/divider';
 import { MatToolbar } from '@angular/material/toolbar';
 
-import { isEmptyView } from '../../../utils/utils';
+import { hasProjectedContent } from '../../../utils/utils';
 
 /**
  * [UserMenuHeaderComponent Component](https://brightlayer-ui-components.github.io/angular/?path=/info/components-user-menu--readme)
@@ -39,8 +39,6 @@ export class UserMenuHeaderComponent {
 
   protected readonly $iconEl = viewChild<ElementRef>('icon');
 
-  protected readonly $isIconEmpty = computed(() => {
-    const el = this.$iconEl();
-    return !el || isEmptyView(el);
-  });
+  private readonly $hasIcon = hasProjectedContent(this.$iconEl);
+  protected readonly $isIconEmpty = computed(() => !this.$hasIcon());
 }

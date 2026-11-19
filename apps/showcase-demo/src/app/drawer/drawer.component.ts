@@ -50,7 +50,7 @@ import { ViewportService } from '../services/viewport.service';
                   [class]="'nav-menu' + nestedItem.title"
                   [title]="nestedItem.title"
                   [selected]="selectedItemId === navItem.title + nestedItem.title"
-                  (select)="nestedItem.onSelect(); setActive(navItem.title, nestedItem.title)"
+                  (itemSelect)="nestedItem.onSelect(); setActive(navItem.title, nestedItem.title)"
                 ></blui-drawer-nav-item>
               }
               @if (navItem.icon === 'blui') {

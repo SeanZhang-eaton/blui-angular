@@ -1,11 +1,11 @@
 <span
-  class="pxb-progress-icon"
+  class="blui-progress-icon pxb-progress-icon"
   [style.flexDirection]="$flexDirection()"
   [style.display]="$labelPosition() === 'center' ? '' : 'inline-flex'"
 >
   @if ($showPercentLabel()) {
     <span
-      class="pxb-progress-icon-label"
+      class="blui-progress-icon-label pxb-progress-icon-label"
       [class.inverted]="$inverted()"
       [class.center]="$labelPosition() === 'center'"
       [style.color]="$labelColor()"
@@ -19,5 +19,5 @@
       >{{ $percent() }}%</span
     >
   }
-  <ng-content></ng-content>
+  <ng-content />
 </span>
