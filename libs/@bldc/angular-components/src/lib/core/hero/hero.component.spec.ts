@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { count } from '../../utils/test-utils';
 import { ChannelValueComponent } from '../channel-value/channel-value.component';
@@ -43,8 +43,8 @@ describe('HeroComponent', () => {
   let fixture: ComponentFixture<HeroComponent>;
   let component: HeroComponent;
 
-  beforeEach(waitForAsync(() => {
-    void TestBed.configureTestingModule({
+  beforeEach(async () => {
+    await TestBed.configureTestingModule({
       imports: [
         HeroComponent,
         TestChannelValueComponent,
@@ -52,7 +52,7 @@ describe('HeroComponent', () => {
         TestSecondaryIconComponent,
       ],
     }).compileComponents();
-  }));
+  });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(HeroComponent);

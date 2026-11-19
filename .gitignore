@@ -26,3 +26,7 @@ build
 
 .nx/cache
 .nx/workspace-data
+# local env overrides
+.env.local
+**/.env.local
+profile.json

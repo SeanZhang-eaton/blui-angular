@@ -1,5 +1,5 @@
 import { Component, signal } from '@angular/core';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { MatIcon } from '@angular/material/icon';
 import { By } from '@angular/platform-browser';
 
@@ -85,8 +85,8 @@ describe('InfoListItemComponent', () => {
   let component: TestBasicUsageComponent;
   let fixture: ComponentFixture<TestBasicUsageComponent>;
 
-  beforeEach(waitForAsync(() => {
-    void TestBed.configureTestingModule({
+  beforeEach(async () => {
+    await TestBed.configureTestingModule({
       imports: [
         TestBasicUsageComponent,
         TestMissingTitleComponent,
@@ -95,7 +95,7 @@ describe('InfoListItemComponent', () => {
         TestRightContentComponent,
       ],
     }).compileComponents();
-  }));
+  });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(TestBasicUsageComponent);

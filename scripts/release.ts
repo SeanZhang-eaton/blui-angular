@@ -92,6 +92,7 @@ const run = async (bin: string, args: ReadonlyArray<string>, opts: SpawnOptions 
 const dryRun = async (bin: string, args: ReadonlyArray<string>, opts: SpawnOptions = {}) =>
   console.log(pico.blue(`[dryrun] ${bin} ${args.join(' ')}`), opts);
 const runIfNotDry = isDryRun ? dryRun : run;
+const getPkgSrcRoot = (pkg: string) => path.resolve(__dirname, '../libs/@bldc/' + pkg);
 const getPkgRoot = (pkg: string) => path.resolve(__dirname, '../dist/libs/@bldc/' + pkg);
 const step = (msg: string) => console.log(pico.cyan(msg));
 
@@ -309,8 +310,8 @@ async function getBranch() {
 function updateVersions(version: string, getNewPackageName = keepThePackageName) {
   // 1. update root package.json
   updatePackage(path.resolve(__dirname, '..'), version, getNewPackageName);
-  // 2. update all packages
-  packages.forEach((p) => updatePackage(getPkgRoot(p), version, getNewPackageName));
+  // 2. update all library sources (dist is built from them)
+  packages.forEach((p) => updatePackage(getPkgSrcRoot(p), version, getNewPackageName));
 }
 
 function updatePackage(pkgRoot: string, version: string, getNewPackageName: (pkgName: string) => string) {

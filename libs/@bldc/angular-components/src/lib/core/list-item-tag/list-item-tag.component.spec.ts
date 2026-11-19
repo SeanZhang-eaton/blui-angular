@@ -1,4 +1,4 @@
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { count } from '../../utils/test-utils';
 
@@ -8,11 +8,11 @@ describe('ListItemTagComponent', () => {
   let component: ListItemTagComponent;
   let fixture: ComponentFixture<ListItemTagComponent>;
 
-  beforeEach(waitForAsync(() => {
-    void TestBed.configureTestingModule({
+  beforeEach(async () => {
+    await TestBed.configureTestingModule({
       imports: [ListItemTagComponent],
     }).compileComponents();
-  }));
+  });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(ListItemTagComponent);

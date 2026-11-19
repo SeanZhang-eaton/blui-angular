@@ -1,6 +1,6 @@
 # Change Log
 
-## Unreleased (v11.0.0)
+## v11.0.0 (Unreleased)
 
 ### Breaking
 
@@ -22,6 +22,32 @@
 - Pending timers in `<blui-app-bar>` and `<blui-drawer>` are cleared on destroy.
 - `<blui-user-menu>` no longer accesses the global `window` / `document`.
 
+## v10.1.0 (March 5, 2026)
+
+### Changed
+
+- All components are standalone (standalone: true) and use signal inputs / outputs, OnPush change detection and external templates / styles. The NgModule wrappers are still exported for backward compatibility.
+- Templates use the built-in control flow (@if / @for) instead of *ngIf / *ngFor.
+- <blui-drawer-nav-group> / <blui-drawer-nav-item> no longer rely on setTimeout to initialize nested nav items.
+- <blui-drawer-layout> adds an elevation shadow to the side drawer.
+
+## v10.0.0 (December 11, 2025)
+
+### Breaking
+
+- Packages renamed from @brightlayer-ui/angular-components / @brightlayer-ui/angular-themes to @bldc/angular-components / @bldc/angular-themes.
+- Requires Angular / Angular Material ^18.2.0; components use the MDC-based Angular Material components.
+- The repository is an Nx + pnpm workspace; the library is built with Vite.
+
+### Added
+
+- <blui-battery-progress>, <blui-heart-progress>, <blui-pie-progress> and <blui-ups-progress> progress icon components (previously provided by @brightlayer-ui/ng-progress-icons).
+
+### Changed
+
+- SCSS uses @use instead of the deprecated @import.
+- @ngbracket/ngx-layout replaces @angular/flex-layout in the demo; @hakimio/ngx-google-analytics replaces 
+gx-google-analytics.
 ## v9.0.0 (July 14, 2023)
 
 ### Changed

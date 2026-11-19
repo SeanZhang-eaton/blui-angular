@@ -1,3 +1,33 @@
 packages:
   - libs/*
   - libs/@bldc/*
+
+allowBuilds:
+  '@parcel/watcher': true
+  esbuild: true
+  lmdb: true
+  msgpackr-extract: true
+  nx: true
+
+# pnpm delays installing versions published within the last day (minimumReleaseAge).
+# The toolchain packages below are released in lockstep and are trusted without that delay.
+minimumReleaseAgeExclude:
+  - '@angular/*'
+  - '@angular-devkit/*'
+  - '@schematics/angular'
+  - ng-packagr
+  - rolldown
+  - '@rolldown/*'
+  - vitest
+  - '@vitest/*'
+  - electron-to-chromium@1.5.490
+  - source-map-js@1.2.3
+  - tinybench@6.2.4
+  - '@angular-eslint/builder@22.8.0'
+  - '@angular-eslint/bundled-angular-compiler@22.8.0'
+  - '@angular-eslint/eslint-plugin-template@22.8.0'
+  - '@angular-eslint/eslint-plugin@22.8.0'
+  - '@angular-eslint/schematics@22.8.0'
+  - '@angular-eslint/template-parser@22.8.0'
+  - '@angular-eslint/utils@22.8.0'
+  - angular-eslint@22.8.0

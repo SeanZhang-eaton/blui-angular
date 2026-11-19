@@ -11,7 +11,7 @@ jobs:
       - uses: actions/checkout@v5
 
       - name: Install pnpm
-        uses: pnpm/action-setup@v4
+        uses: pnpm/action-setup@v6
 
       - name: Install Node.js
         uses: actions/setup-node@v4
@@ -21,7 +21,7 @@ jobs:
 
       - run: pnpm install --frozen-lockfile
       - run: pnpm nx build demo -c development
-      - uses: emclaug2/action-hosting-deploy@main
+      - uses: FirebaseExtended/action-hosting-deploy@v0
         with:
           repoToken: '${{ secrets.GITHUB_TOKEN }}'
           firebaseServiceAccount: '${{ secrets.FIREBASE_SERVICE_ACCOUNT_BLUI_ANGULAR_DOCS }}'

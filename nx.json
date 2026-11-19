@@ -30,7 +30,7 @@
       "inputs": ["default", "{workspaceRoot}/eslint.base.config.cjs"]
     }
   },
-  "defaultBase": "main",
+  "defaultBase": "dev",
   "generators": {
     "@nx/angular:application": {
       "e2eTestRunner": "none",

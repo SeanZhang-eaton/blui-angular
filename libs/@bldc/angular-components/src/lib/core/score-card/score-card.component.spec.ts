@@ -44,6 +44,7 @@ describe('ScoreCardComponent', () => {
       imports: [TestScoreCardActionsComponent, TestScoreCardContentComponent, TestScoreCardActionRowComponent, ScoreCardComponent],
     }).compileComponents();
     fixture = TestBed.createComponent(ScoreCardComponent);
+    fixture.componentRef.setInput('headerTitle', 'Header Title');
     component = fixture.componentInstance;
   });
 

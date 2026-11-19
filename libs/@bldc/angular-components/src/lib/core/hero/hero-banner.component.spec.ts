@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { count } from '../../utils/test-utils';
 
@@ -22,11 +22,11 @@ describe('HeroBannerComponent', () => {
   let fixture: ComponentFixture<HeroBannerComponent>;
   let component: HeroBannerComponent;
 
-  beforeEach(waitForAsync(() => {
-    void TestBed.configureTestingModule({
+  beforeEach(async () => {
+    await TestBed.configureTestingModule({
       imports: [HeroBannerComponent, TestRenderHeroesComponent],
     }).compileComponents();
-  }));
+  });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(HeroBannerComponent);

@@ -9,12 +9,13 @@ export default defineConfig({
   plugins: [angular({ tsconfig: 'tsconfig.spec.json' })],
   test: {
     globals: true,
-    environment: 'jsdom',
+    environment: 'happy-dom',
     setupFiles: ['src/test-setup.ts'],
     include: ['src/**/*.spec.ts'],
     reporters: ['default'],
     coverage: {
       provider: 'v8',
+      reporter: ['text', 'lcov'],
       reportsDirectory: '../../../coverage/libs/@bldc/angular-components',
     },
   },

@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 
 import { count } from '../../utils/test-utils';
@@ -64,8 +64,8 @@ describe('Empty State Component', () => {
   let fixture: ComponentFixture<EmptyStateBasicUsageComponent>;
   let component: EmptyStateBasicUsageComponent;
 
-  beforeEach(waitForAsync(() => {
-    void TestBed.configureTestingModule({
+  beforeEach(async () => {
+    await TestBed.configureTestingModule({
       imports: [
         EmptyStateModule,
         EmptyStateBasicUsageComponent,
@@ -74,7 +74,7 @@ describe('Empty State Component', () => {
         TestTitleContentComponent,
       ],
     }).compileComponents();
-  }));
+  });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(EmptyStateBasicUsageComponent);
