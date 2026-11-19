@@ -26,7 +26,7 @@ pnpm add @bldc/angular-components @bldc/angular-themes @angular/material @angula
 
 ## Development
 
-Requirements: Node.js `>= 22.22` (see `.node-version`) and pnpm 10.
+Requirements: Node.js `>= 22.22` (see `.node-version`) and pnpm 12 (settings in `pnpm-workspace.yaml`).
 
 ```
 git clone https://github.com/etn-ccis/blui-angular

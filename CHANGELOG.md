@@ -8,6 +8,7 @@
 - `@bldc/angular-themes`: `theme.scss` / `blui-theme()` now emit a **Material 3** theme. The previous Material 2 theme is available as `theme-m2.scss` / `blui-theme-m2()`.
 - `@bldc/angular-themes` requires `@brightlayer-ui/colors` `^3.3.0` (updated Eaton brand blue).
 - `@angular/animations` is no longer used; applications do not need `provideAnimations()` for these components.
+- `@bldc/angular-themes`: the `.mat-subtitle-1/2` and `.mat-body-1/2` typography classes now follow the Material / MUI naming (`.mat-subtitle-1` = MUI `subtitle1`); previously they were shifted by one level. The Material 2 type scale matches `@brightlayer-ui/react-themes`.
 
 ### Added
 
@@ -17,6 +18,7 @@
 ### Deprecated
 
 - `<blui-drawer-nav-item>` `(select)` output — use `(itemSelect)`. `select` collides with the native DOM event and will be removed in the next major version.
+- The `--blui-primary-color`, `--blui-accent-color`, `--blui-warn-color` and `--blui-background-color` CSS variables — use the `--blui-*` design tokens.
 - Legacy progress icon selectors `<pxb-progress-icon>`, `<battery-progress>`, `<heart-progress>`, `<pie-progress>`, `<ups-progress>`, the `PxbProgressIconComponent` export and `.pxb-progress-icon*` classes — use the `blui-` prefixed equivalents. A warning is logged in development mode when a legacy selector is used.
 
 ### Changed
@@ -27,6 +29,8 @@
 - `DrawerNavItem.onSelect` is typed as `() => void`.
 - `@bldc/angular-components` is now published in the Angular Package Format (built with ng-packagr) with proper `exports` and type definitions. Build tooling was removed from its peer dependencies.
 - Both themes share Brightlayer UI design tokens (`--blui-*` CSS variables) aligned with `@brightlayer-ui/react-themes` (colors, shadows, typography).
+- Nested `<blui-drawer-nav-item>` elements react to child items being added or removed.
+- Dark theme: primary App Bars / toolbars and Score Card headers use the React dark App Bar colors; active nav item and avatar colors come from theme tokens.
 - `.mat-elevation-z*` classes are emitted again by the themes (`mat.core()` is a no-op in Angular Material 22).
 
 ### Fixed
@@ -35,33 +39,35 @@
 - `<blui-drawer-nav-item>` always rendered an empty subtitle element.
 - Pending timers in `<blui-app-bar>` and `<blui-drawer>` are cleared on destroy.
 - `<blui-user-menu>` no longer accesses the global `window` / `document`.
+- Material 3 theme: the active drawer nav item was rendered blue on blue.
+- Material 2 theme: disabled buttons did not look disabled (colors are now applied through the Material button tokens).
 
 ## v10.1.0 (March 5, 2026)
 
 ### Changed
 
-- All components are standalone (standalone: true) and use signal inputs / outputs, OnPush change detection and external templates / styles. The NgModule wrappers are still exported for backward compatibility.
-- Templates use the built-in control flow (@if / @for) instead of *ngIf / *ngFor.
-- <blui-drawer-nav-group> / <blui-drawer-nav-item> no longer rely on setTimeout to initialize nested nav items.
-- <blui-drawer-layout> adds an elevation shadow to the side drawer.
+- All components are standalone (`standalone: true`) and use signal inputs / outputs, OnPush change detection and external templates / styles. The NgModule wrappers are still exported for backward compatibility.
+- Templates use the built-in control flow (`@if` / `@for`) instead of `*ngIf` / `*ngFor`.
+- `<blui-drawer-nav-group>` / `<blui-drawer-nav-item>` no longer rely on `setTimeout` to initialize nested nav items.
+- `<blui-drawer-layout>` adds an elevation shadow to the side drawer.
 
 ## v10.0.0 (December 11, 2025)
 
 ### Breaking
 
-- Packages renamed from @brightlayer-ui/angular-components / @brightlayer-ui/angular-themes to @bldc/angular-components / @bldc/angular-themes.
-- Requires Angular / Angular Material ^18.2.0; components use the MDC-based Angular Material components.
+- Packages renamed from `@brightlayer-ui/angular-components` / `@brightlayer-ui/angular-themes` to `@bldc/angular-components` / `@bldc/angular-themes`.
+- Requires Angular / Angular Material `^18.2.0`; components use the MDC-based Angular Material components.
 - The repository is an Nx + pnpm workspace; the library is built with Vite.
 
 ### Added
 
-- <blui-battery-progress>, <blui-heart-progress>, <blui-pie-progress> and <blui-ups-progress> progress icon components (previously provided by @brightlayer-ui/ng-progress-icons).
+- `<blui-battery-progress>`, `<blui-heart-progress>`, `<blui-pie-progress>` and `<blui-ups-progress>` progress icon components (previously provided by `@brightlayer-ui/ng-progress-icons`).
 
 ### Changed
 
-- SCSS uses @use instead of the deprecated @import.
-- @ngbracket/ngx-layout replaces @angular/flex-layout in the demo; @hakimio/ngx-google-analytics replaces 
-gx-google-analytics.
+- SCSS uses `@use` instead of the deprecated `@import`.
+- `@ngbracket/ngx-layout` replaces `@angular/flex-layout` in the demo; `@hakimio/ngx-google-analytics` replaces `ngx-google-analytics`.
+
 ## v9.0.0 (July 14, 2023)
 
 ### Changed

@@ -49,9 +49,19 @@ Both themes emit the same CSS custom properties on `.blui-blue` / `.blui-blue-da
 | `--blui-divider`                                          | Divider color                            |
 | `--blui-action-hover`, `--blui-action-disabled`, ...      | Interaction state colors                 |
 | `--blui-shadow-level1` … `--blui-shadow-level3`           | Brightlayer UI shadows                   |
+| `--blui-primary-surface`, `--blui-on-primary-surface`     | Primary App Bar / Score Card header      |
+| `--blui-nav-item-active-*`, `--blui-avatar-*`             | Drawer active item and avatar colors     |
 
 The Sass values are available via `blui.tokens-get(light | dark)`. The legacy `--blui-primary-color`,
-`--blui-accent-color`, `--blui-warn-color` and `--blui-background-color` variables are still emitted.
+`--blui-accent-color`, `--blui-warn-color` and `--blui-background-color` variables are still emitted but are
+**deprecated** and will be removed in the next major version; use the tokens above instead.
+
+### Typography
+
+Both themes use the type scale of the React themes. The `.blui-*` and `.mat-*` typography classes follow the
+Material / MUI names: `.mat-subtitle-1` / `.blui-subtitle-1` = MUI `subtitle1` (1rem, 600), `.mat-body-1` /
+`.blui-body-1` = MUI `body1` (1rem, 400), and so on. Before 11.0 the `.mat-subtitle-*` / `.mat-body-*` classes were
+shifted by one level.
 
 ## Material 3 notes
 

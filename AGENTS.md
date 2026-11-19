@@ -1,6 +1,6 @@
 # Project Guidelines
 
-Nx 24 monorepo — **Angular 22.2**, **Angular Material 22.3**, **TypeScript 6.0**, **Vite 8 / Vitest 5** (via Analog), **pnpm 10**, Node **>= 22.22**.
+Nx 24 monorepo — **Angular 22.3**, **Angular Material 22.3**, **TypeScript 6.0**, **Vite 8 / Vitest 5** (via Analog, `happy-dom`), **pnpm 12**, Node **>= 22.22**.
 
 This is the **Brightlayer UI Angular Component Library** (`@bldc/angular-components`) — a set of reusable UI components for Angular applications.
 
@@ -27,7 +27,8 @@ Always use **`nx`** (not `ng`) for project-level commands. Use **`pnpm`** (not `
 
 ### Component Rules
 
-- **Standalone** — components are standalone by default (Angular 19+). Existing explicit `standalone: true` is harmless; components declared in an NgModule (the docs app) must set `standalone: false`. Library components also provide NgModule wrappers for backward compatibility.
+- **Standalone** — components are standalone by default (Angular 19+); both apps are fully standalone (no NgModules). Existing explicit `standalone: true` is harmless. Library components also provide NgModule wrappers for backward compatibility.
+- **Zoneless** — both apps use `provideZonelessChangeDetection()`. State that changes asynchronously (HTTP, timers, router events, breakpoints) must live in signals (`toSignal`, `signal`, `linkedSignal`), otherwise the view is not refreshed.
 - **Import only what you need** — never import barrel modules. Import only the specific dependencies each component uses (e.g., `CommonModule`, `MatIconModule`). Keeps the dependency graph explicit.
 - **External templates and styles** — always `templateUrl` + `styleUrl` (not `styleUrls`), never inline. Styles use `.scss`.
 - **OnPush** — mandatory for all new components: `changeDetection: ChangeDetectionStrategy.OnPush`
@@ -67,8 +68,8 @@ $disabled = input(false, { alias: 'disabled', transform: booleanAttribute });
 
 ```
 apps/
-  demo/              # Component documentation app (NgModule-based)
-  showcase-demo/     # Showcase playground (standalone components)
+  demo/              # Component documentation app (standalone, lazy routes aligned with the React docs)
+  showcase-demo/     # Showcase playground (standalone)
 libs/
   @bldc/
     angular-components/  # Brightlayer UI Angular components library
@@ -90,7 +91,7 @@ Public API is exported from `libs/@bldc/angular-components/src/public-api.ts`.
 
 ## Testing
 
-- **Vitest** with `@analogjs/vitest-angular` (zone-based TestBed, see `src/test-setup.ts`; `@angular/compiler` must be imported first)
+- **Vitest** with `@analogjs/vitest-angular` and `happy-dom` (zoneless TestBed, see `src/test-setup.ts`; `@angular/compiler` must be imported first). Use `await fixture.whenStable()` instead of `fakeAsync`/`waitForAsync`; required signal inputs must be set before the first change detection.
 - Pattern: `*.spec.ts` co-located with source
 - Run: `nx test <project>` or `pnpm test`. Targets (`build`/`serve`/`test`/`lint`) are inferred by the Nx plugins in `nx.json` — Nx 24 no longer ships `@nx/vite`/`@nx/vitest`/`@nx/eslint` executors.
 
@@ -142,6 +143,9 @@ The goal is to keep agents and skills as a **living, self-correcting knowledge b
 - **Themes** — `theme.scss`/`blui-theme()` = Material 3 (default), `theme-m2.scss`/`blui-theme-m2()` = Material 2 compatibility. Brightlayer UI component colors must use the `--blui-*` tokens from `_tokens.scss` so they work with both.
 - **Angular migration schematics** (`nx g @angular/core:<migration>`) find tsconfigs through target `options.tsConfig`. Targets are inferred here, so temporarily add `build`/`test` targets with `options.tsConfig` to the app `project.json` while running them, then revert.
 - **No `@angular/animations`** — use `animate.enter` / `animate.leave` with CSS keyframes.
-- **pnpm settings** live in the `pnpm` field of the root `package.json` (pnpm 10.0 does not read them from `pnpm-workspace.yaml`).
+- **pnpm settings** (`allowBuilds`, `minimumReleaseAgeExclude`, ...) live in `pnpm-workspace.yaml`; pnpm 11+ ignores the `pnpm` field of `package.json`. pnpm delays versions published in the last 24 h (`minimumReleaseAge`); add trusted toolchain packages to `minimumReleaseAgeExclude` when needed.
+- **Nx affected** — `defaultBase` is `dev` (development branch); `main` is the stable branch.
+- **Demo apps share** `vite.app.config.mts` (`createAppConfig`). Themes are loaded at runtime (`themes/theme-m3.scss?inline` / `theme-m2.scss?inline`) by each app's `ThemeService`; Brightlayer UI SVG icons are copied to `assets/blui-icons` and registered with `MatIconRegistry.addSvgIconResolver`.
+- **Typography classes** — `.mat-*` and `.blui-*` typography classes follow the Material / MUI names (`.mat-subtitle-1` = MUI `subtitle1`). Library templates use the `.blui-*` classes.
 - **NgModule wrappers** — library components are `standalone: true` but also export NgModule wrappers for backward compatibility. Don't remove NgModules without a migration plan.
 - New code must use `inject()` — some legacy code still uses constructor injection.
