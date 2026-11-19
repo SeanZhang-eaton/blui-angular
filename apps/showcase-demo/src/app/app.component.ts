@@ -1,12 +1,10 @@
 import { ChangeDetectionStrategy, Component, computed, inject, signal, ViewEncapsulation } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { MatButtonModule } from '@angular/material/button';
-import { MatButtonToggle, MatButtonToggleGroup } from '@angular/material/button-toggle';
 import { MatDivider } from '@angular/material/divider';
 import { MatIcon, MatIconRegistry } from '@angular/material/icon';
 import { MatNavList } from '@angular/material/list';
 import { MatToolbarModule } from '@angular/material/toolbar';
-import { MatTooltip } from '@angular/material/tooltip';
 import { DomSanitizer } from '@angular/platform-browser';
 import { NavigationEnd, Router, RouterModule } from '@angular/router';
 import {
@@ -22,7 +20,7 @@ import { filter, map } from 'rxjs';
 import { DrawerComponent } from './drawer/drawer.component';
 import { RtlService } from './services/rtl.service';
 import { StateService } from './services/state.service';
-import { ThemeDesign, ThemeService } from './services/theme.service';
+import { ThemeService } from './services/theme.service';
 import { ViewportService } from './services/viewport.service';
 import { findNavItem } from './navigation';
 
@@ -38,9 +36,6 @@ import { findNavItem } from './navigation';
     MatIcon,
     MatNavList,
     MatDivider,
-    MatTooltip,
-    MatButtonToggleGroup,
-    MatButtonToggle,
     DrawerComponent,
     MatToolbarModule,
     MatButtonModule,
@@ -118,10 +113,6 @@ export class AppComponent {
 
   toggleTheme(): void {
     this.theme.toggleMode();
-  }
-
-  setDesign(design: ThemeDesign): void {
-    this.theme.setDesign(design);
   }
 
   toggleDirectionality(): void {

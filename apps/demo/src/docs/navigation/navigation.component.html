@@ -54,16 +54,6 @@
       }
       <h2 class="toolbar-title">{{ $toolbarTitle() }}</h2>
       <blui-spacer />
-      <mat-button-toggle-group
-        class="design-toggle"
-        hideSingleSelectionIndicator
-        aria-label="Material design version"
-        [value]="theme.$design()"
-        (change)="setDesign($event.value)"
-      >
-        <mat-button-toggle value="m3" matTooltip="Material 3 theme (default)">M3</mat-button-toggle>
-        <mat-button-toggle value="m2" matTooltip="Material 2 compatibility theme">M2</mat-button-toggle>
-      </mat-button-toggle-group>
       <button
         mat-icon-button
         [attr.aria-label]="theme.$mode() === 'dark' ? 'Switch to light theme' : 'Switch to dark theme'"

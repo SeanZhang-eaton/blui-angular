@@ -1,4 +1,5 @@
-// The Brightlayer UI theme (Material 3 or 2) is loaded at runtime, see `docs/services/theme/theme.service.ts`.
+// The demo apps use the Material 2 compatibility theme (`theme.scss` would apply the Material 3 theme).
+@use 'libs/@bldc/angular-themes/src/lib/theme-m2';
 @use './themes/doc-theme';
 @use 'libs/@bldc/angular-themes/src/lib/open-sans';
 

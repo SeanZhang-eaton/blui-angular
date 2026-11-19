@@ -2,7 +2,6 @@ import { DOCUMENT } from '@angular/common';
 import { ChangeDetectionStrategy, Component, computed, effect, inject } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { MatIconButton } from '@angular/material/button';
-import { MatButtonToggle, MatButtonToggleGroup } from '@angular/material/button-toggle';
 import { MatIcon } from '@angular/material/icon';
 import { MatToolbar } from '@angular/material/toolbar';
 import { MatTooltip } from '@angular/material/tooltip';
@@ -22,7 +21,7 @@ import { filter, map } from 'rxjs';
 
 import { DrawerStateService } from '../services/drawer-state/drawer-state.service';
 import { TabService } from '../services/tab/tab.service';
-import { ThemeDesign, ThemeService } from '../services/theme/theme.service';
+import { ThemeService } from '../services/theme/theme.service';
 import { ViewportService } from '../services/viewport/viewport.service';
 
 import { APP_NAV_ITEMS, COMPONENTS_NAV_GROUP, DOC_PAGES, NavItem } from './nav-items';
@@ -55,8 +54,6 @@ function toRoute(url: string): string {
     MatIconButton,
     MatIcon,
     MatTooltip,
-    MatButtonToggleGroup,
-    MatButtonToggle,
     RouterOutlet,
   ],
 })
@@ -123,9 +120,5 @@ export class NavigationComponent {
 
   protected goHome(): void {
     void this._router.navigateByUrl(`/${APP_NAV_ITEMS.catalog.route}`);
-  }
-
-  protected setDesign(design: ThemeDesign): void {
-    this.theme.setDesign(design);
   }
 }
