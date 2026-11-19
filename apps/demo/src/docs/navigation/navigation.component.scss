@@ -1,3 +1,4 @@
+@use 'sass:map';
 @use '@brightlayer-ui/colors/palette.scss' as blui;
 
 .toolbar {
@@ -24,7 +25,7 @@
 }
 
 ::ng-deep .app-navigation-drawer .blui-drawer-nav-group-title {
-  color: map-get(blui.$blui-blue, 500) !important;
+  color: map.get(blui.$blui-blue, 500) !important;
 }
 
 .framework-chip {
@@ -34,7 +35,7 @@
     margin: 0;
   }
   div {
-    color: map-get(blui.$blui-blue, 500) !important;
+    color: map.get(blui.$blui-blue, 500) !important;
     font-size: 10px;
     text-transform: uppercase;
     letter-spacing: 1px;

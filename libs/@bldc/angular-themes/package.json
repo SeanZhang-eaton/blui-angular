@@ -11,7 +11,7 @@
   "license": "BSD-3-Clause",
   "peerDependencies": {
     "@angular/material": "^22.0.0",
-    "@brightlayer-ui/colors": "^3.1.1",
+    "@brightlayer-ui/colors": "^3.3.0",
     "@fontsource/open-sans": "^5.2.5"
   },
   "sideEffects": true

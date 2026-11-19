@@ -29,10 +29,12 @@ export default defineConfig(({ mode }) => {
           {
             src: './src/assets/*',
             dest: './assets/',
+            rename: { stripBase: 2 },
           },
           {
             src: './src/docs/md/',
             dest: './assets/',
+            rename: { stripBase: 2 },
           },
         ],
       }),

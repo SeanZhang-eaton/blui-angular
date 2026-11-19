@@ -1,0 +1,153 @@
+/**
+Copyright (c) 2021-present, Eaton
+
+All rights reserved.
+
+This code is licensed under the BSD-3 license found in the LICENSE file in the root directory of this source tree and at https://opensource.org/licenses/BSD-3-Clause.
+**/
+
+// Default Brightlayer UI theme built on the Angular Material 3 theming APIs.
+// Palettes are generated from the Brightlayer UI brand colors (`_theme-colors.scss`) and the key
+// system colors are pinned to the same values the React themes use (`_tokens.scss`).
+@use 'sass:list';
+@use 'sass:map';
+@use '@angular/material' as mat;
+
+@use './blui-component-theme';
+@use './margins';
+@use './theme-bases';
+@use './theme-colors' as palettes;
+@use './tokens';
+@use './typography';
+
+$typography: (
+  plain-family: (
+    'Open Sans',
+    Helvetica,
+    Roboto,
+    sans-serif,
+  ),
+  brand-family: (
+    'Open Sans',
+    Helvetica,
+    Roboto,
+    sans-serif,
+  ),
+  bold-weight: 600,
+  medium-weight: 600,
+  regular-weight: 400,
+);
+
+/// Pins Material 3 system colors to the Brightlayer UI tokens for the given mode.
+@mixin system-color-overrides($mode) {
+  $t: tokens.get($mode);
+  @include mat.theme-overrides(
+    (
+      primary: map.get($t, primary),
+      on-primary: map.get($t, on-primary),
+      error: map.get($t, error),
+      on-error: map.get($t, on-error),
+      background: map.get($t, background),
+      on-background: map.get($t, text-primary),
+      surface: map.get($t, paper),
+      on-surface: map.get($t, text-primary),
+      on-surface-variant: map.get($t, text-secondary),
+      outline-variant: map.get($t, divider),
+    )
+  );
+}
+
+/// Material 3 theme object, used for the color input back-compat styles.
+@function define-theme($mode) {
+  @return mat.define-theme(
+    (
+      color: (
+        theme-type: $mode,
+        primary: palettes.$primary-palette,
+        tertiary: palettes.$tertiary-palette,
+      ),
+    )
+  );
+}
+
+/// The M3 toolbar has no color variants; restore color="primary|accent|warn" (used by the App Bar,
+/// Drawer Header and User Menu Header) with the Brightlayer UI colors.
+@mixin toolbar-color-variants() {
+  $variants: (
+    primary: (
+      var(--blui-primary),
+      var(--blui-on-primary),
+    ),
+    accent: (
+      var(--blui-secondary),
+      var(--blui-on-secondary),
+    ),
+    warn: (
+      var(--blui-error),
+      var(--blui-on-error),
+    ),
+  );
+  @each $name, $colors in $variants {
+    .mat-toolbar.mat-#{$name} {
+      --mat-toolbar-container-background-color: #{list.nth($colors, 1)};
+      --mat-toolbar-container-text-color: #{list.nth($colors, 2)};
+      --mat-icon-button-icon-color: #{list.nth($colors, 2)};
+    }
+  }
+}
+
+@mixin color-scheme($mode) {
+  @include mat.theme(
+    (
+      color: (
+        primary: palettes.$primary-palette,
+        tertiary: palettes.$tertiary-palette,
+        theme-type: $mode,
+      ),
+    )
+  );
+  @include system-color-overrides($mode);
+  // Keeps the color="primary|accent|warn" input working on Material components (M2 behavior).
+  @include mat.color-variants-backwards-compatibility(define-theme($mode));
+  @include toolbar-color-variants();
+  @include tokens.css-variables($mode);
+  background-color: var(--mat-sys-background);
+  color: var(--mat-sys-on-background);
+}
+
+/// Emits the Material 3 Brightlayer UI theme. Apply `.blui-blue` (light) or `.blui-blue-dark`
+/// (dark) to the `<body>` element.
+@mixin blui-theme() {
+  @include mat.elevation-classes();
+  @include mat.app-background();
+
+  :root {
+    --blui-drawer-open-width: 360px;
+    @include mat.theme(
+      (
+        typography: $typography,
+        density: 0,
+      )
+    );
+  }
+
+  .blui-blue {
+    @include color-scheme(light);
+  }
+
+  .blui-blue-dark {
+    @include color-scheme(dark);
+  }
+
+  body {
+    font-family: #{tokens.$font-family};
+    -webkit-font-smoothing: antialiased;
+  }
+
+  // Material 2 typography classes (`.mat-subtitle-1`, `.mat-body-2`, ...) are still used by the
+  // Brightlayer UI components and applications, so the hierarchy is kept available.
+  @include mat.typography-hierarchy(theme-bases.$typography-config);
+  @include margins.reasonable-margins();
+  @include typography.typography();
+  @include blui-component-theme.blui-components-theme();
+}

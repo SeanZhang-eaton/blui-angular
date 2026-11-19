@@ -1,12 +1,11 @@
 @use '@brightlayer-ui/colors/palette.scss' as blui;
 @use './themes/doc-light.scss';
+@use 'libs/@bldc/angular-themes/src/lib/open-sans';
+@use 'libs/@bldc/angular-themes/src/lib/theme';
 
 @import 'prismjs/themes/prism-tomorrow.css';
 @import 'prismjs/plugins/line-highlight/prism-line-highlight.css';
 @import 'prismjs/plugins/line-numbers/prism-line-numbers.css';
-
-@import 'libs/@bldc/angular-themes/src/lib/open-sans.scss';
-@import 'libs/@bldc/angular-themes/src/lib/theme.scss';
 
 @import './assets/fonts-material/material-icons.css';
 @import '@brightlayer-ui/icons/BrightlayerUIIcons.css';

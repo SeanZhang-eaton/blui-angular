@@ -1,0 +1,153 @@
+/**
+Copyright (c) 2021-present, Eaton
+
+All rights reserved.
+
+This code is licensed under the BSD-3 license found in the LICENSE file in the root directory of this source tree and at https://opensource.org/licenses/BSD-3-Clause.
+**/
+
+// Brightlayer UI design tokens shared by the Material 3 (default) and Material 2 (compat) themes.
+// Values mirror the React themes (`@brightlayer-ui/react-themes` blueMergedTheme) so Angular and
+// React applications look the same.
+@use 'sass:color';
+@use 'sass:map';
+@use '@brightlayer-ui/colors/palette.scss' as blui;
+
+$font-family: '"Open Sans", Helvetica, Roboto, sans-serif';
+
+// Solid colors exported by `@brightlayer-ui/colors` (JS only) that are not part of palette.scss.
+$highlight: #5590ef;
+$highlight-blue: #7babff;
+$light-theme-divider: #4d5c6a;
+$dark-theme-divider: #f5faff;
+$color-disabled: #192024;
+$color-disabled-dark: #ebf1f4;
+$color-hover: #3a454a;
+$color-hover-dark: #dddfe0;
+$on-primary-hover: #146bbe;
+$on-primary-pressed: #004d97;
+$on-primary-hover-dark: #bcd2ff;
+$on-primary-pressed-dark: #8ca3d1;
+$pressed: #3a454a;
+$pressed-dark: #dddfe0;
+
+@function -c($palette, $hue) {
+  @return map.get($palette, $hue);
+}
+
+@function -alpha($color, $alpha) {
+  @return color.change($color, $alpha: $alpha);
+}
+
+$light: (
+  primary: -c(blui.$blui-blue, 500),
+  primary-light: -c(blui.$blui-blue, 50),
+  primary-dark: -c(blui.$blui-blue, 700),
+  on-primary: -c(blui.$blui-white, 50),
+  primary-hover: $on-primary-hover,
+  primary-pressed: $on-primary-pressed,
+  secondary: -c(blui.$blui-lightBlue, 500),
+  secondary-light: -c(blui.$blui-lightBlue, 50),
+  secondary-dark: -c(blui.$blui-lightBlue, 700),
+  on-secondary: -c(blui.$blui-white, 50),
+  error: -c(blui.$blui-red, 500),
+  on-error: -c(blui.$blui-white, 50),
+  success: -c(blui.$blui-green, 500),
+  warning: -c(blui.$blui-yellow, 500),
+  info: -c(blui.$blui-lightBlue, 500),
+  background: -c(blui.$blui-white, 200),
+  paper: -c(blui.$blui-white, 50),
+  text-primary: -c(blui.$blui-black, 500),
+  text-secondary: -c(blui.$blui-gray, 500),
+  text-disabled: -alpha($color-disabled, 0.25),
+  divider: -alpha($light-theme-divider, 0.12),
+  action-hover: -alpha($color-hover, 0.08),
+  action-pressed: -alpha($pressed, 0.16),
+  action-active: -c(blui.$blui-gray, 500),
+  action-disabled: -alpha($color-disabled, 0.25),
+  action-disabled-background: -alpha($color-disabled, 0.05),
+  action-highlight: -alpha($highlight, 0.08),
+  shadow-level1: (
+    0 0 2px 0 rgba(0, 0, 0, 0.04),
+    0 1px 2px 0 rgba(0, 0, 0, 0.04),
+    0 1px 4px 0 rgba(0, 0, 0, 0.04),
+  ),
+  shadow-level2: (
+    0 0 6px 0 rgba(0, 0, 0, 0.04),
+    0 1px 4px 0 rgba(0, 0, 0, 0.04),
+    0 4px 8px 0 rgba(0, 0, 0, 0.04),
+  ),
+  shadow-level3: (
+    0 0 2px 0 rgba(0, 0, 0, 0.12),
+    0 8px 16px 0 rgba(0, 0, 0, 0.12),
+    0 10px 32px 0 rgba(0, 0, 0, 0.12),
+  ),
+);
+
+$dark: (
+  primary: -c(blui.$blui-blue, 200),
+  primary-light: -c(blui.$blui-blue, 50),
+  primary-dark: -c(blui.$blui-blue, 500),
+  on-primary: -c(blui.$blui-blue, 900),
+  primary-hover: $on-primary-hover-dark,
+  primary-pressed: $on-primary-pressed-dark,
+  secondary: -c(blui.$blui-lightBlue, 200),
+  secondary-light: -c(blui.$blui-lightBlue, 50),
+  secondary-dark: -c(blui.$blui-lightBlue, 500),
+  on-secondary: -c(blui.$blui-white, 50),
+  error: -c(blui.$blui-red, 200),
+  on-error: -c(blui.$blui-black, 900),
+  success: -c(blui.$blui-green, 200),
+  warning: -c(blui.$blui-yellow, 300),
+  info: -c(blui.$blui-lightBlue, 200),
+  background: -c(blui.$blui-darkBlack, 900),
+  paper: -c(blui.$blui-darkBlack, 500),
+  text-primary: -c(blui.$blui-black, 50),
+  text-secondary: -c(blui.$blui-black, 200),
+  text-disabled: -alpha(-c(blui.$blui-black, 300), 0.36),
+  divider: -alpha($dark-theme-divider, 0.1),
+  action-hover: -alpha($color-hover-dark, 0.08),
+  action-pressed: -alpha($pressed-dark, 0.16),
+  action-active: -c(blui.$blui-black, 200),
+  action-disabled: -alpha($color-disabled-dark, 0.25),
+  action-disabled-background: -alpha($color-disabled-dark, 0.05),
+  action-highlight: -alpha($highlight-blue, 0.18),
+  shadow-level1: (
+    0 0 2px 0 rgba(0, 0, 0, 0.32),
+    0 1px 2px 0 rgba(0, 0, 0, 0.32),
+    0 1px 4px 0 rgba(0, 0, 0, 0.32),
+  ),
+  shadow-level2: (
+    0 0 6px 0 rgba(0, 0, 0, 0.32),
+    0 1px 4px 0 rgba(0, 0, 0, 0.32),
+    0 4px 8px 0 rgba(0, 0, 0, 0.32),
+  ),
+  shadow-level3: (
+    0 0 2px 0 rgba(0, 0, 0, 0.48),
+    0 8px 16px 0 rgba(0, 0, 0, 0.48),
+    0 10px 32px 0 rgba(0, 0, 0, 0.48),
+  ),
+);
+
+/// Returns the token map for `light` or `dark`.
+@function get($mode) {
+  @if $mode == dark {
+    @return $dark;
+  }
+  @return $light;
+}
+
+/// Emits all tokens as `--blui-*` CSS custom properties, plus the legacy `--blui-*-color` aliases.
+@mixin css-variables($mode) {
+  $tokens: get($mode);
+  color-scheme: $mode;
+  --blui-font-family: #{$font-family};
+  @each $name, $value in $tokens {
+    --blui-#{$name}: #{$value};
+  }
+  // Legacy aliases kept for backwards compatibility.
+  --blui-primary-color: #{map.get($tokens, primary)};
+  --blui-accent-color: #{map.get($tokens, secondary)};
+  --blui-warn-color: #{map.get($tokens, error)};
+  --blui-background-color: #{map.get($tokens, paper)};
+}

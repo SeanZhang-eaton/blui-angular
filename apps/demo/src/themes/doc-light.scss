@@ -9,7 +9,7 @@
 
 @mixin code-snippet-href() {
   color: map.get(blui.$blui-blue, 500);
-  background: rgba(#007bc1, 0.05);
+  background: rgba(map.get(blui.$blui-blue, 500), 0.05);
 }
 
 @mixin light-theme() {

@@ -230,8 +230,8 @@ importers:
         specifier: ^22.0.0
         version: 22.3.0(5216e172556618d479635da026f2d2c4)
       '@brightlayer-ui/colors':
-        specifier: ^3.1.1
-        version: 3.1.1
+        specifier: ^3.3.0
+        version: 3.3.0
       '@fontsource/open-sans':
         specifier: ^5.2.5
         version: 5.2.5
@@ -1147,9 +1147,6 @@ packages:
 
   '@braintree/sanitize-url@7.1.1':
     resolution: {integrity: sha512-i1L7noDNxtFyL5DmZafWy1wRVhGehQmzZaz1HiN5e7iylJMSZR7ekOV7NsIqa5qBldlLrsKv4HbgFUVlQrz8Mw==}
-
-  '@brightlayer-ui/colors@3.1.1':
-    resolution: {integrity: sha512-fV10E5JDuVGDQ0gCY3pEfDwUo1+lvDFC5pmOAAGpN7YDramS6ggUpJ/LmYavKAudw7FNcaJnPi7tsQWJjvv/7w==}
 
   '@brightlayer-ui/colors@3.3.0':
     resolution: {integrity: sha512-JiI32f6xrfqd4CbrTM6PjL+pNDK4cTZZGVMcZygwQxgTpZV8IgwHNGlzeYdf87Thq6MioyvP6cKWYEq9g+F8jA==}
@@ -7627,10 +7624,6 @@ snapshots:
 
   '@braintree/sanitize-url@7.1.1':
     optional: true
-
-  '@brightlayer-ui/colors@3.1.1':
-    dependencies:
-      '@brightlayer-ui/types': 2.0.0
 
   '@brightlayer-ui/colors@3.3.0':
     dependencies:

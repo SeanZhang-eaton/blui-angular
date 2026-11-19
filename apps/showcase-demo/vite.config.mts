@@ -29,6 +29,7 @@ export default defineConfig(({ mode }) => {
           {
             src: './src/assets/*',
             dest: './assets/',
+            rename: { stripBase: 2 },
           },
         ],
       }),

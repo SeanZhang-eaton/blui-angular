@@ -6,7 +6,6 @@
 @use './blueTheme';
 @use './blui-component-theme';
 @use './margins';
-@use './fonts';
 @use './typography';
 @use './common';
 
@@ -32,8 +31,7 @@ $typography-config: mat.m2-define-typography-config(
   $subtitle-2: mat.m2-define-typography-level(0.875rem, 1.43, 500),
   $body-2: mat.m2-define-typography-level(1rem, 1.5, 400),
   $caption: mat.m2-define-typography-level(0.75rem, 1.66, 400),
-  $button: mat.m2-define-typography-level(0.875rem, 1, 600)
-    /* TODO(mdc-migration): No longer supported. Use `body-1` instead. $input: mat.define-typography-level(inherit, 1.125, 400),*/,
+  $button: mat.m2-define-typography-level(0.875rem, 1, 600),
 );
 
 @function blui-light-theme($primary, $accent, $warn) {
@@ -70,6 +68,7 @@ $typography-config: mat.m2-define-typography-config(
         icons: rgba(black, 0.54),
       ),
       background: (
+        background: map.get(blui.$blui-white, 200),
         card: map.get(blui.$blui-white, 50),
         dialog: map.get(blui.$blui-white, 50),
         disabled-button: rgba(114, 126, 132, 0.12),
@@ -111,6 +110,7 @@ $typography-config: mat.m2-define-typography-config(
         icons: map.get(blui.$blui-black, 50),
       ),
       background: (
+        background: map.get(blui.$blui-darkBlack, 900),
         app-bar: map.get(blui.$blui-darkBlack, 100),
         card: map.get(blui.$blui-black, 900),
         dialog: map.get(blui.$blui-black, 900),

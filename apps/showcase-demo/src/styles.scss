@@ -1,9 +1,8 @@
-/* You can add global styles to this file, and also import other style files */
+@use 'libs/@bldc/angular-themes/src/lib/open-sans';
+@use 'libs/@bldc/angular-themes/src/lib/theme';
+
 @import './assets/fonts-material/material-icons.css';
 @import '@brightlayer-ui/icons/BrightlayerUIIcons.css';
-
-@import 'libs/@bldc/angular-themes/src/lib/open-sans.scss';
-@import 'libs/@bldc/angular-themes/src/lib/theme.scss';
 
 #type-table {
   td,

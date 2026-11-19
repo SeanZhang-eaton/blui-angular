@@ -5,5 +5,6 @@
   "prefix": "app",
   "sourceRoot": "apps/showcase-demo/src",
   "tags": [],
-  "targets": {}
+  "targets": {},
+  "implicitDependencies": ["@bldc/angular-themes"]
 }
