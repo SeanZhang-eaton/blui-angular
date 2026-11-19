@@ -1,5 +1,27 @@
 # Change Log
 
+## Unreleased (v11.0.0)
+
+### Breaking
+
+- Requires Angular / Angular Material / CDK `^22.0.0` and Node.js `>= 22.22`.
+- `@bldc/angular-themes`: `theme.scss` / `blui-theme()` now emit a **Material 3** theme. The previous Material 2 theme is available as `theme-m2.scss` / `blui-theme-m2()`.
+- `@bldc/angular-themes` requires `@brightlayer-ui/colors` `^3.3.0` (updated Eaton brand blue).
+- `@angular/animations` is no longer used; applications do not need `provideAnimations()` for these components.
+
+### Changed
+
+- `@bldc/angular-components` is now published in the Angular Package Format (built with ng-packagr) with proper `exports` and type definitions. Build tooling was removed from its peer dependencies.
+- Both themes share Brightlayer UI design tokens (`--blui-*` CSS variables) aligned with `@brightlayer-ui/react-themes` (colors, shadows, typography).
+- `.mat-elevation-z*` classes are emitted again by the themes (`mat.core()` is a no-op in Angular Material 22).
+
+### Fixed
+
+- `<blui-app-bar>` emitted `collapsedChange` twice per change.
+- `<blui-drawer-nav-item>` always rendered an empty subtitle element.
+- Pending timers in `<blui-app-bar>` and `<blui-drawer>` are cleared on destroy.
+- `<blui-user-menu>` no longer accesses the global `window` / `document`.
+
 ## v9.0.0 (July 14, 2023)
 
 ### Changed

@@ -1,38 +1,49 @@
 # Brightlayer UI Angular Components
 
-[![Build](https://github.com/etn-ccis/blui-angular-component-library/actions/workflows/blui-ci.yml/badge.svg?branch=master)](https://github.com/etn-ccis/blui-angular-component-library/actions/workflows/blui-ci.yml)
-![npm](https://img.shields.io/npm/v/@bldc/angular-components?label=%40brightlayer-ui%2Fangular-components) [![codecov](https://codecov.io/gh/etn-ccis/blui-angular-component-library/branch/master/graph/badge.svg?token=DB9EMVFAFJ)](https://codecov.io/gh/etn-ccis/blui-angular-component-library)
+[![Build](https://github.com/etn-ccis/blui-angular/actions/workflows/blui-ci.yml/badge.svg?branch=dev)](https://github.com/etn-ccis/blui-angular/actions/workflows/blui-ci.yml)
+![npm](https://img.shields.io/npm/v/@bldc/angular-components?label=%40bldc%2Fangular-components)
 
-This is a library of custom components for use in Brightlayer UI applications. For the most part, these components are meant to simplify building your application by providing re-usable components that implement common use cases in Brightlayer UI and eliminating the need to multiple teams to build their own components for these.
+This is a library of custom components for use in Brightlayer UI applications. For the most part, these components are meant to simplify building your application by providing re-usable components that implement common use cases in Brightlayer UI and eliminating the need for multiple teams to build their own components for these.
 
 Refer to the [Component Library](https://brightlayer-ui-components.github.io/angular) API documentation site for a list of available components and the document for each individual component.
 
+This repository is an [Nx](https://nx.dev) monorepo that contains:
+
+| Path                            | Description                                                         |
+| ------------------------------- | ------------------------------------------------------------------- |
+| `libs/@bldc/angular-components` | `@bldc/angular-components` – the component library (ng-packagr)     |
+| `libs/@bldc/angular-themes`     | `@bldc/angular-themes` – Material 3 (default) and Material 2 themes |
+| `apps/demo`                     | Component documentation site                                        |
+| `apps/showcase-demo`            | Showcase of the components in a realistic interface                 |
+
 ## Installation
 
-To install the Brightlayer UI angular components from NPM as a dependency for your project, you can run the following command in your project root:
-
 ```
-yarn add @bldc/angular-components
+pnpm add @bldc/angular-components @bldc/angular-themes @angular/material @angular/cdk color
 ```
 
-> **NOTE**: This install command will install the package from NPM. If you are a Brightlayer UI developer working with components locally, you will want to follow the manual linking instructions - see below.
+> **NOTE**: This component library requires that your application have `@bldc/angular-themes` and `@angular/material` installed. See the [themes README](./libs/@bldc/angular-themes/README.md) for how to apply the Material 3 (default) or Material 2 compatibility theme.
 
-> **NOTE**: This component library requires that your application have @bldc/angular-themes and @angular/material installed.
+## Development
 
-## Building the Library
-
-To work with this library, first clone down the repository:
+Requirements: Node.js `>= 22.22` (see `.node-version`) and pnpm 10.
 
 ```
-git clone https://github.com/etn-ccis/blui-angular-component-library
-cd angular-component-library
+git clone https://github.com/etn-ccis/blui-angular
+cd blui-angular
+pnpm install
 ```
 
-The library can be built by running the following command. The resulting output will be in the /dist folder.
+| Task                  | Command               |
+| --------------------- | --------------------- |
+| Start the docs site   | `pnpm start`          |
+| Start the showcase    | `pnpm start:showcase` |
+| Build the libraries   | `pnpm build`          |
+| Run all unit tests    | `pnpm test`           |
+| Lint                  | `pnpm lint`           |
+| Check build artifacts | `pnpm test:artifacts` |
 
-```
-yarn build:lib
-```
+The library build output is written to `dist/libs/@bldc/*`.
 
 ## Compatibility
 
@@ -40,36 +51,21 @@ The following table outlines which versions of Angular and Brightlayer UI resour
 
 | @bldc/angular-components | @bldc/angular-themes | @angular + @angular/material |
 | ------------------------ | -------------------- | ---------------------------- |
-| `^5.0.0`                 | `^6.1.0`             | `^11.x`                      |
-| `^6.0.0`                 | `^6.3.0`             | `^12.x`                      |
-| `^7.0.0`                 | `^7.0.0`             | `^13.x`                      |
-| `^8.0.0`                 | `^8.0.0`             | `^14.x`                      |
 | `^9.0.0`                 | `^9.0.0`             | `^15.x`                      |
+| `^10.0.0`                | `^10.0.0`            | `^18.x`                      |
+| `^11.0.0`                | `^11.0.0`            | `^22.x`                      |
 
 ## Peer Dependencies
 
-The following peer dependencies are added to `package.json`:
-
 | Package Name         | Version |
-| -------------------- | ------- | --- | ------- |
-| @angular/core        | ^15.0.0 |     | ^16.0.0 |
-| @angular/material    | ^15.0.0 |     | ^16.0.0 |
-| @angular/cdk         | ^15.0.0 |     | ^16.0.0 |
-| @bldc/angular-themes | ^9.0.0  |
-
-## Running the Demo Projects
-
-To start the [documentation site](https://brightlayer-ui-components.github.io/angular) that is included in this repository, run:
-
-```
-yarn start
-```
-
-The second demo is a [showcase project](https://blui-angular-showcase.web.app/) that shows a combination of components in the context of a realistic interface. To start the showcase, run:
-
-```
-yarn start:showcase
-```
+| -------------------- | ------- |
+| @angular/core        | ^22.0.0 |
+| @angular/common      | ^22.0.0 |
+| @angular/material    | ^22.0.0 |
+| @angular/cdk         | ^22.0.0 |
+| color                | ^5.0.0  |
+| rxjs                 | ^7.4.0  |
+| @bldc/angular-themes | ^11.0.0 |
 
 ## Using the Components
 

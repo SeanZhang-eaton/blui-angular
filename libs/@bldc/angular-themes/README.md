@@ -1,7 +1,61 @@
 # @bldc/angular-themes
 
-This library was generated with [Nx](https://nx.dev).
+Angular Material themes for Brightlayer UI applications. The themes follow the same design tokens as
+[`@brightlayer-ui/react-themes`](https://github.com/etn-ccis/blui-react/tree/dev/packages/themes) so Angular and React
+applications look alike.
 
-## Running unit tests
+## Installation
 
-Run `nx test @bldc/angular-themes` to execute the unit tests.
+```bash
+pnpm add @bldc/angular-themes @angular/material @brightlayer-ui/colors @fontsource/open-sans
+```
+
+## Usage
+
+Include one theme in your global stylesheet and add `class="blui-blue"` (light) or `class="blui-blue-dark"` (dark) to
+`<body>`.
+
+```scss
+// Material 3 theme (default)
+@use '@bldc/angular-themes/open-sans';
+@use '@bldc/angular-themes/theme';
+```
+
+```scss
+// Material 2 compatibility theme (the pre-Angular 22 look)
+@use '@bldc/angular-themes/open-sans';
+@use '@bldc/angular-themes/theme-m2';
+```
+
+Or include the mixins yourself:
+
+```scss
+@use '@bldc/angular-themes' as blui;
+
+@include blui.blui-theme(); // Material 3
+// @include blui.blui-theme-m2(); // Material 2 compatibility
+```
+
+## Design tokens
+
+Both themes emit the same CSS custom properties on `.blui-blue` / `.blui-blue-dark`, for example:
+
+| Token                                                     | Description                              |
+| --------------------------------------------------------- | ---------------------------------------- |
+| `--blui-primary`, `--blui-on-primary`                     | Primary color and its contrast color     |
+| `--blui-secondary`, `--blui-error`, `--blui-success`, ... | Status colors                            |
+| `--blui-background`, `--blui-paper`                       | App background and surface (card) colors |
+| `--blui-text-primary`, `--blui-text-secondary`            | Text colors                              |
+| `--blui-divider`                                          | Divider color                            |
+| `--blui-action-hover`, `--blui-action-disabled`, ...      | Interaction state colors                 |
+| `--blui-shadow-level1` … `--blui-shadow-level3`           | Brightlayer UI shadows                   |
+
+The Sass values are available via `blui.tokens-get(light | dark)`. The legacy `--blui-primary-color`,
+`--blui-accent-color`, `--blui-warn-color` and `--blui-background-color` variables are still emitted.
+
+## Material 3 notes
+
+- Palettes are generated from the Brightlayer UI brand colors (`_theme-colors.scss`) and the key system colors
+  (`primary`, `surface`, `background`, `on-surface`, `outline-variant`, `error`, …) are pinned to the Brightlayer UI
+  tokens.
+- The `color="primary" | "accent" | "warn"` input of Material components (including toolbars) keeps working.

@@ -1,12 +1,12 @@
 # Project Guidelines
 
-Nx monorepo — **Angular 18.2**, **TypeScript 5.5**, **pnpm 10**.
+Nx 24 monorepo — **Angular 22.2**, **Angular Material 22.3**, **TypeScript 6.0**, **Vite 8 / Vitest 5** (via Analog), **pnpm 10**, Node **>= 22.22**.
 
 This is the **Brightlayer UI Angular Component Library** (`@bldc/angular-components`) — a set of reusable UI components for Angular applications.
 
 - **2 apps** under `apps/`: `demo` (component docs), `showcase-demo` (showcase playground)
 - **2 libraries** under `libs/@bldc/`: `angular-components`, `angular-themes`
-- **UI framework**: Angular Material 18.2
+- **UI framework**: Angular Material 22.3 (Material 3 theme by default, Material 2 compatibility theme available)
 
 ## Build and Test
 
@@ -16,6 +16,7 @@ This is the **Brightlayer UI Angular Component Library** (`@bldc/angular-compone
 | Start demo       | `pnpm start`             |
 | Start showcase   | `pnpm start:showcase`    |
 | Build libs       | `pnpm build`             |
+| Check artifacts  | `pnpm test:artifacts`    |
 | Run all tests    | `pnpm test`              |
 | Test one project | `nx test <PROJECT_NAME>` |
 | Lint             | `pnpm lint`              |
@@ -26,7 +27,7 @@ Always use **`nx`** (not `ng`) for project-level commands. Use **`pnpm`** (not `
 
 ### Component Rules
 
-- **Standalone with explicit `standalone: true`** — Angular 18 requires explicit annotation. Library components also provide NgModule wrappers for backward compatibility.
+- **Standalone** — components are standalone by default (Angular 19+). Existing explicit `standalone: true` is harmless; components declared in an NgModule (the docs app) must set `standalone: false`. Library components also provide NgModule wrappers for backward compatibility.
 - **Import only what you need** — never import barrel modules. Import only the specific dependencies each component uses (e.g., `CommonModule`, `MatIconModule`). Keeps the dependency graph explicit.
 - **External templates and styles** — always `templateUrl` + `styleUrl` (not `styleUrls`), never inline. Styles use `.scss`.
 - **OnPush** — mandatory for all new components: `changeDetection: ChangeDetectionStrategy.OnPush`
@@ -58,12 +59,9 @@ $disabled = input(false, { alias: 'disabled', transform: booleanAttribute });
 
 ### Path Alias Reference (`tsconfig.base.json`)
 
-| Alias                        | Resolves to                                       |
-| ---------------------------- | ------------------------------------------------- |
-| `@bldc/angular-components`   | `libs/@bldc/angular-components/src/public-api.ts` |
-| `@bldc/angular-components/*` | `libs/@bldc/angular-components/src/lib/*`         |
-| `@bldc/angular-themes/*`     | `libs/@bldc/angular-themes/src/lib/*`             |
-| `@blui-apps/demo/*`          | `apps/demo/src/*`                                 |
+| Alias                      | Resolves to                                       |
+| -------------------------- | ------------------------------------------------- |
+| `@bldc/angular-components` | `libs/@bldc/angular-components/src/public-api.ts` |
 
 ## Architecture
 
@@ -92,9 +90,9 @@ Public API is exported from `libs/@bldc/angular-components/src/public-api.ts`.
 
 ## Testing
 
-- **Vitest** with `@analogjs/vitest-angular`
+- **Vitest** with `@analogjs/vitest-angular` (zone-based TestBed, see `src/test-setup.ts`; `@angular/compiler` must be imported first)
 - Pattern: `*.spec.ts` co-located with source
-- Run: `nx test <project>` or `pnpm test`
+- Run: `nx test <project>` or `pnpm test`. Targets (`build`/`serve`/`test`/`lint`) are inferred by the Nx plugins in `nx.json` — Nx 24 no longer ships `@nx/vite`/`@nx/vitest`/`@nx/eslint` executors.
 
 ## Conventions
 
@@ -139,7 +137,11 @@ The goal is to keep agents and skills as a **living, self-correcting knowledge b
 
 ## Pitfalls
 
-- **Angular Material 18.2** — must stay compatible with `@angular/core` 18.x. Do not upgrade independently.
+- **Angular Material 22.x** — must stay compatible with `@angular/core` 22.x. Do not upgrade independently.
+- **Library build** — `@bldc/angular-components` is built with ng-packagr (`@nx/angular:package`, `ng-package.json`); `vite.config.mts` in the lib is test-only. `@bldc/angular-themes` is SCSS-only and copied by `scripts/build-themes.mjs`.
+- **Themes** — `theme.scss`/`blui-theme()` = Material 3 (default), `theme-m2.scss`/`blui-theme-m2()` = Material 2 compatibility. Brightlayer UI component colors must use the `--blui-*` tokens from `_tokens.scss` so they work with both.
+- **Angular migration schematics** (`nx g @angular/core:<migration>`) find tsconfigs through target `options.tsConfig`. Targets are inferred here, so temporarily add `build`/`test` targets with `options.tsConfig` to the app `project.json` while running them, then revert.
+- **No `@angular/animations`** — use `animate.enter` / `animate.leave` with CSS keyframes.
+- **pnpm settings** live in the `pnpm` field of the root `package.json` (pnpm 10.0 does not read them from `pnpm-workspace.yaml`).
 - **NgModule wrappers** — library components are `standalone: true` but also export NgModule wrappers for backward compatibility. Don't remove NgModules without a migration plan.
-- **Explicit `standalone: true`** — Angular 18 requires this annotation; do not remove it from existing components.
 - New code must use `inject()` — some legacy code still uses constructor injection.

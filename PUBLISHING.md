@@ -1,29 +1,26 @@
 # Publishing Instructions
 
+Both packages (`@bldc/angular-components` and `@bldc/angular-themes`) are released together with
+[`scripts/release.ts`](./scripts/release.ts). See [`scripts/RELEASE_GUIDE.md`](./scripts/RELEASE_GUIDE.md) for all options.
+
 ## Automatic Publishing
 
-This package is published to NPM automatically by Github when code is merged into the `dev` or `master` branches. To publish a new version, simply update the version in `package.json` and merge your code into the appropriate branch.
+1. Run `pnpm release` (or `pnpm tsx scripts/release.ts <patch|minor|major>`) to bump the versions, update the lockfile and
+   create the `v*` tag.
+2. Pushing the `v*` tag triggers [`.github/workflows/release.yml`](./.github/workflows/release.yml), which runs the tests,
+   builds both packages (`pnpm build`) and publishes them to NPM (`pnpm release --publishOnly`).
 
-- The `dev` branch will publish versions marked as `alpha` or `beta`.
-- The `master` branch will publish any version (`alpha`, `beta`, or `latest`).
-  In both cases, the code will only be published if the version number differs from the current version published under the respective dist tag.
+Every push to an `etn-ccis/blui-angular` branch also publishes preview packages through `pkg-pr-new`
+(see [`.github/workflows/blui-ci.yml`](./.github/workflows/blui-ci.yml)).
 
 ## Manually Publishing
 
-If you need to publish a package manually, you can run the following commands from the root folder:
-
 ```sh
-yarn build:lib
-yarn publish:package
+pnpm build
+pnpm test:artifacts
+pnpm release --publishOnly
 ```
 
-The publishing script will look at the version in the `package.json` and automatically determine whether to publish an alpha, beta, or latest package.
+An NPM token must be available (`NODE_AUTH_TOKEN`) or you must be logged in with `npm login`.
 
-For this command to work, you must have an NPM token configured in your environment variables or you can perform a login prior to executing the publish command via:
-
-```sh
-yarn build:lib
-npm adduser && yarn publish:package
-```
-
-> Publishing manually should only be done for `alpha` or `beta` packages. The command will work for `latest` packages, but this should be avoided except in rare situations where the automatic publishing functionality is not working in Github.
+> Publishing manually should only be done for pre-release packages or when the automatic workflow is not working.
