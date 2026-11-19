@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { MatIconButton } from '@angular/material/button';
+import { MatIcon } from '@angular/material/icon';
 import { DrawerComponent, DrawerHeaderComponent, ListItemTagComponent } from '@bldc/angular-components';
 
 export const WITH_CUSTOM_CONTENT = `<blui-drawer style="width: 250px" class="drawer-header-with-custom-content">
@@ -25,6 +26,6 @@ export const WITH_CUSTOM_CONTENT = `<blui-drawer style="width: 250px" class="dra
       }
     `,
   ],
-  imports: [DrawerComponent, DrawerHeaderComponent, ListItemTagComponent, MatIconButton],
+  imports: [MatIcon, DrawerComponent, DrawerHeaderComponent, ListItemTagComponent, MatIconButton],
 })
 export class WithCustomContentComponent {}

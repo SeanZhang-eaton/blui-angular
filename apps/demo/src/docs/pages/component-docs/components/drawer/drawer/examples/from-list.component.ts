@@ -1,6 +1,6 @@
-import { NgFor, NgIf } from '@angular/common';
 import { Component } from '@angular/core';
 import { MatIconButton } from '@angular/material/button';
+import { MatIcon } from '@angular/material/icon';
 import * as Colors from '@brightlayer-ui/colors';
 import {
   DrawerBodyComponent,
@@ -19,25 +19,30 @@ export const FROM_LIST = `<blui-drawer style="width: 300px; height: 620px;">
         </button>
     </blui-drawer-header>
     <blui-drawer-body>
-        <ng-container *ngFor="let navGroup of [group1, group2]; let first = first;">
+        @for (navGroup of [group1, group2]; track navGroup.title; let first = $first) {
             <blui-drawer-nav-group [title]="navGroup.title" [divider]="true">
-                <blui-drawer-nav-item *ngFor="let navItem of navGroup.items"
-                    [title]="navItem.title"
-                    [subtitle]="navItem.subtitle"
-                    [statusColor]="navItem.statusColor"
-                    [selected]="selectedItem === navItem.title"
-                    [divider]="true"
-                    (itemSelect)="setActive(navItem)">
-                    <mat-icon blui-icon>{{ navItem.icon }}</mat-icon>
-                    <blui-drawer-nav-item *ngFor="let nestedItem of navItem.items"
-                        [title]="nestedItem.title"
-                        [selected]="selectedItem === nestedItem.title"
-                        (itemSelect)="setActive(nestedItem);">       
+                @for (navItem of navGroup.items; track navItem.title) {
+                    <blui-drawer-nav-item
+                        [title]="navItem.title"
+                        [subtitle]="navItem.subtitle"
+                        [statusColor]="navItem.statusColor"
+                        [selected]="selectedItem === navItem.title"
+                        [divider]="true"
+                        (itemSelect)="setActive(navItem)">
+                        <mat-icon blui-icon>{{ navItem.icon }}</mat-icon>
+                        @for (nestedItem of navItem.items; track nestedItem.title) {
+                            <blui-drawer-nav-item
+                                [title]="nestedItem.title"
+                                [selected]="selectedItem === nestedItem.title"
+                                (itemSelect)="setActive(nestedItem)" />
+                        }
                     </blui-drawer-nav-item>
-                </blui-drawer-nav-item>
-             </blui-drawer-nav-group>
-            <blui-spacer *ngIf="first"></blui-spacer>
-        </ng-container>
+                }
+            </blui-drawer-nav-group>
+            @if (first) {
+                <blui-spacer />
+            }
+        }
     </blui-drawer-body>
 </blui-drawer>
 `;
@@ -51,14 +56,13 @@ type Group = {
   selector: 'app-from-list-drawer-demo',
   template: FROM_LIST,
   imports: [
+    MatIcon,
     DrawerComponent,
     DrawerHeaderComponent,
     MatIconButton,
     DrawerBodyComponent,
-    NgFor,
     DrawerNavGroupComponent,
     DrawerNavItemComponent,
-    NgIf,
     SpacerComponent,
   ],
 })

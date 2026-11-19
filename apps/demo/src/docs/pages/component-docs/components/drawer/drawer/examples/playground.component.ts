@@ -1,5 +1,6 @@
 import { AfterViewInit, Component, EventEmitter, inject, Input, OnDestroy, Output } from '@angular/core';
 import { MatIconButton } from '@angular/material/button';
+import { MatIcon } from '@angular/material/icon';
 import * as Colors from '@brightlayer-ui/colors';
 import {
   DrawerBodyComponent,
@@ -91,6 +92,7 @@ type Group = {
     `,
   ],
   imports: [
+    MatIcon,
     DrawerComponent,
     DrawerHeaderComponent,
     MatIconButton,
@@ -186,25 +188,24 @@ export class PlaygroundComponent implements AfterViewInit, OnDestroy {
         </button>
     </blui-drawer-header>
     <blui-drawer-body>
-        <ng-container *ngFor="let navGroup of [group1]; let first = first">
-            <blui-drawer-nav-group>
+        <blui-drawer-nav-group>
+            @for (navItem of group1.items; track navItem.title) {
                 <blui-drawer-nav-item
-                    *ngFor="let navItem of navGroup.items"
                     [title]="navItem.title"
                     [selected]="selectedItem === navItem.title"
                     (itemSelect)="setActive(navItem)"
                 >
                     <mat-icon blui-icon>{{ navItem.icon }}</mat-icon>
-                    <blui-drawer-nav-item
-                        *ngFor="let nestedItem of navItem.items"
-                        [title]="nestedItem.title"
-                        [selected]="selectedItem === nestedItem.title"
-                        (itemSelect)="setActive(nestedItem)"
-                    >
-                    </blui-drawer-nav-item>
+                    @for (nestedItem of navItem.items; track nestedItem.title) {
+                        <blui-drawer-nav-item
+                            [title]="nestedItem.title"
+                            [selected]="selectedItem === nestedItem.title"
+                            (itemSelect)="setActive(nestedItem)"
+                        />
+                    }
                 </blui-drawer-nav-item>
-            </blui-drawer-nav-group>
-        </ng-container>
+            }
+        </blui-drawer-nav-group>
     </blui-drawer-body>
     <blui-drawer-footer [hideContentOnCollapse]="true">
         <div style="padding: 16px">

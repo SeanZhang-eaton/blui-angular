@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { MatIcon } from '@angular/material/icon';
 import {
   DrawerBodyComponent,
   DrawerComponent,
@@ -41,6 +42,7 @@ export const RAIL_CONDENSED = `<blui-drawer-layout variant="rail" class="condens
     `,
   ],
   imports: [
+    MatIcon,
     DrawerLayoutComponent,
     DrawerComponent,
     DrawerBodyComponent,

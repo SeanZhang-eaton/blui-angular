@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { MatIconButton } from '@angular/material/button';
+import { MatIcon } from '@angular/material/icon';
 import {
   DrawerBodyComponent,
   DrawerComponent,
@@ -48,6 +49,7 @@ export const PERSISTENT = `<blui-drawer-layout variant="persistent">
     `,
   ],
   imports: [
+    MatIcon,
     DrawerLayoutComponent,
     DrawerComponent,
     DrawerHeaderComponent,

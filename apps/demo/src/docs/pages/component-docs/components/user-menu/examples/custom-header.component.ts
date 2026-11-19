@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { MatDivider } from '@angular/material/divider';
 import { MatNavList } from '@angular/material/list';
 import { InfoListItemComponent, UserMenuComponent } from '@bldc/angular-components';
 
@@ -52,7 +53,7 @@ export const CUSTOM_HEADER = `<blui-user-menu avatarImage="assets/trex.png" [(op
       }
     `,
   ],
-  imports: [UserMenuComponent, MatNavList, InfoListItemComponent],
+  imports: [MatDivider, UserMenuComponent, MatNavList, InfoListItemComponent],
 })
 export class CustomHeaderComponent {
   open = false;

@@ -1,9 +1,11 @@
 import { Component } from '@angular/core';
+import { MatDivider } from '@angular/material/divider';
 import {
   DrawerBodyComponent,
   DrawerComponent,
   DrawerNavGroupComponent,
   DrawerNavItemComponent,
+  SpacerComponent,
 } from '@bldc/angular-components';
 
 export const SPACER = `<blui-drawer style="width: 250px; height: 350px">
@@ -25,6 +27,13 @@ export const SPACER = `<blui-drawer style="width: 250px; height: 350px">
 @Component({
   selector: 'app-spacer-between-nav-group-demo',
   template: SPACER,
-  imports: [DrawerComponent, DrawerBodyComponent, DrawerNavGroupComponent, DrawerNavItemComponent],
+  imports: [
+    MatDivider,
+    SpacerComponent,
+    DrawerComponent,
+    DrawerBodyComponent,
+    DrawerNavGroupComponent,
+    DrawerNavItemComponent,
+  ],
 })
 export class WithSpacerComponent {}

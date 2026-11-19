@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { MatIcon } from '@angular/material/icon';
 import {
   DrawerBodyComponent,
   DrawerComponent,
@@ -26,6 +27,6 @@ export const BASIC = `<blui-drawer style="width: 250px">
 @Component({
   selector: 'app-basic-drawer-nav-item-demo',
   template: BASIC,
-  imports: [DrawerComponent, DrawerBodyComponent, DrawerNavGroupComponent, DrawerNavItemComponent],
+  imports: [MatIcon, DrawerComponent, DrawerBodyComponent, DrawerNavGroupComponent, DrawerNavItemComponent],
 })
 export class BasicExampleComponent {}

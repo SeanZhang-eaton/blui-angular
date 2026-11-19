@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { MatIcon } from '@angular/material/icon';
 import {
   DrawerBodyComponent,
   DrawerComponent,
@@ -41,6 +42,7 @@ export const RAIL = `<blui-drawer-layout variant="rail" class="rail-example">
     `,
   ],
   imports: [
+    MatIcon,
     DrawerLayoutComponent,
     DrawerComponent,
     DrawerBodyComponent,

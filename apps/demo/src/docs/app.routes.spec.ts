@@ -22,7 +22,7 @@ describe('documentation routes', () => {
   });
 
   it.each(DOC_PAGES.map((page) => [page.title, page.route]))('renders the %s documentation page', async (_, route) => {
-    const harness = await RouterTestingHarness.create(`/${route}/api-docs`);
+    const harness = await RouterTestingHarness.create(`/${route}/examples`);
     void expect(harness.routeNativeElement?.querySelector('app-component-doc-scaffold')).toBeTruthy();
   });
 

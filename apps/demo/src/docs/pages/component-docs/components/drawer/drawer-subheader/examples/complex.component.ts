@@ -1,6 +1,7 @@
-import { NgFor } from '@angular/common';
 import { Component, ViewEncapsulation } from '@angular/core';
+import { MatDivider } from '@angular/material/divider';
 import { MatFormField, MatLabel } from '@angular/material/form-field';
+import { MatIcon } from '@angular/material/icon';
 import { MatOption, MatSelect } from '@angular/material/select';
 import {
   DrawerBodyComponent,
@@ -29,9 +30,11 @@ export const COMPLEX = `<blui-drawer style="width: 250px" [openOnHover]="false">
     </blui-drawer-subheader>
     <blui-drawer-body>
         <blui-drawer-nav-group>
-            <blui-drawer-nav-item *ngFor="let navItem of navItems" [title]="navItem.title">
-                <mat-icon blui-icon>{{ navItem.icon }}</mat-icon>
-            </blui-drawer-nav-item>
+            @for (navItem of navItems; track navItem.title) {
+                <blui-drawer-nav-item [title]="navItem.title">
+                    <mat-icon blui-icon>{{ navItem.icon }}</mat-icon>
+                </blui-drawer-nav-item>
+            }
         </blui-drawer-nav-group>
     </blui-drawer-body>
 </blui-drawer>
@@ -53,6 +56,8 @@ export const COMPLEX = `<blui-drawer style="width: 250px" [openOnHover]="false">
     `,
   ],
   imports: [
+    MatIcon,
+    MatDivider,
     DrawerComponent,
     DrawerHeaderComponent,
     DrawerSubheaderComponent,
@@ -62,7 +67,6 @@ export const COMPLEX = `<blui-drawer style="width: 250px" [openOnHover]="false">
     MatOption,
     DrawerBodyComponent,
     DrawerNavGroupComponent,
-    NgFor,
     DrawerNavItemComponent,
   ],
 })

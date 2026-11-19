@@ -1,5 +1,6 @@
 import { AfterViewInit, Component, EventEmitter, inject, Input, OnDestroy, Output } from '@angular/core';
 import { MatIconButton } from '@angular/material/button';
+import { MatIcon } from '@angular/material/icon';
 import { MatToolbar } from '@angular/material/toolbar';
 import {
   DrawerBodyComponent,
@@ -71,6 +72,7 @@ export type DrawerLayoutPlaygroundProps = {
     </div>
   </blui-drawer-layout>`,
   imports: [
+    MatIcon,
     DrawerLayoutComponent,
     DrawerComponent,
     DrawerHeaderComponent,

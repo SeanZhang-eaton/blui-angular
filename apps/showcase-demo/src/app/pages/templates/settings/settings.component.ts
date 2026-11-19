@@ -4,6 +4,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatIcon } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatListModule } from '@angular/material/list';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
@@ -13,6 +14,7 @@ import { InfoListItemModule } from '@bldc/angular-components';
   selector: 'app-template-settings',
   standalone: true,
   imports: [
+    MatIcon,
     FormsModule,
     MatCardModule,
     MatDividerModule,

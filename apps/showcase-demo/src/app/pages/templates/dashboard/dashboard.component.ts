@@ -1,8 +1,10 @@
 import { Component, ViewEncapsulation } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
+import { MatDivider } from '@angular/material/divider';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatIconModule } from '@angular/material/icon';
+import { MatList, MatNavList } from '@angular/material/list';
 import * as BLUIColors from '@brightlayer-ui/colors';
 import {
   ChannelValueModule,
@@ -24,6 +26,9 @@ import {
   },
   standalone: true,
   imports: [
+    MatDivider,
+    MatList,
+    MatNavList,
     ScoreCardModule,
     MatIconModule,
     MatCardModule,
