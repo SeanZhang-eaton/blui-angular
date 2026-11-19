@@ -1,5 +1,5 @@
 import { BreakpointObserver } from '@angular/cdk/layout';
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 
 import { Subscription } from 'rxjs';
 
@@ -8,11 +8,13 @@ import { Subscription } from 'rxjs';
   providedIn: 'root',
 })
 export class ViewportService {
+  private readonly _breakpointObserver = inject(BreakpointObserver);
+
   breakpointSubscription: Subscription;
   mobileViewport: boolean;
   mediumViewport: boolean;
 
-  constructor(private readonly _breakpointObserver: BreakpointObserver) {
+  constructor() {
     this.breakpointSubscription = this._breakpointObserver
       .observe(['(max-width: 600px)', '(max-width: 1280px)'])
       .subscribe((result) => {

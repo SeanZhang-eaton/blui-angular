@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewEncapsulation } from '@angular/core';
+import { Component, inject, OnInit, ViewEncapsulation } from '@angular/core';
 
 import { MarkdownService } from 'ngx-markdown';
 
@@ -13,6 +13,7 @@ import { RAIL_CONDENSED } from './examples/rail-condensed.component';
 import { TEMPORARY } from './examples/temporary.component';
 
 @Component({
+  standalone: false,
   selector: 'app-drawer-layout-doc',
   template: `
     <app-component-doc-scaffold [md]="md" [knobGroups]="knobGroups" class="drawer-layout-examples">
@@ -105,6 +106,9 @@ import { TEMPORARY } from './examples/temporary.component';
   encapsulation: ViewEncapsulation.None,
 })
 export class DrawerLayoutDocComponent implements OnInit {
+  private readonly _splitService = inject(MarkdownSplitService);
+  private readonly _markdownService = inject(MarkdownService);
+
   md: string;
   PERMANENT = PERMANENT;
   PERSISTENT = PERSISTENT;
@@ -163,11 +167,6 @@ export class DrawerLayoutDocComponent implements OnInit {
       defaultExpanded: false,
     },
   ];
-
-  constructor(
-    private readonly _splitService: MarkdownSplitService,
-    private readonly _markdownService: MarkdownService
-  ) {}
 
   ngOnInit(): void {
     this._markdownService.getSource(`assets/md/Drawer.md`).subscribe((data) => {

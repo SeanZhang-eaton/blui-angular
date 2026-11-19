@@ -8,6 +8,8 @@ module.exports = [
   {
     files: ['**/*.ts'],
     rules: {
+      // The docs app is intentionally NgModule-based (see AGENTS.md); migrate with @angular/core:standalone-migration.
+      '@angular-eslint/prefer-standalone': 'off',
       '@angular-eslint/directive-selector': [
         'error',
         {

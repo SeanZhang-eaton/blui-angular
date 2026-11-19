@@ -11,6 +11,7 @@ export const EXPANDED = `<div class="scroll-container">
 `;
 
 @Component({
+  standalone: false,
   selector: 'app-expanded-app-bar-demo',
   template: EXPANDED,
   styles: [

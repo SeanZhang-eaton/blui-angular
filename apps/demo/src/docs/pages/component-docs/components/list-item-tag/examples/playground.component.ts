@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, EventEmitter, Input, OnDestroy, Output } from '@angular/core';
+import { AfterViewInit, Component, EventEmitter, inject, Input, OnDestroy, Output } from '@angular/core';
 
 import { Subscription } from 'rxjs';
 
@@ -12,6 +12,7 @@ export type ListItemTagPlaygroundKnobs = {
 };
 
 @Component({
+  standalone: false,
   selector: 'app-list-item-tag-playground',
   template: `<blui-list-item-tag
     [label]="inputs.label.value"
@@ -21,13 +22,15 @@ export type ListItemTagPlaygroundKnobs = {
   </blui-list-item-tag> `,
 })
 export class PlaygroundComponent implements AfterViewInit, OnDestroy {
+  private readonly _playgroundService = inject(PlaygroundService);
+
   @Input() inputs: ListItemTagPlaygroundKnobs;
   @Output() codeChange = new EventEmitter<string>();
 
   knobListener: Subscription;
   open = true;
 
-  constructor(private readonly _playgroundService: PlaygroundService) {
+  constructor() {
     this.knobListener = this._playgroundService.knobChange.subscribe((updatedKnobs: ListItemTagPlaygroundKnobs) => {
       this.inputs = updatedKnobs;
       this._emitNewCodeChanges();

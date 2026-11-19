@@ -1,4 +1,3 @@
-import { CommonModule } from '@angular/common';
 import { Component, ViewEncapsulation } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
@@ -14,7 +13,6 @@ import { InfoListItemModule } from '@bldc/angular-components';
   selector: 'app-template-settings',
   standalone: true,
   imports: [
-    CommonModule,
     FormsModule,
     MatCardModule,
     MatDividerModule,

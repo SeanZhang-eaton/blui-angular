@@ -8,6 +8,7 @@ import { COMPLEX } from './examples/complex.component';
 import { ListItemTagPlaygroundKnobs } from './examples/playground.component';
 
 @Component({
+  standalone: false,
   selector: 'app-list-item-tag-doc',
   template: `
     <app-component-doc-scaffold mdFileName="ListItemTag.md" [knobGroups]="knobGroups">

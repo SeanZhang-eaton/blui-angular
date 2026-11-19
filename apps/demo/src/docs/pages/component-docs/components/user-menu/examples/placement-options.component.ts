@@ -12,6 +12,7 @@ export const PLACEMENT = `<blui-user-menu avatarValue="PO" [(open)]="open" [posi
 `;
 
 @Component({
+  standalone: false,
   selector: 'app-placement-user-menu-demo',
   template: PLACEMENT,
 })

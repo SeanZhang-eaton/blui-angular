@@ -9,6 +9,7 @@ import { WITH_ICON } from './examples/with-icon.component';
 import { WITHIN_TOOLBAR } from './examples/within-toolbar.component';
 
 @Component({
+  standalone: false,
   selector: 'app-toolbar-menu-doc',
   template: `
     <app-component-doc-scaffold mdFileName="ToolbarMenu.md" [knobGroups]="knobGroups">

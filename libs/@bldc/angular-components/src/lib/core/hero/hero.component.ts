@@ -1,5 +1,5 @@
 import {
-  afterRender,
+  afterEveryRender,
   AfterViewInit,
   ChangeDetectionStrategy,
   Component,
@@ -71,7 +71,7 @@ export class HeroComponent implements AfterViewInit {
   });
 
   constructor() {
-    afterRender(() => {
+    afterEveryRender(() => {
       this.scaleSvgIconOnChanges();
     });
   }

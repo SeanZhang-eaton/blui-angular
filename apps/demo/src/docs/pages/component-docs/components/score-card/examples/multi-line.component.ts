@@ -11,6 +11,7 @@ export const MULTI_LINE = `<blui-score-card style="width: 350px"
 `;
 
 @Component({
+  standalone: false,
   selector: 'app-multi-line-score-card-demo',
   template: MULTI_LINE,
 })

@@ -1,6 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { MatIconTestingModule } from '@angular/material/icon/testing';
-import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 
 import { DashboardComponent } from './dashboard.component';
 
@@ -10,7 +9,7 @@ describe('DashboardComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [MatIconTestingModule, DashboardComponent, NoopAnimationsModule],
+      imports: [MatIconTestingModule, DashboardComponent],
     }).compileComponents();
   });
 

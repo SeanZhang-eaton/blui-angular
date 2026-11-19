@@ -8,6 +8,7 @@ export const WITH_CONTENT = `<blui-empty-state>
 `;
 
 @Component({
+  standalone: false,
   selector: 'app-with-content-empty-state-demo',
   template: WITH_CONTENT,
 })

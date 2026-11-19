@@ -15,6 +15,7 @@ export const WITH_ICONS = `<blui-drawer style="width: 250px">
 `;
 
 @Component({
+  standalone: false,
   selector: 'app-nav-item-with-icons-demo',
   template: WITH_ICONS,
 })

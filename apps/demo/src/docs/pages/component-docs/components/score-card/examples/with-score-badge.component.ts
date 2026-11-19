@@ -15,6 +15,7 @@ export const WITH_SCORE_BADGE = `<blui-score-card style="width: 350px"
 `;
 
 @Component({
+  standalone: false,
   selector: 'app-with-score-badge-score-card-demo',
   template: WITH_SCORE_BADGE,
 })

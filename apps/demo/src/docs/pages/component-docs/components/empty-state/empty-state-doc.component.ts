@@ -8,6 +8,7 @@ import { WITH_DESCRIPTION } from './examples/with-description.component';
 import { WITHIN_CARD } from './examples/within-card.component';
 
 @Component({
+  standalone: false,
   selector: 'app-empty-state-doc',
   template: `<app-component-doc-scaffold [md]="md" mdFileName="EmptyState.md" [knobGroups]="knobGroups">
     <div examples class="app-example">

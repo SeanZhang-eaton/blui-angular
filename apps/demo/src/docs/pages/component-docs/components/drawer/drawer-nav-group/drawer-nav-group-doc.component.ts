@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 
 import { MarkdownService } from 'ngx-markdown';
 
@@ -13,6 +13,7 @@ import { CUSTOM_CONTENT } from './examples/with-custom-content.component';
 import { SPACER } from './examples/with-spacer.component';
 
 @Component({
+  standalone: false,
   selector: 'app-drawer-nav-group-doc',
   template: `
     <app-component-doc-scaffold [md]="md" [knobGroups]="knobGroups">
@@ -75,6 +76,9 @@ import { SPACER } from './examples/with-spacer.component';
   styleUrls: ['./drawer-nav-group-doc.component.scss'],
 })
 export class DrawerNavGroupDocComponent implements OnInit {
+  private readonly _splitService = inject(MarkdownSplitService);
+  private readonly _markdownService = inject(MarkdownService);
+
   routes = COMPONENT_NAV_ITEMS;
 
   md: string;
@@ -106,11 +110,6 @@ export class DrawerNavGroupDocComponent implements OnInit {
       defaultExpanded: true,
     },
   ];
-
-  constructor(
-    private readonly _splitService: MarkdownSplitService,
-    private readonly _markdownService: MarkdownService
-  ) {}
 
   ngOnInit(): void {
     this._markdownService.getSource(`assets/md/Drawer.md`).subscribe((data) => {

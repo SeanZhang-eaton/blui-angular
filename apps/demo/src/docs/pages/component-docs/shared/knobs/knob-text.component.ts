@@ -2,13 +2,20 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormControl, Validators } from '@angular/forms';
 
 @Component({
+  standalone: false,
   selector: 'app-text-knob',
   template: `
     <mat-form-field appearance="fill" style="margin-bottom: 1rem">
       <mat-label>{{ label }}: string</mat-label>
-      <mat-hint *ngIf="isRequired && value">{{ hint }}</mat-hint>
-      <mat-hint *ngIf="isRequired && !value">{{ label }} is required</mat-hint>
-      <mat-hint *ngIf="!isRequired">{{ hint }}</mat-hint>
+      @if (isRequired && value) {
+        <mat-hint>{{ hint }}</mat-hint>
+      }
+      @if (isRequired && !value) {
+        <mat-hint>{{ label }} is required</mat-hint>
+      }
+      @if (!isRequired) {
+        <mat-hint>{{ hint }}</mat-hint>
+      }
       <input matInput (ngModelChange)="valueChange.emit($event)" [formControl]="control" />
     </mat-form-field>
   `,

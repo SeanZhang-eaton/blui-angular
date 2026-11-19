@@ -33,9 +33,30 @@ $size: 2.5rem;
   }
 }
 
-/* TODO(mdc-migration): The following rule targets internal classes of card that may no longer apply for the MDC version. */
 mat-card.blui-user-menu-overlay {
   padding: 0;
+  transform-origin: top;
+}
+
+@keyframes blui-user-menu-fade-in {
+  from {
+    opacity: 0;
+    transform: scaleY(0.9);
+  }
+}
+
+@keyframes blui-user-menu-fade-out {
+  to {
+    opacity: 0;
+  }
+}
+
+.blui-user-menu-enter {
+  animation: blui-user-menu-fade-in 120ms cubic-bezier(0, 0, 0.2, 1);
+}
+
+.blui-user-menu-leave {
+  animation: blui-user-menu-fade-out 100ms 25ms linear forwards;
 }
 
 .blui-user-menu-header mat-toolbar {

@@ -15,6 +15,7 @@ export const WITHIN_TOOLBAR = `<mat-toolbar style="padding: 0 16px; height: 4rem
 `;
 
 @Component({
+  standalone: false,
   selector: 'app-in-toolbar-user-menu-demo',
   template: WITHIN_TOOLBAR,
 })

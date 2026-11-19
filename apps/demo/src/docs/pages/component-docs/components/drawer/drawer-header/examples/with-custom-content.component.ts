@@ -14,6 +14,7 @@ export const WITH_CUSTOM_CONTENT = `<blui-drawer style="width: 250px" class="dra
 `;
 
 @Component({
+  standalone: false,
   selector: 'app-with-custom-content-drawer-header-demo',
   template: WITH_CUSTOM_CONTENT,
   styles: [

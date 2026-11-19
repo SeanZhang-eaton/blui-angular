@@ -11,6 +11,7 @@ export const FROM_LIST = `<blui-user-menu avatarValue="AV" [(open)]="open">
 `;
 
 @Component({
+  standalone: false,
   selector: 'app-from-list-user-menu-demo',
   template: FROM_LIST,
 })

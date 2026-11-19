@@ -30,6 +30,7 @@ export const TEMPORARY = `<blui-drawer-layout variant="temporary" (backdropClick
 `;
 
 @Component({
+  standalone: false,
   selector: 'app-temporary-drawer-layout-demo',
   template: TEMPORARY,
   styles: [

@@ -1,5 +1,4 @@
-import { CommonModule } from '@angular/common';
-import { Component, ViewEncapsulation } from '@angular/core';
+import { Component, inject, ViewEncapsulation } from '@angular/core';
 import { MatButton } from '@angular/material/button';
 import { MatCard, MatCardContent, MatCardHeader } from '@angular/material/card';
 import { MatDivider } from '@angular/material/divider';
@@ -25,7 +24,6 @@ import { RtlService } from '../../../services/rtl.service';
   selector: 'app-blui-display',
   standalone: true,
   imports: [
-    CommonModule,
     MatCardContent,
     MatCard,
     MatCardHeader,
@@ -50,6 +48,8 @@ import { RtlService } from '../../../services/rtl.service';
   encapsulation: ViewEncapsulation.None,
 })
 export class BluiDisplayComponent {
+  rtl = inject(RtlService);
+
   colors = BLUIColors;
   userMenuOpen1 = false;
   userMenuOpen2 = false;
@@ -71,8 +71,6 @@ export class BluiDisplayComponent {
       icon: 'logout',
     },
   ];
-
-  constructor(public rtl: RtlService) {}
 
   handleInfoListItemClick(): void {
     console.info('InfoListItem clicked');

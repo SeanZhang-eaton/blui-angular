@@ -14,6 +14,7 @@ export const WITH_BANNER = `<blui-hero-banner>
 `;
 
 @Component({
+  standalone: false,
   selector: 'app-with-banner-hero-demo',
   template: WITH_BANNER,
 })

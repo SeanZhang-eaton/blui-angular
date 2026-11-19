@@ -8,6 +8,7 @@ export const WITH_DESCRIPTION = `<blui-empty-state
 `;
 
 @Component({
+  standalone: false,
   selector: 'app-with-description-empty-state-demo',
   template: WITH_DESCRIPTION,
 })

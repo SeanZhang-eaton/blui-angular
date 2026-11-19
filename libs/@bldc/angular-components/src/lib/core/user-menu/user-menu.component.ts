@@ -1,4 +1,3 @@
-import { animate, state, style, transition, trigger } from '@angular/animations';
 import { CdkConnectedOverlay, CdkOverlayOrigin, ConnectionPositionPair } from '@angular/cdk/overlay';
 import { DOCUMENT, NgTemplateOutlet } from '@angular/common';
 import {
@@ -38,18 +37,6 @@ import { UserMenuAvatarComponent } from './user-menu-avatar.component';
   encapsulation: ViewEncapsulation.None,
   templateUrl: './user-menu.component.html',
   styleUrl: './user-menu.component.scss',
-  animations: [
-    trigger('fade-in-out', [
-      state('*', style({ opacity: 1, transform: 'scaleY(1)', 'transform-origin': 'top' })),
-      // Create
-      transition('void => *', [
-        style({ opacity: 0, transform: 'scaleY(0.9)', 'transform-origin': 'top' }),
-        animate('120ms cubic-bezier(0, 0, 0.2, 1)'),
-      ]),
-      // Destroy
-      transition('* => void', animate('100ms 25ms linear', style({ opacity: 0 }))),
-    ]),
-  ],
   host: {
     class: 'blui-user-menu',
   },
@@ -123,34 +110,28 @@ export class UserMenuComponent {
         this.$useBottomSheet.set(isMobile);
       });
 
-    effect(
-      () => {
-        const isOpen = this.$open();
-        untracked(() => {
-          if (isOpen) {
-            if (this.$useBottomSheet()) {
-              this.openBottomSheet();
-            } else {
-              this.$isMenuOpen.set(true);
-            }
+    effect(() => {
+      const isOpen = this.$open();
+      untracked(() => {
+        if (isOpen) {
+          if (this.$useBottomSheet()) {
+            this.openBottomSheet();
           } else {
-            this.$isMenuOpen.set(false);
-            this.bottomSheet.dismiss(false);
+            this.$isMenuOpen.set(true);
           }
-        });
-      },
-      { allowSignalWrites: true }
-    );
+        } else {
+          this.$isMenuOpen.set(false);
+          this.bottomSheet.dismiss(false);
+        }
+      });
+    });
 
-    effect(
-      () => {
-        this.$useBottomSheetAt(); // track
-        untracked(() => {
-          this.$useBottomSheet.set(this.checkScreenSize());
-        });
-      },
-      { allowSignalWrites: true }
-    );
+    effect(() => {
+      this.$useBottomSheetAt(); // track
+      untracked(() => {
+        this.$useBottomSheet.set(this.checkScreenSize());
+      });
+    });
 
     this.destroyRef.onDestroy(() => subscription.unsubscribe());
   }

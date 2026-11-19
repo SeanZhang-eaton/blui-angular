@@ -7,6 +7,7 @@ import { PROGRESS } from './examples/progress.component';
 import { TEXT } from './examples/text.component';
 
 @Component({
+  standalone: false,
   selector: 'app-mobile-stepper-doc',
   template: `
     <app-component-doc-scaffold mdFileName="MobileStepper.md" [knobGroups]="knobGroups">

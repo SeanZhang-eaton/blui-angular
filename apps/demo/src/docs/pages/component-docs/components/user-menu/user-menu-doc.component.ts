@@ -13,6 +13,7 @@ import { UserMenuPlaygroundKnobs } from './examples/playground.component';
 import { WITHIN_TOOLBAR } from './examples/within-toolbar.component';
 
 @Component({
+  standalone: false,
   selector: 'app-user-menu-doc',
   template: `
     <app-component-doc-scaffold mdFileName="UserMenu.md" [knobGroups]="knobGroups">

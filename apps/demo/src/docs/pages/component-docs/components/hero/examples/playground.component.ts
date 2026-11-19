@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, EventEmitter, Input, OnDestroy, Output } from '@angular/core';
+import { AfterViewInit, Component, EventEmitter, inject, Input, OnDestroy, Output } from '@angular/core';
 
 import { Subscription } from 'rxjs';
 
@@ -21,6 +21,7 @@ export type HeroPlaygroundKnobs = {
 };
 
 @Component({
+  standalone: false,
   selector: 'app-hero-playground',
   template: `<blui-hero
     [label]="inputs.label.value"
@@ -31,17 +32,21 @@ export type HeroPlaygroundKnobs = {
     [iconSize]="inputs.iconSize.value"
   >
     <i blui-primary [class]="inputs.primaryIcon.value"></i>
-    <mat-icon blui-secondary *ngIf="inputs.showSecondary.value">trending_up</mat-icon>
+    @if (inputs.showSecondary.value) {
+      <mat-icon blui-secondary>trending_up</mat-icon>
+    }
   </blui-hero>`,
 })
 export class PlaygroundComponent implements AfterViewInit, OnDestroy {
+  private readonly _playgroundService = inject(PlaygroundService);
+
   @Input() inputs: HeroPlaygroundKnobs;
   @Output() codeChange = new EventEmitter<string>();
 
   knobListener: Subscription;
   open = true;
 
-  constructor(private readonly _playgroundService: PlaygroundService) {
+  constructor() {
     this.knobListener = this._playgroundService.knobChange.subscribe((updatedKnobs: HeroPlaygroundKnobs) => {
       this.inputs = updatedKnobs;
       this._emitNewCodeChanges();

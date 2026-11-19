@@ -17,6 +17,7 @@ export const PERMANENT = `<blui-drawer-layout variant="permanent">
 `;
 
 @Component({
+  standalone: false,
   selector: 'app-permanent-drawer-layout-demo',
   template: PERMANENT,
   styles: [

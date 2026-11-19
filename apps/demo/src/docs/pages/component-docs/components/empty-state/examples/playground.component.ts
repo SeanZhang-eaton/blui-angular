@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, EventEmitter, Input, OnDestroy, Output } from '@angular/core';
+import { AfterViewInit, Component, EventEmitter, inject, Input, OnDestroy, Output } from '@angular/core';
 
 import { Subscription } from 'rxjs';
 
@@ -16,23 +16,28 @@ export type EmptyStatePlaygroundKnobs = {
 };
 
 @Component({
+  standalone: false,
   selector: 'app-empty-state-playground',
   template: `<blui-empty-state [title]="inputs.title.value" [description]="inputs.description.value">
     <mat-icon blui-empty-icon>{{ inputs.icon.value }}</mat-icon>
-    <button blui-actions blui-inline mat-stroked-button color="primary" *ngIf="inputs.showAction.value">
-      <mat-icon>add</mat-icon>
-      <span>Add Device</span>
-    </button>
+    @if (inputs.showAction.value) {
+      <button blui-actions blui-inline mat-stroked-button color="primary">
+        <mat-icon>add</mat-icon>
+        <span>Add Device</span>
+      </button>
+    }
   </blui-empty-state>`,
 })
 export class PlaygroundComponent implements AfterViewInit, OnDestroy {
+  private readonly _playgroundService = inject(PlaygroundService);
+
   @Input() inputs: EmptyStatePlaygroundKnobs;
   @Output() codeChange = new EventEmitter<string>();
 
   knobListener: Subscription;
   open = true;
 
-  constructor(private readonly _playgroundService: PlaygroundService) {
+  constructor() {
     this.knobListener = this._playgroundService.knobChange.subscribe((updatedKnobs: EmptyStatePlaygroundKnobs) => {
       this.inputs = updatedKnobs;
       this._emitNewCodeChanges();

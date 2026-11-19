@@ -1,5 +1,4 @@
-import { CommonModule } from '@angular/common';
-import { AfterViewInit, ChangeDetectorRef, Component, ViewEncapsulation } from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, Component, inject, ViewEncapsulation } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { MatCardModule } from '@angular/material/card';
 import { MatDividerModule } from '@angular/material/divider';
@@ -15,7 +14,6 @@ import { ThemeService } from '../../../services/theme.service';
   selector: 'app-template-alarms',
   standalone: true,
   imports: [
-    CommonModule,
     MatCardModule,
     MatListModule,
     MatDividerModule,
@@ -33,12 +31,10 @@ import { ThemeService } from '../../../services/theme.service';
   },
 })
 export class AlarmsComponent implements AfterViewInit {
-  colors = BLUIColors;
+  private readonly _ref = inject(ChangeDetectorRef);
+  private readonly _themeService = inject(ThemeService);
 
-  constructor(
-    private readonly _ref: ChangeDetectorRef,
-    private readonly _themeService: ThemeService
-  ) {}
+  colors = BLUIColors;
 
   ngAfterViewInit(): void {
     this._ref.detectChanges();

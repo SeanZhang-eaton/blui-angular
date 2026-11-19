@@ -3,14 +3,13 @@
 import { join } from 'node:path';
 
 import angular from '@analogjs/vite-plugin-angular';
-import { nxViteTsPaths } from '@nx/vite/plugins/nx-tsconfig-paths.plugin';
 import { replaceFiles } from '@nx/vite/plugins/rollup-replace-files.plugin';
 import { defineConfig } from 'vite';
 import { viteStaticCopy } from 'vite-plugin-static-copy';
 
 // https://vitejs.dev/config/
 export default defineConfig(({ mode }) => {
-  const rootDir = join(__dirname, '../..');
+  const rootDir = join(import.meta.dirname, '../..');
 
   return {
     root: join(rootDir, 'apps/demo'),
@@ -18,7 +17,6 @@ export default defineConfig(({ mode }) => {
     cacheDir: '../../node_modules/.vite',
     plugins: [
       angular({ inlineStylesExtension: 'scss' }),
-      nxViteTsPaths(),
       mode === 'production' &&
         replaceFiles([
           {
@@ -39,11 +37,22 @@ export default defineConfig(({ mode }) => {
         ],
       }),
     ],
+    css: {
+      preprocessorOptions: {
+        scss: {
+          loadPaths: [rootDir, join(rootDir, 'node_modules')],
+        },
+      },
+    },
     resolve: {
       mainFields: ['module'],
+      alias: {
+        '@bldc/angular-components': join(rootDir, 'libs/@bldc/angular-components/src/public-api.ts'),
+      },
     },
     build: {
-      target: ['es2020'],
+      target: ['es2022'],
+      outDir: '../../dist/apps/demo',
       emptyOutDir: true,
       reportCompressedSize: true,
       rollupOptions: {

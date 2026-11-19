@@ -1,7 +1,6 @@
 import { Component } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { MatListItem, MatNavList } from '@angular/material/list';
-import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 
 import { count } from '../../utils/test-utils';
 
@@ -45,7 +44,7 @@ describe('UserMenuComponent', () => {
 
   beforeEach(() => {
     void TestBed.configureTestingModule({
-      imports: [UserMenuCustomHeaderTestComponent, UserMenuNavItemsTestComponent, UserMenuComponent, NoopAnimationsModule],
+      imports: [UserMenuCustomHeaderTestComponent, UserMenuNavItemsTestComponent, UserMenuComponent],
     }).compileComponents();
     fixture = TestBed.createComponent(UserMenuComponent);
     component = fixture.componentInstance;

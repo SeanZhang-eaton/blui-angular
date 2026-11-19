@@ -21,6 +21,7 @@ export const WITHIN_CARD = `<mat-accordion class="accordion-panel">
 `;
 
 @Component({
+  standalone: false,
   selector: 'app-within-card-empty-state-demo',
   template: WITHIN_CARD,
 })

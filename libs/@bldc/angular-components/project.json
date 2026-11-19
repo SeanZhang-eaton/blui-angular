@@ -4,15 +4,13 @@
   "projectType": "library",
   "sourceRoot": "libs/@bldc/angular-components/src",
   "prefix": "blui",
+  "tags": [],
   "targets": {
     "build": {
-      "executor": "@nx/vite:build",
-      "outputs": ["{options.outputPath}"],
+      "executor": "@nx/angular:package",
+      "outputs": ["{workspaceRoot}/dist/{projectRoot}"],
       "options": {
-        "outputPath": "dist/libs/@bldc/angular-components",
-        "main": "libs/@bldc/angular-components/src/public-api.ts",
-        "configFile": "libs/@bldc/angular-components/vite.config.mts",
-        "tsConfig": "libs/@bldc/angular-components/tsconfig.json"
+        "project": "libs/@bldc/angular-components/ng-package.json"
       },
       "configurations": {
         "production": {
@@ -23,19 +21,6 @@
         }
       },
       "defaultConfiguration": "production"
-    },
-    "lint": {
-      "executor": "@nx/eslint:lint",
-      "outputs": ["{options.outputFile}"],
-      "options": {
-        "lintFilePatterns": [
-          "libs/@bldc/angular-components/**/*.{ts,tsx,js,jsx}",
-          "libs/@bldc/angular-components/package.json"
-        ]
-      }
-    },
-    "test": {
-      "executor": "@analogjs/vitest-angular:test"
     }
   }
 }

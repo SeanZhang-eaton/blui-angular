@@ -6,7 +6,7 @@ describe('DrawerStateService', () => {
   beforeEach(() => void TestBed.configureTestingModule({}));
 
   it('should be created', () => {
-    const service: DrawerStateService = TestBed.get(DrawerStateService);
+    const service: DrawerStateService = TestBed.inject(DrawerStateService);
     void expect(service).toBeTruthy();
   });
 });

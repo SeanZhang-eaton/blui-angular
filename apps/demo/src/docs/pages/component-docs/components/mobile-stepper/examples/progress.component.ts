@@ -15,6 +15,7 @@ export const PROGRESS = `<blui-mobile-stepper
 `;
 
 @Component({
+  standalone: false,
   selector: 'app-progress-mobile-stepper-demo',
   template: PROGRESS,
 })

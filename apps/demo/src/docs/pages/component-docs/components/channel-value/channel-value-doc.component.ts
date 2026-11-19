@@ -9,6 +9,7 @@ import { PREFIX } from './examples/prefix.component';
 import { UNIT_SPACE } from './examples/unit-space.component';
 
 @Component({
+  standalone: false,
   selector: 'app-hero-doc',
   template: `
     <app-component-doc-scaffold mdFileName="ChannelValue.md" [knobGroups]="knobGroups">

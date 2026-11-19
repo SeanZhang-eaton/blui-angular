@@ -7,6 +7,7 @@ export const BASIC = `<blui-three-liner
 </blui-three-liner>`;
 
 @Component({
+  standalone: false,
   selector: 'app-basic-three-liner',
   template: BASIC,
 })

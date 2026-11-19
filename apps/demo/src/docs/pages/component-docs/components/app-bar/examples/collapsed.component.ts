@@ -11,6 +11,7 @@ export const COLLAPSED = `<div class="scroll-container">
 `;
 
 @Component({
+  standalone: false,
   selector: 'app-collapsed-app-bar-demo',
   template: COLLAPSED,
   styles: [

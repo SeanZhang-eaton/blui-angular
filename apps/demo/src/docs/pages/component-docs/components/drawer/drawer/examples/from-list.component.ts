@@ -38,6 +38,7 @@ type Group = {
 };
 
 @Component({
+  standalone: false,
   selector: 'app-from-list-drawer-demo',
   template: FROM_LIST,
 })

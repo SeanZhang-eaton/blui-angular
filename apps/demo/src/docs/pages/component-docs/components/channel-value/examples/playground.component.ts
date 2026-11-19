@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, EventEmitter, Input, OnDestroy, Output } from '@angular/core';
+import { AfterViewInit, Component, EventEmitter, inject, Input, OnDestroy, Output } from '@angular/core';
 
 import { Subscription } from 'rxjs';
 
@@ -17,6 +17,7 @@ export type ChannelValuePlaygroundKnobs = {
 };
 
 @Component({
+  standalone: false,
   selector: 'app-channel-value-playground',
   template: `<blui-channel-value
     [value]="inputs.value.value"
@@ -24,17 +25,21 @@ export type ChannelValuePlaygroundKnobs = {
     [prefix]="inputs.prefix.value"
     [unitSpace]="inputs.unitSpace.value"
   >
-    <mat-icon *ngIf="inputs.showIcon.value">check_circle</mat-icon>
+    @if (inputs.showIcon.value) {
+      <mat-icon>check_circle</mat-icon>
+    }
   </blui-channel-value>`,
 })
 export class PlaygroundComponent implements AfterViewInit, OnDestroy {
+  private readonly _playgroundService = inject(PlaygroundService);
+
   @Input() inputs: ChannelValuePlaygroundKnobs;
   @Output() codeChange = new EventEmitter<string>();
 
   knobListener: Subscription;
   open = true;
 
-  constructor(private readonly _playgroundService: PlaygroundService) {
+  constructor() {
     this.knobListener = this._playgroundService.knobChange.subscribe((updatedKnobs: ChannelValuePlaygroundKnobs) => {
       this.inputs = updatedKnobs;
       this._emitNewCodeChanges();

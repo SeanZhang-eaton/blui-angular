@@ -19,6 +19,7 @@ export const SNAP = `
 `;
 
 @Component({
+  standalone: false,
   selector: 'app-snap-app-bar-demo',
   template: SNAP,
   styles: [

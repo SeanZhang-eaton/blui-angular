@@ -28,6 +28,7 @@ export const PERSISTENT = `<blui-drawer-layout variant="persistent">
 `;
 
 @Component({
+  standalone: false,
   selector: 'app-persistent-drawer-layout-demo',
   template: PERSISTENT,
   styles: [

@@ -8,6 +8,7 @@ import { COMPLEX } from './examples/complex.component';
 import { ThreeLinerPlaygroundKnobs } from './examples/playground.component';
 
 @Component({
+  standalone: false,
   selector: 'app-three-liner-doc',
   template: `
     <app-component-doc-scaffold mdFileName="ThreeLiner.md" [knobGroups]="knobGroups">

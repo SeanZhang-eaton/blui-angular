@@ -17,6 +17,7 @@ export const SPACER = `<blui-drawer style="width: 250px; height: 350px">
 `;
 
 @Component({
+  standalone: false,
   selector: 'app-spacer-between-nav-group-demo',
   template: SPACER,
 })

@@ -2,20 +2,23 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormControl, Validators } from '@angular/forms';
 
 @Component({
+  standalone: false,
   selector: 'app-select-knob',
   template: `
     <mat-form-field appearance="fill" style="margin-bottom: 1rem">
       <mat-label>{{ label }}: string</mat-label>
       <mat-hint>{{ hint }}</mat-hint>
       <mat-select (valueChange)="valueChange.emit($event)" [(value)]="value" [formControl]="control">
-        <mat-option *ngFor="let option of options" [value]="option" [class.emptySelectOption]="!option">
-          <ng-container *ngIf="!option">
-            <i>(Empty)</i>
-          </ng-container>
-          <ng-container *ngIf="option">
-            {{ option }}
-          </ng-container>
-        </mat-option>
+        @for (option of options; track option) {
+          <mat-option [value]="option" [class.emptySelectOption]="!option">
+            @if (!option) {
+              <i>(Empty)</i>
+            }
+            @if (option) {
+              {{ option }}
+            }
+          </mat-option>
+        }
       </mat-select>
     </mat-form-field>
   `,

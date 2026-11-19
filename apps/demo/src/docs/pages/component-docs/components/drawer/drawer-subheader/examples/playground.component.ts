@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, EventEmitter, Input, OnDestroy, Output } from '@angular/core';
+import { AfterViewInit, Component, EventEmitter, inject, Input, OnDestroy, Output } from '@angular/core';
 
 import { Subscription } from 'rxjs';
 
@@ -11,36 +11,41 @@ export type SubheaderPlaygroundKnobs = {
 };
 
 @Component({
+  standalone: false,
   selector: 'app-subheader-playground',
-  template: `<blui-drawer *ngIf="inputs" [open]="open">
-    <blui-drawer-header title="Header Title">
-      <button blui-icon mat-icon-button (click)="toggleDrawer()">
-        <mat-icon>menu</mat-icon>
-      </button>
-    </blui-drawer-header>
-    <blui-drawer-subheader
-      [divider]="inputs.divider.value"
-      [hideContentOnCollapse]="inputs.hideContentOnCollapse.value"
-    >
-      <div style="padding: 16px; min-width: 250px">Subheader Content Here</div>
-    </blui-drawer-subheader>
-    <blui-drawer-body>
-      <blui-drawer-nav-group>
-        <blui-drawer-nav-item title="Dashboard">
-          <mat-icon blui-icon>dashboard</mat-icon>
-        </blui-drawer-nav-item>
-      </blui-drawer-nav-group>
-    </blui-drawer-body>
-  </blui-drawer>`,
+  template: `@if (inputs) {
+    <blui-drawer [open]="open">
+      <blui-drawer-header title="Header Title">
+        <button blui-icon mat-icon-button (click)="toggleDrawer()">
+          <mat-icon>menu</mat-icon>
+        </button>
+      </blui-drawer-header>
+      <blui-drawer-subheader
+        [divider]="inputs.divider.value"
+        [hideContentOnCollapse]="inputs.hideContentOnCollapse.value"
+      >
+        <div style="padding: 16px; min-width: 250px">Subheader Content Here</div>
+      </blui-drawer-subheader>
+      <blui-drawer-body>
+        <blui-drawer-nav-group>
+          <blui-drawer-nav-item title="Dashboard">
+            <mat-icon blui-icon>dashboard</mat-icon>
+          </blui-drawer-nav-item>
+        </blui-drawer-nav-group>
+      </blui-drawer-body>
+    </blui-drawer>
+  }`,
 })
 export class PlaygroundComponent implements AfterViewInit, OnDestroy {
+  private readonly _playgroundService = inject(PlaygroundService);
+
   @Input() inputs: SubheaderPlaygroundKnobs;
   @Output() codeChange = new EventEmitter<string>();
 
   open = true;
   knobListener: Subscription;
 
-  constructor(private readonly _playgroundService: PlaygroundService) {
+  constructor() {
     this.knobListener = this._playgroundService.knobChange.subscribe((updatedKnobs: SubheaderPlaygroundKnobs) => {
       this.inputs = updatedKnobs;
       this._emitNewCodeChanges();

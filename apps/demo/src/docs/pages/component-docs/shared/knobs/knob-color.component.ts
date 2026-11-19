@@ -2,13 +2,16 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormControl } from '@angular/forms';
 
 @Component({
+  standalone: false,
   selector: 'app-color-knob',
   template: `
     <div style="position: relative">
       <mat-form-field appearance="fill" style="margin-bottom: 1rem" blui-input>
         <mat-label>{{ label }}: string</mat-label>
         <mat-hint>{{ hint }}</mat-hint>
-        <mat-error *ngIf="colorInput.errors?.['colorInvalid']"> Color value not recognized </mat-error>
+        @if (colorInput.errors?.['colorInvalid']) {
+          <mat-error> Color value not recognized </mat-error>
+        }
         <input matInput [formControl]="colorInput" (ngModelChange)="updateValue($event)" />
         <button
           mat-icon-button
@@ -25,12 +28,13 @@ import { FormControl } from '@angular/forms';
           <mat-icon>{{ hasValidColor ? 'colorize' : 'question_mark' }}</mat-icon>
         </button>
       </mat-form-field>
-      <div
-        class="divider-border"
-        *ngIf="hasValidColor"
-        style="position: absolute; z-index: 3; width: 40px; height: 8px; top: 40px; right: 12px; box-sizing: border-box"
-        [style.backgroundColor]="value"
-      ></div>
+      @if (hasValidColor) {
+        <div
+          class="divider-border"
+          style="position: absolute; z-index: 3; width: 40px; height: 8px; top: 40px; right: 12px; box-sizing: border-box"
+          [style.backgroundColor]="value"
+        ></div>
+      }
     </div>
   `,
 })

@@ -1,23 +1,20 @@
 {
   "compileOnSave": false,
   "compilerOptions": {
-    "baseUrl": ".",
     "sourceMap": true,
     "declaration": false,
     "target": "ES2022",
-    "module": "es2020",
-    "moduleResolution": "node",
-    "emitDecoratorMetadata": true,
+    "module": "preserve",
+    "moduleResolution": "bundler",
     "experimentalDecorators": true,
     "importHelpers": true,
     "skipLibCheck": true,
+    "strict": false,
+    "esModuleInterop": true,
     "paths": {
-      "@bldc/angular-components": ["libs/@bldc/angular-components/src/public-api.ts"],
-      "@bldc/angular-components/*": ["libs/@bldc/angular-components/src/lib/*"],
-      "@bldc/angular-themes/*": ["libs/@bldc/angular-themes/src/lib/*"],
-      "@blui-apps/demo/*": ["apps/demo/src/*"]
+      "@bldc/angular-components": ["./libs/@bldc/angular-components/src/public-api.ts"]
     },
-    "lib": ["es2018", "dom"],
+    "lib": ["es2022", "dom"],
     "useDefineForClassFields": false,
     "rootDir": "."
   },

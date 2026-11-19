@@ -1,4 +1,4 @@
-import { Component, ViewEncapsulation } from '@angular/core';
+import { Component, inject, ViewEncapsulation } from '@angular/core';
 import { MatBadge } from '@angular/material/badge';
 import { MatButton } from '@angular/material/button';
 import { MatCard, MatCardContent, MatCardHeader, MatCardTitle } from '@angular/material/card';
@@ -66,8 +66,9 @@ const ELEMENT_DATA = [
   ],
 })
 export class MatDisplayComponent {
+  rtl = inject(RtlService);
+
   colors = BLUIColors;
   displayedColumns: string[] = ['position', 'name', 'symbol'];
   dataSource = ELEMENT_DATA;
-  constructor(public rtl: RtlService) {}
 }

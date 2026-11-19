@@ -14,10 +14,8 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatSliderModule } from '@angular/material/slider';
 import { MatTabsModule } from '@angular/material/tabs';
 
-import { ColorPickerModule } from 'ngx-color-picker';
-import { MarkdownModule, MARKED_OPTIONS } from 'ngx-markdown';
-
-import 'marked/marked.min.js';
+import { ColorPickerDirective } from 'ngx-color-picker';
+import { MarkdownModule, MARKED_OPTIONS, SANITIZE } from 'ngx-markdown';
 
 import { AppCommonComponentsModule } from '../../../components/components.module';
 
@@ -63,7 +61,7 @@ import { ScaffoldComponent } from './scaffold/scaffold.component';
   imports: [
     CommonModule,
     AppCommonComponentsModule,
-    ColorPickerModule,
+    ColorPickerDirective,
     MatIconModule,
     MatCheckboxModule,
     MatExpansionModule,
@@ -78,15 +76,13 @@ import { ScaffoldComponent } from './scaffold/scaffold.component';
     KnobNumberComponent,
     MarkdownModule.forRoot({
       loader: HttpClient,
-      sanitize: SecurityContext.NONE,
+      sanitize: { provide: SANITIZE, useValue: SecurityContext.NONE },
       markedOptions: {
         provide: MARKED_OPTIONS,
         useValue: {
           gfm: true,
           breaks: false,
           pedantic: false,
-          smartLists: true,
-          smartypants: false,
         },
       },
     }),

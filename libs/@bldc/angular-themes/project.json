@@ -1,30 +1,23 @@
 {
   "name": "@bldc/angular-themes",
   "$schema": "../../../node_modules/nx/schemas/project-schema.json",
-  "sourceRoot": "libs/@bldc/angular-themes/src",
-  "prefix": "lib",
   "projectType": "library",
+  "sourceRoot": "libs/@bldc/angular-themes/src",
   "tags": [],
   "targets": {
     "build": {
-      "executor": "@nx/vite:build",
-      "outputs": ["{options.outputPath}"],
-      "defaultConfiguration": "production",
+      "executor": "nx:run-commands",
+      "cache": true,
+      "inputs": [
+        "{projectRoot}/**/*",
+        "{workspaceRoot}/scripts/build-themes.mjs",
+        "{workspaceRoot}/LICENSE",
+        "{workspaceRoot}/LICENSES.json"
+      ],
+      "outputs": ["{workspaceRoot}/dist/{projectRoot}"],
       "options": {
-        "outputPath": "dist/libs/@bldc/angular-themes",
-        "tsConfig": "libs/@bldc/angular-themes/tsconfig.json"
-      },
-      "configurations": {
-        "development": {
-          "mode": "development"
-        },
-        "production": {
-          "mode": "production"
-        }
+        "command": "node scripts/build-themes.mjs"
       }
-    },
-    "lint": {
-      "executor": "@nx/eslint:lint"
     }
   }
 }

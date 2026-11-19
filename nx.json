@@ -5,9 +5,8 @@
     "production": [
       "default",
       "!{projectRoot}/tsconfig.spec.json",
-      "!{projectRoot}/**/*.spec.[jt]s",
-      "!{projectRoot}/karma.conf.js",
       "!{projectRoot}/**/?(*.)+(spec|test).[jt]s?(x)?(.snap)",
+      "!{projectRoot}/src/test-setup.[jt]s",
       "!{projectRoot}/eslint.config.cjs"
     ]
   },
@@ -17,21 +16,20 @@
       "inputs": ["production", "^production"],
       "cache": true
     },
-    "@nx/vite:test": {
-      "cache": true,
-      "inputs": ["default", "^production"]
-    },
-    "@nx/vite:build": {
+    "@nx/angular:package": {
       "cache": true,
       "dependsOn": ["^build"],
       "inputs": ["production", "^production"]
     },
-    "@nx/vite:dev-server": {
-      "cache": false,
+    "test": {
+      "cache": true,
       "inputs": ["default", "^production"]
+    },
+    "lint": {
+      "cache": true,
+      "inputs": ["default", "{workspaceRoot}/eslint.base.config.cjs"]
     }
   },
-  "useInferencePlugins": false,
   "defaultBase": "main",
   "generators": {
     "@nx/angular:application": {
@@ -40,5 +38,31 @@
       "style": "scss",
       "unitTestRunner": "vitest-analog"
     }
-  }
+  },
+  "plugins": [
+    {
+      "plugin": "@nx/vite/plugin",
+      "include": ["apps/**/*"],
+      "options": {
+        "buildTargetName": "build",
+        "serveTargetName": "serve",
+        "previewTargetName": "preview",
+        "serveStaticTargetName": "serve-static",
+        "typecheckTargetName": false
+      }
+    },
+    {
+      "plugin": "@nx/vitest",
+      "options": {
+        "testTargetName": "test",
+        "testMode": "run"
+      }
+    },
+    {
+      "plugin": "@nx/eslint/plugin",
+      "options": {
+        "targetName": "lint"
+      }
+    }
+  ]
 }

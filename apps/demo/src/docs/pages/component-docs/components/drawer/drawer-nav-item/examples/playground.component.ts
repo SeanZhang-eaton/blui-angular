@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, EventEmitter, Input, OnDestroy, Output } from '@angular/core';
+import { AfterViewInit, Component, EventEmitter, inject, Input, OnDestroy, Output } from '@angular/core';
 
 import { Subscription } from 'rxjs';
 
@@ -20,37 +20,44 @@ export type NavItemPlaygroundKnobs = {
 };
 
 @Component({
+  standalone: false,
   selector: 'app-nav-item-playground',
-  template: ` <blui-drawer *ngIf="inputs">
-    <blui-drawer-body>
-      <blui-drawer-nav-group>
-        <blui-drawer-nav-item
-          [activeItemBackgroundShape]="inputs.activeItemBackgroundShape.value"
-          [chevron]="inputs.chevron.value"
-          [divider]="inputs.divider.value"
-          [hidden]="inputs.hidden.value"
-          [hidePadding]="inputs.hidePadding.value"
-          [ripple]="inputs.ripple.value"
-          [statusColor]="inputs.statusColor.value"
-          [subtitle]="inputs.subtitle.value"
-          [title]="inputs.title.value"
-          [selected]="inputs.selected.value"
-        >
-          <mat-icon *ngIf="inputs.addIcon.value" blui-icon>home</mat-icon>
-        </blui-drawer-nav-item>
-        <blui-drawer-nav-item title="Item 2"></blui-drawer-nav-item>
-        <blui-drawer-nav-item title="Item 3"></blui-drawer-nav-item>
-      </blui-drawer-nav-group>
-    </blui-drawer-body>
-  </blui-drawer>`,
+  template: ` @if (inputs) {
+    <blui-drawer>
+      <blui-drawer-body>
+        <blui-drawer-nav-group>
+          <blui-drawer-nav-item
+            [activeItemBackgroundShape]="inputs.activeItemBackgroundShape.value"
+            [chevron]="inputs.chevron.value"
+            [divider]="inputs.divider.value"
+            [hidden]="inputs.hidden.value"
+            [hidePadding]="inputs.hidePadding.value"
+            [ripple]="inputs.ripple.value"
+            [statusColor]="inputs.statusColor.value"
+            [subtitle]="inputs.subtitle.value"
+            [title]="inputs.title.value"
+            [selected]="inputs.selected.value"
+          >
+            @if (inputs.addIcon.value) {
+              <mat-icon blui-icon>home</mat-icon>
+            }
+          </blui-drawer-nav-item>
+          <blui-drawer-nav-item title="Item 2"></blui-drawer-nav-item>
+          <blui-drawer-nav-item title="Item 3"></blui-drawer-nav-item>
+        </blui-drawer-nav-group>
+      </blui-drawer-body>
+    </blui-drawer>
+  }`,
 })
 export class PlaygroundComponent implements AfterViewInit, OnDestroy {
+  private readonly _playgroundService = inject(PlaygroundService);
+
   @Input() inputs: NavItemPlaygroundKnobs;
   @Output() codeChange = new EventEmitter<string>();
 
   knobListener: Subscription;
 
-  constructor(private readonly _playgroundService: PlaygroundService) {
+  constructor() {
     this.knobListener = this._playgroundService.knobChange.subscribe((updatedKnobs: NavItemPlaygroundKnobs) => {
       this.inputs = updatedKnobs;
       this._emitNewCodeChanges();

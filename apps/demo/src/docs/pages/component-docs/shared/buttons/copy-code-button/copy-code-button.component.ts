@@ -1,6 +1,7 @@
 import { Component, Input } from '@angular/core';
 
 @Component({
+  standalone: false,
   selector: 'app-copy-code-button',
   template: `
     <button blui-inline mat-stroked-button color="primary" style="width: 125px" (click)="copyCode()">

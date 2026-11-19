@@ -7,6 +7,7 @@ import { count } from '../../utils/test-utils';
 import { EmptyStateModule } from './empty-state.module';
 
 @Component({
+  imports: [EmptyStateModule],
   selector: 'test-empty-state-basic-usage',
   template: `
     <blui-empty-state [title]="title" [description]="description">
@@ -20,6 +21,7 @@ class EmptyStateBasicUsageComponent {
 }
 
 @Component({
+  imports: [EmptyStateModule],
   selector: 'test-md',
   template: `
     <blui-empty-state class="withIcon">
@@ -35,6 +37,7 @@ class EmptyStateBasicUsageComponent {
 class TestIconActionsComponent {}
 
 @Component({
+  imports: [EmptyStateModule],
   selector: 'test-description-content',
   template: `
     <blui-empty-state>
@@ -46,6 +49,7 @@ class TestIconActionsComponent {}
 class TestDescriptionContentComponent {}
 
 @Component({
+  imports: [EmptyStateModule],
   selector: 'test-title-content',
   template: `
     <blui-empty-state>
@@ -62,8 +66,8 @@ describe('Empty State Component', () => {
 
   beforeEach(waitForAsync(() => {
     void TestBed.configureTestingModule({
-      imports: [EmptyStateModule],
-      declarations: [
+      imports: [
+        EmptyStateModule,
         EmptyStateBasicUsageComponent,
         TestIconActionsComponent,
         TestDescriptionContentComponent,

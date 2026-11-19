@@ -8,6 +8,7 @@ export const ICON = `<blui-info-list-item>
 `;
 
 @Component({
+  standalone: false,
   selector: 'app-with-icon-info-list-item-demo',
   template: ICON,
 })

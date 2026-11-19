@@ -71,17 +71,14 @@ export class DrawerComponent {
     // Register this drawer's state with the parent layout (if present).
     this.stateRef?.register(this.drawerState);
 
-    effect(
-      () => {
-        this.drawerState.setSideBorder(this.$sideBorder());
-        this.drawerState.setDrawerOpen(this.$open());
-        this.drawerState.setIsCondensed(this.$condensed());
-        this.drawerState.setDisableRailTooltip(this.$disableRailTooltip());
-        this.drawerState.setDisableActiveItemParentStyles(this.$disableActiveItemParentStyles());
-        this.drawerState.setOpenOnHover(this.$openOnHover());
-      },
-      { allowSignalWrites: true }
-    );
+    effect(() => {
+      this.drawerState.setSideBorder(this.$sideBorder());
+      this.drawerState.setDrawerOpen(this.$open());
+      this.drawerState.setIsCondensed(this.$condensed());
+      this.drawerState.setDisableRailTooltip(this.$disableRailTooltip());
+      this.drawerState.setDisableActiveItemParentStyles(this.$disableActiveItemParentStyles());
+      this.drawerState.setOpenOnHover(this.$openOnHover());
+    });
   }
 
   hoverDrawer(): void {

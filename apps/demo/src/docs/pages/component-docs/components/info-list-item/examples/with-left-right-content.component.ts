@@ -13,6 +13,7 @@ export const LEFT_RIGHT_CONTENT = `<blui-info-list-item>
 `;
 
 @Component({
+  standalone: false,
   selector: 'app-with-left-right-content-info-list-item-demo',
   template: LEFT_RIGHT_CONTENT,
 })

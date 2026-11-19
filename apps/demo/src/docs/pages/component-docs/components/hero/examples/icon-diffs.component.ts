@@ -18,6 +18,7 @@ export const ICON_DIFFS = `<blui-hero-banner *ngFor="let size of [36, 48, 72]">
 `;
 
 @Component({
+  standalone: false,
   selector: 'app-icon-diffs-hero-demo',
   template: ICON_DIFFS,
 })

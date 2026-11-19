@@ -23,6 +23,7 @@ export const RAIL_CONDENSED = `<blui-drawer-layout variant="rail" class="condens
 `;
 
 @Component({
+  standalone: false,
   selector: 'app-rail-condensed-drawer-layout-demo',
   template: RAIL_CONDENSED,
   styles: [

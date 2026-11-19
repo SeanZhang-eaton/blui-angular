@@ -182,38 +182,35 @@ export class AppBarComponent {
     });
 
     // Handle variant changes and scroll/resize events
-    effect(
-      () => {
-        const variant = this.$variant();
-        const scrollDistance = this.$scrollDistance();
-        const isAnimating = this.$isAnimating();
-        const isCollapsed = this.$isCollapsed();
-        const threshold = this.$effectiveScrollThreshold();
+    effect(() => {
+      const variant = this.$variant();
+      const scrollDistance = this.$scrollDistance();
+      const isAnimating = this.$isAnimating();
+      const isCollapsed = this.$isCollapsed();
+      const threshold = this.$effectiveScrollThreshold();
 
-        // Locked modes
-        if (variant === 'collapsed') {
-          this.#setCollapsed(true);
-          return;
-        }
-        if (variant === 'expanded') {
-          this.#setCollapsed(false);
-          return;
-        }
+      // Locked modes
+      if (variant === 'collapsed') {
+        this.#setCollapsed(true);
+        return;
+      }
+      if (variant === 'expanded') {
+        this.#setCollapsed(false);
+        return;
+      }
 
-        // Snap mode - uses hysteresis to prevent flickering
-        if (isAnimating) return;
+      // Snap mode - uses hysteresis to prevent flickering
+      if (isAnimating) return;
 
-        // Only expand when scrolled back to top
-        if (isCollapsed && scrollDistance <= 0) {
-          this.#setCollapsed(false);
-        }
-        // Only collapse when scroll exceeds threshold
-        else if (!isCollapsed && scrollDistance > threshold) {
-          this.#collapse(scrollDistance);
-        }
-      },
-      { allowSignalWrites: true }
-    );
+      // Only expand when scrolled back to top
+      if (isCollapsed && scrollDistance <= 0) {
+        this.#setCollapsed(false);
+      }
+      // Only collapse when scroll exceeds threshold
+      else if (!isCollapsed && scrollDistance > threshold) {
+        this.#collapse(scrollDistance);
+      }
+    });
 
     // Emit collapsed state changes to output
     effect(() => this.collapsedChange.emit(this.$isCollapsed()));

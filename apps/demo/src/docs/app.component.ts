@@ -1,16 +1,17 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { MatIconRegistry } from '@angular/material/icon';
 import { DomSanitizer } from '@angular/platform-browser';
 
 @Component({
+  standalone: false,
   selector: 'app-root',
   templateUrl: './app.component.html',
 })
 export class AppComponent {
-  constructor(
-    private readonly _matIconRegistry: MatIconRegistry,
-    private readonly _domSanitizer: DomSanitizer
-  ) {
+  private readonly _matIconRegistry = inject(MatIconRegistry);
+  private readonly _domSanitizer = inject(DomSanitizer);
+
+  constructor() {
     this._matIconRegistry.addSvgIconSetInNamespace(
       'blui-icons',
       /* **Note to Brightlayer UI Users:

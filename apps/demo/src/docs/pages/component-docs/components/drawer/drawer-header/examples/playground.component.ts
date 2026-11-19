@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, EventEmitter, Input, OnDestroy, Output } from '@angular/core';
+import { AfterViewInit, Component, EventEmitter, inject, Input, OnDestroy, Output } from '@angular/core';
 
 import { Subscription } from 'rxjs';
 
@@ -14,6 +14,7 @@ export type HeaderPlaygroundKnobs = {
 };
 
 @Component({
+  standalone: false,
   selector: 'app-header-playground',
   template: ` <blui-drawer>
     <blui-drawer-header
@@ -22,9 +23,11 @@ export type HeaderPlaygroundKnobs = {
       [subtitle]="inputs.subtitle.value"
       [title]="inputs.title.value"
     >
-      <button blui-icon mat-icon-button *ngIf="inputs.showIcon.value" (click)="open = !open">
-        <mat-icon>menu</mat-icon>
-      </button>
+      @if (inputs.showIcon.value) {
+        <button blui-icon mat-icon-button (click)="open = !open">
+          <mat-icon>menu</mat-icon>
+        </button>
+      }
     </blui-drawer-header>
     <blui-drawer-body>
       <blui-drawer-nav-group>
@@ -36,13 +39,15 @@ export type HeaderPlaygroundKnobs = {
   </blui-drawer>`,
 })
 export class PlaygroundComponent implements AfterViewInit, OnDestroy {
+  private readonly _playgroundService = inject(PlaygroundService);
+
   @Input() inputs: HeaderPlaygroundKnobs;
   @Output() codeChange = new EventEmitter<string>();
 
   knobListener: Subscription;
   open = true;
 
-  constructor(private readonly _playgroundService: PlaygroundService) {
+  constructor() {
     this.knobListener = this._playgroundService.knobChange.subscribe((updatedKnobs: HeaderPlaygroundKnobs) => {
       this.inputs = updatedKnobs;
       this._emitNewCodeChanges();

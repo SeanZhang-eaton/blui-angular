@@ -10,6 +10,7 @@ import { SUBTITLE } from './examples/with-subtitle.component';
 import { WITHIN_LIST } from './examples/within-list.component';
 
 @Component({
+  standalone: false,
   selector: 'app-info-list-item-doc',
   template: `
     <app-component-doc-scaffold [md]="md" mdFileName="InfoListItem.md" [knobGroups]="knobGroups">

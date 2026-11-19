@@ -28,6 +28,7 @@ export const WITH_SELECTED_ITEM = `<blui-drawer style="width: 250px">
 </blui-drawer>`;
 
 @Component({
+  standalone: false,
   selector: 'app-nav-item-with-selected-item-demo',
   template: WITH_SELECTED_ITEM,
 })

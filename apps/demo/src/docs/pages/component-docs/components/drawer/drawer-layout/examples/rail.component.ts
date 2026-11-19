@@ -23,6 +23,7 @@ export const RAIL = `<blui-drawer-layout variant="rail" class="rail-example">
 `;
 
 @Component({
+  standalone: false,
   selector: 'app-rail-drawer-layout-demo',
   template: RAIL,
   styles: [

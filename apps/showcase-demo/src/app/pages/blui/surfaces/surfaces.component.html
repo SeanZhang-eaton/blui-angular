@@ -128,9 +128,9 @@
       </blui-score-card>
       <blui-score-card headerTitle="W/ Actions" headerSubtitle="High Humidity Alarm" headerInfo="4 Devices">
         <ng-container blui-action-items>
-          <ng-container *ngFor="let action of actions">
+          @for (action of actions; track action) {
             <mat-icon>{{ action }}</mat-icon>
-          </ng-container>
+          }
         </ng-container>
         <mat-list blui-body>
           <mat-list-item>Body Content</mat-list-item>

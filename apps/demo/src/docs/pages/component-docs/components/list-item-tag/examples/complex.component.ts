@@ -21,6 +21,7 @@ export const COMPLEX = `<blui-info-list-item [style.backgroundColor]="'#ffffff'"
 </blui-info-list-item>`;
 
 @Component({
+  standalone: false,
   selector: 'app-complex-list-item-tag-demo',
   template: COMPLEX,
 })

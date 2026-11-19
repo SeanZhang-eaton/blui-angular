@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, EventEmitter, Input, OnDestroy, Output } from '@angular/core';
+import { AfterViewInit, Component, EventEmitter, inject, Input, OnDestroy, Output } from '@angular/core';
 
 import { Subscription } from 'rxjs';
 
@@ -22,6 +22,7 @@ export type UserMenuPlaygroundKnobs = {
 };
 
 @Component({
+  standalone: false,
   selector: 'app-user-menu-playground',
   template: `
     <blui-user-menu
@@ -51,6 +52,8 @@ export type UserMenuPlaygroundKnobs = {
   `,
 })
 export class PlaygroundComponent implements AfterViewInit, OnDestroy {
+  private readonly _playgroundService = inject(PlaygroundService);
+
   @Input() inputs: UserMenuPlaygroundKnobs;
   @Output() codeChange = new EventEmitter<string>();
 
@@ -58,7 +61,7 @@ export class PlaygroundComponent implements AfterViewInit, OnDestroy {
   open = true;
   // positions: ConnectionPositionPair[];
 
-  constructor(private readonly _playgroundService: PlaygroundService) {
+  constructor() {
     this.knobListener = this._playgroundService.knobChange.subscribe((updatedKnobs: UserMenuPlaygroundKnobs) => {
       this.inputs = updatedKnobs;
       /*

@@ -10,6 +10,7 @@ export const BASIC = `<blui-toolbar-menu label="label">
 `;
 
 @Component({
+  standalone: false,
   selector: 'app-basic-toolbar-menu-demo',
   template: BASIC,
 })

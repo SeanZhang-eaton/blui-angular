@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 
 import { MarkdownService } from 'ngx-markdown';
 
@@ -11,6 +11,7 @@ import { WITH_NESTED_ITEMS } from './examples/with-nested-items.component';
 import { WITH_SELECTED_ITEM } from './examples/with-selected-item.component';
 
 @Component({
+  standalone: false,
   selector: 'app-drawer-nav-item-doc',
   template: `
     <app-component-doc-scaffold [md]="md" [knobGroups]="knobGroups">
@@ -78,6 +79,9 @@ import { WITH_SELECTED_ITEM } from './examples/with-selected-item.component';
   styleUrls: ['./drawer-nav-item-doc.component.scss'],
 })
 export class DrawerNavItemDocComponent implements OnInit {
+  private readonly _splitService = inject(MarkdownSplitService);
+  private readonly _markdownService = inject(MarkdownService);
+
   md: string;
   BASIC = BASIC;
   WITH_ICONS = WITH_ICONS;
@@ -167,11 +171,6 @@ export class DrawerNavItemDocComponent implements OnInit {
       defaultExpanded: false,
     },
   ];
-
-  constructor(
-    private readonly _splitService: MarkdownSplitService,
-    private readonly _markdownService: MarkdownService
-  ) {}
 
   ngOnInit(): void {
     this._markdownService.getSource(`assets/md/Drawer.md`).subscribe((data) => {

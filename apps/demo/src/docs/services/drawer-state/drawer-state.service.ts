@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 
 import { ViewportService } from '../viewport/viewport.service';
 
@@ -9,7 +9,9 @@ export class DrawerStateService {
   private drawerOpen: boolean;
   private selectedItem: string;
 
-  constructor(viewportService: ViewportService) {
+  constructor() {
+    const viewportService = inject(ViewportService);
+
     this.drawerOpen = !viewportService.isMedium();
   }
 

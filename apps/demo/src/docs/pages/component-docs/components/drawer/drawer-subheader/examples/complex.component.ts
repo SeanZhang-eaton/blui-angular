@@ -27,6 +27,7 @@ export const COMPLEX = `<blui-drawer style="width: 250px" [openOnHover]="false">
 `;
 
 @Component({
+  standalone: false,
   selector: 'app-complex-drawer-subheader-demo',
   template: COMPLEX,
   encapsulation: ViewEncapsulation.None,

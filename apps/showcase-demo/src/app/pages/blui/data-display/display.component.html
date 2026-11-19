@@ -261,10 +261,12 @@
           <div class="story-title">Basic Usage</div>
           <blui-user-menu avatarValue="PX" [(open)]="userMenuOpen1">
             <mat-nav-list blui-menu-body [style.paddingTop.px]="0">
-              <blui-info-list-item *ngFor="let item of userMenuItems" [dense]="true" (click)="userMenuOpen1 = false">
-                <mat-icon blui-icon [style.transform]="rtl.invertRTL()">{{ item.icon }}</mat-icon>
-                <div blui-title>{{ item.title }}</div>
-              </blui-info-list-item>
+              @for (item of userMenuItems; track item) {
+                <blui-info-list-item [dense]="true" (click)="userMenuOpen1 = false">
+                  <mat-icon blui-icon [style.transform]="rtl.invertRTL()">{{ item.icon }}</mat-icon>
+                  <div blui-title>{{ item.title }}</div>
+                </blui-info-list-item>
+              }
             </mat-nav-list>
           </blui-user-menu>
         </div>
@@ -272,10 +274,12 @@
           <div class="story-title">w/ Custom Colors</div>
           <blui-user-menu avatarValue="PX" [(open)]="userMenuOpen2" class="user-menu-with-custom-colors">
             <mat-nav-list blui-menu-body [style.paddingTop.px]="0" class="user-menu-custom-colors-body">
-              <blui-info-list-item *ngFor="let item of userMenuItems" [dense]="true" (click)="userMenuOpen2 = false">
-                <mat-icon blui-icon [style.transform]="rtl.invertRTL()">{{ item.icon }}</mat-icon>
-                <div blui-title>{{ item.title }}</div>
-              </blui-info-list-item>
+              @for (item of userMenuItems; track item) {
+                <blui-info-list-item [dense]="true" (click)="userMenuOpen2 = false">
+                  <mat-icon blui-icon [style.transform]="rtl.invertRTL()">{{ item.icon }}</mat-icon>
+                  <div blui-title>{{ item.title }}</div>
+                </blui-info-list-item>
+              }
             </mat-nav-list>
           </blui-user-menu>
         </div>
@@ -286,10 +290,12 @@
           <blui-user-menu [(open)]="userMenuOpen3">
             <mat-icon blui-avatar>pets</mat-icon>
             <mat-nav-list blui-menu-body [style.paddingTop.px]="0">
-              <blui-info-list-item *ngFor="let item of userMenuItems" [dense]="true" (click)="userMenuOpen3 = false">
-                <mat-icon blui-icon [style.transform]="rtl.invertRTL()">{{ item.icon }}</mat-icon>
-                <div blui-title>{{ item.title }}</div>
-              </blui-info-list-item>
+              @for (item of userMenuItems; track item) {
+                <blui-info-list-item [dense]="true" (click)="userMenuOpen3 = false">
+                  <mat-icon blui-icon [style.transform]="rtl.invertRTL()">{{ item.icon }}</mat-icon>
+                  <div blui-title>{{ item.title }}</div>
+                </blui-info-list-item>
+              }
             </mat-nav-list>
           </blui-user-menu>
         </div>
@@ -297,10 +303,12 @@
           <div class="story-title">w/ a Menu Header</div>
           <blui-user-menu [(open)]="userMenuOpen4" avatarValue="PX" menuTitle="Menu Title" menuSubtitle="Menu Subtitle">
             <mat-nav-list blui-menu-body [style.paddingTop.px]="0">
-              <blui-info-list-item *ngFor="let item of userMenuItems" [dense]="true" (click)="userMenuOpen4 = false">
-                <mat-icon blui-icon [style.transform]="rtl.invertRTL()">{{ item.icon }}</mat-icon>
-                <div blui-title>{{ item.title }}</div>
-              </blui-info-list-item>
+              @for (item of userMenuItems; track item) {
+                <blui-info-list-item [dense]="true" (click)="userMenuOpen4 = false">
+                  <mat-icon blui-icon [style.transform]="rtl.invertRTL()">{{ item.icon }}</mat-icon>
+                  <div blui-title>{{ item.title }}</div>
+                </blui-info-list-item>
+              }
             </mat-nav-list>
           </blui-user-menu>
         </div>
@@ -313,10 +321,12 @@
           <mat-icon blui-menu-avatar [style.color]="colors.blue[500]">person</mat-icon>
           <div blui-menu-body>
             <mat-nav-list [style.paddingTop.px]="0" [style.width.rem]="12">
-              <blui-info-list-item *ngFor="let item of userMenuItems" [dense]="true" (click)="userMenuOpen5 = false">
-                <mat-icon blui-icon [style.transform]="rtl.invertRTL()">{{ item.icon }}</mat-icon>
-                <div blui-title>{{ item.title }}</div>
-              </blui-info-list-item>
+              @for (item of userMenuItems; track item) {
+                <blui-info-list-item [dense]="true" (click)="userMenuOpen5 = false">
+                  <mat-icon blui-icon [style.transform]="rtl.invertRTL()">{{ item.icon }}</mat-icon>
+                  <div blui-title>{{ item.title }}</div>
+                </blui-info-list-item>
+              }
             </mat-nav-list>
             <mat-divider></mat-divider>
             <div

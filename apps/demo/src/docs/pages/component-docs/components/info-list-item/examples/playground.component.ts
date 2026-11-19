@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, EventEmitter, Input, OnDestroy, Output } from '@angular/core';
+import { AfterViewInit, Component, EventEmitter, inject, Input, OnDestroy, Output } from '@angular/core';
 
 import { Subscription } from 'rxjs';
 
@@ -31,6 +31,7 @@ export type InfoListItemPlaygroundKnobs = {
 };
 
 @Component({
+  standalone: false,
   selector: 'app-info-list-item-playground',
   template: `<blui-info-list-item
     [avatar]="inputs.avatar.value"
@@ -45,41 +46,39 @@ export type InfoListItemPlaygroundKnobs = {
     [wrapSubtitle]="inputs.wrapSubtitle.value"
     [wrapTitle]="inputs.wrapTitle.value"
   >
-    <mat-icon
-      blui-icon
-      *ngIf="inputs.showIcon.value"
-      [style.color]="inputs.avatar.value ? 'white' : ''"
-      [style.backgroundColor]="inputs.avatar.value ? inputs.statusColor.value : ''"
-    >
-      devices
-    </mat-icon>
-    <div
-      blui-left-content
-      *ngIf="inputs.showLeftContent.value"
-      style="display: flex; flex-direction: column; margin-right: 32px"
-    >
-      <div class="mat-caption"><strong>8:32 </strong> AM</div>
-      <div class="mat-caption" style="margin-top: -4px">11/21/21</div>
-    </div>
+    @if (inputs.showIcon.value) {
+      <mat-icon
+        blui-icon
+        [style.color]="inputs.avatar.value ? 'white' : ''"
+        [style.backgroundColor]="inputs.avatar.value ? inputs.statusColor.value : ''"
+      >
+        devices
+      </mat-icon>
+    }
+    @if (inputs.showLeftContent.value) {
+      <div blui-left-content style="display: flex; flex-direction: column; margin-right: 32px">
+        <div class="mat-caption"><strong>8:32 </strong> AM</div>
+        <div class="mat-caption" style="margin-top: -4px">11/21/21</div>
+      </div>
+    }
     <div blui-title>{{ inputs.title.value }}</div>
     <div blui-subtitle>{{ inputs.subtitle.value }}</div>
     <div blui-info>{{ inputs.info.value }}</div>
-    <blui-channel-value
-      *ngIf="inputs.showRightContent.value"
-      blui-right-content
-      [value]="15"
-      units="A"
-    ></blui-channel-value>
+    @if (inputs.showRightContent.value) {
+      <blui-channel-value blui-right-content [value]="15" units="A"></blui-channel-value>
+    }
   </blui-info-list-item>`,
 })
 export class PlaygroundComponent implements AfterViewInit, OnDestroy {
+  private readonly _playgroundService = inject(PlaygroundService);
+
   @Input() inputs: InfoListItemPlaygroundKnobs;
   @Output() codeChange = new EventEmitter<string>();
 
   knobListener: Subscription;
   open = true;
 
-  constructor(private readonly _playgroundService: PlaygroundService) {
+  constructor() {
     this.knobListener = this._playgroundService.knobChange.subscribe((updatedKnobs: InfoListItemPlaygroundKnobs) => {
       this.inputs = updatedKnobs;
       this._emitNewCodeChanges();

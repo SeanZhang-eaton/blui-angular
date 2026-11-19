@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, OnInit, ViewEncapsulation } from '@angular/core';
+import { ChangeDetectorRef, Component, inject, OnInit, ViewEncapsulation } from '@angular/core';
 import { MatBottomSheet, MatBottomSheetRef } from '@angular/material/bottom-sheet';
 import { MatButton } from '@angular/material/button';
 import { MatCard, MatCardContent, MatCardHeader, MatCardTitle } from '@angular/material/card';
@@ -29,7 +29,7 @@ class FeedbackDialogExampleComponent {}
   imports: [MatNavList, MatListItem],
 })
 class FeedbackBottomSheetExampleComponent {
-  constructor(private readonly _bottomSheetRef: MatBottomSheetRef<FeedbackBottomSheetExampleComponent>) {}
+  private readonly _bottomSheetRef = inject<MatBottomSheetRef<FeedbackBottomSheetExampleComponent>>(MatBottomSheetRef);
 
   openLink(event: MouseEvent): void {
     this._bottomSheetRef.dismiss();
@@ -46,15 +46,13 @@ class FeedbackBottomSheetExampleComponent {
   imports: [MatCard, MatCardHeader, MatCardTitle, MatCardContent, MatProgressSpinner, MatProgressBar, MatButton],
 })
 export class MatFeedackComponent implements OnInit {
+  dialog = inject(MatDialog);
+  private readonly _bottomSheet = inject(MatBottomSheet);
+  private readonly _ref = inject(ChangeDetectorRef);
+  private readonly _snackBar = inject(MatSnackBar);
+
   diameter = 40;
   spinnerValue = 0;
-
-  constructor(
-    public dialog: MatDialog,
-    private readonly _bottomSheet: MatBottomSheet,
-    private readonly _ref: ChangeDetectorRef,
-    private readonly _snackBar: MatSnackBar
-  ) {}
 
   ngOnInit(): void {
     setInterval(() => {

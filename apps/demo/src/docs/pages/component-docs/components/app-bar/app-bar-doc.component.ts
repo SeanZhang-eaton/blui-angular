@@ -7,6 +7,7 @@ import { SNAP } from './examples/snap.component';
 import { THREE_LINER } from './examples/three-liner.component';
 
 @Component({
+  standalone: false,
   selector: 'app-app-bar-doc',
   template: `
     <ng-template #examples>

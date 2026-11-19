@@ -12,6 +12,7 @@ export const COMPLEX = `<blui-three-liner title="title" subtitle="subtitle">
 </blui-three-liner>`;
 
 @Component({
+  standalone: false,
   selector: 'app-complex-three-liner',
   template: COMPLEX,
 })

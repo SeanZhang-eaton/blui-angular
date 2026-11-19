@@ -1,10 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 
 import { MarkdownService } from 'ngx-markdown';
 
 import { MarkdownSplitService } from '../../../../../services/markdown-split/markdown-split.service';
 
 @Component({
+  standalone: false,
   selector: 'app-drawer-body-doc',
   template: `
     <app-component-doc-scaffold [md]="md" [hasExamples]="false" [hasPlayground]="false">
@@ -22,12 +23,10 @@ import { MarkdownSplitService } from '../../../../../services/markdown-split/mar
   styleUrls: ['./drawer-body-doc.component.scss'],
 })
 export class DrawerBodyDocComponent implements OnInit {
-  md: string;
+  private readonly _splitService = inject(MarkdownSplitService);
+  private readonly _markdownService = inject(MarkdownService);
 
-  constructor(
-    private readonly _splitService: MarkdownSplitService,
-    private readonly _markdownService: MarkdownService
-  ) {}
+  md: string;
 
   ngOnInit(): void {
     this._markdownService.getSource(`assets/md/Drawer.md`).subscribe((data) => {

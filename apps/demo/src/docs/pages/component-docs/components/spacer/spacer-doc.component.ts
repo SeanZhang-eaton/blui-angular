@@ -7,6 +7,7 @@ import { FLEX } from './examples/flex.component';
 import { PIXELS } from './examples/pixel.component';
 
 @Component({
+  standalone: false,
   selector: 'app-spacer-doc',
   template: `
     <app-component-doc-scaffold mdFileName="Spacer.md" [hasPlayground]="false">

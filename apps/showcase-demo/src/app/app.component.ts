@@ -1,5 +1,4 @@
-import { CommonModule } from '@angular/common';
-import { Component, ViewEncapsulation } from '@angular/core';
+import { Component, inject, ViewEncapsulation } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIcon, MatIconRegistry } from '@angular/material/icon';
 import { MatNavList } from '@angular/material/list';
@@ -27,7 +26,6 @@ import { ViewportService } from './services/viewport.service';
   encapsulation: ViewEncapsulation.None,
   standalone: true,
   imports: [
-    CommonModule,
     RouterModule,
     MatIcon,
     MatNavList,
@@ -41,6 +39,14 @@ import { ViewportService } from './services/viewport.service';
   ],
 })
 export class AppComponent {
+  private readonly _stateService = inject(StateService);
+  private readonly _matIconRegistry = inject(MatIconRegistry);
+  private readonly _domSanitizer = inject(DomSanitizer);
+  private readonly _viewportService = inject(ViewportService);
+  private readonly _rtlService = inject(RtlService);
+  private readonly _router = inject(Router);
+  private readonly _themeService = inject(ThemeService);
+
   isRtl = false;
   variant: DrawerLayoutVariantType = 'persistent';
   userMenuOpen = false;
@@ -72,15 +78,7 @@ export class AppComponent {
       ],
     },
   ];
-  constructor(
-    private readonly _stateService: StateService,
-    private readonly _matIconRegistry: MatIconRegistry,
-    private readonly _domSanitizer: DomSanitizer,
-    private readonly _viewportService: ViewportService,
-    private readonly _rtlService: RtlService,
-    private readonly _router: Router,
-    private readonly _themeService: ThemeService
-  ) {
+  constructor() {
     this.listenForRouteChanges();
     this._matIconRegistry.addSvgIconSetInNamespace(
       'blui-icons',

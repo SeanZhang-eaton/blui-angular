@@ -6,6 +6,7 @@ export const BASIC = `<blui-hero label="Efficiency">
 `;
 
 @Component({
+  standalone: false,
   selector: 'app-basic-hero-demo',
   template: BASIC,
 })

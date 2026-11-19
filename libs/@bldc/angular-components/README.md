@@ -1,25 +1,47 @@
-# ComponentLibrary
+# @bldc/angular-components
 
-This library was generated with [Angular CLI](https://github.com/angular/angular-cli) version 16.2.0.
+Angular components for Brightlayer UI applications, built on [Angular Material](https://material.angular.dev).
 
-## Code scaffolding
+## Installation
 
-Run `ng generate component component-name --project component-library` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module --project component-library`.
+```bash
+pnpm add @bldc/angular-components @bldc/angular-themes @angular/material @angular/cdk color
+```
 
-> Note: Don't forget to add `--project component-library` or else it will be added to the default project in your `angular.json` file.
+## Usage
 
-## Build
+All components are standalone. Import the ones you need directly:
 
-Run `ng build component-library` to build the project. The build artifacts will be stored in the `dist/` directory.
+```ts
+import { Component } from '@angular/core';
+import { EmptyStateComponent, InfoListItemComponent } from '@bldc/angular-components';
 
-## Publishing
+@Component({
+  selector: 'app-example',
+  imports: [EmptyStateComponent, InfoListItemComponent],
+  templateUrl: './example.component.html',
+})
+export class ExampleComponent {}
+```
 
-After building your library with `ng build component-library`, go to the dist folder `cd dist/component-library` and run `npm publish`.
+NgModule wrappers (for example `EmptyStateModule`) are still exported for applications that have not migrated to standalone components.
 
-## Running unit tests
+Apply a Brightlayer UI theme from `@bldc/angular-themes` in your global styles:
 
-Run `ng test component-library` to execute the unit tests via [Karma](https://karma-runner.github.io).
+```scss
+@use '@bldc/angular-themes/theme'; // Material 3 (default)
+// @use '@bldc/angular-themes/theme-m2'; // Material 2 compatibility theme
+```
 
-## Further help
+and add `class="blui-blue"` (light) or `class="blui-blue-dark"` (dark) to your `<body>`.
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+## Compatibility
+
+| @bldc/angular-components | @angular/core + @angular/material |
+| ------------------------ | --------------------------------- |
+| `^10.0.0`                | `^18.0.0`                         |
+| `^11.0.0`                | `^22.0.0`                         |
+
+## Documentation
+
+See the [component documentation](https://brightlayer-ui-components.github.io/angular) and the [repository](https://github.com/etn-ccis/blui-angular).

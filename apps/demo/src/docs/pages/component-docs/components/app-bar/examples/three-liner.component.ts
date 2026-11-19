@@ -27,6 +27,7 @@ export const THREE_LINER = `<div id="app-bar-three-liner-example" class="three-l
 `;
 
 @Component({
+  standalone: false,
   selector: 'app-three-liner-app-bar-demo',
   template: THREE_LINER,
   styles: [

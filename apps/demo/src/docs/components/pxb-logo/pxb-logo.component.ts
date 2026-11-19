@@ -1,6 +1,7 @@
 import { Component, Input } from '@angular/core';
 
 @Component({
+  standalone: false,
   selector: 'app-pxb-logo',
   template: `
     <svg viewBox="0 0 82 82" [attr.width]="size" [attr.height]="size" class="pxb-logo">

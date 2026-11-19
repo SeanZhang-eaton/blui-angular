@@ -12,6 +12,7 @@ export const WITH_ACTIONS = `<blui-empty-state
 `;
 
 @Component({
+  standalone: false,
   selector: 'app-with-actions-empty-state-demo',
   template: WITH_ACTIONS,
 })

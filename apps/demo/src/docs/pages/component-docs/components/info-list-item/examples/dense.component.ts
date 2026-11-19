@@ -12,6 +12,7 @@ export const DENSE = `<blui-info-list-item [dense]="true" divider="full">
 `;
 
 @Component({
+  standalone: false,
   selector: 'app-dense-info-list-item-demo',
   template: DENSE,
 })

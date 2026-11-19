@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { NavigationEnd, Router } from '@angular/router';
 import { DrawerLayoutVariantType } from '@bldc/angular-components';
 
@@ -11,11 +11,17 @@ import { ViewportService } from '../services/viewport/viewport.service';
 import { APP_NAV_ITEMS, COMPONENT_NAV_ITEMS, DRAWER_NAV_ITEMS, NavItem } from './nav-items';
 
 @Component({
+  standalone: false,
   selector: 'app-navigation',
   templateUrl: './navigation.component.html',
   styleUrls: ['./navigation.component.scss'],
 })
 export class NavigationComponent {
+  private readonly _router = inject(Router);
+  private readonly _viewportService = inject(ViewportService);
+  private readonly _stateService = inject(DrawerStateService);
+  private readonly _tabService = inject(TabService);
+
   toolbarTitle: string;
   routeListener: Subscription;
   variant: DrawerLayoutVariantType;
@@ -35,12 +41,7 @@ export class NavigationComponent {
     COMPONENT_NAV_ITEMS.userMenu,
   ];
 
-  constructor(
-    private readonly _router: Router,
-    private readonly _viewportService: ViewportService,
-    private readonly _stateService: DrawerStateService,
-    private readonly _tabService: TabService
-  ) {
+  constructor() {
     this._listenForRouteChanges();
   }
 

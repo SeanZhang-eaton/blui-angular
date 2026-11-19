@@ -19,6 +19,7 @@ export const ANATOMY = `<blui-drawer style="width: 250px">
 `;
 
 @Component({
+  standalone: false,
   selector: 'app-anatomy-drawer-demo',
   template: ANATOMY,
 })

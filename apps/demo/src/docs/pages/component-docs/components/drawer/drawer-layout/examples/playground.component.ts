@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, EventEmitter, Input, OnDestroy, Output } from '@angular/core';
+import { AfterViewInit, Component, EventEmitter, inject, Input, OnDestroy, Output } from '@angular/core';
 
 import { Subscription } from 'rxjs';
 
@@ -13,6 +13,7 @@ export type DrawerLayoutPlaygroundProps = {
 };
 
 @Component({
+  standalone: false,
   selector: 'app-layout-playground',
   template: `<blui-drawer-layout
     [variant]="inputs.variant.value"
@@ -25,11 +26,15 @@ export type DrawerLayoutPlaygroundProps = {
       [condensed]="inputs.condensed.value"
       [disableRailTooltip]="inputs.disableRailTooltip.value"
     >
-      <blui-drawer-header title="Title" *ngIf="inputs.variant.value !== 'rail'">
-        <button mat-icon-button blui-icon (click)="toggleDrawer()" *ngIf="inputs.variant.value !== 'permanent'">
-          <mat-icon>{{ getDrawerIcon() }}</mat-icon>
-        </button>
-      </blui-drawer-header>
+      @if (inputs.variant.value !== 'rail') {
+        <blui-drawer-header title="Title">
+          @if (inputs.variant.value !== 'permanent') {
+            <button mat-icon-button blui-icon (click)="toggleDrawer()">
+              <mat-icon>{{ getDrawerIcon() }}</mat-icon>
+            </button>
+          }
+        </blui-drawer-header>
+      }
       <blui-drawer-body>
         <blui-drawer-nav-group>
           <blui-drawer-nav-item title="Devices">
@@ -45,24 +50,28 @@ export type DrawerLayoutPlaygroundProps = {
       </blui-drawer-body>
     </blui-drawer>
     <div blui-content>
-      <mat-toolbar color="primary" *ngIf="inputs.variant.value === 'temporary'">
-        <button style="margin-left: -8px" mat-icon-button (click)="toggleDrawer()">
-          <mat-icon>menu</mat-icon>
-        </button>
-        <div style="margin-left: 24px">Toolbar</div>
-      </mat-toolbar>
+      @if (inputs.variant.value === 'temporary') {
+        <mat-toolbar color="primary">
+          <button style="margin-left: -8px" mat-icon-button (click)="toggleDrawer()">
+            <mat-icon>menu</mat-icon>
+          </button>
+          <div style="margin-left: 24px">Toolbar</div>
+        </mat-toolbar>
+      }
       <div style="padding: 1rem">App Content Here.</div>
     </div>
   </blui-drawer-layout>`,
 })
 export class PlaygroundComponent implements AfterViewInit, OnDestroy {
+  private readonly _playgroundService = inject(PlaygroundService);
+
   @Input() inputs: MultiComponentKnobs;
   @Output() codeChange = new EventEmitter<string>();
 
   open = true;
   knobListener: Subscription;
 
-  constructor(private readonly _playgroundService: PlaygroundService) {
+  constructor() {
     this.knobListener = this._playgroundService.knobChange.subscribe((updatedKnobs: MultiComponentKnobs) => {
       this.inputs = updatedKnobs;
       this._emitNewCodeChanges();

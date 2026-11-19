@@ -6,6 +6,7 @@ export const BASIC = `<blui-empty-state title="Location Unknown">
 `;
 
 @Component({
+  standalone: false,
   selector: 'app-basic-empty-state-demo',
   template: BASIC,
 })

@@ -1,6 +1,7 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 
 @Component({
+  standalone: false,
   selector: 'app-boolean-knob',
   template: `
     <div style="margin-bottom: 1rem; margin-left: -1rem">

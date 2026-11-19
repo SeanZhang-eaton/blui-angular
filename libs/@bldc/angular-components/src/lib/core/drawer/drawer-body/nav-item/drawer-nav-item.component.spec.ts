@@ -1,6 +1,5 @@
 import { Component } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 
 import { count } from '../../../../utils/test-utils';
 import { DRAWER_STATE } from '../../drawer-state-ref';
@@ -13,9 +12,9 @@ import { DrawerNavItemComponent } from './drawer-nav-item.component';
   imports: [DrawerNavItemComponent],
   template: `
     <blui-drawer-nav-item [hidden]="true">
-        <blui-drawer-nav-item [hidden]="true">Test</blui-drawer-nav-item>
+      <blui-drawer-nav-item [hidden]="true">Test</blui-drawer-nav-item>
     </blui-drawer-nav-item>
-    `,
+  `,
 })
 class DrawerHiddenNavItemComponent {}
 
@@ -25,7 +24,7 @@ describe('DrawerNavItemComponent', () => {
 
   beforeEach(() => {
     void TestBed.configureTestingModule({
-      imports: [DrawerHiddenNavItemComponent, DrawerNavItemComponent, NoopAnimationsModule],
+      imports: [DrawerHiddenNavItemComponent, DrawerNavItemComponent],
       providers: [{ provide: DRAWER_STATE, useFactory: () => new DrawerState() }],
     }).compileComponents();
     fixture = TestBed.createComponent(DrawerNavItemComponent);

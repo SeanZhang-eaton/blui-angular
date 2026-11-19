@@ -2,7 +2,6 @@ import { Component } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { MatIconModule } from '@angular/material/icon';
 import { By } from '@angular/platform-browser';
-import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 
 import { count } from '../../utils/test-utils';
 
@@ -28,7 +27,7 @@ describe('ToolbarMenuComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [TestDropdownToolbarComponent, ToolbarMenuComponent, NoopAnimationsModule],
+      imports: [TestDropdownToolbarComponent, ToolbarMenuComponent],
     }).compileComponents();
     fixture = TestBed.createComponent(ToolbarMenuComponent);
     component = fixture.componentInstance;

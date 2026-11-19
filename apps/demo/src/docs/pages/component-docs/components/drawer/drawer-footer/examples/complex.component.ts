@@ -27,6 +27,7 @@ export const COMPLEX = `<blui-drawer style="width: 250px">
 `;
 
 @Component({
+  standalone: false,
   selector: 'app-complex-drawer-footer-demo',
   template: COMPLEX,
 })

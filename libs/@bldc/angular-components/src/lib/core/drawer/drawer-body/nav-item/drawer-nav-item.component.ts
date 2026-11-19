@@ -79,7 +79,9 @@ export class DrawerNavItemComponent {
    *
    * @default square
    * */
-  readonly $activeItemBackgroundShape = input<ActiveItemBackgroundShape>('square', { alias: 'activeItemBackgroundShape' });
+  readonly $activeItemBackgroundShape = input<ActiveItemBackgroundShape>('square', {
+    alias: 'activeItemBackgroundShape',
+  });
   /** Sets whether to show a chevron icon on the left side of a `NavItem`
    *
    * @default false
@@ -117,6 +119,8 @@ export class DrawerNavItemComponent {
   readonly $title = input<string | undefined>(undefined, { alias: 'title' });
 
   /** Event triggered on nav item select */
+  // Public API name kept for backwards compatibility.
+  // eslint-disable-next-line @angular-eslint/no-output-native
   readonly select = output<void>();
 
   readonly $nestedNavItems = contentChildren(
@@ -137,9 +141,7 @@ export class DrawerNavItemComponent {
     () => isEmptyView(this.$collapseIconEl()) && isEmptyView(this.$expandIconEl())
   );
 
-  protected readonly $showTooltipOnRailHover = computed(() =>
-    !this.drawerState.$disableRailTooltip()
-  );
+  protected readonly $showTooltipOnRailHover = computed(() => !this.drawerState.$disableRailTooltip());
 
   /** Controls the expansion icon. */
   protected readonly $hasChildren = signal(false);
@@ -152,13 +154,10 @@ export class DrawerNavItemComponent {
 
   constructor() {
     this.id = this.drawerState.createNavItemID();
-    effect(
-      () => {
-        this.$selected();
-        this.drawerState.emitChangeActiveItemEvent();
-      },
-      { allowSignalWrites: true }
-    );
+    effect(() => {
+      this.$selected();
+      this.drawerState.emitChangeActiveItemEvent();
+    });
 
     let expandedInitialized = false;
     effect(() => {

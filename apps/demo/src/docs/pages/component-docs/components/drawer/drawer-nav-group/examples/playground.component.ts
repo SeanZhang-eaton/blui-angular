@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, EventEmitter, Input, OnDestroy, Output } from '@angular/core';
+import { AfterViewInit, Component, EventEmitter, inject, Input, OnDestroy, Output } from '@angular/core';
 
 import { Subscription } from 'rxjs';
 
@@ -11,6 +11,7 @@ export type NavGroupPlaygroundKnobs = {
 };
 
 @Component({
+  standalone: false,
   selector: 'app-nav-group-playground',
   template: ` <blui-drawer [open]="open">
     <blui-drawer-header title="Header Title">
@@ -31,13 +32,15 @@ export type NavGroupPlaygroundKnobs = {
   </blui-drawer>`,
 })
 export class PlaygroundComponent implements AfterViewInit, OnDestroy {
+  private readonly _playgroundService = inject(PlaygroundService);
+
   @Input() inputs: NavGroupPlaygroundKnobs;
   @Output() codeChange = new EventEmitter<string>();
 
   open = true;
   knobListener: Subscription;
 
-  constructor(private readonly _playgroundService: PlaygroundService) {
+  constructor() {
     this.knobListener = this._playgroundService.knobChange.subscribe((updatedKnobs: NavGroupPlaygroundKnobs) => {
       this.inputs = updatedKnobs;
       this.codeChange.emit(this._createGeneratedCode());

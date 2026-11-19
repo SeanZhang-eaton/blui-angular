@@ -23,6 +23,7 @@ export const CUSTOM_HEADER = `<blui-user-menu avatarImage="assets/trex.png" [(op
 `;
 
 @Component({
+  standalone: false,
   selector: 'app-custom-header-user-menu-demo',
   template: CUSTOM_HEADER,
   styles: [

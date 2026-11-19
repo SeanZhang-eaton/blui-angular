@@ -1,5 +1,4 @@
 import { OverlayModule } from '@angular/cdk/overlay';
-import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormControl, Validators } from '@angular/forms';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -10,13 +9,19 @@ import { MatSliderModule } from '@angular/material/slider';
 @Component({
   standalone: true,
   selector: 'app-number-knob',
-  imports: [CommonModule, OverlayModule, MatSliderModule, MatFormFieldModule, MatInputModule,FormsModule, ReactiveFormsModule],
+  imports: [OverlayModule, MatSliderModule, MatFormFieldModule, MatInputModule, FormsModule, ReactiveFormsModule],
   template: `
     <mat-form-field appearance="fill" style="margin-bottom: 1rem" #input (click)="isOpen = true" [class]="label">
       <mat-label>{{ label }}: number</mat-label>
-      <mat-hint *ngIf="isRequired && value">{{ hint }}</mat-hint>
-      <mat-hint *ngIf="isRequired && !value">{{ label }} is required</mat-hint>
-      <mat-hint *ngIf="!isRequired">{{ hint }}</mat-hint>
+      @if (isRequired && value) {
+        <mat-hint>{{ hint }}</mat-hint>
+      }
+      @if (isRequired && !value) {
+        <mat-hint>{{ label }} is required</mat-hint>
+      }
+      @if (!isRequired) {
+        <mat-hint>{{ hint }}</mat-hint>
+      }
       <input
         type="number"
         [max]="max"

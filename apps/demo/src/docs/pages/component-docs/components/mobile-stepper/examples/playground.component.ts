@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, EventEmitter, Input, OnDestroy, Output } from '@angular/core';
+import { AfterViewInit, Component, EventEmitter, inject, Input, OnDestroy, Output } from '@angular/core';
 
 import { Subscription } from 'rxjs';
 
@@ -16,6 +16,7 @@ export type MobileStepperPlaygroundKnobs = {
 };
 
 @Component({
+  standalone: false,
   selector: 'app-mobile-stepper-playground',
   template: `<div style="background: white; padding: 12px">
     <blui-mobile-stepper
@@ -25,19 +26,25 @@ export type MobileStepperPlaygroundKnobs = {
       variant="progress"
       style="width: 300px"
     >
-      <button *ngIf="inputs.showBack.value" blui-back-button mat-stroked-button color="primary">Back</button>
-      <button *ngIf="inputs.showNext.value" blui-next-button mat-flat-button color="primary">Next</button>
+      @if (inputs.showBack.value) {
+        <button blui-back-button mat-stroked-button color="primary">Back</button>
+      }
+      @if (inputs.showNext.value) {
+        <button blui-next-button mat-flat-button color="primary">Next</button>
+      }
     </blui-mobile-stepper>
   </div>`,
 })
 export class PlaygroundComponent implements AfterViewInit, OnDestroy {
+  private readonly _playgroundService = inject(PlaygroundService);
+
   @Input() inputs: MobileStepperPlaygroundKnobs;
   @Output() codeChange = new EventEmitter<string>();
 
   open = true;
   knobListener: Subscription;
 
-  constructor(private readonly _playgroundService: PlaygroundService) {
+  constructor() {
     this.knobListener = this._playgroundService.knobChange.subscribe((updatedKnobs: MobileStepperPlaygroundKnobs) => {
       this.inputs = updatedKnobs;
       this._emitNewCodeChanges();

@@ -21,37 +21,36 @@
     </blui-drawer-header>
     <blui-drawer-body>
       <blui-drawer-nav-group title="Components" [divider]="false">
-        <blui-drawer-nav-item
-          *ngFor="let navItem of componentNavItems"
-          [title]="navItem.title"
-          [hidePadding]="true"
-          [selected]="navItem.title === getSelectedItem()"
-          activeItemBackgroundShape="round"
-          (select)="selectItem(navItem)"
-        >
+        @for (navItem of componentNavItems; track navItem) {
           <blui-drawer-nav-item
-            *ngFor="let nestedNavItem of navItem.children"
-            [title]="nestedNavItem.title"
-            [hidePadding]="false"
-            [selected]="nestedNavItem.title === getSelectedItem()"
+            [title]="navItem.title"
+            [hidePadding]="true"
+            [selected]="navItem.title === getSelectedItem()"
             activeItemBackgroundShape="round"
-            (select)="selectItem(nestedNavItem)"
+            (select)="selectItem(navItem)"
           >
+            @for (nestedNavItem of navItem.children; track nestedNavItem) {
+              <blui-drawer-nav-item
+                [title]="nestedNavItem.title"
+                [hidePadding]="false"
+                [selected]="nestedNavItem.title === getSelectedItem()"
+                activeItemBackgroundShape="round"
+                (select)="selectItem(nestedNavItem)"
+              >
+              </blui-drawer-nav-item>
+            }
           </blui-drawer-nav-item>
-        </blui-drawer-nav-item>
+        }
       </blui-drawer-nav-group>
     </blui-drawer-body>
   </blui-drawer>
   <div blui-content class="drawer-content" [class.md]="isMedium()" [class.sm]="isSmall()">
     <mat-toolbar class="toolbar">
-      <button
-        mat-icon-button
-        *ngIf="variant === 'temporary'"
-        (click)="openDrawer()"
-        style="margin-right: 16px; margin-left: -16px"
-      >
-        <mat-icon>menu</mat-icon>
-      </button>
+      @if (variant === 'temporary') {
+        <button mat-icon-button (click)="openDrawer()" style="margin-right: 16px; margin-left: -16px">
+          <mat-icon>menu</mat-icon>
+        </button>
+      }
       <h2>{{ toolbarTitle }}</h2>
     </mat-toolbar>
     <router-outlet></router-outlet>

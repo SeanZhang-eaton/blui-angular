@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 
 import { MarkdownService } from 'ngx-markdown';
 
@@ -9,6 +9,7 @@ import { COMPLEX } from './examples/complex.component';
 import { DrawerFooterPlaygroundKnobs } from './examples/playground.component';
 
 @Component({
+  standalone: false,
   selector: 'app-drawer-footer-doc',
   template: `
     <app-component-doc-scaffold [md]="md" [knobGroups]="knobGroups">
@@ -50,6 +51,9 @@ import { DrawerFooterPlaygroundKnobs } from './examples/playground.component';
   styleUrls: ['./drawer-footer-doc.component.scss'],
 })
 export class DrawerFooterDocComponent implements OnInit {
+  private readonly _splitService = inject(MarkdownSplitService);
+  private readonly _markdownService = inject(MarkdownService);
+
   md: string;
   BASIC = BASIC;
   COMPLEX = COMPLEX;
@@ -77,11 +81,6 @@ export class DrawerFooterDocComponent implements OnInit {
       defaultExpanded: true,
     },
   ];
-
-  constructor(
-    private readonly _splitService: MarkdownSplitService,
-    private readonly _markdownService: MarkdownService
-  ) {}
 
   ngOnInit(): void {
     this._markdownService.getSource(`assets/md/Drawer.md`).subscribe((data) => {

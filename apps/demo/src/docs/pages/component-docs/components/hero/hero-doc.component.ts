@@ -12,6 +12,7 @@ import { WITH_ICON } from './examples/with-icon.component';
 import { WITH_BANNER } from './examples/within-banner.component';
 
 @Component({
+  standalone: false,
   selector: 'app-hero-doc',
   template: `
     <app-component-doc-scaffold mdFileName="Hero.md" [knobGroups]="knobGroups">

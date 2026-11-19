@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 
 import { ViewportService } from './viewport.service';
 
@@ -8,7 +8,9 @@ import { ViewportService } from './viewport.service';
 export class StateService {
   private drawerOpen: boolean;
 
-  constructor(viewportService: ViewportService) {
+  constructor() {
+    const viewportService = inject(ViewportService);
+
     this.drawerOpen = !viewportService.isSmall();
   }
 

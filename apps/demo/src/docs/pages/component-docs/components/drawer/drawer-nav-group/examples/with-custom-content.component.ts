@@ -19,6 +19,7 @@ export const CUSTOM_CONTENT = `<blui-drawer style="width: 250px">
 `;
 
 @Component({
+  standalone: false,
   selector: 'app-custom-content-nav-group-demo',
   template: CUSTOM_CONTENT,
 })

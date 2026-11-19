@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, EventEmitter, Input, OnDestroy, Output } from '@angular/core';
+import { AfterViewInit, Component, EventEmitter, inject, Input, OnDestroy, Output } from '@angular/core';
 import * as Colors from '@brightlayer-ui/colors';
 import { DrawerNavItem } from '@bldc/angular-components';
 
@@ -20,54 +20,58 @@ type Group = {
 };
 
 @Component({
+  standalone: false,
   selector: 'app-drawer-playground',
-  template: ` <blui-drawer
-    class="app-drawer-playground-drawer"
-    *ngIf="inputs"
-    [open]="inputs.open.value"
-    [disableActiveItemParentStyles]="inputs.disableActiveItemParentStyles.value"
-    [openOnHoverDelay]="inputs.openOnHoverDelay.value"
-    [openOnHover]="inputs.openOnHover.value"
-    [sideBorder]="inputs.sideBorder.value"
-  >
-    <blui-drawer-header title="Brightlayer UI" subtitle="Drawer Component">
-      <button mat-icon-button blui-icon>
-        <mat-icon>menu</mat-icon>
-      </button>
-    </blui-drawer-header>
-    <blui-drawer-body>
-      <ng-container *ngFor="let navGroup of [group1]; let first = first">
-        <blui-drawer-nav-group>
-          <blui-drawer-nav-item
-            *ngFor="let navItem of navGroup.items"
-            [title]="navItem.title"
-            [selected]="selectedItem === navItem.title"
-            (select)="setActive(navItem)"
-          >
-            <mat-icon blui-icon>{{ navItem.icon }}</mat-icon>
-            <blui-drawer-nav-item
-              *ngFor="let nestedItem of navItem.items"
-              [title]="nestedItem.title"
-              [selected]="selectedItem === nestedItem.title"
-              (select)="setActive(nestedItem)"
-            >
-            </blui-drawer-nav-item>
-          </blui-drawer-nav-item>
-        </blui-drawer-nav-group>
-      </ng-container>
-    </blui-drawer-body>
-    <blui-drawer-footer [hideContentOnCollapse]="true">
-      <div style="padding: 16px">
-        <div style="display: flex; justify-content: space-between; align-items: center">
-          <img src="assets/eaton-condensed.png" alt="Eaton logo" width="100" style="margin-left: -8px" />
-          <div>
-            <div class="mat-caption">Copyright © Eaton</div>
-            <div class="mat-caption">All Rights Reserved</div>
+  template: ` @if (inputs) {
+    <blui-drawer
+      class="app-drawer-playground-drawer"
+      [open]="inputs.open.value"
+      [disableActiveItemParentStyles]="inputs.disableActiveItemParentStyles.value"
+      [openOnHoverDelay]="inputs.openOnHoverDelay.value"
+      [openOnHover]="inputs.openOnHover.value"
+      [sideBorder]="inputs.sideBorder.value"
+    >
+      <blui-drawer-header title="Brightlayer UI" subtitle="Drawer Component">
+        <button mat-icon-button blui-icon>
+          <mat-icon>menu</mat-icon>
+        </button>
+      </blui-drawer-header>
+      <blui-drawer-body>
+        @for (navGroup of [group1]; track navGroup; let first = $first) {
+          <blui-drawer-nav-group>
+            @for (navItem of navGroup.items; track navItem) {
+              <blui-drawer-nav-item
+                [title]="navItem.title"
+                [selected]="selectedItem === navItem.title"
+                (select)="setActive(navItem)"
+              >
+                <mat-icon blui-icon>{{ navItem.icon }}</mat-icon>
+                @for (nestedItem of navItem.items; track nestedItem) {
+                  <blui-drawer-nav-item
+                    [title]="nestedItem.title"
+                    [selected]="selectedItem === nestedItem.title"
+                    (select)="setActive(nestedItem)"
+                  >
+                  </blui-drawer-nav-item>
+                }
+              </blui-drawer-nav-item>
+            }
+          </blui-drawer-nav-group>
+        }
+      </blui-drawer-body>
+      <blui-drawer-footer [hideContentOnCollapse]="true">
+        <div style="padding: 16px">
+          <div style="display: flex; justify-content: space-between; align-items: center">
+            <img src="assets/eaton-condensed.png" alt="Eaton logo" width="100" style="margin-left: -8px" />
+            <div>
+              <div class="mat-caption">Copyright © Eaton</div>
+              <div class="mat-caption">All Rights Reserved</div>
+            </div>
           </div>
         </div>
-      </div>
-    </blui-drawer-footer>
-  </blui-drawer>`,
+      </blui-drawer-footer>
+    </blui-drawer>
+  }`,
   styles: [
     `
       :host {
@@ -80,6 +84,8 @@ type Group = {
   ],
 })
 export class PlaygroundComponent implements AfterViewInit, OnDestroy {
+  private readonly _playgroundService = inject(PlaygroundService);
+
   @Input() inputs: DrawerPlaygroundKnobs;
   @Output() codeChange = new EventEmitter<string>();
 
@@ -121,7 +127,7 @@ export class PlaygroundComponent implements AfterViewInit, OnDestroy {
     ],
   };
 
-  constructor(private readonly _playgroundService: PlaygroundService) {
+  constructor() {
     this.knobListener = this._playgroundService.knobChange.subscribe((updatedKnobs: DrawerPlaygroundKnobs) => {
       this.inputs = updatedKnobs;
       this._emitNewCodeChanges();

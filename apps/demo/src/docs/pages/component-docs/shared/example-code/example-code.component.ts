@@ -1,6 +1,7 @@
 import { AfterViewInit, Component, Input, ViewEncapsulation } from '@angular/core';
 
 @Component({
+  standalone: false,
   selector: 'app-example-code',
   host: {
     class: 'app-example-code',
@@ -12,11 +13,13 @@ import { AfterViewInit, Component, Input, ViewEncapsulation } from '@angular/cor
       (mouseenter)="isHoverSnippet = true"
       (mouseleave)="isHoverSnippet = false"
     >
-            <code [innerHTML]="snippet | language: 'html' | markdown | async"></code>
-            <app-copy-code-button [code]="snippet" *ngIf="copyButtonOnHover && isHoverSnippet"
-                  style="position: absolute; bottom: 16px; right: 420px;"></app-copy-code-button>
-            
-        </pre>
+      <code [innerHTML]="snippet | language: 'html' | markdown | async"></code>
+      @if (copyButtonOnHover && isHoverSnippet) {
+        <app-copy-code-button [code]="snippet"
+        style="position: absolute; bottom: 16px; right: 420px;"></app-copy-code-button>
+      }
+    
+    </pre>
   `,
   encapsulation: ViewEncapsulation.None,
   styleUrls: ['example-code.component.scss'],

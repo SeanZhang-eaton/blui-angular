@@ -11,6 +11,7 @@ export const BASIC = `<blui-score-card style="width: 350px"
 `;
 
 @Component({
+  standalone: false,
   selector: 'app-basic-score-card-demo',
   template: BASIC,
 })

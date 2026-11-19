@@ -1,5 +1,6 @@
 import {
   Component,
+  inject,
   Input,
   OnChanges,
   OnDestroy,
@@ -33,6 +34,7 @@ export type Knob = {
 };
 
 @Component({
+  standalone: false,
   selector: 'app-component-doc-scaffold',
   template: `
     <div class="scaffold-container">
@@ -48,126 +50,150 @@ export type Knob = {
           (selectedTabChange)="userChangeTab($event)"
           [(selectedIndex)]="currentTabIndex"
         >
-          <mat-tab label="Examples" *ngIf="hasExamples">
-            <div class="examples-tab-content-wrapper" *ngIf="currentTabIndex === 0">
-              <ng-content *ngIf="!examplesRef" select="[examples]"></ng-content>
-              <template [ngTemplateOutlet]="examplesRef"></template>
-            </div>
-          </mat-tab>
+          @if (hasExamples) {
+            <mat-tab label="Examples">
+              @if (currentTabIndex === 0) {
+                <div class="examples-tab-content-wrapper">
+                  @if (!examplesRef) {
+                    <ng-content select="[examples]"></ng-content>
+                  }
+                  <template [ngTemplateOutlet]="examplesRef"></template>
+                </div>
+              }
+            </mat-tab>
+          }
           <mat-tab label="API Docs">
             <div class="doc-tab-content">
-              <markdown *ngIf="useDefaultDocs" [data]="md"></markdown>
+              @if (useDefaultDocs) {
+                <markdown [data]="md"></markdown>
+              }
               <ng-content select="[docs]"></ng-content>
             </div>
           </mat-tab>
-          <mat-tab label="Playground" *ngIf="hasPlayground"></mat-tab>
+          @if (hasPlayground) {
+            <mat-tab label="Playground"></mat-tab>
+          }
         </mat-tab-group>
       </div>
 
-      <div class="playground-container" *ngIf="currentTabIndex === 2" [class.md]="isMedium()">
-        <div style="width: 100%; display: flex; flex-direction: column;">
-          <div class="playground-live-example-wrapper" style="height: 70%">
-            <ng-content *ngIf="!playgroundRef" select="[playground]"></ng-content>
-            <template [ngTemplateOutlet]="playgroundRef"></template>
+      @if (currentTabIndex === 2) {
+        <div class="playground-container" [class.md]="isMedium()">
+          <div style="width: 100%; display: flex; flex-direction: column;">
+            <div class="playground-live-example-wrapper" style="height: 70%">
+              @if (!playgroundRef) {
+                <ng-content select="[playground]"></ng-content>
+              }
+              <template [ngTemplateOutlet]="playgroundRef"></template>
+            </div>
+            <div style="height: 30%; overflow: auto; box-sizing: border-box">
+              <ng-content select="[code]"></ng-content>
+            </div>
           </div>
-          <div style="height: 30%; overflow: auto; box-sizing: border-box">
-            <ng-content select="[code]"></ng-content>
-          </div>
-        </div>
-        <div class="props-container">
-          <ng-container *ngIf="knobGroups.length > 1">
-            <mat-accordion *ngFor="let group of knobGroups; let last = last">
-              <mat-expansion-panel [expanded]="group.defaultExpanded" class="mat-elevation-z0">
-                <mat-expansion-panel-header>
-                  <mat-panel-title class="blui-subtitle-1 primary">
-                    {{ group.title }}
-                  </mat-panel-title>
-                </mat-expansion-panel-header>
-                <ng-container *ngFor="let key of getKeys(group.knobs)">
+          <div class="props-container">
+            @if (knobGroups.length > 1) {
+              @for (group of knobGroups; track group; let last = $last) {
+                <mat-accordion>
+                  <mat-expansion-panel [expanded]="group.defaultExpanded" class="mat-elevation-z0">
+                    <mat-expansion-panel-header>
+                      <mat-panel-title class="blui-subtitle-1 primary">
+                        {{ group.title }}
+                      </mat-panel-title>
+                    </mat-expansion-panel-header>
+                    @for (key of getKeys(group.knobs); track key) {
+                      <ng-template
+                        *ngTemplateOutlet="
+                          interactiveKnob;
+                          context: {
+                            knob: group.knobs[key],
+                            key: key,
+                            required: isRequired(group.title),
+                          }
+                        "
+                      >
+                      </ng-template>
+                    }
+                  </mat-expansion-panel>
+                  @if (!last) {
+                    <mat-divider></mat-divider>
+                  }
+                </mat-accordion>
+              }
+            }
+            @if (knobGroups.length === 1) {
+              <div style="padding: 0 24px">
+                <div class="blui-subtitle-1 primary" style="margin-bottom: 16px;">
+                  {{ knobGroups[0].title }}
+                </div>
+                @for (key of getKeys(knobGroups[0].knobs); track key) {
                   <ng-template
                     *ngTemplateOutlet="
                       interactiveKnob;
                       context: {
-                        knob: group.knobs[key],
+                        knob: knobGroups[0].knobs[key],
                         key: key,
-                        required: isRequired(group.title),
+                        required: isRequired(knobGroups[0].title),
                       }
                     "
                   >
                   </ng-template>
-                </ng-container>
-              </mat-expansion-panel>
-              <mat-divider *ngIf="!last"></mat-divider>
-            </mat-accordion>
-          </ng-container>
-
-          <div style="padding: 0 24px" *ngIf="knobGroups.length === 1">
-            <div class="blui-subtitle-1 primary" style="margin-bottom: 16px;">
-              {{ knobGroups[0].title }}
-            </div>
-            <ng-container *ngFor="let key of getKeys(knobGroups[0].knobs)">
-              <ng-template
-                *ngTemplateOutlet="
-                  interactiveKnob;
-                  context: {
-                    knob: knobGroups[0].knobs[key],
-                    key: key,
-                    required: isRequired(knobGroups[0].title),
-                  }
-                "
-              >
-              </ng-template>
-            </ng-container>
+                }
+              </div>
+            }
           </div>
         </div>
-      </div>
+      }
     </div>
 
     <ng-template #interactiveKnob let-knob="knob" let-key="key" let-required="required">
       <div [class.non-prop]="knob.label?.indexOf(' ') > 0">
-        <app-select-knob
-          *ngIf="knob.type === 'select'"
-          [label]="knob.label || key"
-          [options]="knob.options"
-          [(value)]="knob.value"
-          [isRequired]="required"
-          [hint]="knob.hint"
-          (valueChange)="emitKnobChange()"
-        ></app-select-knob>
-        <app-color-knob
-          *ngIf="knob.type === 'color'"
-          [label]="knob.label || key"
-          [(value)]="knob.value"
-          [hint]="knob.hint"
-          (valueChange)="emitKnobChange()"
-        ></app-color-knob>
-        <app-text-knob
-          *ngIf="knob.type === 'string'"
-          [label]="knob.label || key"
-          [(value)]="knob.value"
-          [isRequired]="required"
-          [hint]="knob.hint"
-          (valueChange)="emitKnobChange()"
-        ></app-text-knob>
-        <app-boolean-knob
-          *ngIf="knob.type === 'boolean'"
-          [label]="knob.label || key"
-          [isRequired]="required"
-          [(value)]="knob.value"
-          [hint]="knob.hint"
-          (valueChange)="emitKnobChange()"
-        ></app-boolean-knob>
-        <app-number-knob
-          *ngIf="knob.type === 'number'"
-          [label]="knob.label || key"
-          [(value)]="knob.value"
-          [isRequired]="required"
-          [max]="knob.range.max"
-          [min]="knob.range.min"
-          [step]="knob.range.step"
-          [hint]="knob.hint"
-          (valueChange)="emitKnobChange()"
-        ></app-number-knob>
+        @if (knob.type === 'select') {
+          <app-select-knob
+            [label]="knob.label || key"
+            [options]="knob.options"
+            [(value)]="knob.value"
+            [isRequired]="required"
+            [hint]="knob.hint"
+            (valueChange)="emitKnobChange()"
+          ></app-select-knob>
+        }
+        @if (knob.type === 'color') {
+          <app-color-knob
+            [label]="knob.label || key"
+            [(value)]="knob.value"
+            [hint]="knob.hint"
+            (valueChange)="emitKnobChange()"
+          ></app-color-knob>
+        }
+        @if (knob.type === 'string') {
+          <app-text-knob
+            [label]="knob.label || key"
+            [(value)]="knob.value"
+            [isRequired]="required"
+            [hint]="knob.hint"
+            (valueChange)="emitKnobChange()"
+          ></app-text-knob>
+        }
+        @if (knob.type === 'boolean') {
+          <app-boolean-knob
+            [label]="knob.label || key"
+            [isRequired]="required"
+            [(value)]="knob.value"
+            [hint]="knob.hint"
+            (valueChange)="emitKnobChange()"
+          ></app-boolean-knob>
+        }
+        @if (knob.type === 'number') {
+          <app-number-knob
+            [label]="knob.label || key"
+            [(value)]="knob.value"
+            [isRequired]="required"
+            [max]="knob.range.max"
+            [min]="knob.range.min"
+            [step]="knob.range.step"
+            [hint]="knob.hint"
+            (valueChange)="emitKnobChange()"
+          ></app-number-knob>
+        }
       </div>
     </ng-template>
   `,
@@ -175,6 +201,13 @@ export type Knob = {
   encapsulation: ViewEncapsulation.None,
 })
 export class ScaffoldComponent implements OnInit, OnChanges, OnDestroy {
+  private readonly _playgroundService = inject(PlaygroundService);
+  private readonly _route = inject(ActivatedRoute);
+  private readonly _router = inject(Router);
+  private readonly _markdownService = inject(MarkdownService);
+  private readonly _viewportService = inject(ViewportService);
+  private readonly _tabService = inject(TabService);
+
   @Input() hasExamples = true;
   @Input() hasPlayground = true;
   @Input() useDefaultDocs = true;
@@ -187,15 +220,6 @@ export class ScaffoldComponent implements OnInit, OnChanges, OnDestroy {
   currentTabIndex = 0;
 
   routeListener: Subscription;
-
-  constructor(
-    private readonly _playgroundService: PlaygroundService,
-    private readonly _route: ActivatedRoute,
-    private readonly _router: Router,
-    private readonly _markdownService: MarkdownService,
-    private readonly _viewportService: ViewportService,
-    private readonly _tabService: TabService
-  ) {}
 
   getKeys(knobs: { [key: string]: Knob }): string[] {
     return Object.keys(knobs || {}).sort();

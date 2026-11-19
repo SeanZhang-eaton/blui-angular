@@ -31,6 +31,7 @@ export const DOTS = `<ng-template #nextButton>
 `;
 
 @Component({
+  standalone: false,
   selector: 'app-dots-mobile-stepper-demo',
   template: DOTS,
 })

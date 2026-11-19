@@ -23,6 +23,7 @@ export const WITH_ACTIONS = `<blui-score-card style="width: 350px"
 `;
 
 @Component({
+  standalone: false,
   selector: 'app-custom-header-score-card-demo',
   template: WITH_ACTIONS,
 })

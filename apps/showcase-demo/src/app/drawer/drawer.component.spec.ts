@@ -1,6 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { NavigationEnd, Router, RouterEvent } from '@angular/router';
 
 import { ReplaySubject } from 'rxjs';
@@ -30,7 +29,7 @@ describe('DrawerComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [DrawerComponent, NoopAnimationsModule],
+      imports: [DrawerComponent],
       providers: [
         { provide: Router, useValue: routerMock },
         { provide: StateService, useValue: StateServiceMock },

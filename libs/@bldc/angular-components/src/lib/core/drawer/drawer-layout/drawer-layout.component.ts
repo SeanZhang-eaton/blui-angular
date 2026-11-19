@@ -145,13 +145,10 @@ export class DrawerLayoutComponent {
   }
 
   constructor() {
-    effect(
-      () => {
-        const variant = this.$variant();
-        const state = this.$drawerState();
-        state.setDrawerVariant(variant);
-      },
-      { allowSignalWrites: true }
-    );
+    effect(() => {
+      const variant = this.$variant();
+      const state = this.$drawerState();
+      state.setDrawerVariant(variant);
+    });
   }
 }

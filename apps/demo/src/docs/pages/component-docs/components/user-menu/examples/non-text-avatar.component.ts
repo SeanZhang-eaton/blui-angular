@@ -23,6 +23,7 @@ export const NON_TEXT_AVATAR = `<div style="display: flex; justify-content: spac
 `;
 
 @Component({
+  standalone: false,
   selector: 'app-non-text-avatar-user-menu-demo',
   template: NON_TEXT_AVATAR,
 })

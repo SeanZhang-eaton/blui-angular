@@ -11,6 +11,7 @@ import { WITH_HEROES } from './examples/with-heroes.component';
 import { WITH_SCORE_BADGE } from './examples/with-score-badge.component';
 
 @Component({
+  standalone: false,
   selector: 'app-spacer-doc',
   template: `
     <app-component-doc-scaffold mdFileName="ScoreCard.md" [knobGroups]="knobGroups">

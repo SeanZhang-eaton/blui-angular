@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, EventEmitter, Input, OnDestroy, Output } from '@angular/core';
+import { AfterViewInit, Component, EventEmitter, inject, Input, OnDestroy, Output } from '@angular/core';
 
 import { Subscription } from 'rxjs';
 
@@ -12,25 +12,36 @@ export type ToolbarMenuPlaygroundKnobs = {
 };
 
 @Component({
+  standalone: false,
   selector: 'app-toolbar-menu-playground',
   template: `<blui-toolbar-menu [label]="inputs.label.value">
-    <mat-icon blui-icon *ngIf="inputs.showIcon.value">home</mat-icon>
+    @if (inputs.showIcon.value) {
+      <mat-icon blui-icon>home</mat-icon>
+    }
     <ng-container blui-toolbar-menu-items>
       <button mat-menu-item>London</button>
-      <button mat-menu-item *ngIf="inputs.menuItemsCount.value > 1">New York</button>
-      <button mat-menu-item *ngIf="inputs.menuItemsCount.value > 2">New Haven</button>
-      <button mat-menu-item *ngIf="inputs.menuItemsCount.value > 3">Cleveland</button>
+      @if (inputs.menuItemsCount.value > 1) {
+        <button mat-menu-item>New York</button>
+      }
+      @if (inputs.menuItemsCount.value > 2) {
+        <button mat-menu-item>New Haven</button>
+      }
+      @if (inputs.menuItemsCount.value > 3) {
+        <button mat-menu-item>Cleveland</button>
+      }
     </ng-container>
-  </blui-toolbar-menu> `,
+  </blui-toolbar-menu>`,
 })
 export class PlaygroundComponent implements AfterViewInit, OnDestroy {
+  private readonly _playgroundService = inject(PlaygroundService);
+
   @Input() inputs: ToolbarMenuPlaygroundKnobs;
   @Output() codeChange = new EventEmitter<string>();
 
   knobListener: Subscription;
   open = true;
 
-  constructor(private readonly _playgroundService: PlaygroundService) {
+  constructor() {
     this.knobListener = this._playgroundService.knobChange.subscribe((updatedKnobs: ToolbarMenuPlaygroundKnobs) => {
       this.inputs = updatedKnobs;
       this._emitNewCodeChanges();

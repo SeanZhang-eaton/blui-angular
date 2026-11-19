@@ -1,5 +1,4 @@
-import { CommonModule } from '@angular/common';
-import { ChangeDetectorRef, Component, ViewEncapsulation } from '@angular/core';
+import { ChangeDetectorRef, Component, inject, ViewEncapsulation } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIcon } from '@angular/material/icon';
 import { NavigationEnd, Router } from '@angular/router';
@@ -20,7 +19,6 @@ import { ViewportService } from '../services/viewport.service';
   selector: 'app-showcase-drawer,showcase-drawer',
   standalone: true,
   imports: [
-    CommonModule,
     MatIcon,
     MatButtonModule,
     BLUIDrawerComponent,
@@ -40,23 +38,29 @@ import { ViewportService } from '../services/viewport.service';
       </blui-drawer-header>
       <blui-drawer-body>
         <blui-drawer-nav-group>
-          <blui-drawer-nav-item
-            *ngFor="let navItem of navItems"
-            [title]="navItem.title"
-            [subtitle]="navItem.subtitle"
-            [expanded]="navItem.expanded"
-            [divider]="true"
-          >
+          @for (navItem of navItems; track navItem) {
             <blui-drawer-nav-item
-              *ngFor="let nestedItem of navItem.items"
-              [class]="'nav-menu' + nestedItem.title"
-              [title]="nestedItem.title"
-              [selected]="selectedItemId === navItem.title + nestedItem.title"
-              (select)="nestedItem.onSelect(); setActive(navItem.title, nestedItem.title)"
-            ></blui-drawer-nav-item>
-            <i blui-icon *ngIf="navItem.icon === 'blui'" class="blui-pxblue_small"></i>
-            <mat-icon blui-icon *ngIf="navItem.icon !== 'blui'">{{ navItem.icon }}</mat-icon>
-          </blui-drawer-nav-item>
+              [title]="navItem.title"
+              [subtitle]="navItem.subtitle"
+              [expanded]="navItem.expanded"
+              [divider]="true"
+            >
+              @for (nestedItem of navItem.items; track nestedItem) {
+                <blui-drawer-nav-item
+                  [class]="'nav-menu' + nestedItem.title"
+                  [title]="nestedItem.title"
+                  [selected]="selectedItemId === navItem.title + nestedItem.title"
+                  (select)="nestedItem.onSelect(); setActive(navItem.title, nestedItem.title)"
+                ></blui-drawer-nav-item>
+              }
+              @if (navItem.icon === 'blui') {
+                <i blui-icon class="blui-pxblue_small"></i>
+              }
+              @if (navItem.icon !== 'blui') {
+                <mat-icon blui-icon>{{ navItem.icon }}</mat-icon>
+              }
+            </blui-drawer-nav-item>
+          }
         </blui-drawer-nav-group>
       </blui-drawer-body>
       <blui-drawer-footer>
@@ -67,6 +71,11 @@ import { ViewportService } from '../services/viewport.service';
   encapsulation: ViewEncapsulation.None,
 })
 export class DrawerComponent {
+  private readonly _stateService = inject(StateService);
+  private readonly _viewportService = inject(ViewportService);
+  private readonly _router = inject(Router);
+  private readonly _changeDetector = inject(ChangeDetectorRef);
+
   selectedItemId: string;
   bluiGroupId = 'Brightlayer UI Components';
   materialComponentsGroupId = 'Material Components';
@@ -81,12 +90,7 @@ export class DrawerComponent {
   settings = 'Settings';
   dashboard = 'Dashboard';
 
-  constructor(
-    private readonly _stateService: StateService,
-    private readonly _viewportService: ViewportService,
-    private readonly _router: Router,
-    private readonly _changeDetector: ChangeDetectorRef
-  ) {
+  constructor() {
     this._router.events.subscribe((route) => {
       if (route instanceof NavigationEnd && !this.selectedItemId) {
         this.determineRoute(route.urlAfterRedirects.split('?')[0]);

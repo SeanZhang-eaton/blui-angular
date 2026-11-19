@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, EventEmitter, Input, OnDestroy, Output } from '@angular/core';
+import { AfterViewInit, Component, EventEmitter, inject, Input, OnDestroy, Output } from '@angular/core';
 
 import { Subscription } from 'rxjs';
 
@@ -14,6 +14,7 @@ export type AppBarPlaygroundKnobs = {
 };
 
 @Component({
+  standalone: false,
   selector: 'app-app-bar-playground',
   styles: [
     `
@@ -54,6 +55,8 @@ export type AppBarPlaygroundKnobs = {
   </div>`,
 })
 export class PlaygroundComponent implements AfterViewInit, OnDestroy {
+  private readonly _playgroundService = inject(PlaygroundService);
+
   @Input() inputs: AppBarPlaygroundKnobs;
   @Output() codeChange = new EventEmitter<string>();
 
@@ -65,7 +68,7 @@ export class PlaygroundComponent implements AfterViewInit, OnDestroy {
   knobListener: Subscription;
   open = true;
 
-  constructor(private readonly _playgroundService: PlaygroundService) {
+  constructor() {
     this.knobListener = this._playgroundService.knobChange.subscribe((updatedKnobs: AppBarPlaygroundKnobs) => {
       this.inputs = updatedKnobs;
       this._emitNewCodeChanges();

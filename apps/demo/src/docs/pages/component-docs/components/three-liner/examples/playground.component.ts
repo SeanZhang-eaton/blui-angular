@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, EventEmitter, Input, OnDestroy, Output } from '@angular/core';
+import { AfterViewInit, Component, EventEmitter, inject, Input, OnDestroy, Output } from '@angular/core';
 
 import { Subscription } from 'rxjs';
 
@@ -12,6 +12,7 @@ export type ThreeLinerPlaygroundKnobs = {
 };
 
 @Component({
+  standalone: false,
   selector: 'app-three-liner-playground',
   template: `<blui-three-liner
     [title]="inputs.title.value"
@@ -21,13 +22,15 @@ export type ThreeLinerPlaygroundKnobs = {
   </blui-three-liner>`,
 })
 export class PlaygroundComponent implements AfterViewInit, OnDestroy {
+  private readonly _playgroundService = inject(PlaygroundService);
+
   @Input() inputs: ThreeLinerPlaygroundKnobs;
   @Output() codeChange = new EventEmitter<string>();
 
   open = true;
   knobListener: Subscription;
 
-  constructor(private readonly _playgroundService: PlaygroundService) {
+  constructor() {
     this.knobListener = this._playgroundService.knobChange.subscribe((updatedKnobs: ThreeLinerPlaygroundKnobs) => {
       this.inputs = updatedKnobs;
       this._emitNewCodeChanges();

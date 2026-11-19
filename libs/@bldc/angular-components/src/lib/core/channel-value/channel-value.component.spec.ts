@@ -7,6 +7,7 @@ import { ChannelValueComponent } from './channel-value.component';
 import { ChannelValueModule } from './channel-value.module';
 
 @Component({
+  imports: [ChannelValueModule],
   template: `
     <blui-channel-value value="Icon Test">
       <div id="channel-value-test-icon"></div>
@@ -21,8 +22,7 @@ describe('ChannelValueComponent', () => {
 
   beforeEach(waitForAsync(() => {
     void TestBed.configureTestingModule({
-      declarations: [TestIconComponent],
-      imports: [ChannelValueModule],
+      imports: [ChannelValueModule, TestIconComponent],
     }).compileComponents();
   }));
 

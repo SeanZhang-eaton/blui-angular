@@ -11,6 +11,7 @@ export const BOTTOMSHEET = `<blui-user-menu avatarValue="BS" [(open)]="open" [us
 `;
 
 @Component({
+  standalone: false,
   selector: 'app-bottom-sheet-user-menu-demo',
   template: BOTTOMSHEET,
 })

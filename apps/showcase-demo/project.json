@@ -5,51 +5,5 @@
   "prefix": "app",
   "sourceRoot": "apps/showcase-demo/src",
   "tags": [],
-  "targets": {
-    "build": {
-      "executor": "@nx/vite:build",
-      "outputs": ["{options.outputPath}"],
-      "options": {
-        "configFile": "apps/showcase-demo/vite.config.mts",
-        "outputPath": "dist/apps/showcase-demo",
-        "tsConfig": "apps/showcase-demo/tsconfig.app.json"
-      },
-      "defaultConfiguration": "production",
-      "configurations": {
-        "development": {
-          "mode": "development"
-        },
-        "production": {
-          "sourcemap": false,
-          "mode": "production"
-        }
-      }
-    },
-    "serve": {
-      "executor": "@nx/vite:dev-server",
-      "configurations": {
-        "production": {
-          "buildTarget": "showcase-demo:build:production"
-        },
-        "development": {
-          "buildTarget": "showcase-demo:build:development"
-        }
-      },
-      "defaultConfiguration": "development"
-    },
-    "extract-i18n": {
-      "executor": "@angular-devkit/build-angular:extract-i18n",
-      "options": {
-        "buildTarget": "showcase-demo:build"
-      }
-    },
-    "lint": {
-      "executor": "@nx/eslint:lint",
-      "outputs": ["{options.outputFile}"]
-    },
-    "test": {
-      "executor": "@nx/vite:test",
-      "dependsOn": ["^build"]
-    }
-  }
+  "targets": {}
 }

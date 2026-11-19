@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, EventEmitter, Input, OnDestroy, Output } from '@angular/core';
+import { AfterViewInit, Component, EventEmitter, inject, Input, OnDestroy, Output } from '@angular/core';
 
 import { Subscription } from 'rxjs';
 
@@ -18,6 +18,7 @@ export type ScoreCardPlaygroundKnobs = {
 };
 
 @Component({
+  standalone: false,
   selector: 'app-score-card-playground',
   template: `<blui-score-card
     style="width: 400px"
@@ -47,12 +48,16 @@ export type ScoreCardPlaygroundKnobs = {
     </mat-list>
 
     <blui-hero-banner blui-badge>
-      <blui-hero *ngIf="inputs.numberOfHeroes.value > 0" label="Temperature" value="98" units="°F" [iconSize]="72">
-        <i blui-primary class="blui-temp"></i>
-      </blui-hero>
-      <blui-hero *ngIf="inputs.numberOfHeroes.value > 1" label="Humidity" value="54" units="%" [iconSize]="72">
-        <i blui-primary class="blui-moisture"></i>
-      </blui-hero>
+      @if (inputs.numberOfHeroes.value > 0) {
+        <blui-hero label="Temperature" value="98" units="°F" [iconSize]="72">
+          <i blui-primary class="blui-temp"></i>
+        </blui-hero>
+      }
+      @if (inputs.numberOfHeroes.value > 1) {
+        <blui-hero label="Humidity" value="54" units="%" [iconSize]="72">
+          <i blui-primary class="blui-moisture"></i>
+        </blui-hero>
+      }
     </blui-hero-banner>
     <blui-info-list-item blui-action-row [hidePadding]="true" [dense]="true" [chevron]="true">
       <div blui-title>View Location</div>
@@ -60,13 +65,15 @@ export type ScoreCardPlaygroundKnobs = {
   </blui-score-card>`,
 })
 export class PlaygroundComponent implements AfterViewInit, OnDestroy {
+  private readonly _playgroundService = inject(PlaygroundService);
+
   @Input() inputs: ScoreCardPlaygroundKnobs;
   @Output() codeChange = new EventEmitter<string>();
 
   knobListener: Subscription;
   open = true;
 
-  constructor(private readonly _playgroundService: PlaygroundService) {
+  constructor() {
     this.knobListener = this._playgroundService.knobChange.subscribe((updatedKnobs: ScoreCardPlaygroundKnobs) => {
       this.inputs = updatedKnobs;
       this._emitNewCodeChanges();

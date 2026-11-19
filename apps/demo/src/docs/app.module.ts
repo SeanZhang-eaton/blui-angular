@@ -6,7 +6,7 @@
  This code is licensed under the BSD-3 license found in the LICENSE file in the root directory of this source tree and at https://opensource.org/licenses/BSD-3-Clause.
  **/
 import { CommonModule } from '@angular/common';
-import { NgModule } from '@angular/core';
+import { NgModule, provideZoneChangeDetection } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatChipsModule } from '@angular/material/chips';
@@ -14,7 +14,6 @@ import { MatIconModule } from '@angular/material/icon';
 //material modules
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { BrowserModule } from '@angular/platform-browser';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterModule } from '@angular/router';
 //brightlayer-ui modules
 import { DrawerModule, EmptyStateModule } from '@bldc/angular-components';
@@ -31,10 +30,9 @@ import { NgxGoogleAnalyticsModule, provideGoogleAnalytics } from '@hakimio/ngx-g
 
 @NgModule({
   declarations: [AppComponent, NavigationComponent],
-  providers: [provideGoogleAnalytics(environment.ga)],
+  providers: [provideZoneChangeDetection(), provideGoogleAnalytics(environment.ga)],
   imports: [
     AppRoutingModule,
-    BrowserAnimationsModule,
     BrowserModule,
     ComponentDocsModule,
     CommonModule,

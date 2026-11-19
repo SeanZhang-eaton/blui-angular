@@ -10,6 +10,7 @@ module.exports = [
         'error',
         {
           checkObsoleteDependencies: false,
+          ignoredFiles: ['{projectRoot}/vite.config.{js,ts,mjs,mts}'],
         },
       ],
     },
