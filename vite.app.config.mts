@@ -4,7 +4,7 @@ import { join } from 'node:path';
 
 import angular from '@analogjs/vite-plugin-angular';
 import { replaceFiles } from '@nx/vite/plugins/rollup-replace-files.plugin';
-import { normalizePath, type UserConfig } from 'vite';
+import { normalizePath, type Plugin, type UserConfig } from 'vite';
 import { viteStaticCopy } from 'vite-plugin-static-copy';
 
 type StaticCopyTarget = Parameters<typeof viteStaticCopy>[0]['targets'][number];
@@ -19,6 +19,28 @@ export type AppConfigOptions = {
 
 const rootDir = import.meta.dirname;
 
+/**
+ * Resolves optional peer dependencies that are loaded with a dynamic `import()` (e.g. `marked-katex-extension` in
+ * ngx-markdown) to an empty module when they are not installed. Without this the dev server fails with
+ * `Failed to resolve import` although the library handles the missing package at runtime.
+ */
+function optionalDependencies(ids: string[]): Plugin {
+  const prefix = '\0optional-dependency:';
+  return {
+    name: 'blui-optional-dependencies',
+    enforce: 'pre',
+    async resolveId(id, importer, options) {
+      if (!ids.includes(id)) {
+        return null;
+      }
+      return (await this.resolve(id, importer, { ...options, skipSelf: true })) ?? prefix + id;
+    },
+    load(id) {
+      return id.startsWith(prefix) ? 'export default undefined;' : null;
+    },
+  };
+}
+
 /** Vite / Vitest configuration shared by the demo applications. */
 export function createAppConfig({ app, mode, copyTargets = [] }: AppConfigOptions): UserConfig {
   const isProd = mode === 'production';
@@ -28,6 +50,7 @@ export function createAppConfig({ app, mode, copyTargets = [] }: AppConfigOption
     base: './',
     cacheDir: join(rootDir, 'node_modules/.vite', app),
     plugins: [
+      optionalDependencies(['marked-katex-extension']),
       angular({ inlineStylesExtension: 'scss' }),
       isProd &&
         replaceFiles([
