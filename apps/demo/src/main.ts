@@ -1,13 +1,12 @@
-import 'zone.js';
-import { enableProdMode } from '@angular/core';
-import { platformBrowser } from '@angular/platform-browser';
+import { bootstrapApplication } from '@angular/platform-browser';
 
-import { AppModule } from './docs/app.module';
-import { environment } from './environments/environment';
+import './prism';
 
-if (environment.production) {
-  enableProdMode();
-}
-platformBrowser()
-  .bootstrapModule(AppModule)
+import { AppComponent } from './docs/app.component';
+import { appConfig } from './docs/app.config';
+import { loadThemeStyles, readThemePreference } from './docs/services/theme/theme.service';
+
+// Load the selected theme before the first render to avoid a flash of unstyled content.
+loadThemeStyles(readThemePreference().design)
+  .then(() => bootstrapApplication(AppComponent, appConfig))
   .catch((err) => console.error(err));

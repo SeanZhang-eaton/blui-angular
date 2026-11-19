@@ -1,18 +1,18 @@
-import { Component, inject, OnInit } from '@angular/core';
-
-import { MarkdownService } from 'ngx-markdown';
+import { Component, inject } from '@angular/core';
 
 import { MarkdownSplitService } from '../../../../../services/markdown-split/markdown-split.service';
+import { CopyCodeButtonComponent } from '../../../shared/buttons/copy-code-button/copy-code-button.component';
+import { ExampleCodeComponent } from '../../../shared/example-code/example-code.component';
+import { ScaffoldComponent } from '../../../shared/scaffold/scaffold.component';
 
 import { BASIC } from './examples/basic.component';
-import { COMPLEX } from './examples/complex.component';
-import { DrawerFooterPlaygroundKnobs } from './examples/playground.component';
+import { COMPLEX, ComplexExampleComponent } from './examples/complex.component';
+import { DrawerFooterPlaygroundKnobs, PlaygroundComponent } from './examples/playground.component';
 
 @Component({
-  standalone: false,
   selector: 'app-drawer-footer-doc',
   template: `
-    <app-component-doc-scaffold [md]="md" [knobGroups]="knobGroups">
+    <app-component-doc-scaffold [md]="md()" [knobGroups]="knobGroups">
       <div examples class="app-example">
         <!--
                 <div class="example-section">
@@ -49,12 +49,18 @@ import { DrawerFooterPlaygroundKnobs } from './examples/playground.component';
     </app-component-doc-scaffold>
   `,
   styleUrls: ['./drawer-footer-doc.component.scss'],
+  imports: [
+    ScaffoldComponent,
+    ComplexExampleComponent,
+    ExampleCodeComponent,
+    CopyCodeButtonComponent,
+    PlaygroundComponent,
+  ],
 })
-export class DrawerFooterDocComponent implements OnInit {
+export class DrawerFooterDocComponent {
   private readonly _splitService = inject(MarkdownSplitService);
-  private readonly _markdownService = inject(MarkdownService);
 
-  md: string;
+  readonly md = this._splitService.drawerSection('## Drawer Footer');
   BASIC = BASIC;
   COMPLEX = COMPLEX;
   generatedCode: string;
@@ -81,12 +87,4 @@ export class DrawerFooterDocComponent implements OnInit {
       defaultExpanded: true,
     },
   ];
-
-  ngOnInit(): void {
-    this._markdownService.getSource(`assets/md/Drawer.md`).subscribe((data) => {
-      const delimiterTop = '## Drawer Footer';
-      const footerSection = this._splitService.subsection(data, delimiterTop);
-      this.md = footerSection.replace('images/', 'assets/md/images/');
-    });
-  }
 }

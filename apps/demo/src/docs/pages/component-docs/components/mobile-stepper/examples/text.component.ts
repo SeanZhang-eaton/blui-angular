@@ -1,4 +1,6 @@
 import { Component } from '@angular/core';
+import { MatButton } from '@angular/material/button';
+import { MobileStepperComponent } from '@bldc/angular-components';
 
 export const TEXT = `<blui-mobile-stepper [steps]="4" [activeStep]="activeStep" variant="text">
     <button blui-back-button mat-stroked-button color="primary" 
@@ -11,9 +13,9 @@ export const TEXT = `<blui-mobile-stepper [steps]="4" [activeStep]="activeStep" 
 `;
 
 @Component({
-  standalone: false,
   selector: 'app-text-mobile-stepper-demo',
   template: TEXT,
+  imports: [MobileStepperComponent, MatButton],
 })
 export class TextComponent {
   activeStep = 0;

@@ -1,4 +1,7 @@
+import { NgTemplateOutlet } from '@angular/common';
 import { Component } from '@angular/core';
+import { MatButton } from '@angular/material/button';
+import { MobileStepperComponent } from '@bldc/angular-components';
 
 export const DOTS = `<ng-template #nextButton>
     <button mat-flat-button color="primary" 
@@ -31,9 +34,9 @@ export const DOTS = `<ng-template #nextButton>
 `;
 
 @Component({
-  standalone: false,
   selector: 'app-dots-mobile-stepper-demo',
   template: DOTS,
+  imports: [MatButton, MobileStepperComponent, NgTemplateOutlet],
 })
 export class DotsComponent {
   activeStep = 0;

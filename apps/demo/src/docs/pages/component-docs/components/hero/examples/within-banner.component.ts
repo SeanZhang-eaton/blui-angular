@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { HeroBannerComponent, HeroComponent } from '@bldc/angular-components';
 
 export const WITH_BANNER = `<blui-hero-banner>
     <blui-hero [label]="'Health'" [value]="96" [units]="'/100'" [unitSpace]="'hide'">
@@ -14,8 +15,8 @@ export const WITH_BANNER = `<blui-hero-banner>
 `;
 
 @Component({
-  standalone: false,
   selector: 'app-with-banner-hero-demo',
   template: WITH_BANNER,
+  imports: [HeroBannerComponent, HeroComponent],
 })
 export class WithinBannerComponent {}

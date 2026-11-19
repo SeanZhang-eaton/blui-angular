@@ -1,22 +1,22 @@
-import { Component, inject, OnInit } from '@angular/core';
-
-import { MarkdownService } from 'ngx-markdown';
+import { Component, inject } from '@angular/core';
+import { RouterLink } from '@angular/router';
 
 import { COMPONENT_NAV_ITEMS } from '../../../../../navigation/nav-items';
 import { MarkdownSplitService } from '../../../../../services/markdown-split/markdown-split.service';
-import { Tab } from '../../../shared/scaffold/scaffold.component';
+import { CopyCodeButtonComponent } from '../../../shared/buttons/copy-code-button/copy-code-button.component';
+import { ExampleCodeComponent } from '../../../shared/example-code/example-code.component';
+import { ScaffoldComponent, Tab } from '../../../shared/scaffold/scaffold.component';
 
 import { BASIC } from './examples/basic.component';
-import { MULTIPLE_GROUPS } from './examples/multiple-groups.component';
-import { NavGroupPlaygroundKnobs } from './examples/playground.component';
-import { CUSTOM_CONTENT } from './examples/with-custom-content.component';
-import { SPACER } from './examples/with-spacer.component';
+import { MULTIPLE_GROUPS, MultipleGroupsComponent } from './examples/multiple-groups.component';
+import { NavGroupPlaygroundKnobs, PlaygroundComponent } from './examples/playground.component';
+import { CUSTOM_CONTENT, WithCustomContentComponent } from './examples/with-custom-content.component';
+import { SPACER, WithSpacerComponent } from './examples/with-spacer.component';
 
 @Component({
-  standalone: false,
   selector: 'app-drawer-nav-group-doc',
   template: `
-    <app-component-doc-scaffold [md]="md" [knobGroups]="knobGroups">
+    <app-component-doc-scaffold [md]="md()" [knobGroups]="knobGroups">
       <div examples class="app-example">
         <div class="example-section">
           <div class="example-heading">Drawer Nav Group</div>
@@ -74,14 +74,23 @@ import { SPACER } from './examples/with-spacer.component';
     </app-component-doc-scaffold>
   `,
   styleUrls: ['./drawer-nav-group-doc.component.scss'],
+  imports: [
+    ScaffoldComponent,
+    MultipleGroupsComponent,
+    ExampleCodeComponent,
+    CopyCodeButtonComponent,
+    RouterLink,
+    WithSpacerComponent,
+    WithCustomContentComponent,
+    PlaygroundComponent,
+  ],
 })
-export class DrawerNavGroupDocComponent implements OnInit {
+export class DrawerNavGroupDocComponent {
   private readonly _splitService = inject(MarkdownSplitService);
-  private readonly _markdownService = inject(MarkdownService);
 
   routes = COMPONENT_NAV_ITEMS;
 
-  md: string;
+  readonly md = this._splitService.drawerSection('## Drawer Nav Group', '## Drawer Nav Item');
   BASIC = BASIC;
   MULTIPLE_GROUPS = MULTIPLE_GROUPS;
   SPACER = SPACER;
@@ -110,15 +119,6 @@ export class DrawerNavGroupDocComponent implements OnInit {
       defaultExpanded: true,
     },
   ];
-
-  ngOnInit(): void {
-    this._markdownService.getSource(`assets/md/Drawer.md`).subscribe((data) => {
-      const delimiterTop = '## Drawer Nav Group';
-      const delimiterBottom = '## Drawer Nav Item';
-      const subsection = this._splitService.subsection(data, delimiterTop, delimiterBottom);
-      this.md = subsection.replace('images/', 'assets/md/images/');
-    });
-  }
 
   createRouterLink(route: string): string {
     const tab: Tab = 'examples';

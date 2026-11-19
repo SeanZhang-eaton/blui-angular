@@ -1,175 +1,35 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { NavigationEnd, Router, RouterEvent } from '@angular/router';
+import { provideRouter, Router } from '@angular/router';
 
-import { ReplaySubject } from 'rxjs';
-
-import { StateService } from '../services/state.service';
+import { SHOWCASE_NAV } from '../navigation';
 
 import { DrawerComponent } from './drawer.component';
 
 describe('DrawerComponent', () => {
-  let component: DrawerComponent;
-  let fixture: ComponentFixture<DrawerComponent>;
-
-  const eventSubject = new ReplaySubject<RouterEvent>(1);
-
-  const routerMock = {
-    navigate: vi.fn(),
-    navigateByUrl: vi.fn(),
-    events: eventSubject.asObservable(),
-    url: 'test/url',
-  };
-
-  const StateServiceMock = {
-    setDrawerOpen: vi.fn(),
-    getDrawerOpen: vi.fn(),
-    drawerOpen: true,
-  };
-
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [DrawerComponent],
-      providers: [
-        { provide: Router, useValue: routerMock },
-        { provide: StateService, useValue: StateServiceMock },
-      ],
-    });
-
-    fixture = TestBed.createComponent(DrawerComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
-  });
-
-  it('should create', () => {
-    void expect(component).toBeTruthy();
-  });
-
-  describe('navigation', () => {
-    it('should set correct selectedItemId on navigation', () => {
-      eventSubject.next(new NavigationEnd(1, '/templates/dashboard', '/templates/dashboard'));
-      fixture.detectChanges();
-      void expect(component.selectedItemId).toBe('Page TemplatesDashboard');
-    });
-
-    it('should navigate to BLUI Data Display page', async () => {
-      await new Promise((resolve) => setTimeout(resolve));
-      fixture.detectChanges();
-      const navMenuItem = fixture.debugElement.query(By.css('.nav-menuData'));
-      const navigateSpy = vi.spyOn(component, 'navigate').mockImplementation(() => Promise.resolve());
-      navMenuItem.triggerEventHandler('select', undefined);
-      void expect(navigateSpy).toHaveBeenCalledWith('/blui-components/data-display-components');
-    });
-
-    it('should navigate to BLUI Navigation Components page', async () => {
-      await new Promise((resolve) => setTimeout(resolve));
-      fixture.detectChanges();
-      const navMenuItem = fixture.debugElement.query(By.css('.nav-menuNavigation'));
-      const navigateSpy = vi.spyOn(component, 'navigate').mockImplementation(() => Promise.resolve());
-      navMenuItem.triggerEventHandler('select', undefined);
-      void expect(navigateSpy).toHaveBeenCalledWith('/blui-components/navigation-components');
-    });
-
-    it('should navigate to BLUI Surface Components page', async () => {
-      await new Promise((resolve) => setTimeout(resolve));
-      fixture.detectChanges();
-      const navMenuItem = fixture.debugElement.query(By.css('.nav-menuSurfaces'));
-      const navigateSpy = vi.spyOn(component, 'navigate').mockImplementation(() => Promise.resolve());
-      navMenuItem.triggerEventHandler('select', undefined);
-      void expect(navigateSpy).toHaveBeenCalledWith('/blui-components/surface-components');
-    });
-
-    it('should navigate to Mat Feedback Components page', async () => {
-      await new Promise((resolve) => setTimeout(resolve));
-      fixture.detectChanges();
-      const navMenuItem = fixture.debugElement.query(By.css('.nav-menuFeedback'));
-      const navigateSpy = vi.spyOn(component, 'navigate').mockImplementation(() => Promise.resolve());
-      navMenuItem.triggerEventHandler('select', undefined);
-      fixture.detectChanges();
-      void expect(navigateSpy).toHaveBeenCalledWith('/material-components/feedback-components');
-    });
-
-    it('should navigate to Mat Input Components page', async () => {
-      await new Promise((resolve) => setTimeout(resolve));
-      fixture.detectChanges();
-      const navMenuItem = fixture.debugElement.query(By.css('.nav-menuInputs'));
-      const navigateSpy = vi.spyOn(component, 'navigate').mockImplementation(() => Promise.resolve());
-      navMenuItem.triggerEventHandler('select', undefined);
-      void expect(navigateSpy).toHaveBeenCalledWith('/material-components/input-components');
-    });
-
-    it('should navigate to Alarms template', async () => {
-      await new Promise((resolve) => setTimeout(resolve));
-      fixture.detectChanges();
-      const navMenuItem = fixture.debugElement.query(By.css('.nav-menuAlarms'));
-      const navigateSpy = vi.spyOn(component, 'navigate').mockImplementation(() => Promise.resolve());
-      navMenuItem.triggerEventHandler('select', undefined);
-      void expect(navigateSpy).toHaveBeenCalledWith('/templates/alarms');
-    });
-
-    it('should navigate to Dashboard template', async () => {
-      await new Promise((resolve) => setTimeout(resolve));
-      fixture.detectChanges();
-      const navMenuItem = fixture.debugElement.query(By.css('.nav-menuDashboard'));
-      const navigateSpy = vi.spyOn(component, 'navigate').mockImplementation(() => Promise.resolve());
-      navMenuItem.triggerEventHandler('select', undefined);
-      void expect(navigateSpy).toHaveBeenCalledWith('/templates/dashboard');
-    });
-
-    it('should navigate to Settings template', async () => {
-      await new Promise((resolve) => setTimeout(resolve));
-      fixture.detectChanges();
-      const navMenuItem = fixture.debugElement.query(By.css('.nav-menuSettings'));
-      const navigateSpy = vi.spyOn(component, 'navigate').mockImplementation(() => Promise.resolve());
-      navMenuItem.triggerEventHandler('select', undefined);
-      void expect(navigateSpy).toHaveBeenCalledWith('/templates/settings');
+      providers: [provideRouter([{ path: '**', children: [] }])],
     });
   });
 
-  describe('nav group expansion', () => {
-    it('should expand BLUI components nav group', () => {
-      fixture.detectChanges();
-      component.navItems[0].expanded = false;
-      component.determineRoute('/blui-components/data-display-components');
-      void expect(component.navItems[0].expanded).toBe(true);
-      component.navItems[0].expanded = false;
-      component.determineRoute('/blui-components/navigation-components');
-      void expect(component.navItems[0].expanded).toBe(true);
-      component.navItems[0].expanded = false;
-      component.determineRoute('/blui-components/surface-components');
-      void expect(component.navItems[0].expanded).toBe(true);
-    });
-    it('should expand material components nav group', () => {
-      fixture.detectChanges();
-      component.navItems[0].expanded = false;
-      component.determineRoute('/material-components/data-display-components');
-      void expect(component.navItems[1].expanded).toBe(true);
-      component.navItems[1].expanded = false;
-      component.determineRoute('/material-components/feedback-components');
-      void expect(component.navItems[1].expanded).toBe(true);
-      component.navItems[1].expanded = false;
-      component.determineRoute('/material-components/input-components');
-      void expect(component.navItems[1].expanded).toBe(true);
-      component.navItems[1].expanded = false;
-      component.determineRoute('/material-components/navigation-components');
-      void expect(component.navItems[1].expanded).toBe(true);
-      component.navItems[1].expanded = false;
-      component.determineRoute('/material-components/surface-components');
-      void expect(component.navItems[1].expanded).toBe(true);
-      component.navItems[1].expanded = false;
-    });
-    it('should expand material components nav group', () => {
-      fixture.detectChanges();
-      component.navItems[0].expanded = false;
-      component.determineRoute('/templates/alarms');
-      void expect(component.navItems[2].expanded).toBe(true);
-      component.navItems[2].expanded = false;
-      component.determineRoute('/templates/dashboard');
-      void expect(component.navItems[2].expanded).toBe(true);
-      component.navItems[2].expanded = false;
-      component.determineRoute('/templates/settings');
-      void expect(component.navItems[2].expanded).toBe(true);
-      component.navItems[2].expanded = false;
-    });
+  it('navigates to the route of the selected nav item', async () => {
+    const fixture = TestBed.createComponent(DrawerComponent);
+    await fixture.whenStable();
+    const navigateSpy = vi.spyOn(fixture.componentInstance, 'navigate').mockImplementation(() => undefined);
+    const routes = SHOWCASE_NAV.flatMap((group) => group.items).map((item) => item.route);
+    const navItems = fixture.debugElement.queryAll(By.css('[class*="nav-menu"]'));
+    void expect(navItems.length).toBe(routes.length);
+
+    navItems.forEach((navItem) => navItem.triggerEventHandler('itemSelect', undefined));
+    void expect(navigateSpy.mock.calls.map(([url]) => url)).toEqual(routes);
+  });
+  it('selects the nav item of the current route and expands its group', async () => {
+    const fixture = TestBed.createComponent(DrawerComponent);
+    await TestBed.inject(Router).navigateByUrl('/templates/dashboard');
+    await fixture.whenStable();
+    void expect(fixture.componentInstance.$activeRoute()).toBe('/templates/dashboard');
+    void expect(fixture.componentInstance.$activeGroup()?.title).toBe('Page Templates');
   });
 });

@@ -50,9 +50,7 @@ export class DrawerState {
   readonly $isPermanent = computed(() => this.$variant() === 'permanent');
 
   // Derived state
-  readonly $isOpen = computed(
-    () => this.$drawerOpen() || this.$isPermanent() || this.$tempOpen() || this.$isRail()
-  );
+  readonly $isOpen = computed(() => this.$drawerOpen() || this.$isPermanent() || this.$tempOpen() || this.$isRail());
 
   // Whenever a drawer has transitioned from a closed persistent drawer to a temporary variant,
   // this edge case prevents the drawer from being redrawn at an opened size before it dismissed.

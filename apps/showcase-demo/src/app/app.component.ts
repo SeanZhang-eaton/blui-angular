@@ -1,8 +1,12 @@
-import { Component, inject, ViewEncapsulation } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, inject, signal, ViewEncapsulation } from '@angular/core';
+import { toSignal } from '@angular/core/rxjs-interop';
 import { MatButtonModule } from '@angular/material/button';
+import { MatButtonToggle, MatButtonToggleGroup } from '@angular/material/button-toggle';
+import { MatDivider } from '@angular/material/divider';
 import { MatIcon, MatIconRegistry } from '@angular/material/icon';
 import { MatNavList } from '@angular/material/list';
 import { MatToolbarModule } from '@angular/material/toolbar';
+import { MatTooltip } from '@angular/material/tooltip';
 import { DomSanitizer } from '@angular/platform-browser';
 import { NavigationEnd, Router, RouterModule } from '@angular/router';
 import {
@@ -13,22 +17,30 @@ import {
   UserMenuComponent,
 } from '@bldc/angular-components';
 
+import { filter, map } from 'rxjs';
+
 import { DrawerComponent } from './drawer/drawer.component';
 import { RtlService } from './services/rtl.service';
 import { StateService } from './services/state.service';
-import { ThemeService } from './services/theme.service';
+import { ThemeDesign, ThemeService } from './services/theme.service';
 import { ViewportService } from './services/viewport.service';
+import { findNavItem } from './navigation';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.scss'],
+  styleUrl: './app.component.scss',
   encapsulation: ViewEncapsulation.None,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: true,
   imports: [
     RouterModule,
     MatIcon,
     MatNavList,
+    MatDivider,
+    MatTooltip,
+    MatButtonToggleGroup,
+    MatButtonToggle,
     DrawerComponent,
     MatToolbarModule,
     MatButtonModule,
@@ -40,17 +52,26 @@ import { ViewportService } from './services/viewport.service';
 })
 export class AppComponent {
   private readonly _stateService = inject(StateService);
-  private readonly _matIconRegistry = inject(MatIconRegistry);
-  private readonly _domSanitizer = inject(DomSanitizer);
   private readonly _viewportService = inject(ViewportService);
   private readonly _rtlService = inject(RtlService);
   private readonly _router = inject(Router);
-  private readonly _themeService = inject(ThemeService);
+  protected readonly theme = inject(ThemeService);
 
-  isRtl = false;
-  variant: DrawerLayoutVariantType = 'persistent';
-  userMenuOpen = false;
-  title!: string;
+  readonly $isRtl = signal(false);
+  readonly $userMenuOpen = signal(false);
+
+  /** Title of the current page, shown in the toolbar. */
+  readonly $title = toSignal(
+    this._router.events.pipe(
+      filter((event): event is NavigationEnd => event instanceof NavigationEnd),
+      map((event) => findNavItem(event.urlAfterRedirects)?.pageTitle ?? '')
+    ),
+    { initialValue: '' }
+  );
+
+  readonly $isMobile = this._viewportService.$isSmall;
+  readonly $variant = computed<DrawerLayoutVariantType>(() => (this.$isMobile() ? 'temporary' : 'persistent'));
+
   menuGroups = [
     {
       items: [
@@ -78,91 +99,13 @@ export class AppComponent {
       ],
     },
   ];
+
   constructor() {
-    this.listenForRouteChanges();
-    this._matIconRegistry.addSvgIconSetInNamespace(
-      'blui-icons',
-      /* **Note to Brightlayer UI Users:
-                Stackblitz has difficulty reading static assets found within the node_modules folder.
-                For this example to work inside Stackblitz, we use a https request to fetch the Brightlayer UI icon set.
-                In normal situations, we encourage you to import the iconSet directly from the node_modules folder like below:
-                    // const iconSet = require('@brightlayer-ui/icons-svg/icons.svg').default;
-                    // this._domSanitizer.bypassSecurityTrustResourceUrl('iconSet')
-             */
-      this._domSanitizer.bypassSecurityTrustResourceUrl(
-        'https://raw.githubusercontent.com/etn-ccis/blui-icons/v3.5.0-blui-icons-mui/packages/svg/icons.svg'
-      )
+    // Brightlayer UI icons are copied from `@brightlayer-ui/icons-svg` to `assets/blui-icons` (see vite.app.config.mts).
+    const sanitizer = inject(DomSanitizer);
+    inject(MatIconRegistry).addSvgIconResolver((name, namespace) =>
+      namespace === 'blui-icons' ? sanitizer.bypassSecurityTrustResourceUrl(`assets/blui-icons/${name}.svg`) : null
     );
-  }
-
-  listenForRouteChanges(): void {
-    this._router.events.subscribe((route) => {
-      if (route instanceof NavigationEnd) {
-        switch (route.urlAfterRedirects.split('?')[0]) {
-          case `/blui-components/data-display-components`: {
-            this.title = 'Brightlayer UI Data Display';
-            break;
-          }
-          case `/blui-components/navigation-components`: {
-            this.title = 'Brightlayer UI Navigation';
-            break;
-          }
-          case `/blui-components/surface-components`: {
-            this.title = 'Brightlayer UI Surfaces';
-            break;
-          }
-          case `/material-components/data-display-components`: {
-            this.title = 'Material Data Display';
-            break;
-          }
-          case `/material-components/feedback-components`: {
-            this.title = 'Material Feedback';
-            break;
-          }
-          case `/material-components/input-components`: {
-            this.title = 'Material Inputs';
-            break;
-          }
-          case `/material-components/navigation-components`: {
-            this.title = 'Material Navigation';
-            break;
-          }
-          case `/material-components/surface-components`: {
-            this.title = 'Material Surfaces';
-            break;
-          }
-          case `/templates/alarms`: {
-            this.title = 'Alarms';
-            break;
-          }
-          case `/templates/settings`: {
-            this.title = 'Settings';
-            break;
-          }
-          case `/templates/dashboard`: {
-            this.title = 'Dashboard';
-            break;
-          }
-          default:
-            return;
-        }
-      }
-    });
-  }
-
-  isMobile(): boolean {
-    return this._viewportService.isSmall();
-  }
-
-  getVariant(): DrawerLayoutVariantType {
-    if (this.variant === 'persistent' && this._viewportService.isSmall()) {
-      this._stateService.setDrawerOpen(false);
-    } else if (this.variant === 'temporary' && !this._viewportService.isSmall()) {
-      this._stateService.setDrawerOpen(true);
-    }
-
-    this.variant = this._viewportService.isSmall() ? 'temporary' : 'persistent';
-    return this.variant;
   }
 
   closeDrawer(): void {
@@ -174,24 +117,15 @@ export class AppComponent {
   }
 
   toggleTheme(): void {
-    const body = document.querySelector('body') as HTMLElement;
-    if (this._themeService.isDarkMode) {
-      body.classList.remove('blui-blue-dark');
-      body.classList.add('blui-blue');
-    } else {
-      body.classList.remove('blui-blue');
-      body.classList.add('blui-blue-dark');
-    }
-    this._themeService.isDarkMode = !this._themeService.isDarkMode;
+    this.theme.toggleMode();
   }
 
-  // Use in unit tests.
-  isDarkMode(): boolean {
-    return this._themeService.isDarkMode;
+  setDesign(design: ThemeDesign): void {
+    this.theme.setDesign(design);
   }
 
   toggleDirectionality(): void {
-    this.isRtl = !this.isRtl;
-    this._rtlService.setRTL(this.isRtl);
+    this.$isRtl.update((isRtl) => !isRtl);
+    this._rtlService.setRTL(this.$isRtl());
   }
 }

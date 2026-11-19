@@ -1,4 +1,6 @@
 import { Component } from '@angular/core';
+import { MatList, MatListItem } from '@angular/material/list';
+import { ScoreCardComponent } from '@bldc/angular-components';
 
 export const MULTI_LINE = `<blui-score-card style="width: 350px"
     headerTitle="Station 3"
@@ -11,8 +13,8 @@ export const MULTI_LINE = `<blui-score-card style="width: 350px"
 `;
 
 @Component({
-  standalone: false,
   selector: 'app-multi-line-score-card-demo',
   template: MULTI_LINE,
+  imports: [ScoreCardComponent, MatList, MatListItem],
 })
 export class MultiLineComponent {}

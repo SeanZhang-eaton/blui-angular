@@ -1,54 +1,71 @@
 <blui-drawer-layout
-  [variant]="getVariant()"
+  [variant]="$variant()"
   (backdropClick)="closeDrawer()"
-  [dir]="isRtl ? 'rtl' : 'ltr'"
-  [class.rtl]="isRtl"
+  [dir]="$isRtl() ? 'rtl' : 'ltr'"
+  [class.rtl]="$isRtl()"
 >
-  <showcase-drawer blui-drawer></showcase-drawer>
+  <app-showcase-drawer blui-drawer />
 
   <div blui-content>
     <mat-toolbar color="primary" style="position: sticky; top: 0; z-index: 1001">
-      @if (isMobile()) {
+      @if ($isMobile()) {
         <button
           mat-icon-button
           blui-icon
-          [class.rtl]="isRtl"
+          [class.rtl]="$isRtl()"
           (click)="openDrawer()"
-          [style.marginLeft.px]="isRtl ? 12 : 0"
-          [style.marginRight.px]="isRtl ? 0 : 12"
+          [style.marginLeft.px]="$isRtl() ? 12 : 0"
+          [style.marginRight.px]="$isRtl() ? 0 : 12"
         >
           <mat-icon>menu</mat-icon>
         </button>
       }
-      <div class="mat-headline-6">{{ title }}</div>
-      <blui-spacer></blui-spacer>
+      <div class="mat-headline-6">{{ $title() }}</div>
+      <blui-spacer />
       <div style="display: flex; align-items: center">
-        <button mat-icon-button class="toggle-theme" style="margin: 0px 4px" (click)="toggleTheme()">
-          <mat-icon>invert_colors</mat-icon>
+        <mat-button-toggle-group
+          class="design-toggle"
+          hideSingleSelectionIndicator
+          aria-label="Material design version"
+          [value]="theme.$design()"
+          (change)="setDesign($event.value)"
+        >
+          <mat-button-toggle value="m3" matTooltip="Material 3 theme (default)">M3</mat-button-toggle>
+          <mat-button-toggle value="m2" matTooltip="Material 2 compatibility theme">M2</mat-button-toggle>
+        </mat-button-toggle-group>
+        <button
+          mat-icon-button
+          class="toggle-theme"
+          style="margin: 0px 4px"
+          [attr.aria-label]="theme.$mode() === 'dark' ? 'Switch to light theme' : 'Switch to dark theme'"
+          (click)="toggleTheme()"
+        >
+          <mat-icon>{{ theme.$mode() === 'dark' ? 'light_mode' : 'dark_mode' }}</mat-icon>
         </button>
         <button mat-icon-button class="toggle-direction" style="margin: 0px 4px" (click)="toggleDirectionality()">
           <mat-icon>compare_arrows</mat-icon>
         </button>
         <blui-user-menu
           class="user-menu"
-          [class.rtl]="isRtl"
+          [class.rtl]="$isRtl()"
           avatarValue="MS"
           menuTitle="Marshall Sutter"
           menuSubtitle="msutter@acmesteel.com"
-          [(open)]="userMenuOpen"
+          [open]="$userMenuOpen()"
+          (openChange)="$userMenuOpen.set($event)"
         >
           <mat-nav-list blui-menu-body [style.paddingTop.px]="0">
             @for (group of menuGroups; track group) {
               <div>
                 @if (group.title) {
-                  <mat-divider></mat-divider>
+                  <mat-divider />
                   <div style="padding: 8px 16px 8px 16px; font-weight: 600">
                     {{ group.title }}
                   </div>
-                  <mat-divider></mat-divider>
+                  <mat-divider />
                 }
                 @for (item of group.items; track item) {
-                  <blui-info-list-item [dense]="true" (click)="userMenuOpen = false">
+                  <blui-info-list-item [dense]="true" (click)="$userMenuOpen.set(false)">
                     <mat-icon blui-icon>{{ item.icon }}</mat-icon>
                     <div blui-title>{{ item.title }}</div>
                   </blui-info-list-item>
@@ -60,6 +77,6 @@
       </div>
     </mat-toolbar>
 
-    <router-outlet></router-outlet>
+    <router-outlet />
   </div>
 </blui-drawer-layout>

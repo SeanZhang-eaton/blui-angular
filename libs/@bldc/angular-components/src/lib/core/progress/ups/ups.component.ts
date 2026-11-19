@@ -32,11 +32,9 @@ export class UpsComponent {
 
   protected readonly $rangedPercent = computed(() => rangeValue(this.$percent(), 0, 100));
   protected readonly $startY = computed(() =>
-    this.$outlined()
-      ? ((100 - this.$rangedPercent()) / 100) * 16 + 4
-      : ((100 - this.$rangedPercent()) / 100) * 20 + 2,
+    this.$outlined() ? ((100 - this.$rangedPercent()) / 100) * 16 + 4 : ((100 - this.$rangedPercent()) / 100) * 20 + 2
   );
   protected readonly $fillHeight = computed(() =>
-    this.$outlined() ? (this.$rangedPercent() / 100) * 16 : (this.$rangedPercent() / 100) * 20,
+    this.$outlined() ? (this.$rangedPercent() / 100) * 16 : (this.$rangedPercent() / 100) * 20
   );
 }

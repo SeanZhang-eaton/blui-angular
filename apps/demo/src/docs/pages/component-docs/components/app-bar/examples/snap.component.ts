@@ -1,4 +1,5 @@
 import { AfterViewInit, Component } from '@angular/core';
+import { AppBarComponent } from '@bldc/angular-components';
 
 import { StyleObserver } from 'style-observer';
 
@@ -19,7 +20,6 @@ export const SNAP = `
 `;
 
 @Component({
-  standalone: false,
   selector: 'app-snap-app-bar-demo',
   template: SNAP,
   styles: [
@@ -36,6 +36,7 @@ export const SNAP = `
       }
     `,
   ],
+  imports: [AppBarComponent],
 })
 export class SnapAppBarComponent implements AfterViewInit {
   filler = loremIpsum;

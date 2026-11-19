@@ -1,4 +1,7 @@
+import { NgFor } from '@angular/common';
 import { Component } from '@angular/core';
+import { MatIcon } from '@angular/material/icon';
+import { HeroBannerComponent, HeroComponent } from '@bldc/angular-components';
 
 export const ICON_DIFFS = `<blui-hero-banner *ngFor="let size of [36, 48, 72]">
     <blui-hero label="SVG" [value]="size + 'px'" [iconSize]="size">
@@ -18,8 +21,8 @@ export const ICON_DIFFS = `<blui-hero-banner *ngFor="let size of [36, 48, 72]">
 `;
 
 @Component({
-  standalone: false,
   selector: 'app-icon-diffs-hero-demo',
   template: ICON_DIFFS,
+  imports: [NgFor, HeroBannerComponent, HeroComponent, MatIcon],
 })
 export class IconDiffsComponent {}

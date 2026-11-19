@@ -1,4 +1,4 @@
-import { inject, Injectable } from '@angular/core';
+import { inject, Injectable, linkedSignal, signal } from '@angular/core';
 
 import { ViewportService } from '../viewport/viewport.service';
 
@@ -6,28 +6,25 @@ import { ViewportService } from '../viewport/viewport.service';
   providedIn: 'root',
 })
 export class DrawerStateService {
-  private drawerOpen: boolean;
-  private selectedItem: string;
+  private readonly _viewportService = inject(ViewportService);
 
-  constructor() {
-    const viewportService = inject(ViewportService);
-
-    this.drawerOpen = !viewportService.isMedium();
-  }
+  /** Open by default on large screens; resets whenever the viewport crosses the medium breakpoint. */
+  readonly $drawerOpen = linkedSignal(() => !this._viewportService.$isMedium());
+  readonly $selectedItem = signal<string | undefined>(undefined);
 
   setDrawerOpen(drawerOpen: boolean): void {
-    this.drawerOpen = drawerOpen;
+    this.$drawerOpen.set(drawerOpen);
   }
 
   getDrawerOpen(): boolean {
-    return this.drawerOpen;
+    return this.$drawerOpen();
   }
 
   setSelectedItem(item: string): void {
-    this.selectedItem = item;
+    this.$selectedItem.set(item);
   }
 
-  getSelectedItem(): string {
-    return this.selectedItem;
+  getSelectedItem(): string | undefined {
+    return this.$selectedItem();
   }
 }

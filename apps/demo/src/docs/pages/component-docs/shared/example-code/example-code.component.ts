@@ -1,7 +1,19 @@
-import { AfterViewInit, Component, Input, ViewEncapsulation } from '@angular/core';
+import { AsyncPipe } from '@angular/common';
+import {
+  afterEveryRender,
+  AfterViewInit,
+  Component,
+  ElementRef,
+  inject,
+  Input,
+  ViewEncapsulation,
+} from '@angular/core';
+
+import { LanguagePipe, MarkdownPipe } from 'ngx-markdown';
+
+import { CopyCodeButtonComponent } from '../buttons/copy-code-button/copy-code-button.component';
 
 @Component({
-  standalone: false,
   selector: 'app-example-code',
   host: {
     class: 'app-example-code',
@@ -23,6 +35,7 @@ import { AfterViewInit, Component, Input, ViewEncapsulation } from '@angular/cor
   `,
   encapsulation: ViewEncapsulation.None,
   styleUrls: ['example-code.component.scss'],
+  imports: [CopyCodeButtonComponent, AsyncPipe, LanguagePipe, MarkdownPipe],
 })
 export class ExampleCodeComponent implements AfterViewInit {
   @Input() snippet: string;
@@ -30,6 +43,17 @@ export class ExampleCodeComponent implements AfterViewInit {
   @Input() copyButtonOnHover = false;
 
   isHoverSnippet: boolean;
+
+  constructor() {
+    // The markdown pipe resolves asynchronously; highlight the rendered snippet once it is in the DOM.
+    const host: HTMLElement = inject(ElementRef).nativeElement;
+    afterEveryRender(() => {
+      const code = host.querySelector('code[class*="language-"]');
+      if (code && !code.querySelector('.token')) {
+        window.Prism?.highlightAllUnder(host);
+      }
+    });
+  }
 
   ngAfterViewInit(): void {
     /* This triggers a code-highlighting event. */

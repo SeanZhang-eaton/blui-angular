@@ -1,4 +1,6 @@
 import { Component } from '@angular/core';
+import { MatIcon } from '@angular/material/icon';
+import { ChannelValueComponent, HeroComponent } from '@bldc/angular-components';
 
 export const CV_CHILDREN = `<blui-hero label="Duration">
     <mat-icon blui-primary>schedule</mat-icon>
@@ -8,8 +10,8 @@ export const CV_CHILDREN = `<blui-hero label="Duration">
 `;
 
 @Component({
-  standalone: false,
   selector: 'app-channel-value-children-hero-demo',
   template: CV_CHILDREN,
+  imports: [HeroComponent, MatIcon, ChannelValueComponent],
 })
 export class ChannelValueChildrenComponent {}

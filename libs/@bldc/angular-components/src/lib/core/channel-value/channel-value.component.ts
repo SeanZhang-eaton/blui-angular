@@ -52,9 +52,7 @@ export class ChannelValueComponent {
   protected readonly $isWhiteListedUnit = computed(() => {
     const units = this.$units();
     if (!units) return false;
-    return this.$prefix()
-      ? this.prefixUnitWhitelist.includes(units)
-      : this.suffixUnitWhitelist.includes(units);
+    return this.$prefix() ? this.prefixUnitWhitelist.includes(units) : this.suffixUnitWhitelist.includes(units);
   });
 
   protected readonly $valueAsString = computed(() => String(this.$value()));

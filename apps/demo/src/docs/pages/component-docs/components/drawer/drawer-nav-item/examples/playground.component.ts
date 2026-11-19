@@ -1,4 +1,10 @@
 import { AfterViewInit, Component, EventEmitter, inject, Input, OnDestroy, Output } from '@angular/core';
+import {
+  DrawerBodyComponent,
+  DrawerComponent,
+  DrawerNavGroupComponent,
+  DrawerNavItemComponent,
+} from '@bldc/angular-components';
 
 import { Subscription } from 'rxjs';
 
@@ -20,7 +26,6 @@ export type NavItemPlaygroundKnobs = {
 };
 
 @Component({
-  standalone: false,
   selector: 'app-nav-item-playground',
   template: ` @if (inputs) {
     <blui-drawer>
@@ -48,6 +53,7 @@ export type NavItemPlaygroundKnobs = {
       </blui-drawer-body>
     </blui-drawer>
   }`,
+  imports: [DrawerComponent, DrawerBodyComponent, DrawerNavGroupComponent, DrawerNavItemComponent],
 })
 export class PlaygroundComponent implements AfterViewInit, OnDestroy {
   private readonly _playgroundService = inject(PlaygroundService);

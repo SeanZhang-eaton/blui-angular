@@ -1,4 +1,6 @@
 import { Component } from '@angular/core';
+import { MatIcon } from '@angular/material/icon';
+import { InfoListItemComponent } from '@bldc/angular-components';
 
 export const WITHIN_LIST = `<mat-nav-list [style.paddingTop.px]="0">
     <blui-info-list-item divider="partial" iconAlign="center" dense="true" statusColor="#2ca618" [chevron]="true">
@@ -22,8 +24,8 @@ export const WITHIN_LIST = `<mat-nav-list [style.paddingTop.px]="0">
 `;
 
 @Component({
-  standalone: false,
   selector: 'app-within-list-info-list-item-demo',
   template: WITHIN_LIST,
+  imports: [InfoListItemComponent, MatIcon],
 })
 export class WithinListComponent {}

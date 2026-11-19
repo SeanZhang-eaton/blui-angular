@@ -48,11 +48,11 @@ export class DrawerNavGroupComponent {
 
   protected readonly drawerState = inject(DRAWER_STATE);
 
-  private _initializeNavItemDefaults(depth: number, navItems: readonly DrawerNavItemComponent[]): void {
+  /** Top-level nav items have a depth of 1; each nav item propagates the depth to its own nested items. */
+  private _initializeNavItemDefaults(navItems: readonly DrawerNavItemComponent[]): void {
     for (const item of navItems) {
       if (item && !item['changeDetectorRef']?.['destroyed']) {
-        item.incrementDepth(depth);
-        this._initializeNavItemDefaults(depth + 1, item.$nestedNavItems());
+        item.incrementDepth(0);
       }
     }
   }
@@ -62,7 +62,7 @@ export class DrawerNavGroupComponent {
     effect(() => {
       const navItems = this.$navItems();
       untracked(() => {
-        this._initializeNavItemDefaults(0, navItems);
+        this._initializeNavItemDefaults(navItems);
       });
     });
   }

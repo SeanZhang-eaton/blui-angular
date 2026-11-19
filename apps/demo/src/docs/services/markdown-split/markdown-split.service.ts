@@ -1,9 +1,15 @@
-import { Injectable } from '@angular/core';
+import { inject, Injectable, Signal } from '@angular/core';
+import { toSignal } from '@angular/core/rxjs-interop';
+
+import { MarkdownService } from 'ngx-markdown';
+import { map } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
 })
 export class MarkdownSplitService {
+  private readonly _markdownService = inject(MarkdownService);
+
   splitWithTail(str: string, delim: string, count: number): string[] {
     const parts = str.split(delim);
     const tail = parts.slice(count).join(delim);
@@ -17,16 +23,18 @@ export class MarkdownSplitService {
     let tail = parts.slice(1).join(topDelim);
     tail = topDelim + tail;
     if (bottomDelim) {
-      const offBottom = tail.split(bottomDelim)[0];
-      return offBottom;
+      return tail.split(bottomDelim)[0];
     }
     return tail;
+  }
 
-    /*
-        const parts = str.split(bottomDelim);
-        const tail = parts.slice(1).join(bottomDelim);
-        const result = parts.slice(0, 1);
-        result.push(tail);
-        return result[1]; */
+  /** Loads a section of `Drawer.md` as a signal. Must be called in an injection context. */
+  drawerSection(topDelim: string, bottomDelim?: string): Signal<string> {
+    return toSignal(
+      this._markdownService
+        .getSource('assets/md/Drawer.md')
+        .pipe(map((data) => this.subsection(data, topDelim, bottomDelim).replace('images/', 'assets/md/images/'))),
+      { initialValue: '' }
+    );
   }
 }

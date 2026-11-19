@@ -1,13 +1,17 @@
 import { Component } from '@angular/core';
 
+import { CopyCodeButtonComponent } from '../../shared/buttons/copy-code-button/copy-code-button.component';
+import { ViewCodeButtonComponent } from '../../shared/buttons/view-code-button/view-code-button.component';
+import { ExampleCodeComponent } from '../../shared/example-code/example-code.component';
+import { ScaffoldComponent } from '../../shared/scaffold/scaffold.component';
+
 import { BASIC } from './examples/basic.component';
-import { DOTS } from './examples/dots.component';
-import { MobileStepperPlaygroundKnobs } from './examples/playground.component';
+import { DOTS, DotsComponent } from './examples/dots.component';
+import { MobileStepperPlaygroundKnobs, PlaygroundComponent } from './examples/playground.component';
 import { PROGRESS } from './examples/progress.component';
 import { TEXT } from './examples/text.component';
 
 @Component({
-  standalone: false,
   selector: 'app-mobile-stepper-doc',
   template: `
     <app-component-doc-scaffold mdFileName="MobileStepper.md" [knobGroups]="knobGroups">
@@ -44,6 +48,14 @@ import { TEXT } from './examples/text.component';
     </app-component-doc-scaffold>
   `,
   styleUrls: ['./mobile-stepper-doc.component.scss'],
+  imports: [
+    ScaffoldComponent,
+    DotsComponent,
+    ExampleCodeComponent,
+    ViewCodeButtonComponent,
+    CopyCodeButtonComponent,
+    PlaygroundComponent,
+  ],
 })
 export class MobileStepperDocComponent {
   BASIC = BASIC;

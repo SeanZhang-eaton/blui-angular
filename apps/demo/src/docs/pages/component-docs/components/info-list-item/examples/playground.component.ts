@@ -1,4 +1,6 @@
 import { AfterViewInit, Component, EventEmitter, inject, Input, OnDestroy, Output } from '@angular/core';
+import { MatIcon } from '@angular/material/icon';
+import { ChannelValueComponent, InfoListItemComponent } from '@bldc/angular-components';
 
 import { Subscription } from 'rxjs';
 
@@ -31,7 +33,6 @@ export type InfoListItemPlaygroundKnobs = {
 };
 
 @Component({
-  standalone: false,
   selector: 'app-info-list-item-playground',
   template: `<blui-info-list-item
     [avatar]="inputs.avatar.value"
@@ -68,6 +69,7 @@ export type InfoListItemPlaygroundKnobs = {
       <blui-channel-value blui-right-content [value]="15" units="A"></blui-channel-value>
     }
   </blui-info-list-item>`,
+  imports: [InfoListItemComponent, MatIcon, ChannelValueComponent],
 })
 export class PlaygroundComponent implements AfterViewInit, OnDestroy {
   private readonly _playgroundService = inject(PlaygroundService);

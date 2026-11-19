@@ -1,5 +1,8 @@
 import { ConnectionPositionPair } from '@angular/cdk/overlay';
 import { Component } from '@angular/core';
+import { MatIcon } from '@angular/material/icon';
+import { MatNavList } from '@angular/material/list';
+import { InfoListItemComponent, UserMenuComponent } from '@bldc/angular-components';
 
 export const PLACEMENT = `<blui-user-menu avatarValue="PO" [(open)]="open" [positions]="positions">
     <mat-nav-list blui-menu-body [style.paddingTop.px]="0">
@@ -12,9 +15,9 @@ export const PLACEMENT = `<blui-user-menu avatarValue="PO" [(open)]="open" [posi
 `;
 
 @Component({
-  standalone: false,
   selector: 'app-placement-user-menu-demo',
   template: PLACEMENT,
+  imports: [UserMenuComponent, MatNavList, InfoListItemComponent, MatIcon],
 })
 export class PlacementOptionsComponent {
   open = false;

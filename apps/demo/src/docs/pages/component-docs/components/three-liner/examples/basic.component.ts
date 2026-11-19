@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { ThreeLinerComponent } from '@bldc/angular-components';
 
 export const BASIC = `<blui-three-liner
     title="title"
@@ -7,8 +8,8 @@ export const BASIC = `<blui-three-liner
 </blui-three-liner>`;
 
 @Component({
-  standalone: false,
   selector: 'app-basic-three-liner',
   template: BASIC,
+  imports: [ThreeLinerComponent],
 })
 export class BasicExampleComponent {}

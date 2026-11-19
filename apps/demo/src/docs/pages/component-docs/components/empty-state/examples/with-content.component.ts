@@ -1,4 +1,6 @@
 import { Component } from '@angular/core';
+import { MatIcon } from '@angular/material/icon';
+import { EmptyStateComponent } from '@bldc/angular-components';
 
 export const WITH_CONTENT = `<blui-empty-state>
     <div blui-title>Request Permission</div>
@@ -8,8 +10,8 @@ export const WITH_CONTENT = `<blui-empty-state>
 `;
 
 @Component({
-  standalone: false,
   selector: 'app-with-content-empty-state-demo',
   template: WITH_CONTENT,
+  imports: [EmptyStateComponent, MatIcon],
 })
 export class WithContentComponent {}

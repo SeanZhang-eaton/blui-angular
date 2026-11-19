@@ -1,17 +1,18 @@
-import { Component, inject, OnInit } from '@angular/core';
-
-import { MarkdownService } from 'ngx-markdown';
+import { Component, inject } from '@angular/core';
 
 import { MarkdownSplitService } from '../../../../../services/markdown-split/markdown-split.service';
+import { CopyCodeButtonComponent } from '../../../shared/buttons/copy-code-button/copy-code-button.component';
+import { ViewCodeButtonComponent } from '../../../shared/buttons/view-code-button/view-code-button.component';
+import { ExampleCodeComponent } from '../../../shared/example-code/example-code.component';
+import { ScaffoldComponent } from '../../../shared/scaffold/scaffold.component';
 
-import { BASIC } from './examples/basic.component';
-import { COMPLEX } from './examples/complex.component';
-import { SubheaderPlaygroundKnobs } from './examples/playground.component';
+import { BASIC, BasicExampleComponent } from './examples/basic.component';
+import { COMPLEX, ComplexComponent } from './examples/complex.component';
+import { PlaygroundComponent, SubheaderPlaygroundKnobs } from './examples/playground.component';
 
 @Component({
-  standalone: false,
   selector: 'app-subheader-body-doc',
-  template: `<app-component-doc-scaffold [md]="md" [knobGroups]="knobGroups">
+  template: `<app-component-doc-scaffold [md]="md()" [knobGroups]="knobGroups">
     <div examples class="app-example">
       <div class="example-section">
         <div class="example-heading">Drawer Subheader</div>
@@ -56,12 +57,20 @@ import { SubheaderPlaygroundKnobs } from './examples/playground.component';
     <app-example-code code [snippet]="generatedCode" [copyButtonOnHover]="true"></app-example-code>
   </app-component-doc-scaffold> `,
   styleUrls: ['./drawer-subheader-doc.component.scss'],
+  imports: [
+    ScaffoldComponent,
+    BasicExampleComponent,
+    ExampleCodeComponent,
+    CopyCodeButtonComponent,
+    ComplexComponent,
+    ViewCodeButtonComponent,
+    PlaygroundComponent,
+  ],
 })
-export class DrawerSubheaderDocComponent implements OnInit {
+export class DrawerSubheaderDocComponent {
   private readonly _splitService = inject(MarkdownSplitService);
-  private readonly _markdownService = inject(MarkdownService);
 
-  md: string;
+  readonly md = this._splitService.drawerSection('## Drawer Subheader', '## Drawer Body');
   BASIC = BASIC;
   COMPLEX = COMPLEX;
   generatedCode: string;
@@ -88,13 +97,4 @@ export class DrawerSubheaderDocComponent implements OnInit {
       defaultExpanded: true,
     },
   ];
-
-  ngOnInit(): void {
-    this._markdownService.getSource(`assets/md/Drawer.md`).subscribe((data) => {
-      const delimiterTop = '## Drawer Subheader';
-      const delimiterBottom = '## Drawer Body';
-      const subsection = this._splitService.subsection(data, delimiterTop, delimiterBottom);
-      this.md = subsection.replace('images/', 'assets/md/images/');
-    });
-  }
 }

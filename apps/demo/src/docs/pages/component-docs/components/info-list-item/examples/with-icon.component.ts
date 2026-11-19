@@ -1,4 +1,6 @@
 import { Component } from '@angular/core';
+import { MatIcon } from '@angular/material/icon';
+import { InfoListItemComponent } from '@bldc/angular-components';
 
 export const ICON = `<blui-info-list-item>
     <div blui-title>Info List Item</div>
@@ -8,8 +10,8 @@ export const ICON = `<blui-info-list-item>
 `;
 
 @Component({
-  standalone: false,
   selector: 'app-with-icon-info-list-item-demo',
   template: ICON,
+  imports: [InfoListItemComponent, MatIcon],
 })
 export class WithIconComponent {}

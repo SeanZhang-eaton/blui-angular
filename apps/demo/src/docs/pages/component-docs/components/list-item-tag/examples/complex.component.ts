@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import * as Colors from '@brightlayer-ui/colors';
+import { InfoListItemComponent, ListItemTagComponent } from '@bldc/angular-components';
 
 export const COMPLEX = `<blui-info-list-item [style.backgroundColor]="'#ffffff'">
     <div blui-title>Info List Item </div>
@@ -21,9 +22,9 @@ export const COMPLEX = `<blui-info-list-item [style.backgroundColor]="'#ffffff'"
 </blui-info-list-item>`;
 
 @Component({
-  standalone: false,
   selector: 'app-complex-list-item-tag-demo',
   template: COMPLEX,
+  imports: [InfoListItemComponent, ListItemTagComponent],
 })
 export class ComplexExampleComponent {
   colors = Colors;

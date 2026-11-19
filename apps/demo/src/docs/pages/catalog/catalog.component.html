@@ -1,0 +1,19 @@
+<div class="catalog">
+  <h1 class="catalog-title">Components</h1>
+  <p class="catalog-description">
+    Brightlayer UI provides a set of Angular components that implement common design patterns on top of Angular
+    Material. Select a component to see examples, the API documentation and an interactive playground.
+  </p>
+  <div class="catalog-grid">
+    @for (item of items; track item.route) {
+      <a class="catalog-card-link" [routerLink]="'/' + item.route + '/examples'">
+        <mat-card appearance="outlined" class="catalog-card">
+          <img mat-card-image [src]="'assets/component-catalog/' + item.image" [alt]="item.title" loading="lazy" />
+          <mat-card-content>
+            <div class="catalog-card-title">{{ item.title }}</div>
+          </mat-card-content>
+        </mat-card>
+      </a>
+    }
+  </div>
+</div>

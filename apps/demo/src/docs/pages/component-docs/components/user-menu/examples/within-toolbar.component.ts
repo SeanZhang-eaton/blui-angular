@@ -1,4 +1,8 @@
 import { Component } from '@angular/core';
+import { MatIcon } from '@angular/material/icon';
+import { MatNavList } from '@angular/material/list';
+import { MatToolbar } from '@angular/material/toolbar';
+import { InfoListItemComponent, SpacerComponent, UserMenuComponent } from '@bldc/angular-components';
 
 export const WITHIN_TOOLBAR = `<mat-toolbar style="padding: 0 16px; height: 4rem; width: 300px" color="primary">
     <div class="mat-title">Toolbar Title</div>
@@ -15,9 +19,9 @@ export const WITHIN_TOOLBAR = `<mat-toolbar style="padding: 0 16px; height: 4rem
 `;
 
 @Component({
-  standalone: false,
   selector: 'app-in-toolbar-user-menu-demo',
   template: WITHIN_TOOLBAR,
+  imports: [MatToolbar, SpacerComponent, UserMenuComponent, MatNavList, InfoListItemComponent, MatIcon],
 })
 export class WithinToolbarComponent {
   open = false;

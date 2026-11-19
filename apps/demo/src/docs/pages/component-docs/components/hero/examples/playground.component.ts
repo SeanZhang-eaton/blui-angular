@@ -1,4 +1,6 @@
 import { AfterViewInit, Component, EventEmitter, inject, Input, OnDestroy, Output } from '@angular/core';
+import { MatIcon } from '@angular/material/icon';
+import { HeroComponent } from '@bldc/angular-components';
 
 import { Subscription } from 'rxjs';
 
@@ -21,7 +23,6 @@ export type HeroPlaygroundKnobs = {
 };
 
 @Component({
-  standalone: false,
   selector: 'app-hero-playground',
   template: `<blui-hero
     [label]="inputs.label.value"
@@ -36,6 +37,7 @@ export type HeroPlaygroundKnobs = {
       <mat-icon blui-secondary>trending_up</mat-icon>
     }
   </blui-hero>`,
+  imports: [HeroComponent, MatIcon],
 })
 export class PlaygroundComponent implements AfterViewInit, OnDestroy {
   private readonly _playgroundService = inject(PlaygroundService);

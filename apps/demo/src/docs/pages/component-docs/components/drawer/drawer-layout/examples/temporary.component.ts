@@ -1,4 +1,14 @@
 import { Component } from '@angular/core';
+import { MatIconButton } from '@angular/material/button';
+import { MatToolbar } from '@angular/material/toolbar';
+import {
+  DrawerBodyComponent,
+  DrawerComponent,
+  DrawerHeaderComponent,
+  DrawerLayoutComponent,
+  DrawerNavGroupComponent,
+  DrawerNavItemComponent,
+} from '@bldc/angular-components';
 
 export const TEMPORARY = `<blui-drawer-layout variant="temporary" (backdropClick)="open=false">
     <blui-drawer blui-drawer [open]="open">
@@ -30,7 +40,6 @@ export const TEMPORARY = `<blui-drawer-layout variant="temporary" (backdropClick
 `;
 
 @Component({
-  standalone: false,
   selector: 'app-temporary-drawer-layout-demo',
   template: TEMPORARY,
   styles: [
@@ -40,6 +49,16 @@ export const TEMPORARY = `<blui-drawer-layout variant="temporary" (backdropClick
         width: 100%;
       }
     `,
+  ],
+  imports: [
+    DrawerLayoutComponent,
+    DrawerComponent,
+    DrawerHeaderComponent,
+    MatIconButton,
+    DrawerBodyComponent,
+    DrawerNavGroupComponent,
+    DrawerNavItemComponent,
+    MatToolbar,
   ],
 })
 export class TemporaryVariantExampleComponent {

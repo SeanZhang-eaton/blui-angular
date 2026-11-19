@@ -1,4 +1,6 @@
 import { Component } from '@angular/core';
+import { MatMenuItem } from '@angular/material/menu';
+import { ToolbarMenuComponent } from '@bldc/angular-components';
 
 export const BASIC = `<blui-toolbar-menu label="label">
     <ng-container blui-toolbar-menu-items>
@@ -10,8 +12,8 @@ export const BASIC = `<blui-toolbar-menu label="label">
 `;
 
 @Component({
-  standalone: false,
   selector: 'app-basic-toolbar-menu-demo',
   template: BASIC,
+  imports: [ToolbarMenuComponent, MatMenuItem],
 })
 export class BasicComponent {}

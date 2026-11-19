@@ -1,4 +1,7 @@
 import { Component } from '@angular/core';
+import { MatIcon } from '@angular/material/icon';
+import { MatNavList } from '@angular/material/list';
+import { InfoListItemComponent, UserMenuComponent } from '@bldc/angular-components';
 
 export const BASIC = `<blui-user-menu avatarValue="AV" [(open)]="open">
     <mat-nav-list blui-menu-body [style.paddingTop.px]="0">
@@ -11,9 +14,9 @@ export const BASIC = `<blui-user-menu avatarValue="AV" [(open)]="open">
 `;
 
 @Component({
-  standalone: false,
   selector: 'app-basic-user-menu-demo',
   template: BASIC,
+  imports: [UserMenuComponent, MatNavList, InfoListItemComponent, MatIcon],
 })
 export class BasicExampleComponent {
   open = false;

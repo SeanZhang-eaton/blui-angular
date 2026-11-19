@@ -1,4 +1,12 @@
 import { Component } from '@angular/core';
+import { MatIcon } from '@angular/material/icon';
+import { MatList, MatListItem } from '@angular/material/list';
+import {
+  HeroBannerComponent,
+  HeroComponent,
+  InfoListItemComponent,
+  ScoreCardComponent,
+} from '@bldc/angular-components';
 
 export const WITH_ACTIONS = `<blui-score-card style="width: 350px"
    headerTitle="Header Actions"    
@@ -23,8 +31,16 @@ export const WITH_ACTIONS = `<blui-score-card style="width: 350px"
 `;
 
 @Component({
-  standalone: false,
   selector: 'app-custom-header-score-card-demo',
   template: WITH_ACTIONS,
+  imports: [
+    ScoreCardComponent,
+    MatIcon,
+    MatList,
+    MatListItem,
+    HeroBannerComponent,
+    HeroComponent,
+    InfoListItemComponent,
+  ],
 })
 export class WithActionsComponent {}

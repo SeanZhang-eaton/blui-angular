@@ -1,3 +1,4 @@
+import { NgTemplateOutlet } from '@angular/common';
 import {
   Component,
   inject,
@@ -5,20 +6,33 @@ import {
   OnChanges,
   OnDestroy,
   OnInit,
+  signal,
   SimpleChanges,
   TemplateRef,
   ViewEncapsulation,
 } from '@angular/core';
-import { MatTabChangeEvent } from '@angular/material/tabs';
+import { MatDivider } from '@angular/material/divider';
+import {
+  MatAccordion,
+  MatExpansionPanel,
+  MatExpansionPanelHeader,
+  MatExpansionPanelTitle,
+} from '@angular/material/expansion';
+import { MatTab, MatTabChangeEvent, MatTabGroup } from '@angular/material/tabs';
 import { ActivatedRoute, Router } from '@angular/router';
 
-import { MarkdownService } from 'ngx-markdown';
+import { MarkdownComponent, MarkdownService } from 'ngx-markdown';
 import { Subscription } from 'rxjs';
 
 import { COMPONENT_NAV_ITEMS } from '../../../../navigation/nav-items';
 import { PlaygroundService } from '../../../../services/playground/playground.service';
 import { TabService } from '../../../../services/tab/tab.service';
 import { ViewportService } from '../../../../services/viewport/viewport.service';
+import { KnobBooleanComponent } from '../knobs/knob-boolean.component';
+import { KnobColorComponent } from '../knobs/knob-color.component';
+import { KnobNumberComponent } from '../knobs/knob-number.component';
+import { KnobSelectComponent } from '../knobs/knob-select.component';
+import { KnobTextComponent } from '../knobs/knob-text.component';
 
 export type Tab = 'examples' | 'api-docs' | 'playground';
 
@@ -34,13 +48,12 @@ export type Knob = {
 };
 
 @Component({
-  standalone: false,
   selector: 'app-component-doc-scaffold',
   template: `
     <div class="scaffold-container">
       <div
         class="fixed-tab-group-banner"
-        style="height: 48px; background: white; width: 100%; position: sticky; left: 0; z-index: 2"
+        style="height: 48px; width: 100%; position: sticky; left: 0; z-index: 2"
         [style.top.px]="isSmall() ? 60 : 68"
       ></div>
       <div class="tabs-container" [class.small]="isSmall()">
@@ -65,7 +78,7 @@ export type Knob = {
           <mat-tab label="API Docs">
             <div class="doc-tab-content">
               @if (useDefaultDocs) {
-                <markdown [data]="md"></markdown>
+                <markdown [data]="$md()"></markdown>
               }
               <ng-content select="[docs]"></ng-content>
             </div>
@@ -199,6 +212,22 @@ export type Knob = {
   `,
   styleUrls: ['./scaffold.component.scss'],
   encapsulation: ViewEncapsulation.None,
+  imports: [
+    MatTabGroup,
+    MatTab,
+    NgTemplateOutlet,
+    MarkdownComponent,
+    MatAccordion,
+    MatExpansionPanel,
+    MatExpansionPanelHeader,
+    MatExpansionPanelTitle,
+    MatDivider,
+    KnobSelectComponent,
+    KnobColorComponent,
+    KnobTextComponent,
+    KnobBooleanComponent,
+    KnobNumberComponent,
+  ],
 })
 export class ScaffoldComponent implements OnInit, OnChanges, OnDestroy {
   private readonly _playgroundService = inject(PlaygroundService);
@@ -218,6 +247,7 @@ export class ScaffoldComponent implements OnInit, OnChanges, OnDestroy {
   @Input() knobGroups: Array<{ title: string; knobs: { [key: string]: Knob }; defaultExpanded: boolean }>;
 
   currentTabIndex = 0;
+  protected readonly $md = signal('');
 
   routeListener: Subscription;
 
@@ -232,7 +262,7 @@ export class ScaffoldComponent implements OnInit, OnChanges, OnDestroy {
         adjusted = adjusted.replace(/images/g, `assets/md/images/`);
         adjusted = adjusted.replace(/gifs/g, `assets/md/gifs/`);
         adjusted = this.updateCompDocLinks(adjusted);
-        this.md = adjusted;
+        this.$md.set(adjusted);
       });
     }
     let tab = this._getTabNameFromUrl();
@@ -251,7 +281,7 @@ export class ScaffoldComponent implements OnInit, OnChanges, OnDestroy {
   ngOnChanges(changes: SimpleChanges): void {
     // Enhance the first H2 -> H1
     if (changes.md && this.md) {
-      this.md = this.md.replace('## ', '# ');
+      this.$md.set(this.md.replace('## ', '# '));
     }
   }
 

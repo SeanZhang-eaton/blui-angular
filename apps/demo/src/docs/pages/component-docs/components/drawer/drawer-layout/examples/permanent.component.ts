@@ -1,4 +1,11 @@
 import { Component } from '@angular/core';
+import {
+  DrawerBodyComponent,
+  DrawerComponent,
+  DrawerLayoutComponent,
+  DrawerNavGroupComponent,
+  DrawerNavItemComponent,
+} from '@bldc/angular-components';
 
 export const PERMANENT = `<blui-drawer-layout variant="permanent">
     <blui-drawer blui-drawer>
@@ -17,7 +24,6 @@ export const PERMANENT = `<blui-drawer-layout variant="permanent">
 `;
 
 @Component({
-  standalone: false,
   selector: 'app-permanent-drawer-layout-demo',
   template: PERMANENT,
   styles: [
@@ -27,6 +33,13 @@ export const PERMANENT = `<blui-drawer-layout variant="permanent">
         width: 100%;
       }
     `,
+  ],
+  imports: [
+    DrawerLayoutComponent,
+    DrawerComponent,
+    DrawerBodyComponent,
+    DrawerNavGroupComponent,
+    DrawerNavItemComponent,
   ],
 })
 export class PermanentVariantExampleComponent {}

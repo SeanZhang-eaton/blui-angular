@@ -1,4 +1,6 @@
 import { AfterViewInit, Component, EventEmitter, inject, Input, OnDestroy, Output } from '@angular/core';
+import { MatButton } from '@angular/material/button';
+import { MobileStepperComponent } from '@bldc/angular-components';
 
 import { Subscription } from 'rxjs';
 
@@ -16,9 +18,8 @@ export type MobileStepperPlaygroundKnobs = {
 };
 
 @Component({
-  standalone: false,
   selector: 'app-mobile-stepper-playground',
-  template: `<div style="background: white; padding: 12px">
+  template: `<div style="background: var(--blui-paper); padding: 12px">
     <blui-mobile-stepper
       [steps]="inputs.steps.value"
       [variant]="inputs.variant.value"
@@ -34,6 +35,7 @@ export type MobileStepperPlaygroundKnobs = {
       }
     </blui-mobile-stepper>
   </div>`,
+  imports: [MobileStepperComponent, MatButton],
 })
 export class PlaygroundComponent implements AfterViewInit, OnDestroy {
   private readonly _playgroundService = inject(PlaygroundService);

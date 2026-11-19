@@ -1,26 +1,21 @@
 import { BreakpointObserver } from '@angular/cdk/layout';
-import { inject, Injectable } from '@angular/core';
+import { computed, inject, Injectable } from '@angular/core';
+import { toSignal } from '@angular/core/rxjs-interop';
 
-import { Subscription } from 'rxjs';
+const SMALL = '(max-width: 720px)';
 
 // Use this service to get viewport size.
 @Injectable({
   providedIn: 'root',
 })
 export class ViewportService {
-  private readonly _breakpointObserver = inject(BreakpointObserver);
+  private readonly $breakpoints = toSignal(inject(BreakpointObserver).observe([SMALL]), {
+    initialValue: { matches: false, breakpoints: { [SMALL]: false } },
+  });
 
-  breakpointSubscription: Subscription;
-  mobileViewport: boolean;
-
-  constructor() {
-    this.breakpointSubscription = this._breakpointObserver.observe(['(max-width: 720px)']).subscribe((result) => {
-      const small = Object.keys(result.breakpoints)[0];
-      this.mobileViewport = result.breakpoints[small];
-    });
-  }
+  readonly $isSmall = computed(() => !!this.$breakpoints().breakpoints[SMALL]);
 
   isSmall(): boolean {
-    return this.mobileViewport;
+    return this.$isSmall();
   }
 }

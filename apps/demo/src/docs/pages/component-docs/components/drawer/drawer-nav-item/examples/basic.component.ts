@@ -1,4 +1,10 @@
 import { Component } from '@angular/core';
+import {
+  DrawerBodyComponent,
+  DrawerComponent,
+  DrawerNavGroupComponent,
+  DrawerNavItemComponent,
+} from '@bldc/angular-components';
 
 export const BASIC = `<blui-drawer style="width: 250px">
     <blui-drawer-body>
@@ -18,8 +24,8 @@ export const BASIC = `<blui-drawer style="width: 250px">
 `;
 
 @Component({
-  standalone: false,
   selector: 'app-basic-drawer-nav-item-demo',
   template: BASIC,
+  imports: [DrawerComponent, DrawerBodyComponent, DrawerNavGroupComponent, DrawerNavItemComponent],
 })
 export class BasicExampleComponent {}

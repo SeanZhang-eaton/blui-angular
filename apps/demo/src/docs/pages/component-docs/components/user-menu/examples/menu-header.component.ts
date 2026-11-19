@@ -1,4 +1,7 @@
 import { Component } from '@angular/core';
+import { MatIcon } from '@angular/material/icon';
+import { MatNavList } from '@angular/material/list';
+import { InfoListItemComponent, UserMenuComponent } from '@bldc/angular-components';
 
 export const MENU_HEADER = `<blui-user-menu 
     avatarValue="MH" 
@@ -15,9 +18,9 @@ export const MENU_HEADER = `<blui-user-menu
 `;
 
 @Component({
-  standalone: false,
   selector: 'app-menu-header-user-menu-demo',
   template: MENU_HEADER,
+  imports: [UserMenuComponent, MatNavList, InfoListItemComponent, MatIcon],
 })
 export class MenuHeaderComponent {
   open = false;

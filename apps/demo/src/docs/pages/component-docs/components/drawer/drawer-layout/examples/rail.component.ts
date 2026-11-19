@@ -1,4 +1,11 @@
 import { Component } from '@angular/core';
+import {
+  DrawerBodyComponent,
+  DrawerComponent,
+  DrawerLayoutComponent,
+  DrawerNavGroupComponent,
+  DrawerNavItemComponent,
+} from '@bldc/angular-components';
 
 export const RAIL = `<blui-drawer-layout variant="rail" class="rail-example">
     <blui-drawer blui-drawer [open]="true">
@@ -23,7 +30,6 @@ export const RAIL = `<blui-drawer-layout variant="rail" class="rail-example">
 `;
 
 @Component({
-  standalone: false,
   selector: 'app-rail-drawer-layout-demo',
   template: RAIL,
   styles: [
@@ -33,6 +39,13 @@ export const RAIL = `<blui-drawer-layout variant="rail" class="rail-example">
         width: 100%;
       }
     `,
+  ],
+  imports: [
+    DrawerLayoutComponent,
+    DrawerComponent,
+    DrawerBodyComponent,
+    DrawerNavGroupComponent,
+    DrawerNavItemComponent,
   ],
 })
 export class RailVariantExampleComponent {}

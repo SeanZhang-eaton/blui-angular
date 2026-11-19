@@ -94,7 +94,16 @@
       color: var(--blui-text-primary);
     }
     .blui-drawer-nav-item-active-highlight {
-      background-color: var(--blui-primary);
+      background-color: var(--blui-nav-item-active-background);
+    }
+    .blui-drawer-nav-item-active {
+      --mat-list-list-item-label-text-color: var(--blui-nav-item-active-color);
+      --mat-list-list-item-leading-icon-color: var(--blui-nav-item-active-color);
+      .blui-info-list-item-title-wrapper,
+      .blui-info-list-item-icon-wrapper,
+      .blui-drawer-nav-item-rail {
+        color: var(--blui-nav-item-active-color);
+      }
     }
     .blui-drawer-nav-item-rail {
       &:hover,
@@ -107,8 +116,8 @@
 
 @mixin blui-user-menu() {
   .blui-user-menu-avatar {
-    background-color: var(--blui-primary-light);
-    color: var(--blui-primary);
+    background-color: var(--blui-avatar-background);
+    color: var(--blui-avatar-color);
   }
 
   .blui-user-menu-overlay .mat-toolbar {

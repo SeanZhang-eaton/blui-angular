@@ -24,14 +24,22 @@ class TestScoreCardActionsComponent {}
 @Component({
   standalone: true,
   imports: [ScoreCardComponent],
-  template: ` <blui-score-card headerTitle="Header Title"><div blui-body id="test-content">Content Goes Here</div></blui-score-card> `,
+  template: `
+    <blui-score-card headerTitle="Header Title"
+      ><div blui-body id="test-content">Content Goes Here</div></blui-score-card
+    >
+  `,
 })
 class TestScoreCardContentComponent {}
 
 @Component({
   standalone: true,
   imports: [ScoreCardComponent],
-  template: ` <blui-score-card headerTitle="Header Title"><div blui-action-row id="test-action-row">Show Details</div></blui-score-card> `,
+  template: `
+    <blui-score-card headerTitle="Header Title"
+      ><div blui-action-row id="test-action-row">Show Details</div></blui-score-card
+    >
+  `,
 })
 class TestScoreCardActionRowComponent {}
 
@@ -41,7 +49,12 @@ describe('ScoreCardComponent', () => {
 
   beforeEach(() => {
     void TestBed.configureTestingModule({
-      imports: [TestScoreCardActionsComponent, TestScoreCardContentComponent, TestScoreCardActionRowComponent, ScoreCardComponent],
+      imports: [
+        TestScoreCardActionsComponent,
+        TestScoreCardContentComponent,
+        TestScoreCardActionRowComponent,
+        ScoreCardComponent,
+      ],
     }).compileComponents();
     fixture = TestBed.createComponent(ScoreCardComponent);
     fixture.componentRef.setInput('headerTitle', 'Header Title');

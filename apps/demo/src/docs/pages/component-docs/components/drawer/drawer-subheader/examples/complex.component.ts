@@ -1,5 +1,16 @@
+import { NgFor } from '@angular/common';
 import { Component, ViewEncapsulation } from '@angular/core';
-import { DrawerNavItem } from '@bldc/angular-components';
+import { MatFormField, MatLabel } from '@angular/material/form-field';
+import { MatOption, MatSelect } from '@angular/material/select';
+import {
+  DrawerBodyComponent,
+  DrawerComponent,
+  DrawerHeaderComponent,
+  DrawerNavGroupComponent,
+  DrawerNavItem,
+  DrawerNavItemComponent,
+  DrawerSubheaderComponent,
+} from '@bldc/angular-components';
 
 export const COMPLEX = `<blui-drawer style="width: 250px" [openOnHover]="false">
     <blui-drawer-header title="Energy Co."></blui-drawer-header>
@@ -27,7 +38,6 @@ export const COMPLEX = `<blui-drawer style="width: 250px" [openOnHover]="false">
 `;
 
 @Component({
-  standalone: false,
   selector: 'app-complex-drawer-subheader-demo',
   template: COMPLEX,
   encapsulation: ViewEncapsulation.None,
@@ -41,6 +51,19 @@ export const COMPLEX = `<blui-drawer style="width: 250px" [openOnHover]="false">
         max-width: 250px !important;
       }
     `,
+  ],
+  imports: [
+    DrawerComponent,
+    DrawerHeaderComponent,
+    DrawerSubheaderComponent,
+    MatFormField,
+    MatLabel,
+    MatSelect,
+    MatOption,
+    DrawerBodyComponent,
+    DrawerNavGroupComponent,
+    NgFor,
+    DrawerNavItemComponent,
   ],
 })
 export class ComplexComponent {

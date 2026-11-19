@@ -1,19 +1,22 @@
 import { Component } from '@angular/core';
 
 import { COMPONENT_NAV_ITEMS } from '../../../../navigation/nav-items';
+import { CopyCodeButtonComponent } from '../../shared/buttons/copy-code-button/copy-code-button.component';
+import { ViewCodeButtonComponent } from '../../shared/buttons/view-code-button/view-code-button.component';
+import { ExampleCodeComponent } from '../../shared/example-code/example-code.component';
+import { ScaffoldComponent } from '../../shared/scaffold/scaffold.component';
 
 import { BASIC } from './examples/basic.component';
-import { BOTTOMSHEET } from './examples/bottomsheet.component';
-import { CUSTOM_HEADER } from './examples/custom-header.component';
+import { BOTTOMSHEET, BottomsheetComponent } from './examples/bottomsheet.component';
+import { CUSTOM_HEADER, CustomHeaderComponent } from './examples/custom-header.component';
 import { FROM_LIST } from './examples/from-list.component';
-import { MENU_HEADER } from './examples/menu-header.component';
-import { NON_TEXT_AVATAR } from './examples/non-text-avatar.component';
+import { MENU_HEADER, MenuHeaderComponent } from './examples/menu-header.component';
+import { NON_TEXT_AVATAR, NonTextAvatarComponent } from './examples/non-text-avatar.component';
 import { PLACEMENT } from './examples/placement-options.component';
-import { UserMenuPlaygroundKnobs } from './examples/playground.component';
-import { WITHIN_TOOLBAR } from './examples/within-toolbar.component';
+import { PlaygroundComponent, UserMenuPlaygroundKnobs } from './examples/playground.component';
+import { WITHIN_TOOLBAR, WithinToolbarComponent } from './examples/within-toolbar.component';
 
 @Component({
-  standalone: false,
   selector: 'app-user-menu-doc',
   template: `
     <app-component-doc-scaffold mdFileName="UserMenu.md" [knobGroups]="knobGroups">
@@ -167,6 +170,18 @@ import { WITHIN_TOOLBAR } from './examples/within-toolbar.component';
     </app-component-doc-scaffold>
   `,
   styleUrls: ['./user-menu-doc.component.scss'],
+  imports: [
+    ScaffoldComponent,
+    WithinToolbarComponent,
+    ExampleCodeComponent,
+    ViewCodeButtonComponent,
+    CopyCodeButtonComponent,
+    NonTextAvatarComponent,
+    MenuHeaderComponent,
+    CustomHeaderComponent,
+    BottomsheetComponent,
+    PlaygroundComponent,
+  ],
 })
 export class UserMenuDocComponent {
   routes = COMPONENT_NAV_ITEMS;

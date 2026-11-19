@@ -1,4 +1,7 @@
 import { Component } from '@angular/core';
+import { MatButton } from '@angular/material/button';
+import { MatIcon } from '@angular/material/icon';
+import { EmptyStateComponent } from '@bldc/angular-components';
 
 export const WITH_ACTIONS = `<blui-empty-state 
     title="No Devices"
@@ -12,8 +15,8 @@ export const WITH_ACTIONS = `<blui-empty-state
 `;
 
 @Component({
-  standalone: false,
   selector: 'app-with-actions-empty-state-demo',
   template: WITH_ACTIONS,
+  imports: [EmptyStateComponent, MatIcon, MatButton],
 })
 export class WithActionsComponent {}

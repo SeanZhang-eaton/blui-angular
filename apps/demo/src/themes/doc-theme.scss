@@ -1,0 +1,114 @@
+// Documentation site styles. Colors come from the `--blui-*` design tokens emitted by
+// `@bldc/angular-themes` so the docs follow the selected theme (light / dark, Material 3 / 2).
+
+$divider: var(--blui-divider);
+$subtle-background: color-mix(in srgb, var(--blui-text-primary) 8%, transparent);
+
+@mixin code-snippet() {
+  color: var(--blui-text-primary);
+  background: var(--blui-background);
+  border: solid 1px $divider;
+}
+
+@mixin code-snippet-href() {
+  color: var(--blui-primary);
+  background: color-mix(in srgb, var(--blui-primary) 5%, transparent);
+}
+
+@mixin doc-theme() {
+  .primary {
+    color: var(--blui-primary) !important;
+  }
+
+  a {
+    color: var(--blui-primary) !important;
+  }
+
+  .divider-border {
+    border: solid 1px $divider;
+  }
+
+  .slider-knob-overlay {
+    background-color: var(--blui-paper);
+  }
+
+  .props-container {
+    border-left: solid 1px $divider;
+  }
+
+  .example-description,
+  .doc-tab-content {
+    a code:not(.language-typescript) {
+      @include code-snippet-href();
+    }
+    code:not(.language-typescript) {
+      @include code-snippet();
+    }
+  }
+
+  .app-example {
+    .example-demo-wrapper > :first-child {
+      box-shadow: 0 0 0 30px $subtle-background;
+    }
+    .example-description code {
+      background-color: $subtle-background;
+      color: var(--blui-primary);
+    }
+  }
+
+  .emptySelectOption {
+    border-bottom: solid 1px $divider;
+  }
+  .example-heading,
+  .example-page-title {
+    color: var(--blui-primary);
+  }
+  .mat-drawer-content {
+    background-color: var(--blui-paper) !important;
+    .playground-live-example-wrapper {
+      background-color: var(--blui-background) !important;
+    }
+    .props-container {
+      background-color: var(--blui-paper);
+      border-right: solid 1px $divider;
+      .knob-boolean-hint {
+        color: var(--blui-text-secondary);
+      }
+    }
+  }
+
+  .fixed-tab-group-banner {
+    box-sizing: border-box;
+    background-color: var(--blui-paper);
+    border-bottom: solid 1px $divider;
+  }
+  .doc-tab-content {
+    h1,
+    h2,
+    h3 {
+      color: var(--blui-primary);
+    }
+    h2 {
+      border-bottom: 1px solid $divider;
+    }
+    blockquote {
+      border-left-color: $divider !important;
+    }
+    table {
+      border: solid 1px $divider;
+      tr {
+        border-bottom: 1px solid $divider;
+      }
+      thead tr {
+        border-bottom: 1px solid $divider !important;
+      }
+      thead,
+      tbody tr:nth-child(even) {
+        background-color: var(--blui-background);
+      }
+      tbody tr:nth-child(odd) {
+        background-color: var(--blui-paper);
+      }
+    }
+  }
+}

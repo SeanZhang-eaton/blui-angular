@@ -1,4 +1,10 @@
 import { Component } from '@angular/core';
+import {
+  DrawerBodyComponent,
+  DrawerComponent,
+  DrawerNavGroupComponent,
+  DrawerNavItemComponent,
+} from '@bldc/angular-components';
 
 export const MULTIPLE_GROUPS = `<blui-drawer style="width: 250px">
     <blui-drawer-body>
@@ -15,8 +21,8 @@ export const MULTIPLE_GROUPS = `<blui-drawer style="width: 250px">
 `;
 
 @Component({
-  standalone: false,
   selector: 'app-multiple-groups-nav-group-demo',
   template: MULTIPLE_GROUPS,
+  imports: [DrawerComponent, DrawerBodyComponent, DrawerNavGroupComponent, DrawerNavItemComponent],
 })
 export class MultipleGroupsComponent {}

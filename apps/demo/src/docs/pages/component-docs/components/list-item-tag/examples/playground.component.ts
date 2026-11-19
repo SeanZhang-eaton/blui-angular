@@ -1,4 +1,5 @@
 import { AfterViewInit, Component, EventEmitter, inject, Input, OnDestroy, Output } from '@angular/core';
+import { ListItemTagComponent } from '@bldc/angular-components';
 
 import { Subscription } from 'rxjs';
 
@@ -12,7 +13,6 @@ export type ListItemTagPlaygroundKnobs = {
 };
 
 @Component({
-  standalone: false,
   selector: 'app-list-item-tag-playground',
   template: `<blui-list-item-tag
     [label]="inputs.label.value"
@@ -20,6 +20,7 @@ export type ListItemTagPlaygroundKnobs = {
     [backgroundColor]="inputs.backgroundColor.value"
   >
   </blui-list-item-tag> `,
+  imports: [ListItemTagComponent],
 })
 export class PlaygroundComponent implements AfterViewInit, OnDestroy {
   private readonly _playgroundService = inject(PlaygroundService);

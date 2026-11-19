@@ -1,4 +1,13 @@
 import { Component } from '@angular/core';
+import {
+  DrawerBodyComponent,
+  DrawerComponent,
+  DrawerFooterComponent,
+  DrawerHeaderComponent,
+  DrawerNavGroupComponent,
+  DrawerNavItemComponent,
+  DrawerSubheaderComponent,
+} from '@bldc/angular-components';
 
 export const ANATOMY = `<blui-drawer style="width: 250px">
     <blui-drawer-header title="Header"></blui-drawer-header>
@@ -19,8 +28,16 @@ export const ANATOMY = `<blui-drawer style="width: 250px">
 `;
 
 @Component({
-  standalone: false,
   selector: 'app-anatomy-drawer-demo',
   template: ANATOMY,
+  imports: [
+    DrawerComponent,
+    DrawerHeaderComponent,
+    DrawerSubheaderComponent,
+    DrawerBodyComponent,
+    DrawerNavGroupComponent,
+    DrawerNavItemComponent,
+    DrawerFooterComponent,
+  ],
 })
 export class AnatomyComponent {}

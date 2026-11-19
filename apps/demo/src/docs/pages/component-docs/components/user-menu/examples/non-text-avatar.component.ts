@@ -1,4 +1,7 @@
 import { Component } from '@angular/core';
+import { MatIcon } from '@angular/material/icon';
+import { MatNavList } from '@angular/material/list';
+import { InfoListItemComponent, UserMenuComponent } from '@bldc/angular-components';
 
 export const NON_TEXT_AVATAR = `<div style="display: flex; justify-content: space-between; width: 150px">
     <blui-user-menu avatarImage="assets/trex.png" [(open)]="open1">
@@ -23,9 +26,9 @@ export const NON_TEXT_AVATAR = `<div style="display: flex; justify-content: spac
 `;
 
 @Component({
-  standalone: false,
   selector: 'app-non-text-avatar-user-menu-demo',
   template: NON_TEXT_AVATAR,
+  imports: [UserMenuComponent, MatNavList, InfoListItemComponent, MatIcon],
 })
 export class NonTextAvatarComponent {
   open1 = false;

@@ -1,155 +1,50 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { By } from '@angular/platform-browser';
-import { NavigationEnd, Router, RouterEvent } from '@angular/router';
-
-import { ReplaySubject } from 'rxjs';
+import { TestBed } from '@angular/core/testing';
+import { provideRouter, Router } from '@angular/router';
 
 import { AppComponent } from './app.component';
+import { appRoutes } from './app.routes';
+import { SHOWCASE_NAV } from './navigation';
 
 describe('AppComponent', () => {
-  let component: AppComponent;
-  let fixture: ComponentFixture<AppComponent>;
-
-  const eventSubject = new ReplaySubject<RouterEvent>(1);
-
-  const routerMock = {
-    navigate: vi.fn(),
-    events: eventSubject.asObservable(),
-    url: 'test/url',
-  };
-
   beforeEach(() => {
+    localStorage.clear();
     TestBed.configureTestingModule({
       imports: [AppComponent],
-      providers: [{ provide: Router, useValue: routerMock }],
+      providers: [provideRouter(appRoutes)],
     });
-
-    fixture = TestBed.createComponent(AppComponent);
-    component = fixture.componentInstance;
   });
 
-  it('should create the app', () => {
-    const app = fixture.debugElement.componentInstance;
-    void expect(app).toBeTruthy();
+  it.each(SHOWCASE_NAV.flatMap((group) => group.items).map((item) => [item.pageTitle, item.route]))(
+    'shows "%s" in the toolbar for %s',
+    async (pageTitle, route) => {
+      const fixture = TestBed.createComponent(AppComponent);
+      await TestBed.inject(Router).navigateByUrl(route);
+      await fixture.whenStable();
+      void expect(fixture.componentInstance.$title()).toBe(pageTitle);
+    }
+  );
+
+  it('uses the persistent drawer on desktop', () => {
+    const fixture = TestBed.createComponent(AppComponent);
+    void expect(fixture.componentInstance.$variant()).toBe('persistent');
   });
 
-  it('should display title Dashboard in toolbar', () => {
-    eventSubject.next(new NavigationEnd(1, '/templates/dashboard', '/templates/dashboard'));
-    void expect(component.title).toBe('Dashboard');
+  it('toggles the dark theme on the body', async () => {
+    const fixture = TestBed.createComponent(AppComponent);
+    await fixture.whenStable();
+    (fixture.nativeElement.querySelector('.toggle-theme') as HTMLElement).click();
+    await fixture.whenStable();
+    void expect(document.body.classList).toContain('blui-blue-dark');
+    void expect(document.body.classList).not.toContain('blui-blue');
   });
 
-  it('should display title Brightlayer UI Data Display in toolbar', () => {
-    eventSubject.next(
-      new NavigationEnd(1, '/blui-components/data-display-components', '/blui-components/data-display-components')
-    );
-    void expect(component.title).toBe('Brightlayer UI Data Display');
-  });
-
-  it('should display title Brightlayer UI Navigation in toolbar', () => {
-    eventSubject.next(
-      new NavigationEnd(1, '/blui-components/navigation-components', '/blui-components/navigation-components')
-    );
-    void expect(component.title).toBe('Brightlayer UI Navigation');
-  });
-
-  it('should display title Brightlayer UI Surfaces in toolbar', () => {
-    eventSubject.next(
-      new NavigationEnd(1, '/blui-components/surface-components', '/blui-components/surface-components')
-    );
-    void expect(component.title).toBe('Brightlayer UI Surfaces');
-  });
-
-  it('should display title Material Data Display in toolbar', () => {
-    eventSubject.next(
-      new NavigationEnd(
-        1,
-        '/material-components/data-display-components',
-        '/material-components/data-display-components'
-      )
-    );
-    void expect(component.title).toBe('Material Data Display');
-  });
-
-  it('should display title Material Feedback in toolbar', () => {
-    eventSubject.next(
-      new NavigationEnd(1, '/material-components/feedback-components', '/material-components/feedback-components')
-    );
-    void expect(component.title).toBe('Material Feedback');
-  });
-
-  it('should display title Material Inputs in toolbar', () => {
-    eventSubject.next(
-      new NavigationEnd(1, '/material-components/input-components', '/material-components/input-components')
-    );
-    void expect(component.title).toBe('Material Inputs');
-  });
-
-  it('should display title Material Navigation in toolbar', () => {
-    eventSubject.next(
-      new NavigationEnd(1, '/material-components/navigation-components', '/material-components/navigation-components')
-    );
-    void expect(component.title).toBe('Material Navigation');
-  });
-
-  it('should display title Material Surfaces in toolbar', () => {
-    eventSubject.next(
-      new NavigationEnd(1, '/material-components/surface-components', '/material-components/surface-components')
-    );
-    void expect(component.title).toBe('Material Surfaces');
-  });
-
-  it('should display title Alarms in toolbar', () => {
-    eventSubject.next(new NavigationEnd(1, '/templates/alarms', '/templates/alarms'));
-    void expect(component.title).toBe('Alarms');
-  });
-
-  it('should display title Settings in toolbar', () => {
-    eventSubject.next(new NavigationEnd(1, '/templates/settings', '/templates/settings'));
-    void expect(component.title).toBe('Settings');
-  });
-
-  it('should return isMobile', () => {
-    const isMobile = component.isMobile();
-    void expect(isMobile).toBe(false);
-  });
-
-  it('should return persistent variant for desktop', () => {
-    const variant = component.getVariant();
-    void expect(variant).toBe('persistent');
-  });
-
-  it('should toggle theme', () => {
-    fixture.detectChanges();
-    const toggleThemeBtn = fixture.debugElement.query(By.css('.toggle-theme'));
-    const toggleThemeSpy = vi.spyOn(component, 'toggleTheme').mockImplementation(() => Promise.resolve());
-    toggleThemeBtn.triggerEventHandler('click', undefined);
-    fixture.detectChanges();
-    void expect(toggleThemeSpy).toHaveBeenCalledTimes(1);
-  });
-
-  it('should toggle theme to dark mode', () => {
-    fixture.detectChanges();
-    const toggleThemeBtn = fixture.debugElement.query(By.css('.toggle-theme'));
-    toggleThemeBtn.triggerEventHandler('click', undefined);
-    fixture.detectChanges();
-    void expect(component.isDarkMode()).toBe(true);
-  });
-
-  it('should toggle rtl to ltr', () => {
-    fixture.detectChanges();
-    component.isRtl = true;
-    const toggleDirectionBtn = fixture.debugElement.query(By.css('.toggle-direction'));
-    toggleDirectionBtn.triggerEventHandler('click', undefined);
-    fixture.detectChanges();
-    void expect(component.isRtl).toBe(false);
-  });
-
-  it('should toggle ltr to rtl', () => {
-    fixture.detectChanges();
-    component.isRtl = false;
-    const toggleDirectionBtn = fixture.debugElement.query(By.css('.toggle-direction'));
-    toggleDirectionBtn.triggerEventHandler('click', undefined);
-    fixture.detectChanges();
-    void expect(component.isRtl).toBe(true);
+  it('toggles the text direction', async () => {
+    const fixture = TestBed.createComponent(AppComponent);
+    await fixture.whenStable();
+    const toggle = fixture.nativeElement.querySelector('.toggle-direction') as HTMLElement;
+    toggle.click();
+    void expect(fixture.componentInstance.$isRtl()).toBe(true);
+    toggle.click();
+    void expect(fixture.componentInstance.$isRtl()).toBe(false);
   });
 });

@@ -1,16 +1,19 @@
 import { Component } from '@angular/core';
 
-import { BASIC } from './examples/basic.component';
-import { DENSE } from './examples/dense.component';
-import { InfoListItemPlaygroundKnobs } from './examples/playground.component';
+import { CopyCodeButtonComponent } from '../../shared/buttons/copy-code-button/copy-code-button.component';
+import { ExampleCodeComponent } from '../../shared/example-code/example-code.component';
+import { ScaffoldComponent } from '../../shared/scaffold/scaffold.component';
+
+import { BASIC, BasicExampleComponent } from './examples/basic.component';
+import { DENSE, DenseComponent } from './examples/dense.component';
+import { InfoListItemPlaygroundKnobs, PlaygroundComponent } from './examples/playground.component';
 import { ICON } from './examples/with-icon.component';
-import { LEFT_RIGHT_CONTENT } from './examples/with-left-right-content.component';
-import { STATUS } from './examples/with-status.component';
+import { LEFT_RIGHT_CONTENT, WithLeftRightContentComponent } from './examples/with-left-right-content.component';
+import { STATUS, WithStatusComponent } from './examples/with-status.component';
 import { SUBTITLE } from './examples/with-subtitle.component';
-import { WITHIN_LIST } from './examples/within-list.component';
+import { WITHIN_LIST, WithinListComponent } from './examples/within-list.component';
 
 @Component({
-  standalone: false,
   selector: 'app-info-list-item-doc',
   template: `
     <app-component-doc-scaffold [md]="md" mdFileName="InfoListItem.md" [knobGroups]="knobGroups">
@@ -102,6 +105,17 @@ import { WITHIN_LIST } from './examples/within-list.component';
     </app-component-doc-scaffold>
   `,
   styleUrls: ['./info-list-item-doc.component.scss'],
+  imports: [
+    ScaffoldComponent,
+    BasicExampleComponent,
+    ExampleCodeComponent,
+    CopyCodeButtonComponent,
+    DenseComponent,
+    WithStatusComponent,
+    WithLeftRightContentComponent,
+    WithinListComponent,
+    PlaygroundComponent,
+  ],
 })
 export class InfoListItemDocComponent {
   md: string;

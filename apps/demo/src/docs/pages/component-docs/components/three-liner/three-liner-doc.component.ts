@@ -1,14 +1,16 @@
 import { AfterViewInit, Component } from '@angular/core';
+import { RouterLink } from '@angular/router';
 
 import { COMPONENT_NAV_ITEMS } from '../../../../navigation/nav-items';
-import { Tab } from '../../shared/scaffold/scaffold.component';
+import { CopyCodeButtonComponent } from '../../shared/buttons/copy-code-button/copy-code-button.component';
+import { ExampleCodeComponent } from '../../shared/example-code/example-code.component';
+import { ScaffoldComponent, Tab } from '../../shared/scaffold/scaffold.component';
 
-import { BASIC } from './examples/basic.component';
-import { COMPLEX } from './examples/complex.component';
-import { ThreeLinerPlaygroundKnobs } from './examples/playground.component';
+import { BASIC, BasicExampleComponent } from './examples/basic.component';
+import { COMPLEX, ComplexExampleComponent } from './examples/complex.component';
+import { PlaygroundComponent, ThreeLinerPlaygroundKnobs } from './examples/playground.component';
 
 @Component({
-  standalone: false,
   selector: 'app-three-liner-doc',
   template: `
     <app-component-doc-scaffold mdFileName="ThreeLiner.md" [knobGroups]="knobGroups">
@@ -50,6 +52,15 @@ import { ThreeLinerPlaygroundKnobs } from './examples/playground.component';
     </app-component-doc-scaffold>
   `,
   styleUrls: ['./three-liner-doc.component.scss'],
+  imports: [
+    ScaffoldComponent,
+    RouterLink,
+    BasicExampleComponent,
+    ExampleCodeComponent,
+    CopyCodeButtonComponent,
+    ComplexExampleComponent,
+    PlaygroundComponent,
+  ],
 })
 export class ThreeLinerDocComponent implements AfterViewInit {
   routes = COMPONENT_NAV_ITEMS;

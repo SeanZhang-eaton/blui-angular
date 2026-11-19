@@ -1,18 +1,20 @@
 import { Component } from '@angular/core';
+import { RouterLink } from '@angular/router';
 
 import { COMPONENT_NAV_ITEMS } from '../../../../navigation/nav-items';
-import { Tab } from '../../shared/scaffold/scaffold.component';
+import { CopyCodeButtonComponent } from '../../shared/buttons/copy-code-button/copy-code-button.component';
+import { ExampleCodeComponent } from '../../shared/example-code/example-code.component';
+import { ScaffoldComponent, Tab } from '../../shared/scaffold/scaffold.component';
 
 import { BASIC } from './examples/basic.component';
-import { CV_CHILDREN } from './examples/channel-value-children.component';
-import { ICON_DIFFS } from './examples/icon-diffs.component';
-import { HeroPlaygroundKnobs } from './examples/playground.component';
-import { VALUE_AND_UNITS } from './examples/value-units.component';
-import { WITH_ICON } from './examples/with-icon.component';
+import { ChannelValueChildrenComponent, CV_CHILDREN } from './examples/channel-value-children.component';
+import { ICON_DIFFS, IconDiffsComponent } from './examples/icon-diffs.component';
+import { HeroPlaygroundKnobs, PlaygroundComponent } from './examples/playground.component';
+import { VALUE_AND_UNITS, ValueUnitsComponent } from './examples/value-units.component';
+import { WITH_ICON, WithIconComponent } from './examples/with-icon.component';
 import { WITH_BANNER } from './examples/within-banner.component';
 
 @Component({
-  standalone: false,
   selector: 'app-hero-doc',
   template: `
     <app-component-doc-scaffold mdFileName="Hero.md" [knobGroups]="knobGroups">
@@ -81,6 +83,17 @@ import { WITH_BANNER } from './examples/within-banner.component';
     </app-component-doc-scaffold>
   `,
   styleUrls: ['./hero-doc.component.scss'],
+  imports: [
+    ScaffoldComponent,
+    RouterLink,
+    ValueUnitsComponent,
+    ExampleCodeComponent,
+    CopyCodeButtonComponent,
+    ChannelValueChildrenComponent,
+    WithIconComponent,
+    IconDiffsComponent,
+    PlaygroundComponent,
+  ],
 })
 export class HeroDocComponent {
   routes = COMPONENT_NAV_ITEMS;

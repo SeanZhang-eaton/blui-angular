@@ -1,4 +1,7 @@
 import { Component } from '@angular/core';
+import { MatIconButton } from '@angular/material/button';
+import { MatIcon } from '@angular/material/icon';
+import { AppBarComponent, ThreeLinerComponent } from '@bldc/angular-components';
 
 import { loremIpsum } from './lorem-ipsum';
 
@@ -27,7 +30,6 @@ export const THREE_LINER = `<div id="app-bar-three-liner-example" class="three-l
 `;
 
 @Component({
-  standalone: false,
   selector: 'app-three-liner-app-bar-demo',
   template: THREE_LINER,
   styles: [
@@ -49,8 +51,9 @@ export const THREE_LINER = `<div id="app-bar-three-liner-example" class="three-l
       }
     `,
   ],
+  imports: [AppBarComponent, MatIconButton, MatIcon, ThreeLinerComponent],
 })
-export class ThreeLinerComponent {
+export class ThreeLinerAppBarComponent {
   isCollapsed: boolean;
   filler = loremIpsum;
 }

@@ -153,8 +153,8 @@ export class DrawerNavItemComponent {
 
   protected readonly $showTooltipOnRailHover = computed(() => !this.drawerState.$disableRailTooltip());
 
-  /** Controls the expansion icon. */
-  protected readonly $hasChildren = signal(false);
+  /** Controls the expansion icon. Reacts to nested nav items being added or removed. */
+  protected readonly $hasChildren = computed(() => this.$nestedNavItems().length > 0);
 
   /** Each navigation item in the drawer is assigned a unique id; this is used later when iterating through potential nav item children. */
   id: number;
@@ -179,6 +179,17 @@ export class DrawerNavItemComponent {
       untracked(() => {
         if (this.$matExpansionPanel()) {
           this.handleExpand();
+        }
+      });
+    });
+
+    /** Propagate the depth to nested nav items whenever this item's depth or its nested items change. */
+    effect(() => {
+      const depth = this.$depth();
+      const nestedNavItems = this.$nestedNavItems();
+      untracked(() => {
+        if (depth > 0) {
+          nestedNavItems.forEach((item) => item.incrementDepth(depth));
         }
       });
     });
@@ -249,12 +260,9 @@ export class DrawerNavItemComponent {
       this._setNestedNavItemDefaults();
     }
     this.$depth.set(parentDepth + 1);
-    const navItems = this.$nestedNavItems();
-    const hasChildren = navItems && navItems.length > 0;
-    if (hasChildren && this.$expanded() === true) {
+    if (this.$hasChildren() && this.$expanded()) {
       this.handleExpand();
     }
-    this.$hasChildren.set(hasChildren);
   }
 
   /** Sets default state values for non-nested nav items. Invoked by DrawerNavGroupComponent on content init. */

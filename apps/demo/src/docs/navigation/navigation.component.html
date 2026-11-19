@@ -1,58 +1,78 @@
-<blui-drawer-layout [variant]="getVariant()" (backdropClick)="closeDrawer()" [width]="300">
-  <blui-drawer blui-drawer [open]="isOpen()" [sideBorder]="true" class="app-navigation-drawer">
-    <blui-drawer-header>
-      <div blui-title-content style="display: flex; flex-direction: column; justify-content: center">
-        <div class="mat-body-1">Brightlayer User Interface</div>
-        <div style="display: flex; align-items: center">
-          <div class="mat-subtitle-2">Developer Docs</div>
-          <mat-chip-listbox class="framework-chip">
-            <mat-chip>
-              <img
-                matChipAvatar
-                src="assets/angular-shield.svg"
-                alt="Angular logo"
-                style="background-color: unset; height: 16px; width: 16px"
-              />
-              <div>Angular</div>
-            </mat-chip>
-          </mat-chip-listbox>
+<blui-drawer-layout [variant]="$variant()" [width]="300" (backdropClick)="drawerState.setDrawerOpen(false)">
+  <blui-drawer blui-drawer class="app-navigation-drawer" [open]="drawerState.$drawerOpen()" [sideBorder]="true">
+    <blui-drawer-header class="app-navigation-header" (click)="goHome()">
+      <div blui-title-content class="app-navigation-title">
+        <div class="mat-subtitle-1">Brightlayer User Interface</div>
+        <div class="app-navigation-subtitle">
+          <span class="mat-body-2">Developer Docs</span>
+          <span class="framework-chip">
+            <img src="assets/angular-shield.svg" alt="" />
+            Angular
+          </span>
         </div>
       </div>
     </blui-drawer-header>
     <blui-drawer-body>
-      <blui-drawer-nav-group title="Components" [divider]="false">
-        @for (navItem of componentNavItems; track navItem) {
+      <blui-drawer-nav-group title="Components" class="app-navigation-group">
+        @for (navItem of navItems; track navItem.route) {
           <blui-drawer-nav-item
             [title]="navItem.title"
+            [compact]="true"
             [hidePadding]="true"
-            [selected]="navItem.title === getSelectedItem()"
+            [selected]="isActive(navItem)"
+            [expanded]="hasActiveChild(navItem)"
             activeItemBackgroundShape="round"
             (itemSelect)="selectItem(navItem)"
           >
-            @for (nestedNavItem of navItem.children; track nestedNavItem) {
+            @for (child of navItem.children ?? []; track child.route) {
               <blui-drawer-nav-item
-                [title]="nestedNavItem.title"
+                [title]="child.title"
+                [compact]="true"
                 [hidePadding]="false"
-                [selected]="nestedNavItem.title === getSelectedItem()"
+                [selected]="isActive(child)"
                 activeItemBackgroundShape="round"
-                (itemSelect)="selectItem(nestedNavItem)"
-              >
-              </blui-drawer-nav-item>
+                (itemSelect)="selectItem(child)"
+              />
             }
           </blui-drawer-nav-item>
         }
       </blui-drawer-nav-group>
     </blui-drawer-body>
   </blui-drawer>
-  <div blui-content class="drawer-content" [class.md]="isMedium()" [class.sm]="isSmall()">
+
+  <div blui-content class="drawer-content" [class.md]="viewport.$isMedium()" [class.sm]="viewport.$isSmall()">
     <mat-toolbar class="toolbar">
-      @if (variant === 'temporary') {
-        <button mat-icon-button (click)="openDrawer()" style="margin-right: 16px; margin-left: -16px">
+      @if ($variant() === 'temporary') {
+        <button
+          mat-icon-button
+          class="toolbar-menu-button"
+          aria-label="Open navigation"
+          (click)="drawerState.setDrawerOpen(true)"
+        >
           <mat-icon>menu</mat-icon>
         </button>
       }
-      <h2>{{ toolbarTitle }}</h2>
+      <h2 class="toolbar-title">{{ $toolbarTitle() }}</h2>
+      <blui-spacer />
+      <mat-button-toggle-group
+        class="design-toggle"
+        hideSingleSelectionIndicator
+        aria-label="Material design version"
+        [value]="theme.$design()"
+        (change)="setDesign($event.value)"
+      >
+        <mat-button-toggle value="m3" matTooltip="Material 3 theme (default)">M3</mat-button-toggle>
+        <mat-button-toggle value="m2" matTooltip="Material 2 compatibility theme">M2</mat-button-toggle>
+      </mat-button-toggle-group>
+      <button
+        mat-icon-button
+        [attr.aria-label]="theme.$mode() === 'dark' ? 'Switch to light theme' : 'Switch to dark theme'"
+        [matTooltip]="theme.$mode() === 'dark' ? 'Light theme' : 'Dark theme'"
+        (click)="theme.toggleMode()"
+      >
+        <mat-icon>{{ theme.$mode() === 'dark' ? 'light_mode' : 'dark_mode' }}</mat-icon>
+      </button>
     </mat-toolbar>
-    <router-outlet></router-outlet>
+    <router-outlet />
   </div>
 </blui-drawer-layout>

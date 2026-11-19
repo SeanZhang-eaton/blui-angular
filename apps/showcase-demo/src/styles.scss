@@ -1,5 +1,5 @@
+// The Brightlayer UI theme (Material 3 or 2) is loaded at runtime, see `app/services/theme.service.ts`.
 @use 'libs/@bldc/angular-themes/src/lib/open-sans';
-@use 'libs/@bldc/angular-themes/src/lib/theme';
 
 @import './assets/fonts-material/material-icons.css';
 @import '@brightlayer-ui/icons/BrightlayerUIIcons.css';

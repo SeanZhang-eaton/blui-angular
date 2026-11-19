@@ -1,17 +1,19 @@
 import { Component } from '@angular/core';
+import { RouterLink } from '@angular/router';
 
 import { COMPONENT_NAV_ITEMS } from '../../../../navigation/nav-items';
-import { Tab } from '../../shared/scaffold/scaffold.component';
+import { CopyCodeButtonComponent } from '../../shared/buttons/copy-code-button/copy-code-button.component';
+import { ExampleCodeComponent } from '../../shared/example-code/example-code.component';
+import { ScaffoldComponent, Tab } from '../../shared/scaffold/scaffold.component';
 
-import { BASIC } from './examples/basic.component';
+import { BASIC, BasicComponent } from './examples/basic.component';
 import { MULTI_LINE } from './examples/multi-line.component';
-import { ScoreCardPlaygroundKnobs } from './examples/playground.component';
-import { WITH_ACTIONS } from './examples/with-actions.component';
-import { WITH_HEROES } from './examples/with-heroes.component';
-import { WITH_SCORE_BADGE } from './examples/with-score-badge.component';
+import { PlaygroundComponent, ScoreCardPlaygroundKnobs } from './examples/playground.component';
+import { WITH_ACTIONS, WithActionsComponent } from './examples/with-actions.component';
+import { WITH_HEROES, WithHeroesComponent } from './examples/with-heroes.component';
+import { WITH_SCORE_BADGE, WithScoreBadgeComponent } from './examples/with-score-badge.component';
 
 @Component({
-  standalone: false,
   selector: 'app-spacer-doc',
   template: `
     <app-component-doc-scaffold mdFileName="ScoreCard.md" [knobGroups]="knobGroups">
@@ -87,6 +89,17 @@ import { WITH_SCORE_BADGE } from './examples/with-score-badge.component';
     </app-component-doc-scaffold>
   `,
   styleUrls: ['./score-card-doc.component.scss'],
+  imports: [
+    ScaffoldComponent,
+    BasicComponent,
+    ExampleCodeComponent,
+    CopyCodeButtonComponent,
+    RouterLink,
+    WithHeroesComponent,
+    WithScoreBadgeComponent,
+    WithActionsComponent,
+    PlaygroundComponent,
+  ],
 })
 export class ScoreCardDocComponent {
   routes = COMPONENT_NAV_ITEMS;

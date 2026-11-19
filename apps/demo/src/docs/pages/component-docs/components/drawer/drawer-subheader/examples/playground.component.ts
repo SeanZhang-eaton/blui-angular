@@ -1,4 +1,13 @@
 import { AfterViewInit, Component, EventEmitter, inject, Input, OnDestroy, Output } from '@angular/core';
+import { MatIconButton } from '@angular/material/button';
+import {
+  DrawerBodyComponent,
+  DrawerComponent,
+  DrawerHeaderComponent,
+  DrawerNavGroupComponent,
+  DrawerNavItemComponent,
+  DrawerSubheaderComponent,
+} from '@bldc/angular-components';
 
 import { Subscription } from 'rxjs';
 
@@ -11,7 +20,6 @@ export type SubheaderPlaygroundKnobs = {
 };
 
 @Component({
-  standalone: false,
   selector: 'app-subheader-playground',
   template: `@if (inputs) {
     <blui-drawer [open]="open">
@@ -35,6 +43,15 @@ export type SubheaderPlaygroundKnobs = {
       </blui-drawer-body>
     </blui-drawer>
   }`,
+  imports: [
+    DrawerComponent,
+    DrawerHeaderComponent,
+    MatIconButton,
+    DrawerSubheaderComponent,
+    DrawerBodyComponent,
+    DrawerNavGroupComponent,
+    DrawerNavItemComponent,
+  ],
 })
 export class PlaygroundComponent implements AfterViewInit, OnDestroy {
   private readonly _playgroundService = inject(PlaygroundService);

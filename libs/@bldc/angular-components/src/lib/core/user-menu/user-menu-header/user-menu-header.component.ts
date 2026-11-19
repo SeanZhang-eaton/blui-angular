@@ -1,4 +1,12 @@
-import { ChangeDetectionStrategy, Component, computed, ElementRef, input, viewChild, ViewEncapsulation } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  computed,
+  ElementRef,
+  input,
+  viewChild,
+  ViewEncapsulation,
+} from '@angular/core';
 import { MatDivider } from '@angular/material/divider';
 import { MatToolbar } from '@angular/material/toolbar';
 

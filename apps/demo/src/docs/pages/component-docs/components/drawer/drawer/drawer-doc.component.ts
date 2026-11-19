@@ -1,21 +1,22 @@
-import { Component, inject, OnInit } from '@angular/core';
-
-import { MarkdownService } from 'ngx-markdown';
+import { Component, inject } from '@angular/core';
+import { RouterLink } from '@angular/router';
 
 import { DRAWER_NAV_ITEMS } from '../../../../../navigation/nav-items';
 import { MarkdownSplitService } from '../../../../../services/markdown-split/markdown-split.service';
-import { Tab } from '../../../shared/scaffold/scaffold.component';
+import { CopyCodeButtonComponent } from '../../../shared/buttons/copy-code-button/copy-code-button.component';
+import { ViewCodeButtonComponent } from '../../../shared/buttons/view-code-button/view-code-button.component';
+import { ExampleCodeComponent } from '../../../shared/example-code/example-code.component';
+import { ScaffoldComponent, Tab } from '../../../shared/scaffold/scaffold.component';
 
-import { ANATOMY } from './examples/anatomy.component';
+import { ANATOMY, AnatomyComponent } from './examples/anatomy.component';
 import { BASIC } from './examples/basic.component';
-import { FROM_LIST } from './examples/from-list.component';
-import { DrawerPlaygroundKnobs } from './examples/playground.component';
+import { FROM_LIST, FromListComponent } from './examples/from-list.component';
+import { DrawerPlaygroundKnobs, PlaygroundComponent } from './examples/playground.component';
 
 @Component({
-  standalone: false,
   selector: 'app-drawer-doc',
   template: `
-    <app-component-doc-scaffold [md]="md" [knobGroups]="knobGroups">
+    <app-component-doc-scaffold [md]="md()" [knobGroups]="knobGroups">
       <div examples class="app-example">
         <div class="example-section">
           <div class="example-heading">Drawer</div>
@@ -84,12 +85,21 @@ import { DrawerPlaygroundKnobs } from './examples/playground.component';
     </app-component-doc-scaffold>
   `,
   styleUrls: ['./drawer-doc.component.scss'],
+  imports: [
+    ScaffoldComponent,
+    RouterLink,
+    AnatomyComponent,
+    ExampleCodeComponent,
+    CopyCodeButtonComponent,
+    FromListComponent,
+    ViewCodeButtonComponent,
+    PlaygroundComponent,
+  ],
 })
-export class DrawerDocComponent implements OnInit {
+export class DrawerDocComponent {
   private readonly _splitService = inject(MarkdownSplitService);
-  private readonly _markdownService = inject(MarkdownService);
 
-  md: string;
+  readonly md = this._splitService.drawerSection('## Drawer', '## Drawer Layout');
   BASIC = BASIC;
   ANATOMY = ANATOMY;
   FROM_LIST = FROM_LIST;
@@ -144,15 +154,6 @@ export class DrawerDocComponent implements OnInit {
       defaultExpanded: true,
     },
   ];
-
-  ngOnInit(): void {
-    this._markdownService.getSource(`assets/md/Drawer.md`).subscribe((data) => {
-      const delimiterTop = '## Drawer';
-      const delimiterBottom = '## Drawer Layout';
-      const subsection = this._splitService.subsection(data, delimiterTop, delimiterBottom);
-      this.md = subsection.replace('images/', 'assets/md/images/');
-    });
-  }
 
   createRouterLink(route: string): string {
     const tab: Tab = 'examples';

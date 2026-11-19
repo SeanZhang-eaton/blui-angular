@@ -1,9 +1,9 @@
 import { Component, Input } from '@angular/core';
+import { MatButton } from '@angular/material/button';
 
 import { environment } from '../../../../../../environments/environment';
 
 @Component({
-  standalone: false,
   selector: 'app-view-code-button',
   template: `
     <button blui-inline mat-stroked-button color="primary" style="width: 200px" (click)="viewCodeOnGitHub()">
@@ -11,6 +11,7 @@ import { environment } from '../../../../../../environments/environment';
       <span>Full Code on GitHub</span>
     </button>
   `,
+  imports: [MatButton],
 })
 export class ViewCodeButtonComponent {
   @Input() examplePath;

@@ -1,6 +1,16 @@
+import { NgFor, NgIf } from '@angular/common';
 import { Component } from '@angular/core';
+import { MatIconButton } from '@angular/material/button';
 import * as Colors from '@brightlayer-ui/colors';
-import { DrawerNavItem } from '@bldc/angular-components';
+import {
+  DrawerBodyComponent,
+  DrawerComponent,
+  DrawerHeaderComponent,
+  DrawerNavGroupComponent,
+  DrawerNavItem,
+  DrawerNavItemComponent,
+  SpacerComponent,
+} from '@bldc/angular-components';
 
 export const FROM_LIST = `<blui-drawer style="width: 300px; height: 620px;">
     <blui-drawer-header title="Brightlayer UI" subtitle="Drawer Component">
@@ -38,9 +48,19 @@ type Group = {
 };
 
 @Component({
-  standalone: false,
   selector: 'app-from-list-drawer-demo',
   template: FROM_LIST,
+  imports: [
+    DrawerComponent,
+    DrawerHeaderComponent,
+    MatIconButton,
+    DrawerBodyComponent,
+    NgFor,
+    DrawerNavGroupComponent,
+    DrawerNavItemComponent,
+    NgIf,
+    SpacerComponent,
+  ],
 })
 export class FromListComponent {
   selectedItem: string;

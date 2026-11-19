@@ -1,8 +1,9 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { FormControl, Validators } from '@angular/forms';
+import { FormControl, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
+import { MatFormField, MatHint, MatLabel } from '@angular/material/form-field';
+import { MatOption, MatSelect } from '@angular/material/select';
 
 @Component({
-  standalone: false,
   selector: 'app-select-knob',
   template: `
     <mat-form-field appearance="fill" style="margin-bottom: 1rem">
@@ -22,6 +23,7 @@ import { FormControl, Validators } from '@angular/forms';
       </mat-select>
     </mat-form-field>
   `,
+  imports: [MatFormField, MatLabel, MatHint, MatSelect, FormsModule, ReactiveFormsModule, MatOption],
 })
 export class KnobSelectComponent implements OnInit {
   @Input() options: string[];

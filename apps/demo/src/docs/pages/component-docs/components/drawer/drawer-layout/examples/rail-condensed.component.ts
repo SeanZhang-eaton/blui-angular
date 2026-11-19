@@ -1,4 +1,11 @@
 import { Component } from '@angular/core';
+import {
+  DrawerBodyComponent,
+  DrawerComponent,
+  DrawerLayoutComponent,
+  DrawerNavGroupComponent,
+  DrawerNavItemComponent,
+} from '@bldc/angular-components';
 
 export const RAIL_CONDENSED = `<blui-drawer-layout variant="rail" class="condensed-rail-example">
     <blui-drawer blui-drawer [open]="true" [condensed]="true">
@@ -23,7 +30,6 @@ export const RAIL_CONDENSED = `<blui-drawer-layout variant="rail" class="condens
 `;
 
 @Component({
-  standalone: false,
   selector: 'app-rail-condensed-drawer-layout-demo',
   template: RAIL_CONDENSED,
   styles: [
@@ -33,6 +39,13 @@ export const RAIL_CONDENSED = `<blui-drawer-layout variant="rail" class="condens
         width: 100%;
       }
     `,
+  ],
+  imports: [
+    DrawerLayoutComponent,
+    DrawerComponent,
+    DrawerBodyComponent,
+    DrawerNavGroupComponent,
+    DrawerNavItemComponent,
   ],
 })
 export class RailCondensedVariantExampleComponent {}

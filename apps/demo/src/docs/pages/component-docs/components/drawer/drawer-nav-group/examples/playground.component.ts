@@ -1,4 +1,12 @@
 import { AfterViewInit, Component, EventEmitter, inject, Input, OnDestroy, Output } from '@angular/core';
+import { MatIconButton } from '@angular/material/button';
+import {
+  DrawerBodyComponent,
+  DrawerComponent,
+  DrawerHeaderComponent,
+  DrawerNavGroupComponent,
+  DrawerNavItemComponent,
+} from '@bldc/angular-components';
 
 import { Subscription } from 'rxjs';
 
@@ -11,7 +19,6 @@ export type NavGroupPlaygroundKnobs = {
 };
 
 @Component({
-  standalone: false,
   selector: 'app-nav-group-playground',
   template: ` <blui-drawer [open]="open">
     <blui-drawer-header title="Header Title">
@@ -30,6 +37,14 @@ export type NavGroupPlaygroundKnobs = {
       </blui-drawer-nav-group>
     </blui-drawer-body>
   </blui-drawer>`,
+  imports: [
+    DrawerComponent,
+    DrawerHeaderComponent,
+    MatIconButton,
+    DrawerBodyComponent,
+    DrawerNavGroupComponent,
+    DrawerNavItemComponent,
+  ],
 })
 export class PlaygroundComponent implements AfterViewInit, OnDestroy {
   private readonly _playgroundService = inject(PlaygroundService);

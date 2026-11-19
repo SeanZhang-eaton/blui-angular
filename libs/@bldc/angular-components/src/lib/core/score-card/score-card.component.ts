@@ -1,4 +1,12 @@
-import { ChangeDetectionStrategy, Component, computed, ElementRef, input, viewChild, ViewEncapsulation } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  computed,
+  ElementRef,
+  input,
+  viewChild,
+  ViewEncapsulation,
+} from '@angular/core';
 import { MatCard, MatCardContent, MatCardSubtitle, MatCardTitle } from '@angular/material/card';
 import { MatDivider } from '@angular/material/divider';
 

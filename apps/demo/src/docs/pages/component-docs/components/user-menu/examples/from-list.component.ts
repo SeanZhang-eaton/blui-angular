@@ -1,4 +1,8 @@
+import { NgFor } from '@angular/common';
 import { Component } from '@angular/core';
+import { MatIcon } from '@angular/material/icon';
+import { MatNavList } from '@angular/material/list';
+import { InfoListItemComponent, UserMenuComponent } from '@bldc/angular-components';
 
 export const FROM_LIST = `<blui-user-menu avatarValue="AV" [(open)]="open">
     <mat-nav-list blui-menu-body [style.paddingTop.px]="0">
@@ -11,9 +15,9 @@ export const FROM_LIST = `<blui-user-menu avatarValue="AV" [(open)]="open">
 `;
 
 @Component({
-  standalone: false,
   selector: 'app-from-list-user-menu-demo',
   template: FROM_LIST,
+  imports: [UserMenuComponent, MatNavList, NgFor, InfoListItemComponent, MatIcon],
 })
 export class FromListComponent {
   open = false;

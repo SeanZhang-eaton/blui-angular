@@ -1,4 +1,6 @@
 import { Component } from '@angular/core';
+import { MatButton } from '@angular/material/button';
+import { MobileStepperComponent } from '@bldc/angular-components';
 
 export const PROGRESS = `<blui-mobile-stepper 
     [steps]="4" 
@@ -15,9 +17,9 @@ export const PROGRESS = `<blui-mobile-stepper
 `;
 
 @Component({
-  standalone: false,
   selector: 'app-progress-mobile-stepper-demo',
   template: PROGRESS,
+  imports: [MobileStepperComponent, MatButton],
 })
 export class ProgressComponent {
   activeStep = 0;

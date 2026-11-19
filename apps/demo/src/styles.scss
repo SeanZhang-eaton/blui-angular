@@ -1,7 +1,6 @@
-@use '@brightlayer-ui/colors/palette.scss' as blui;
-@use './themes/doc-light.scss';
+// The Brightlayer UI theme (Material 3 or 2) is loaded at runtime, see `docs/services/theme/theme.service.ts`.
+@use './themes/doc-theme';
 @use 'libs/@bldc/angular-themes/src/lib/open-sans';
-@use 'libs/@bldc/angular-themes/src/lib/theme';
 
 @import 'prismjs/themes/prism-tomorrow.css';
 @import 'prismjs/plugins/line-highlight/prism-line-highlight.css';
@@ -17,9 +16,7 @@ body {
   padding: 0;
 }
 
-.blui-blue {
-  @include doc-light.light-theme();
-}
+@include doc-theme.doc-theme();
 
 // This is required for the demos, otherwise will need to specify the height on the drawer in each demo.
 .app-example,
@@ -50,7 +47,6 @@ body {
   }
   .example-demo-wrapper {
     margin: 16px 0 0 0;
-    // background-color: #eeeeee;
     padding: 32px;
     display: flex;
     align-items: center;
@@ -58,7 +54,6 @@ body {
     box-sizing: border-box;
     overflow: auto;
     & > :first-child {
-      box-shadow: 0 0 0 30px #e7e7e7;
       border-radius: 0.25rem;
     }
   }
@@ -66,12 +61,6 @@ body {
     padding-top: 16px;
     display: flex;
     justify-content: flex-end;
-  }
-  .example-description {
-    code {
-      background-color: #e7e7e7;
-      color: var(--blui-primary-color);
-    }
   }
   app-example-code {
     display: flex;

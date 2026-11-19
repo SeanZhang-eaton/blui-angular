@@ -1,4 +1,6 @@
 import { Component } from '@angular/core';
+import { MatIconButton } from '@angular/material/button';
+import { DrawerComponent, DrawerHeaderComponent } from '@bldc/angular-components';
 
 export const WITH_ICON = `<blui-drawer style="width: 250px">
     <blui-drawer-header title="Title" subtitle="Subtitle">
@@ -10,8 +12,8 @@ export const WITH_ICON = `<blui-drawer style="width: 250px">
 `;
 
 @Component({
-  standalone: false,
   selector: 'app-with-icon-drawer-header-demo',
   template: WITH_ICON,
+  imports: [DrawerComponent, DrawerHeaderComponent, MatIconButton],
 })
 export class WithIconComponent {}

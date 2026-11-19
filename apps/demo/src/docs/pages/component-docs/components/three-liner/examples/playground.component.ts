@@ -1,4 +1,5 @@
 import { AfterViewInit, Component, EventEmitter, inject, Input, OnDestroy, Output } from '@angular/core';
+import { ThreeLinerComponent } from '@bldc/angular-components';
 
 import { Subscription } from 'rxjs';
 
@@ -12,7 +13,6 @@ export type ThreeLinerPlaygroundKnobs = {
 };
 
 @Component({
-  standalone: false,
   selector: 'app-three-liner-playground',
   template: `<blui-three-liner
     [title]="inputs.title.value"
@@ -20,6 +20,7 @@ export type ThreeLinerPlaygroundKnobs = {
     [info]="inputs.info.value"
   >
   </blui-three-liner>`,
+  imports: [ThreeLinerComponent],
 })
 export class PlaygroundComponent implements AfterViewInit, OnDestroy {
   private readonly _playgroundService = inject(PlaygroundService);

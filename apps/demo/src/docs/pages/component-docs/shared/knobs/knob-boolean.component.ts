@@ -1,7 +1,8 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { FormsModule } from '@angular/forms';
+import { MatCheckbox } from '@angular/material/checkbox';
 
 @Component({
-  standalone: false,
   selector: 'app-boolean-knob',
   template: `
     <div style="margin-bottom: 1rem; margin-left: -1rem">
@@ -11,6 +12,7 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
       <div class="knob-boolean-hint mat-caption" style="padding-left: 2.5rem">{{ hint }}</div>
     </div>
   `,
+  imports: [MatCheckbox, FormsModule],
 })
 export class KnobBooleanComponent {
   @Input() label;

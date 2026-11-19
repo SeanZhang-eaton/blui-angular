@@ -1,4 +1,6 @@
 import { AfterViewInit, Component, EventEmitter, inject, Input, OnDestroy, Output } from '@angular/core';
+import { MatIcon } from '@angular/material/icon';
+import { ChannelValueComponent } from '@bldc/angular-components';
 
 import { Subscription } from 'rxjs';
 
@@ -17,7 +19,6 @@ export type ChannelValuePlaygroundKnobs = {
 };
 
 @Component({
-  standalone: false,
   selector: 'app-channel-value-playground',
   template: `<blui-channel-value
     [value]="inputs.value.value"
@@ -29,6 +30,7 @@ export type ChannelValuePlaygroundKnobs = {
       <mat-icon>check_circle</mat-icon>
     }
   </blui-channel-value>`,
+  imports: [ChannelValueComponent, MatIcon],
 })
 export class PlaygroundComponent implements AfterViewInit, OnDestroy {
   private readonly _playgroundService = inject(PlaygroundService);

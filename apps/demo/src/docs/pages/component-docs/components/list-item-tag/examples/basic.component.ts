@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { ListItemTagComponent } from '@bldc/angular-components';
 
 export const BASIC = `<div style="width: 200px; display: flex; justify-content: space-between">
     <blui-list-item-tag label="Default Tag"></blui-list-item-tag>
@@ -10,8 +11,8 @@ export const BASIC = `<div style="width: 200px; display: flex; justify-content: 
 </div>`;
 
 @Component({
-  standalone: false,
   selector: 'app-basic-list-item-tag-demo',
   template: BASIC,
+  imports: [ListItemTagComponent],
 })
 export class BasicExampleComponent {}

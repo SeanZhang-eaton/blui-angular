@@ -1,13 +1,15 @@
 import { Component } from '@angular/core';
+import { RouterLink } from '@angular/router';
 
 import { DRAWER_NAV_ITEMS } from '../../../../navigation/nav-items';
-import { Tab } from '../../shared/scaffold/scaffold.component';
+import { CopyCodeButtonComponent } from '../../shared/buttons/copy-code-button/copy-code-button.component';
+import { ExampleCodeComponent } from '../../shared/example-code/example-code.component';
+import { ScaffoldComponent, Tab } from '../../shared/scaffold/scaffold.component';
 
-import { FLEX } from './examples/flex.component';
-import { PIXELS } from './examples/pixel.component';
+import { FLEX, FlexComponent } from './examples/flex.component';
+import { PixelComponent, PIXELS } from './examples/pixel.component';
 
 @Component({
-  standalone: false,
   selector: 'app-spacer-doc',
   template: `
     <app-component-doc-scaffold mdFileName="Spacer.md" [hasPlayground]="false">
@@ -46,6 +48,14 @@ import { PIXELS } from './examples/pixel.component';
     </app-component-doc-scaffold>
   `,
   styleUrls: ['./spacer-doc.component.scss'],
+  imports: [
+    ScaffoldComponent,
+    RouterLink,
+    FlexComponent,
+    ExampleCodeComponent,
+    CopyCodeButtonComponent,
+    PixelComponent,
+  ],
 })
 export class SpacerDocComponent {
   routes = DRAWER_NAV_ITEMS;

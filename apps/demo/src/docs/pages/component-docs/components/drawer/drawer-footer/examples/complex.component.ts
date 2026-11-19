@@ -1,4 +1,11 @@
 import { Component } from '@angular/core';
+import {
+  DrawerBodyComponent,
+  DrawerComponent,
+  DrawerFooterComponent,
+  DrawerNavGroupComponent,
+  DrawerNavItemComponent,
+} from '@bldc/angular-components';
 
 export const COMPLEX = `<blui-drawer style="width: 250px">
     <blui-drawer-body>
@@ -27,8 +34,14 @@ export const COMPLEX = `<blui-drawer style="width: 250px">
 `;
 
 @Component({
-  standalone: false,
   selector: 'app-complex-drawer-footer-demo',
   template: COMPLEX,
+  imports: [
+    DrawerComponent,
+    DrawerBodyComponent,
+    DrawerNavGroupComponent,
+    DrawerNavItemComponent,
+    DrawerFooterComponent,
+  ],
 })
 export class ComplexExampleComponent {}

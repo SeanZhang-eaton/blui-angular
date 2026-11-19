@@ -1,14 +1,15 @@
 import { Component, EventEmitter, inject, Input, Output } from '@angular/core';
+import { MatButton } from '@angular/material/button';
 
 import { HighlightService } from './highlight.service';
 @Component({
-  standalone: false,
   selector: 'app-toggle-code-button',
   template: `
     <button mat-stroked-button color="primary" style="width: 150px; margin-top: 8px" (click)="toggleShowCodeButton()">
       {{ showCode ? 'Hide' : 'Show' }} Code
     </button>
   `,
+  imports: [MatButton],
 })
 export class ToggleCodeButtonComponent {
   private readonly highlightService = inject(HighlightService);

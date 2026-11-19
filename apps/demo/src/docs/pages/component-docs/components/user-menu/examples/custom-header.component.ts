@@ -1,4 +1,6 @@
 import { Component } from '@angular/core';
+import { MatNavList } from '@angular/material/list';
+import { InfoListItemComponent, UserMenuComponent } from '@bldc/angular-components';
 
 export const CUSTOM_HEADER = `<blui-user-menu avatarImage="assets/trex.png" [(open)]="open">
     <div blui-menu-header>
@@ -23,7 +25,6 @@ export const CUSTOM_HEADER = `<blui-user-menu avatarImage="assets/trex.png" [(op
 `;
 
 @Component({
-  standalone: false,
   selector: 'app-custom-header-user-menu-demo',
   template: CUSTOM_HEADER,
   styles: [
@@ -51,6 +52,7 @@ export const CUSTOM_HEADER = `<blui-user-menu avatarImage="assets/trex.png" [(op
       }
     `,
   ],
+  imports: [UserMenuComponent, MatNavList, InfoListItemComponent],
 })
 export class CustomHeaderComponent {
   open = false;

@@ -1,12 +1,32 @@
-@use 'sass:map';
-@use '@brightlayer-ui/colors/palette.scss' as blui;
+:host {
+  display: block;
+  height: 100%;
+}
 
 .toolbar {
   position: sticky;
-  position: -webkit-sticky;
   top: 0;
   z-index: 1000;
   padding: 0 24px;
+  gap: 8px;
+  background-color: var(--blui-paper);
+  color: var(--blui-text-primary);
+  border-bottom: 1px solid var(--blui-divider);
+}
+
+.toolbar-menu-button {
+  margin-left: -16px;
+}
+
+.toolbar-title {
+  margin: 0;
+  font-weight: 400;
+}
+
+.design-toggle {
+  height: 32px;
+  align-items: center;
+  font-size: 0.75rem;
 }
 
 .drawer-content {
@@ -16,29 +36,66 @@
   min-height: 100vh;
 }
 
-::ng-deep .app-navigation-drawer .blui-drawer-header-background {
-  background-image:
-    linear-gradient(90deg, #007bc1 22.4%, rgba(0, 123, 193, 0.2) 100%), url('../../assets/box-background.png');
-  background-size: contain;
-  background-position: right center;
-  opacity: 1 !important;
+.app-navigation-header {
+  cursor: pointer;
 }
 
-::ng-deep .app-navigation-drawer .blui-drawer-nav-group-title {
-  color: map.get(blui.$blui-blue, 500) !important;
+.app-navigation-title {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.app-navigation-subtitle {
+  display: flex;
+  align-items: center;
+  gap: 8px;
 }
 
 .framework-chip {
-  margin-left: 12px;
-  .mat-mdc-standard-chip {
-    min-height: 24px;
-    margin: 0;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  height: 24px;
+  padding: 0 8px;
+  border-radius: 12px;
+  background-color: #fff;
+  color: var(--blui-primary);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  img {
+    height: 16px;
+    width: 16px;
   }
-  div {
-    color: map.get(blui.$blui-blue, 500) !important;
-    font-size: 10px;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    font-weight: 600;
+}
+
+:host ::ng-deep {
+  .app-navigation-drawer .blui-drawer-header-background {
+    background-image:
+      linear-gradient(90deg, #007bc1 22.4%, rgba(0, 123, 193, 0.2) 100%), url('../../assets/box-background.png');
+    background-size: contain;
+    background-position: right center;
+    opacity: 1;
+  }
+
+  // The header always shows the brand gradient, so its text stays white in the dark theme too.
+  .app-navigation-drawer .blui-drawer-header-content {
+    --mat-toolbar-container-text-color: #fff;
+    color: #fff;
+  }
+
+  .app-navigation-group .blui-drawer-nav-group-title {
+    color: var(--blui-primary);
+  }
+
+  // Dense nav items with spacing below the list (same as the React docs).
+  .app-navigation-group .mat-mdc-nav-list {
+    padding-bottom: 16px;
+  }
+
+  .app-navigation-group .blui-drawer-nav-item-content.blui-drawer-nav-item-compact {
+    margin: 0;
   }
 }

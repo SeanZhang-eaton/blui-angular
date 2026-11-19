@@ -1,4 +1,6 @@
 import { Component } from '@angular/core';
+import { MatIcon } from '@angular/material/icon';
+import { InfoListItemComponent } from '@bldc/angular-components';
 
 export const BASIC = `<blui-info-list-item>
     <div blui-title>Info List Item Title</div>
@@ -8,8 +10,8 @@ export const BASIC = `<blui-info-list-item>
 `;
 
 @Component({
-  standalone: false,
   selector: 'app-basic-info-list-item-demo',
   template: BASIC,
+  imports: [InfoListItemComponent, MatIcon],
 })
 export class BasicExampleComponent {}

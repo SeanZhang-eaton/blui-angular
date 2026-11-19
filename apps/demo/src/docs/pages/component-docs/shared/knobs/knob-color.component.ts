@@ -1,8 +1,13 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { FormControl } from '@angular/forms';
+import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { MatIconButton } from '@angular/material/button';
+import { MatError, MatFormField, MatHint, MatLabel, MatSuffix } from '@angular/material/form-field';
+import { MatIcon } from '@angular/material/icon';
+import { MatInput } from '@angular/material/input';
+
+import { ColorPickerDirective } from 'ngx-color-picker';
 
 @Component({
-  standalone: false,
   selector: 'app-color-knob',
   template: `
     <div style="position: relative">
@@ -37,6 +42,19 @@ import { FormControl } from '@angular/forms';
       }
     </div>
   `,
+  imports: [
+    MatFormField,
+    MatLabel,
+    MatHint,
+    MatError,
+    MatInput,
+    FormsModule,
+    ReactiveFormsModule,
+    MatIconButton,
+    MatSuffix,
+    ColorPickerDirective,
+    MatIcon,
+  ],
 })
 export class KnobColorComponent implements OnInit {
   @Input() value;

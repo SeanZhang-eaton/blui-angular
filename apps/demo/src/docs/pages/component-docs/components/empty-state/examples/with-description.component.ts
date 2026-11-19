@@ -1,4 +1,6 @@
 import { Component } from '@angular/core';
+import { MatIcon } from '@angular/material/icon';
+import { EmptyStateComponent } from '@bldc/angular-components';
 
 export const WITH_DESCRIPTION = `<blui-empty-state 
     title="Location Services Disabled"
@@ -8,8 +10,8 @@ export const WITH_DESCRIPTION = `<blui-empty-state
 `;
 
 @Component({
-  standalone: false,
   selector: 'app-with-description-empty-state-demo',
   template: WITH_DESCRIPTION,
+  imports: [EmptyStateComponent, MatIcon],
 })
 export class WithDescriptionComponent {}

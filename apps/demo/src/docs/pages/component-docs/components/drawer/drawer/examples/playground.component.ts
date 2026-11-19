@@ -1,6 +1,15 @@
 import { AfterViewInit, Component, EventEmitter, inject, Input, OnDestroy, Output } from '@angular/core';
+import { MatIconButton } from '@angular/material/button';
 import * as Colors from '@brightlayer-ui/colors';
-import { DrawerNavItem } from '@bldc/angular-components';
+import {
+  DrawerBodyComponent,
+  DrawerComponent,
+  DrawerFooterComponent,
+  DrawerHeaderComponent,
+  DrawerNavGroupComponent,
+  DrawerNavItem,
+  DrawerNavItemComponent,
+} from '@bldc/angular-components';
 
 import { Subscription } from 'rxjs';
 
@@ -20,7 +29,6 @@ type Group = {
 };
 
 @Component({
-  standalone: false,
   selector: 'app-drawer-playground',
   template: ` @if (inputs) {
     <blui-drawer
@@ -81,6 +89,15 @@ type Group = {
         overflow: auto !important;
       }
     `,
+  ],
+  imports: [
+    DrawerComponent,
+    DrawerHeaderComponent,
+    MatIconButton,
+    DrawerBodyComponent,
+    DrawerNavGroupComponent,
+    DrawerNavItemComponent,
+    DrawerFooterComponent,
   ],
 })
 export class PlaygroundComponent implements AfterViewInit, OnDestroy {

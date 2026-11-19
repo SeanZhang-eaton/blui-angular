@@ -45,12 +45,7 @@ describe('HeroComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [
-        HeroComponent,
-        TestChannelValueComponent,
-        TestPrimaryIconComponent,
-        TestSecondaryIconComponent,
-      ],
+      imports: [HeroComponent, TestChannelValueComponent, TestPrimaryIconComponent, TestSecondaryIconComponent],
     }).compileComponents();
   });
 

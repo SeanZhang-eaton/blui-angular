@@ -1,4 +1,8 @@
+import { NgFor } from '@angular/common';
 import { Component } from '@angular/core';
+import { MatIcon } from '@angular/material/icon';
+import { MatNavList } from '@angular/material/list';
+import { InfoListItemComponent, UserMenuComponent } from '@bldc/angular-components';
 
 export const BOTTOMSHEET = `<blui-user-menu avatarValue="BS" [(open)]="open" [useBottomSheetAt]="100_000">
     <mat-nav-list blui-menu-body [style.paddingTop.px]="0">
@@ -11,9 +15,9 @@ export const BOTTOMSHEET = `<blui-user-menu avatarValue="BS" [(open)]="open" [us
 `;
 
 @Component({
-  standalone: false,
   selector: 'app-bottom-sheet-user-menu-demo',
   template: BOTTOMSHEET,
+  imports: [UserMenuComponent, MatNavList, NgFor, InfoListItemComponent, MatIcon],
 })
 export class BottomsheetComponent {
   open = false;

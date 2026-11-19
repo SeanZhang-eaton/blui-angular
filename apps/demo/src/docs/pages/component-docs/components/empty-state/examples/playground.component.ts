@@ -1,4 +1,7 @@
 import { AfterViewInit, Component, EventEmitter, inject, Input, OnDestroy, Output } from '@angular/core';
+import { MatButton } from '@angular/material/button';
+import { MatIcon } from '@angular/material/icon';
+import { EmptyStateComponent } from '@bldc/angular-components';
 
 import { Subscription } from 'rxjs';
 
@@ -16,7 +19,6 @@ export type EmptyStatePlaygroundKnobs = {
 };
 
 @Component({
-  standalone: false,
   selector: 'app-empty-state-playground',
   template: `<blui-empty-state [title]="inputs.title.value" [description]="inputs.description.value">
     <mat-icon blui-empty-icon>{{ inputs.icon.value }}</mat-icon>
@@ -27,6 +29,7 @@ export type EmptyStatePlaygroundKnobs = {
       </button>
     }
   </blui-empty-state>`,
+  imports: [EmptyStateComponent, MatIcon, MatButton],
 })
 export class PlaygroundComponent implements AfterViewInit, OnDestroy {
   private readonly _playgroundService = inject(PlaygroundService);

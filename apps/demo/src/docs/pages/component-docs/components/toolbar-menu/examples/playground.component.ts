@@ -1,4 +1,7 @@
 import { AfterViewInit, Component, EventEmitter, inject, Input, OnDestroy, Output } from '@angular/core';
+import { MatIcon } from '@angular/material/icon';
+import { MatMenuItem } from '@angular/material/menu';
+import { ToolbarMenuComponent } from '@bldc/angular-components';
 
 import { Subscription } from 'rxjs';
 
@@ -12,7 +15,6 @@ export type ToolbarMenuPlaygroundKnobs = {
 };
 
 @Component({
-  standalone: false,
   selector: 'app-toolbar-menu-playground',
   template: `<blui-toolbar-menu [label]="inputs.label.value">
     @if (inputs.showIcon.value) {
@@ -31,6 +33,7 @@ export type ToolbarMenuPlaygroundKnobs = {
       }
     </ng-container>
   </blui-toolbar-menu>`,
+  imports: [ToolbarMenuComponent, MatIcon, MatMenuItem],
 })
 export class PlaygroundComponent implements AfterViewInit, OnDestroy {
   private readonly _playgroundService = inject(PlaygroundService);

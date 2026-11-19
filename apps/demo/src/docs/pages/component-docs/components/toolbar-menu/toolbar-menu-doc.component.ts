@@ -1,15 +1,16 @@
 import { Component } from '@angular/core';
 
 import { COMPONENT_NAV_ITEMS } from '../../../../navigation/nav-items';
-import { Tab } from '../../shared/scaffold/scaffold.component';
+import { CopyCodeButtonComponent } from '../../shared/buttons/copy-code-button/copy-code-button.component';
+import { ExampleCodeComponent } from '../../shared/example-code/example-code.component';
+import { ScaffoldComponent, Tab } from '../../shared/scaffold/scaffold.component';
 
-import { BASIC } from './examples/basic.component';
-import { ToolbarMenuPlaygroundKnobs } from './examples/playground.component';
-import { WITH_ICON } from './examples/with-icon.component';
-import { WITHIN_TOOLBAR } from './examples/within-toolbar.component';
+import { BASIC, BasicComponent } from './examples/basic.component';
+import { PlaygroundComponent, ToolbarMenuPlaygroundKnobs } from './examples/playground.component';
+import { WITH_ICON, WithIconComponent } from './examples/with-icon.component';
+import { WITHIN_TOOLBAR, WithinToolbarComponent } from './examples/within-toolbar.component';
 
 @Component({
-  standalone: false,
   selector: 'app-toolbar-menu-doc',
   template: `
     <app-component-doc-scaffold mdFileName="ToolbarMenu.md" [knobGroups]="knobGroups">
@@ -64,6 +65,15 @@ import { WITHIN_TOOLBAR } from './examples/within-toolbar.component';
     </app-component-doc-scaffold>
   `,
   styleUrls: ['./toolbar-menu-doc.component.scss'],
+  imports: [
+    ScaffoldComponent,
+    BasicComponent,
+    ExampleCodeComponent,
+    CopyCodeButtonComponent,
+    WithIconComponent,
+    WithinToolbarComponent,
+    PlaygroundComponent,
+  ],
 })
 export class ToolbarMenuDocComponent {
   routes = COMPONENT_NAV_ITEMS;

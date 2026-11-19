@@ -1,4 +1,13 @@
 import { Component } from '@angular/core';
+import { MatIconButton } from '@angular/material/button';
+import {
+  DrawerBodyComponent,
+  DrawerComponent,
+  DrawerHeaderComponent,
+  DrawerLayoutComponent,
+  DrawerNavGroupComponent,
+  DrawerNavItemComponent,
+} from '@bldc/angular-components';
 
 export const PERSISTENT = `<blui-drawer-layout variant="persistent">
     <blui-drawer blui-drawer [open]="open">
@@ -28,7 +37,6 @@ export const PERSISTENT = `<blui-drawer-layout variant="persistent">
 `;
 
 @Component({
-  standalone: false,
   selector: 'app-persistent-drawer-layout-demo',
   template: PERSISTENT,
   styles: [
@@ -38,6 +46,15 @@ export const PERSISTENT = `<blui-drawer-layout variant="persistent">
         width: 100%;
       }
     `,
+  ],
+  imports: [
+    DrawerLayoutComponent,
+    DrawerComponent,
+    DrawerHeaderComponent,
+    MatIconButton,
+    DrawerBodyComponent,
+    DrawerNavGroupComponent,
+    DrawerNavItemComponent,
   ],
 })
 export class PersistentVariantExampleComponent {

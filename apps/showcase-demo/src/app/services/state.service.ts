@@ -1,4 +1,4 @@
-import { inject, Injectable } from '@angular/core';
+import { inject, Injectable, linkedSignal } from '@angular/core';
 
 import { ViewportService } from './viewport.service';
 
@@ -6,19 +6,16 @@ import { ViewportService } from './viewport.service';
   providedIn: 'root',
 })
 export class StateService {
-  private drawerOpen: boolean;
+  private readonly _viewportService = inject(ViewportService);
 
-  constructor() {
-    const viewportService = inject(ViewportService);
-
-    this.drawerOpen = !viewportService.isSmall();
-  }
+  /** Open by default on large screens; resets whenever the viewport crosses the small breakpoint. */
+  readonly $drawerOpen = linkedSignal(() => !this._viewportService.$isSmall());
 
   setDrawerOpen(drawerOpen: boolean): void {
-    this.drawerOpen = drawerOpen;
+    this.$drawerOpen.set(drawerOpen);
   }
 
   getDrawerOpen(): boolean {
-    return this.drawerOpen;
+    return this.$drawerOpen();
   }
 }

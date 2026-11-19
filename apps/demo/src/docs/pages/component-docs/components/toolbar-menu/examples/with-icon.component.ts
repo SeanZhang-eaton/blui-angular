@@ -1,4 +1,7 @@
 import { Component } from '@angular/core';
+import { MatIcon } from '@angular/material/icon';
+import { MatMenuItem } from '@angular/material/menu';
+import { ToolbarMenuComponent } from '@bldc/angular-components';
 
 export const WITH_ICON = `<blui-toolbar-menu label="My Home">
     <mat-icon blui-icon>home</mat-icon>
@@ -11,8 +14,8 @@ export const WITH_ICON = `<blui-toolbar-menu label="My Home">
 `;
 
 @Component({
-  standalone: false,
   selector: 'app-with-icon-toolbar-menu-demo',
   template: WITH_ICON,
+  imports: [ToolbarMenuComponent, MatIcon, MatMenuItem],
 })
 export class WithIconComponent {}

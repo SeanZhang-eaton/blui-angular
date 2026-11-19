@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { SpacerComponent } from '@bldc/angular-components';
 
 export const FLEX = `<div style="display: flex; height: 56px; width: 300px">
     <blui-spacer [flex]="1" [style.backgroundColor]="'#4da3d4'">1</blui-spacer>
@@ -8,8 +9,8 @@ export const FLEX = `<div style="display: flex; height: 56px; width: 300px">
 `;
 
 @Component({
-  standalone: false,
   selector: 'app-flex-spacer-demo',
   template: FLEX,
+  imports: [SpacerComponent],
 })
 export class FlexComponent {}

@@ -1,5 +1,7 @@
 import { Component } from '@angular/core';
+import { MatIcon } from '@angular/material/icon';
 import * as Colors from '@brightlayer-ui/colors';
+import { InfoListItemComponent } from '@bldc/angular-components';
 
 export const STATUS = `<blui-info-list-item statusColor="#2ca618" [avatar]="true">
     <div blui-title>Info List Item</div>
@@ -11,9 +13,9 @@ export const STATUS = `<blui-info-list-item statusColor="#2ca618" [avatar]="true
 `;
 
 @Component({
-  standalone: false,
   selector: 'app-with-status-info-list-item-demo',
   template: STATUS,
+  imports: [InfoListItemComponent, MatIcon],
 })
 export class WithStatusComponent {
   Colors = Colors;

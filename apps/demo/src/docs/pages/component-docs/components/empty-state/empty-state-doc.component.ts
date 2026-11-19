@@ -1,14 +1,17 @@
 import { Component } from '@angular/core';
 
+import { CopyCodeButtonComponent } from '../../shared/buttons/copy-code-button/copy-code-button.component';
+import { ExampleCodeComponent } from '../../shared/example-code/example-code.component';
+import { ScaffoldComponent } from '../../shared/scaffold/scaffold.component';
+
 import { BASIC } from './examples/basic.component';
-import { EmptyStatePlaygroundKnobs } from './examples/playground.component';
-import { WITH_ACTIONS } from './examples/with-actions.component';
-import { WITH_CONTENT } from './examples/with-content.component';
-import { WITH_DESCRIPTION } from './examples/with-description.component';
+import { EmptyStatePlaygroundKnobs, PlaygroundComponent } from './examples/playground.component';
+import { WITH_ACTIONS, WithActionsComponent } from './examples/with-actions.component';
+import { WITH_CONTENT, WithContentComponent } from './examples/with-content.component';
+import { WITH_DESCRIPTION, WithDescriptionComponent } from './examples/with-description.component';
 import { WITHIN_CARD } from './examples/within-card.component';
 
 @Component({
-  standalone: false,
   selector: 'app-empty-state-doc',
   template: `<app-component-doc-scaffold [md]="md" mdFileName="EmptyState.md" [knobGroups]="knobGroups">
     <div examples class="app-example">
@@ -63,6 +66,15 @@ import { WITHIN_CARD } from './examples/within-card.component';
     <app-example-code code [snippet]="generatedCode" [copyButtonOnHover]="true"></app-example-code>
   </app-component-doc-scaffold> `,
   styleUrls: ['./empty-state-doc.component.scss'],
+  imports: [
+    ScaffoldComponent,
+    WithDescriptionComponent,
+    ExampleCodeComponent,
+    CopyCodeButtonComponent,
+    WithActionsComponent,
+    WithContentComponent,
+    PlaygroundComponent,
+  ],
 })
 export class EmptyStateDocComponent {
   md: string;

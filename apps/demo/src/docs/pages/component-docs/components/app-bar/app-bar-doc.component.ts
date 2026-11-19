@@ -1,13 +1,17 @@
 import { Component } from '@angular/core';
 
-import { COLLAPSED } from './examples/collapsed.component';
-import { EXPANDED } from './examples/expanded.component';
-import { AppBarPlaygroundKnobs } from './examples/playground.component';
-import { SNAP } from './examples/snap.component';
-import { THREE_LINER } from './examples/three-liner.component';
+import { CopyCodeButtonComponent } from '../../shared/buttons/copy-code-button/copy-code-button.component';
+import { ViewCodeButtonComponent } from '../../shared/buttons/view-code-button/view-code-button.component';
+import { ExampleCodeComponent } from '../../shared/example-code/example-code.component';
+import { ScaffoldComponent } from '../../shared/scaffold/scaffold.component';
+
+import { COLLAPSED, CollapsedComponent } from './examples/collapsed.component';
+import { EXPANDED, ExpandedComponent } from './examples/expanded.component';
+import { AppBarPlaygroundKnobs, PlaygroundComponent } from './examples/playground.component';
+import { SNAP, SnapAppBarComponent } from './examples/snap.component';
+import { THREE_LINER, ThreeLinerAppBarComponent } from './examples/three-liner.component';
 
 @Component({
-  standalone: false,
   selector: 'app-app-bar-doc',
   template: `
     <ng-template #examples>
@@ -105,6 +109,17 @@ import { THREE_LINER } from './examples/three-liner.component';
     </app-component-doc-scaffold>
   `,
   styleUrls: ['./app-bar-doc.component.scss'],
+  imports: [
+    SnapAppBarComponent,
+    ExampleCodeComponent,
+    ViewCodeButtonComponent,
+    CopyCodeButtonComponent,
+    CollapsedComponent,
+    ExpandedComponent,
+    ThreeLinerAppBarComponent,
+    PlaygroundComponent,
+    ScaffoldComponent,
+  ],
 })
 export class AppBarDocComponent {
   SNAP = SNAP;

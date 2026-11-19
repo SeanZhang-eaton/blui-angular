@@ -1,8 +1,9 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { FormControl, Validators } from '@angular/forms';
+import { FormControl, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
+import { MatFormField, MatHint, MatLabel } from '@angular/material/form-field';
+import { MatInput } from '@angular/material/input';
 
 @Component({
-  standalone: false,
   selector: 'app-text-knob',
   template: `
     <mat-form-field appearance="fill" style="margin-bottom: 1rem">
@@ -19,6 +20,7 @@ import { FormControl, Validators } from '@angular/forms';
       <input matInput (ngModelChange)="valueChange.emit($event)" [formControl]="control" />
     </mat-form-field>
   `,
+  imports: [MatFormField, MatLabel, MatHint, MatInput, FormsModule, ReactiveFormsModule],
 })
 export class KnobTextComponent implements OnInit {
   @Input() label: string;

@@ -4,7 +4,7 @@ import { join } from 'node:path';
 
 import angular from '@analogjs/vite-plugin-angular';
 import { replaceFiles } from '@nx/vite/plugins/rollup-replace-files.plugin';
-import type { UserConfig } from 'vite';
+import { normalizePath, type UserConfig } from 'vite';
 import { viteStaticCopy } from 'vite-plugin-static-copy';
 
 type StaticCopyTarget = Parameters<typeof viteStaticCopy>[0]['targets'][number];
@@ -37,7 +37,16 @@ export function createAppConfig({ app, mode, copyTargets = [] }: AppConfigOption
           },
         ]),
       viteStaticCopy({
-        targets: [{ src: './src/assets/*', dest: './assets/', rename: { stripBase: 2 } }, ...copyTargets],
+        targets: [
+          { src: './src/assets/**/*', dest: './assets/', rename: { stripBase: 2 } },
+          // Brightlayer UI SVG icons, registered under the `blui-icons` namespace (see AppComponent).
+          {
+            src: normalizePath(join(rootDir, 'node_modules/@brightlayer-ui/icons-svg/*.svg')),
+            dest: './assets/blui-icons/',
+            rename: { stripBase: true },
+          },
+          ...copyTargets,
+        ],
       }),
     ],
     css: {
@@ -89,6 +98,8 @@ export function createAppConfig({ app, mode, copyTargets = [] }: AppConfigOption
       setupFiles: ['src/test-setup.ts'],
       include: ['**/*.spec.ts'],
       reporters: ['default'],
+      // The first test of a file compiles the lazily loaded documentation pages.
+      testTimeout: 20000,
       coverage: {
         provider: 'v8',
         reporter: ['text', 'lcov'],

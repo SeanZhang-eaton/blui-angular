@@ -1,4 +1,7 @@
 import { AfterViewInit, Component, EventEmitter, inject, Input, OnDestroy, Output } from '@angular/core';
+import { MatIcon } from '@angular/material/icon';
+import { MatNavList } from '@angular/material/list';
+import { InfoListItemComponent, UserMenuComponent } from '@bldc/angular-components';
 
 import { Subscription } from 'rxjs';
 
@@ -22,7 +25,6 @@ export type UserMenuPlaygroundKnobs = {
 };
 
 @Component({
-  standalone: false,
   selector: 'app-user-menu-playground',
   template: `
     <blui-user-menu
@@ -50,6 +52,7 @@ export type UserMenuPlaygroundKnobs = {
       </mat-nav-list>
     </blui-user-menu>
   `,
+  imports: [UserMenuComponent, MatNavList, InfoListItemComponent, MatIcon],
 })
 export class PlaygroundComponent implements AfterViewInit, OnDestroy {
   private readonly _playgroundService = inject(PlaygroundService);

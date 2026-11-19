@@ -1,20 +1,21 @@
-import { Component, inject, OnInit } from '@angular/core';
-
-import { MarkdownService } from 'ngx-markdown';
+import { Component, inject } from '@angular/core';
 
 import { MarkdownSplitService } from '../../../../../services/markdown-split/markdown-split.service';
+import { CopyCodeButtonComponent } from '../../../shared/buttons/copy-code-button/copy-code-button.component';
+import { ViewCodeButtonComponent } from '../../../shared/buttons/view-code-button/view-code-button.component';
+import { ExampleCodeComponent } from '../../../shared/example-code/example-code.component';
+import { ScaffoldComponent } from '../../../shared/scaffold/scaffold.component';
 
-import { BASIC } from './examples/basic.component';
-import { NavItemPlaygroundKnobs } from './examples/playground.component';
+import { BASIC, BasicExampleComponent } from './examples/basic.component';
+import { NavItemPlaygroundKnobs, PlaygroundComponent } from './examples/playground.component';
 import { WITH_ICONS } from './examples/with-icons.component';
-import { WITH_NESTED_ITEMS } from './examples/with-nested-items.component';
-import { WITH_SELECTED_ITEM } from './examples/with-selected-item.component';
+import { WITH_NESTED_ITEMS, WithNestedItemsComponent } from './examples/with-nested-items.component';
+import { WITH_SELECTED_ITEM, WithSelectedItemComponent } from './examples/with-selected-item.component';
 
 @Component({
-  standalone: false,
   selector: 'app-drawer-nav-item-doc',
   template: `
-    <app-component-doc-scaffold [md]="md" [knobGroups]="knobGroups">
+    <app-component-doc-scaffold [md]="md()" [knobGroups]="knobGroups">
       <div examples class="app-example">
         <div class="example-section">
           <div class="example-heading">Drawer Nav Item</div>
@@ -77,12 +78,21 @@ import { WITH_SELECTED_ITEM } from './examples/with-selected-item.component';
     </app-component-doc-scaffold>
   `,
   styleUrls: ['./drawer-nav-item-doc.component.scss'],
+  imports: [
+    ScaffoldComponent,
+    BasicExampleComponent,
+    ExampleCodeComponent,
+    CopyCodeButtonComponent,
+    WithSelectedItemComponent,
+    ViewCodeButtonComponent,
+    WithNestedItemsComponent,
+    PlaygroundComponent,
+  ],
 })
-export class DrawerNavItemDocComponent implements OnInit {
+export class DrawerNavItemDocComponent {
   private readonly _splitService = inject(MarkdownSplitService);
-  private readonly _markdownService = inject(MarkdownService);
 
-  md: string;
+  readonly md = this._splitService.drawerSection('## Drawer Nav Item', '## Drawer Footer');
   BASIC = BASIC;
   WITH_ICONS = WITH_ICONS;
   WITH_NESTED_ITEMS = WITH_NESTED_ITEMS;
@@ -171,13 +181,4 @@ export class DrawerNavItemDocComponent implements OnInit {
       defaultExpanded: false,
     },
   ];
-
-  ngOnInit(): void {
-    this._markdownService.getSource(`assets/md/Drawer.md`).subscribe((data) => {
-      const delimiterTop = '## Drawer Nav Item';
-      const delimiterBottom = '## Drawer Footer';
-      const subsection = this._splitService.subsection(data, delimiterTop, delimiterBottom);
-      this.md = subsection.replace('images/', 'assets/md/images/');
-    });
-  }
 }

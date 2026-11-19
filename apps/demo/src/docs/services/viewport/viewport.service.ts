@@ -1,7 +1,9 @@
 import { BreakpointObserver } from '@angular/cdk/layout';
-import { inject, Injectable } from '@angular/core';
+import { computed, inject, Injectable } from '@angular/core';
+import { toSignal } from '@angular/core/rxjs-interop';
 
-import { Subscription } from 'rxjs';
+const SMALL = '(max-width: 600px)';
+const MEDIUM = '(max-width: 1280px)';
 
 // Use this service to get viewport size.
 @Injectable({
@@ -9,27 +11,18 @@ import { Subscription } from 'rxjs';
 })
 export class ViewportService {
   private readonly _breakpointObserver = inject(BreakpointObserver);
+  private readonly $breakpoints = toSignal(this._breakpointObserver.observe([SMALL, MEDIUM]), {
+    initialValue: { matches: false, breakpoints: { [SMALL]: false, [MEDIUM]: false } },
+  });
 
-  breakpointSubscription: Subscription;
-  mobileViewport: boolean;
-  mediumViewport: boolean;
-
-  constructor() {
-    this.breakpointSubscription = this._breakpointObserver
-      .observe(['(max-width: 600px)', '(max-width: 1280px)'])
-      .subscribe((result) => {
-        const small = Object.keys(result.breakpoints)[0];
-        const medium = Object.keys(result.breakpoints)[1];
-        this.mobileViewport = result.breakpoints[small];
-        this.mediumViewport = result.breakpoints[medium];
-      });
-  }
+  readonly $isSmall = computed(() => !!this.$breakpoints().breakpoints[SMALL]);
+  readonly $isMedium = computed(() => !!this.$breakpoints().breakpoints[MEDIUM]);
 
   isSmall(): boolean {
-    return this.mobileViewport;
+    return this.$isSmall();
   }
 
   isMedium(): boolean {
-    return this.mediumViewport;
+    return this.$isMedium();
   }
 }

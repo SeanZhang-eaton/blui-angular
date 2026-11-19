@@ -1,22 +1,21 @@
-import { Component, inject, OnInit, ViewEncapsulation } from '@angular/core';
-
-import { MarkdownService } from 'ngx-markdown';
+import { Component, inject, ViewEncapsulation } from '@angular/core';
 
 import { MarkdownSplitService } from '../../../../../services/markdown-split/markdown-split.service';
-import { Knob } from '../../../shared/scaffold/scaffold.component';
+import { CopyCodeButtonComponent } from '../../../shared/buttons/copy-code-button/copy-code-button.component';
+import { ExampleCodeComponent } from '../../../shared/example-code/example-code.component';
+import { Knob, ScaffoldComponent } from '../../../shared/scaffold/scaffold.component';
 
-import { PERMANENT } from './examples/permanent.component';
-import { PERSISTENT } from './examples/persistent.component';
-import { DrawerLayoutPlaygroundProps } from './examples/playground.component';
-import { RAIL } from './examples/rail.component';
-import { RAIL_CONDENSED } from './examples/rail-condensed.component';
-import { TEMPORARY } from './examples/temporary.component';
+import { PERMANENT, PermanentVariantExampleComponent } from './examples/permanent.component';
+import { PERSISTENT, PersistentVariantExampleComponent } from './examples/persistent.component';
+import { DrawerLayoutPlaygroundProps, PlaygroundComponent } from './examples/playground.component';
+import { RAIL, RailVariantExampleComponent } from './examples/rail.component';
+import { RAIL_CONDENSED, RailCondensedVariantExampleComponent } from './examples/rail-condensed.component';
+import { TEMPORARY, TemporaryVariantExampleComponent } from './examples/temporary.component';
 
 @Component({
-  standalone: false,
   selector: 'app-drawer-layout-doc',
   template: `
-    <app-component-doc-scaffold [md]="md" [knobGroups]="knobGroups" class="drawer-layout-examples">
+    <app-component-doc-scaffold [md]="md()" [knobGroups]="knobGroups" class="drawer-layout-examples">
       <div examples class="app-example">
         <div class="example-section">
           <div class="example-heading">Drawer Layout</div>
@@ -104,12 +103,22 @@ import { TEMPORARY } from './examples/temporary.component';
   `,
   styleUrls: ['./drawer-layout-doc.component.scss'],
   encapsulation: ViewEncapsulation.None,
+  imports: [
+    ScaffoldComponent,
+    PermanentVariantExampleComponent,
+    ExampleCodeComponent,
+    CopyCodeButtonComponent,
+    PersistentVariantExampleComponent,
+    TemporaryVariantExampleComponent,
+    RailVariantExampleComponent,
+    RailCondensedVariantExampleComponent,
+    PlaygroundComponent,
+  ],
 })
-export class DrawerLayoutDocComponent implements OnInit {
+export class DrawerLayoutDocComponent {
   private readonly _splitService = inject(MarkdownSplitService);
-  private readonly _markdownService = inject(MarkdownService);
 
-  md: string;
+  readonly md = this._splitService.drawerSection('## Drawer Layout', '## Drawer Header');
   PERMANENT = PERMANENT;
   PERSISTENT = PERSISTENT;
   TEMPORARY = TEMPORARY;
@@ -167,13 +176,4 @@ export class DrawerLayoutDocComponent implements OnInit {
       defaultExpanded: false,
     },
   ];
-
-  ngOnInit(): void {
-    this._markdownService.getSource(`assets/md/Drawer.md`).subscribe((data) => {
-      const delimiterTop = '## Drawer Layout';
-      const delimiterBottom = '## Drawer Header';
-      const layoutSection = this._splitService.subsection(data, delimiterTop, delimiterBottom);
-      this.md = layoutSection.replace('images/', 'assets/md/images/');
-    });
-  }
 }

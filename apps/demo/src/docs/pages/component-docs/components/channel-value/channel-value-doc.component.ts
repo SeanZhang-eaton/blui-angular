@@ -1,15 +1,17 @@
 import { Component } from '@angular/core';
 
 import { COMPONENT_NAV_ITEMS } from '../../../../navigation/nav-items';
+import { CopyCodeButtonComponent } from '../../shared/buttons/copy-code-button/copy-code-button.component';
+import { ExampleCodeComponent } from '../../shared/example-code/example-code.component';
+import { ScaffoldComponent } from '../../shared/scaffold/scaffold.component';
 
-import { BASIC } from './examples/basic.component';
-import { WITH_ICON } from './examples/icon.component';
-import { ChannelValuePlaygroundKnobs } from './examples/playground.component';
-import { PREFIX } from './examples/prefix.component';
-import { UNIT_SPACE } from './examples/unit-space.component';
+import { BASIC, BasicExampleComponent } from './examples/basic.component';
+import { IconComponent, WITH_ICON } from './examples/icon.component';
+import { ChannelValuePlaygroundKnobs, PlaygroundComponent } from './examples/playground.component';
+import { PREFIX, PrefixComponent } from './examples/prefix.component';
+import { UNIT_SPACE, UnitSpaceComponent } from './examples/unit-space.component';
 
 @Component({
-  standalone: false,
   selector: 'app-hero-doc',
   template: `
     <app-component-doc-scaffold mdFileName="ChannelValue.md" [knobGroups]="knobGroups">
@@ -82,6 +84,16 @@ import { UNIT_SPACE } from './examples/unit-space.component';
     </app-component-doc-scaffold>
   `,
   styleUrls: ['./channel-value-doc.component.scss'],
+  imports: [
+    ScaffoldComponent,
+    BasicExampleComponent,
+    ExampleCodeComponent,
+    CopyCodeButtonComponent,
+    IconComponent,
+    PrefixComponent,
+    UnitSpaceComponent,
+    PlaygroundComponent,
+  ],
 })
 export class ChannelValueDocComponent {
   routes = COMPONENT_NAV_ITEMS;

@@ -1,5 +1,7 @@
 import { Component } from '@angular/core';
+import { MatMenuItem } from '@angular/material/menu';
 import * as Colors from '@brightlayer-ui/colors';
+import { ThreeLinerComponent, ToolbarMenuComponent } from '@bldc/angular-components';
 
 export const COMPLEX = `<blui-three-liner title="title" subtitle="subtitle">
     <blui-toolbar-menu blui-info label="info">
@@ -12,9 +14,9 @@ export const COMPLEX = `<blui-three-liner title="title" subtitle="subtitle">
 </blui-three-liner>`;
 
 @Component({
-  standalone: false,
   selector: 'app-complex-three-liner',
   template: COMPLEX,
+  imports: [ThreeLinerComponent, ToolbarMenuComponent, MatMenuItem],
 })
 export class ComplexExampleComponent {
   colors = Colors;

@@ -1,16 +1,21 @@
 import { TestBed } from '@angular/core/testing';
 
-import { ThemeService } from './theme.service';
+import { readThemePreference, ThemeService } from './theme.service';
 
 describe('ThemeService', () => {
-  let service: ThemeService;
+  beforeEach(() => localStorage.clear());
 
-  beforeEach(() => {
-    TestBed.configureTestingModule({});
-    service = TestBed.inject(ThemeService);
+  it('persists the selected mode and design', () => {
+    const service = TestBed.inject(ThemeService);
+    service.toggleMode();
+    service.setDesign('m2');
+    TestBed.tick();
+    void expect(readThemePreference()).toEqual({ mode: 'dark', design: 'm2' });
+    void expect(service.isDarkMode).toBe(true);
   });
 
-  it('should be created', () => {
-    void expect(service).toBeTruthy();
+  it('falls back to the light Material 3 theme for unknown values', () => {
+    localStorage.setItem('blui-showcase-theme', '{"mode":"sepia","design":"m4"}');
+    void expect(readThemePreference()).toEqual({ mode: 'light', design: 'm3' });
   });
 });

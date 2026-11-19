@@ -1,4 +1,4 @@
-import { AfterViewInit, ChangeDetectorRef, Component, inject, ViewEncapsulation } from '@angular/core';
+import { Component, inject, ViewEncapsulation } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { MatCardModule } from '@angular/material/card';
 import { MatDividerModule } from '@angular/material/divider';
@@ -30,17 +30,12 @@ import { ThemeService } from '../../../services/theme.service';
     class: 'app-template-alarms',
   },
 })
-export class AlarmsComponent implements AfterViewInit {
-  private readonly _ref = inject(ChangeDetectorRef);
+export class AlarmsComponent {
   private readonly _themeService = inject(ThemeService);
 
   colors = BLUIColors;
 
-  ngAfterViewInit(): void {
-    this._ref.detectChanges();
-  }
-
   isDark(): boolean {
-    return this._themeService.isDarkMode;
+    return this._themeService.$mode() === 'dark';
   }
 }

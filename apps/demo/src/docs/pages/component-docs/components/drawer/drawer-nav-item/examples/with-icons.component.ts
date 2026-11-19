@@ -1,4 +1,10 @@
 import { Component } from '@angular/core';
+import {
+  DrawerBodyComponent,
+  DrawerComponent,
+  DrawerNavGroupComponent,
+  DrawerNavItemComponent,
+} from '@bldc/angular-components';
 
 export const WITH_ICONS = `<blui-drawer style="width: 250px">
     <blui-drawer-body>
@@ -15,8 +21,8 @@ export const WITH_ICONS = `<blui-drawer style="width: 250px">
 `;
 
 @Component({
-  standalone: false,
   selector: 'app-nav-item-with-icons-demo',
   template: WITH_ICONS,
+  imports: [DrawerComponent, DrawerBodyComponent, DrawerNavGroupComponent, DrawerNavItemComponent],
 })
 export class WithIconsExampleComponent {}

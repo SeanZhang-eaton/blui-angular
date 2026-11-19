@@ -1,4 +1,12 @@
 import { AfterViewInit, Component, EventEmitter, inject, Input, OnDestroy, Output } from '@angular/core';
+import { MatIcon } from '@angular/material/icon';
+import { MatList, MatListItem, MatListItemIcon, MatListItemTitle } from '@angular/material/list';
+import {
+  HeroBannerComponent,
+  HeroComponent,
+  InfoListItemComponent,
+  ScoreCardComponent,
+} from '@bldc/angular-components';
 
 import { Subscription } from 'rxjs';
 
@@ -18,7 +26,6 @@ export type ScoreCardPlaygroundKnobs = {
 };
 
 @Component({
-  standalone: false,
   selector: 'app-score-card-playground',
   template: `<blui-score-card
     style="width: 400px"
@@ -63,6 +70,17 @@ export type ScoreCardPlaygroundKnobs = {
       <div blui-title>View Location</div>
     </blui-info-list-item>
   </blui-score-card>`,
+  imports: [
+    ScoreCardComponent,
+    MatIcon,
+    MatList,
+    MatListItem,
+    MatListItemTitle,
+    MatListItemIcon,
+    HeroBannerComponent,
+    HeroComponent,
+    InfoListItemComponent,
+  ],
 })
 export class PlaygroundComponent implements AfterViewInit, OnDestroy {
   private readonly _playgroundService = inject(PlaygroundService);

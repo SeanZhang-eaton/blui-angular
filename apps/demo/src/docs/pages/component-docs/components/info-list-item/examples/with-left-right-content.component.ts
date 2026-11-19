@@ -1,4 +1,6 @@
 import { Component } from '@angular/core';
+import { MatIcon } from '@angular/material/icon';
+import { ChannelValueComponent, InfoListItemComponent } from '@bldc/angular-components';
 
 export const LEFT_RIGHT_CONTENT = `<blui-info-list-item>
     <mat-icon style="color: #007bc1" blui-icon>battery_charging_full</mat-icon>
@@ -13,8 +15,8 @@ export const LEFT_RIGHT_CONTENT = `<blui-info-list-item>
 `;
 
 @Component({
-  standalone: false,
   selector: 'app-with-left-right-content-info-list-item-demo',
   template: LEFT_RIGHT_CONTENT,
+  imports: [InfoListItemComponent, MatIcon, ChannelValueComponent],
 })
 export class WithLeftRightContentComponent {}

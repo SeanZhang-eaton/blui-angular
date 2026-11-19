@@ -1,4 +1,10 @@
 import { Component } from '@angular/core';
+import {
+  DrawerBodyComponent,
+  DrawerComponent,
+  DrawerNavGroupComponent,
+  DrawerNavItemComponent,
+} from '@bldc/angular-components';
 
 export const WITH_SELECTED_ITEM = `<blui-drawer style="width: 250px">
     <blui-drawer-body>
@@ -28,9 +34,9 @@ export const WITH_SELECTED_ITEM = `<blui-drawer style="width: 250px">
 </blui-drawer>`;
 
 @Component({
-  standalone: false,
   selector: 'app-nav-item-with-selected-item-demo',
   template: WITH_SELECTED_ITEM,
+  imports: [DrawerComponent, DrawerBodyComponent, DrawerNavGroupComponent, DrawerNavItemComponent],
 })
 export class WithSelectedItemComponent {
   selectedId = 2;

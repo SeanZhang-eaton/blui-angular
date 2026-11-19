@@ -1,133 +1,131 @@
-import { Component, inject } from '@angular/core';
-import { NavigationEnd, Router } from '@angular/router';
-import { DrawerLayoutVariantType } from '@bldc/angular-components';
+import { DOCUMENT } from '@angular/common';
+import { ChangeDetectionStrategy, Component, computed, effect, inject } from '@angular/core';
+import { toSignal } from '@angular/core/rxjs-interop';
+import { MatIconButton } from '@angular/material/button';
+import { MatButtonToggle, MatButtonToggleGroup } from '@angular/material/button-toggle';
+import { MatIcon } from '@angular/material/icon';
+import { MatToolbar } from '@angular/material/toolbar';
+import { MatTooltip } from '@angular/material/tooltip';
+import { NavigationEnd, Router, RouterOutlet } from '@angular/router';
+import {
+  DrawerBodyComponent,
+  DrawerComponent,
+  DrawerHeaderComponent,
+  DrawerLayoutComponent,
+  DrawerLayoutVariantType,
+  DrawerNavGroupComponent,
+  DrawerNavItemComponent,
+  SpacerComponent,
+} from '@bldc/angular-components';
 
-import { Subscription } from 'rxjs';
+import { filter, map } from 'rxjs';
 
 import { DrawerStateService } from '../services/drawer-state/drawer-state.service';
 import { TabService } from '../services/tab/tab.service';
+import { ThemeDesign, ThemeService } from '../services/theme/theme.service';
 import { ViewportService } from '../services/viewport/viewport.service';
 
-import { APP_NAV_ITEMS, COMPONENT_NAV_ITEMS, DRAWER_NAV_ITEMS, NavItem } from './nav-items';
+import { APP_NAV_ITEMS, COMPONENTS_NAV_GROUP, DOC_PAGES, NavItem } from './nav-items';
+
+const TABS = ['examples', 'api-docs', 'playground'];
+
+/** Removes the leading slash, query, fragment and the trailing documentation tab from a URL. */
+function toRoute(url: string): string {
+  const segments = url.split(/[?#]/)[0].split('/').filter(Boolean);
+  if (TABS.includes(segments.at(-1) ?? '')) {
+    segments.pop();
+  }
+  return segments.join('/');
+}
 
 @Component({
-  standalone: false,
   selector: 'app-navigation',
   templateUrl: './navigation.component.html',
-  styleUrls: ['./navigation.component.scss'],
+  styleUrl: './navigation.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [
+    DrawerLayoutComponent,
+    DrawerComponent,
+    DrawerHeaderComponent,
+    DrawerBodyComponent,
+    DrawerNavGroupComponent,
+    DrawerNavItemComponent,
+    SpacerComponent,
+    MatToolbar,
+    MatIconButton,
+    MatIcon,
+    MatTooltip,
+    MatButtonToggleGroup,
+    MatButtonToggle,
+    RouterOutlet,
+  ],
 })
 export class NavigationComponent {
   private readonly _router = inject(Router);
-  private readonly _viewportService = inject(ViewportService);
-  private readonly _stateService = inject(DrawerStateService);
+  private readonly _document = inject(DOCUMENT);
   private readonly _tabService = inject(TabService);
+  protected readonly drawerState = inject(DrawerStateService);
+  protected readonly viewport = inject(ViewportService);
+  protected readonly theme = inject(ThemeService);
 
-  toolbarTitle: string;
-  routeListener: Subscription;
-  variant: DrawerLayoutVariantType;
-  componentNavItems = [
-    COMPONENT_NAV_ITEMS.appBar,
-    COMPONENT_NAV_ITEMS.channelValue,
-    COMPONENT_NAV_ITEMS.drawer,
-    COMPONENT_NAV_ITEMS.emptyState,
-    COMPONENT_NAV_ITEMS.hero,
-    COMPONENT_NAV_ITEMS.infoListItem,
-    COMPONENT_NAV_ITEMS.listItemTag,
-    COMPONENT_NAV_ITEMS.mobileStepper,
-    COMPONENT_NAV_ITEMS.scoreCard,
-    COMPONENT_NAV_ITEMS.spacer,
-    COMPONENT_NAV_ITEMS.threeLiner,
-    COMPONENT_NAV_ITEMS.toolbarMenu,
-    COMPONENT_NAV_ITEMS.userMenu,
-  ];
+  protected readonly navItems = COMPONENTS_NAV_GROUP;
+
+  /** Current route without the documentation tab, e.g. `components/hero`. */
+  protected readonly $activeRoute = toSignal(
+    this._router.events.pipe(
+      filter((event): event is NavigationEnd => event instanceof NavigationEnd),
+      map((event) => toRoute(event.urlAfterRedirects))
+    ),
+    { initialValue: toRoute(this._router.url) }
+  );
+
+  protected readonly $toolbarTitle = computed(() => {
+    const route = this.$activeRoute();
+    if (route === APP_NAV_ITEMS.catalog.route) {
+      return 'Components';
+    }
+    return DOC_PAGES.find((item) => item.route === route)?.title ?? '';
+  });
+
+  protected readonly $variant = computed<DrawerLayoutVariantType>(() =>
+    this.viewport.$isMedium() ? 'temporary' : 'permanent'
+  );
 
   constructor() {
-    this._listenForRouteChanges();
-  }
-
-  navigate(url: string): void {
-    void this._router.navigateByUrl(url);
-  }
-
-  isOpen(): boolean {
-    return this._stateService.getDrawerOpen();
-  }
-
-  selectItem(navItem: NavItem): void {
-    // Currently treats the top-level as non-navigation items.
-    if (navItem.children) {
-      return;
-    }
-
-    this.navigate(`${navItem.route}/${this._tabService.getPreviousTab()}`);
-    if (this._viewportService.isMedium()) {
-      this._stateService.setDrawerOpen(false);
-    }
-  }
-
-  isMedium(): boolean {
-    return this._viewportService.isMedium();
-  }
-
-  isSmall(): boolean {
-    return this._viewportService.isSmall();
-  }
-
-  toggleDrawerOpen(): void {
-    this._stateService.setDrawerOpen(!this._stateService.getDrawerOpen());
-  }
-
-  closeDrawer(): void {
-    this._stateService.setDrawerOpen(false);
-  }
-
-  openDrawer(): void {
-    this._stateService.setDrawerOpen(true);
-  }
-
-  getSelectedItem(): string {
-    return this._stateService.getSelectedItem();
-  }
-
-  /** Returns angular route, but without the TabName at the end. */
-  private _getRouteMinusTab(): string {
-    return this._router.url.substr(0, this._router.url.lastIndexOf('/'));
-  }
-
-  // Observes route changes and determines which BLUI Auth page to show via route name.
-  private _listenForRouteChanges(): void {
-    this.routeListener = this._router.events.subscribe((route) => {
-      // Scroll to top of page.
-      const scrollEl = document.getElementsByClassName('mat-drawer-content')[0];
-      scrollEl.scrollTop = 0;
-
-      if (route instanceof NavigationEnd) {
-        const currentRoute = this._getRouteMinusTab();
-        const navSections = [APP_NAV_ITEMS, COMPONENT_NAV_ITEMS, DRAWER_NAV_ITEMS];
-        navSections.map((section) => {
-          // eslint-disable-next-line @typescript-eslint/no-unused-vars
-          for (const [key, value] of Object.entries(section)) {
-            if (currentRoute === `/${value.route}`) {
-              return this._setActiveDrawerItem(value.title);
-            }
-          }
-        });
-      }
+    // Scroll the content back to the top when navigating to another page.
+    effect(() => {
+      this.$activeRoute();
+      this._document.querySelector('.mat-drawer-content')?.scrollTo({ top: 0 });
     });
   }
 
-  private _setActiveDrawerItem(title: string): void {
-    this.toolbarTitle = title;
-    this._stateService.setSelectedItem(title);
+  protected isActive(item: NavItem): boolean {
+    return item.route === this.$activeRoute();
   }
 
-  getVariant(): DrawerLayoutVariantType {
-    if (this.variant === 'permanent' && this.isMedium()) {
-      this._stateService.setDrawerOpen(false);
-    } else if (this.variant === 'temporary' && !this.isMedium()) {
-      this._stateService.setDrawerOpen(true);
+  protected hasActiveChild(item: NavItem): boolean {
+    return !!item.children?.some((child) => this.isActive(child));
+  }
+
+  protected selectItem(item: NavItem): void {
+    // Items with children only expand / collapse.
+    if (item.children) {
+      return;
     }
-    this.variant = this.isMedium() ? 'temporary' : 'permanent';
-    return this.variant;
+    const isDocPage = DOC_PAGES.includes(item);
+    void this._router.navigateByUrl(
+      isDocPage ? `/${item.route}/${this._tabService.getPreviousTab()}` : `/${item.route}`
+    );
+    if (this.viewport.$isMedium()) {
+      this.drawerState.setDrawerOpen(false);
+    }
+  }
+
+  protected goHome(): void {
+    void this._router.navigateByUrl(`/${APP_NAV_ITEMS.catalog.route}`);
+  }
+
+  protected setDesign(design: ThemeDesign): void {
+    this.theme.setDesign(design);
   }
 }

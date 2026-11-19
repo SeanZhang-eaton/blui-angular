@@ -1,7 +1,8 @@
 import { Component } from '@angular/core';
+import { MatIcon } from '@angular/material/icon';
+import { EmptyStateComponent } from '@bldc/angular-components';
 
 @Component({
-  standalone: false,
   selector: 'app-coming-soon',
   template: `
     <blui-empty-state
@@ -12,5 +13,6 @@ import { Component } from '@angular/core';
       <mat-icon blui-empty-icon>construction</mat-icon>
     </blui-empty-state>
   `,
+  imports: [EmptyStateComponent, MatIcon],
 })
 export class ComingSoonComponent {}

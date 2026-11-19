@@ -1,4 +1,7 @@
 import { AfterViewInit, Component, EventEmitter, inject, Input, OnDestroy, Output } from '@angular/core';
+import { MatIconButton } from '@angular/material/button';
+import { MatIcon } from '@angular/material/icon';
+import { AppBarComponent, ThreeLinerComponent } from '@bldc/angular-components';
 
 import { Subscription } from 'rxjs';
 
@@ -14,7 +17,6 @@ export type AppBarPlaygroundKnobs = {
 };
 
 @Component({
-  standalone: false,
   selector: 'app-app-bar-playground',
   styles: [
     `
@@ -53,6 +55,7 @@ export type AppBarPlaygroundKnobs = {
     </blui-app-bar>
     <div class="content-body">{{ filler }}</div>
   </div>`,
+  imports: [AppBarComponent, MatIconButton, MatIcon, ThreeLinerComponent],
 })
 export class PlaygroundComponent implements AfterViewInit, OnDestroy {
   private readonly _playgroundService = inject(PlaygroundService);

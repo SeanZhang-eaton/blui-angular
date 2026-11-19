@@ -1,4 +1,11 @@
 import { Component } from '@angular/core';
+import {
+  DrawerBodyComponent,
+  DrawerComponent,
+  DrawerNavGroupComponent,
+  DrawerNavItemComponent,
+  ListItemTagComponent,
+} from '@bldc/angular-components';
 
 export const CUSTOM_CONTENT = `<blui-drawer style="width: 250px">
     <blui-drawer-body>
@@ -19,8 +26,14 @@ export const CUSTOM_CONTENT = `<blui-drawer style="width: 250px">
 `;
 
 @Component({
-  standalone: false,
   selector: 'app-custom-content-nav-group-demo',
   template: CUSTOM_CONTENT,
+  imports: [
+    DrawerComponent,
+    DrawerBodyComponent,
+    DrawerNavGroupComponent,
+    ListItemTagComponent,
+    DrawerNavItemComponent,
+  ],
 })
 export class WithCustomContentComponent {}

@@ -1,4 +1,6 @@
 import { Component } from '@angular/core';
+import { MatList, MatListItem } from '@angular/material/list';
+import { HeroBannerComponent, HeroComponent, ScoreCardComponent } from '@bldc/angular-components';
 
 export const WITH_HEROES = `<blui-score-card style="width: 350px" 
     headerTitle="Substation 3"
@@ -19,8 +21,8 @@ export const WITH_HEROES = `<blui-score-card style="width: 350px"
 `;
 
 @Component({
-  standalone: false,
   selector: 'app-with-heroes-score-card-demo',
   template: WITH_HEROES,
+  imports: [ScoreCardComponent, MatList, MatListItem, HeroBannerComponent, HeroComponent],
 })
 export class WithHeroesComponent {}

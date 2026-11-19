@@ -1,4 +1,6 @@
 import { Component } from '@angular/core';
+import { MatList, MatListItem } from '@angular/material/list';
+import { HeroComponent, ScoreCardComponent } from '@bldc/angular-components';
 
 export const WITH_SCORE_BADGE = `<blui-score-card style="width: 350px" 
     headerTitle="Substation 3"
@@ -15,8 +17,8 @@ export const WITH_SCORE_BADGE = `<blui-score-card style="width: 350px"
 `;
 
 @Component({
-  standalone: false,
   selector: 'app-with-score-badge-score-card-demo',
   template: WITH_SCORE_BADGE,
+  imports: [ScoreCardComponent, MatList, MatListItem, HeroComponent],
 })
 export class WithScoreBadgeComponent {}

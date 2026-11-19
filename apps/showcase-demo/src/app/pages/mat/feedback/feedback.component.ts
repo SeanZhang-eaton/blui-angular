@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, inject, OnInit, ViewEncapsulation } from '@angular/core';
+import { Component, DestroyRef, inject, signal, ViewEncapsulation } from '@angular/core';
 import { MatBottomSheet, MatBottomSheetRef } from '@angular/material/bottom-sheet';
 import { MatButton } from '@angular/material/button';
 import { MatCard, MatCardContent, MatCardHeader, MatCardTitle } from '@angular/material/card';
@@ -45,23 +45,17 @@ class FeedbackBottomSheetExampleComponent {
   standalone: true,
   imports: [MatCard, MatCardHeader, MatCardTitle, MatCardContent, MatProgressSpinner, MatProgressBar, MatButton],
 })
-export class MatFeedackComponent implements OnInit {
+export class MatFeedackComponent {
   dialog = inject(MatDialog);
   private readonly _bottomSheet = inject(MatBottomSheet);
-  private readonly _ref = inject(ChangeDetectorRef);
   private readonly _snackBar = inject(MatSnackBar);
 
   diameter = 40;
-  spinnerValue = 0;
+  readonly spinnerValue = signal(0);
 
-  ngOnInit(): void {
-    setInterval(() => {
-      this.spinnerValue += 10;
-      if (this.spinnerValue > 100) {
-        this.spinnerValue = 0;
-      }
-      this._ref.detectChanges();
-    }, 250);
+  constructor() {
+    const interval = setInterval(() => this.spinnerValue.update((value) => (value >= 100 ? 0 : value + 10)), 250);
+    inject(DestroyRef).onDestroy(() => clearInterval(interval));
   }
 
   openSnackBar(message: string, action: string): void {

@@ -1,14 +1,16 @@
 import { AfterViewInit, Component } from '@angular/core';
+import { RouterLink } from '@angular/router';
 
 import { COMPONENT_NAV_ITEMS } from '../../../../navigation/nav-items';
-import { Tab } from '../../shared/scaffold/scaffold.component';
+import { CopyCodeButtonComponent } from '../../shared/buttons/copy-code-button/copy-code-button.component';
+import { ExampleCodeComponent } from '../../shared/example-code/example-code.component';
+import { ScaffoldComponent, Tab } from '../../shared/scaffold/scaffold.component';
 
-import { BASIC } from './examples/basic.component';
-import { COMPLEX } from './examples/complex.component';
-import { ListItemTagPlaygroundKnobs } from './examples/playground.component';
+import { BASIC, BasicExampleComponent } from './examples/basic.component';
+import { COMPLEX, ComplexExampleComponent } from './examples/complex.component';
+import { ListItemTagPlaygroundKnobs, PlaygroundComponent } from './examples/playground.component';
 
 @Component({
-  standalone: false,
   selector: 'app-list-item-tag-doc',
   template: `
     <app-component-doc-scaffold mdFileName="ListItemTag.md" [knobGroups]="knobGroups">
@@ -51,6 +53,15 @@ import { ListItemTagPlaygroundKnobs } from './examples/playground.component';
     </app-component-doc-scaffold>
   `,
   styleUrls: ['./list-item-tag-doc.component.scss'],
+  imports: [
+    ScaffoldComponent,
+    BasicExampleComponent,
+    ExampleCodeComponent,
+    CopyCodeButtonComponent,
+    RouterLink,
+    ComplexExampleComponent,
+    PlaygroundComponent,
+  ],
 })
 export class ListItemTagDocComponent implements AfterViewInit {
   routes = COMPONENT_NAV_ITEMS;

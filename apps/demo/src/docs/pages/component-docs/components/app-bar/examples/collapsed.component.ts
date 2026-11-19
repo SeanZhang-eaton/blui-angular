@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { AppBarComponent } from '@bldc/angular-components';
 
 import { loremIpsum } from './lorem-ipsum';
 
@@ -11,7 +12,6 @@ export const COLLAPSED = `<div class="scroll-container">
 `;
 
 @Component({
-  standalone: false,
   selector: 'app-collapsed-app-bar-demo',
   template: COLLAPSED,
   styles: [
@@ -28,6 +28,7 @@ export const COLLAPSED = `<div class="scroll-container">
       }
     `,
   ],
+  imports: [AppBarComponent],
 })
 export class CollapsedComponent {
   filler = loremIpsum;
