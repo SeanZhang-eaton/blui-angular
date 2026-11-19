@@ -6,7 +6,6 @@ import { count } from '../../utils/test-utils';
 import { ThreeLinerComponent } from './three-liner.component';
 
 @Component({
-  standalone: true,
   imports: [ThreeLinerComponent],
   template: `
     <blui-three-liner>
@@ -50,7 +49,6 @@ describe('ThreeLinerComponent', () => {
 });
 
 @Component({
-  standalone: true,
   imports: [ThreeLinerComponent],
   template: `
     <blui-three-liner title="Fallback title">

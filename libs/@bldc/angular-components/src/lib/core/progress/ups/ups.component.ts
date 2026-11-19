@@ -7,7 +7,6 @@ import { rangeValue } from '../utilities';
 /** The `<ups-progress>` selector is deprecated and will be removed in the next major version; use `<blui-ups-progress>`. */
 @Component({
   selector: 'blui-ups-progress,ups-progress',
-  standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './ups.component.html',
   imports: [ProgressIconComponent],

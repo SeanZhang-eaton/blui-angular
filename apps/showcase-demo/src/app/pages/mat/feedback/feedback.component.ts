@@ -17,7 +17,6 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 @Component({
   selector: 'app-mat-dialog-demo,mat-dialog-demo',
   templateUrl: './feedback-dialog.component.html',
-  standalone: true,
   imports: [MatDialogTitle, MatDialogContent, MatDialogActions, MatButton, MatDialogClose],
 })
 class FeedbackDialogExampleComponent {}
@@ -25,7 +24,6 @@ class FeedbackDialogExampleComponent {}
 @Component({
   selector: 'app-mat-bottom-sheet-demo,mat-bottom-sheet-demo',
   templateUrl: './feedback-bottom-sheet.component.html',
-  standalone: true,
   imports: [MatNavList, MatListItem],
 })
 class FeedbackBottomSheetExampleComponent {
@@ -42,7 +40,6 @@ class FeedbackBottomSheetExampleComponent {
   templateUrl: './feedback.component.html',
   styleUrls: ['./feedback.component.scss'],
   encapsulation: ViewEncapsulation.None,
-  standalone: true,
   imports: [MatCard, MatCardHeader, MatCardTitle, MatCardContent, MatProgressSpinner, MatProgressBar, MatButton],
 })
 export class MatFeedackComponent {

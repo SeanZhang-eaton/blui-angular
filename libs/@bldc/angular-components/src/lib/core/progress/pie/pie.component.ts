@@ -7,7 +7,6 @@ import { getCoordinates, rangeValue } from '../utilities';
 /** The `<pie-progress>` selector is deprecated and will be removed in the next major version; use `<blui-pie-progress>`. */
 @Component({
   selector: 'blui-pie-progress,pie-progress',
-  standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './pie.component.html',
   imports: [ProgressIconComponent],

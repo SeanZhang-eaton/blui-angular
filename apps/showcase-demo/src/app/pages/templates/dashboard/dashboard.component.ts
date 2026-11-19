@@ -24,7 +24,6 @@ import {
   host: {
     class: 'app-template-dashboard',
   },
-  standalone: true,
   imports: [
     MatDivider,
     MatList,

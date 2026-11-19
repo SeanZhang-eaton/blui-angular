@@ -8,7 +8,6 @@ import { count } from '../../utils/test-utils';
 import { ToolbarMenuComponent } from './toolbar-menu.component';
 
 @Component({
-  standalone: true,
   imports: [ToolbarMenuComponent, MatIconModule],
   template: `
     <blui-toolbar-menu label="title">

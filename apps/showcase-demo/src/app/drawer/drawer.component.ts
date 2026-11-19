@@ -20,7 +20,6 @@ import { ViewportService } from '../services/viewport.service';
 
 @Component({
   selector: 'app-showcase-drawer',
-  standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     MatIcon,

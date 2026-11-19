@@ -19,7 +19,6 @@ import { hasProjectedContent } from '../../utils/utils';
  */
 @Component({
   selector: 'blui-score-card',
-  standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
   templateUrl: './score-card.component.html',

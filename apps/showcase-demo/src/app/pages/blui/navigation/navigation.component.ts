@@ -5,7 +5,6 @@ import { MobileStepperComponent } from '@bldc/angular-components';
 
 @Component({
   selector: 'app-blui-navigation',
-  standalone: true,
   imports: [MatCard, MatCardHeader, MatCardContent, MobileStepperComponent, MatButton],
   templateUrl: './navigation.component.html',
   styleUrls: ['./navigation.component.scss'],

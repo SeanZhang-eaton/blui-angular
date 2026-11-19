@@ -6,7 +6,6 @@ import { count } from '../../utils/test-utils';
 import { AppBarComponent } from './app-bar.component';
 
 @Component({
-  standalone: true,
   imports: [AppBarComponent],
   template: `
     <blui-app-bar variant="collapsed">

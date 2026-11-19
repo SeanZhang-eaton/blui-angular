@@ -21,7 +21,6 @@ import { RtlService } from '../../../services/rtl.service';
 
 @Component({
   selector: 'app-blui-surfaces',
-  standalone: true,
   imports: [
     CommonModule,
     MatCard,

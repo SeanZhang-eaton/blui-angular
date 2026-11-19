@@ -7,7 +7,6 @@ import { DrawerComponent } from '../drawer.component';
 import { DrawerLayoutComponent } from './public-api';
 
 @Component({
-  standalone: true,
   imports: [DrawerLayoutComponent, DrawerComponent],
   template: `
     <blui-drawer-layout variant="persistent">

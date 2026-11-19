@@ -22,7 +22,6 @@ import { RtlService } from '../../../services/rtl.service';
 
 @Component({
   selector: 'app-blui-display',
-  standalone: true,
   imports: [
     MatCardContent,
     MatCard,

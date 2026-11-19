@@ -11,7 +11,6 @@ import { MatToolbarModule } from '@angular/material/toolbar';
   templateUrl: './surfaces.component.html',
   styleUrls: ['./surfaces.component.scss'],
   encapsulation: ViewEncapsulation.None,
-  standalone: true,
   imports: [MatCardModule, MatToolbarModule, MatButtonModule, MatIconModule, MatExpansionModule, NgTemplateOutlet],
 })
 export class MatSurfacesComponent {}

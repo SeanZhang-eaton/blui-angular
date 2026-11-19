@@ -52,7 +52,7 @@ Read the target component and its template to inventory what needs refactoring:
 - [ ] Template function calls wrapping signals (e.g., `fn($signal())`) → `computed()` in class
 - [ ] Unit tests (`.spec.ts`): `declarations` → `imports` for standalone components
 - [ ] Unit tests: direct property writes (`component.prop = x`) → `fixture.componentRef.setInput()`
-- [ ] Unit tests: test harness components missing `standalone: true` and `imports`
+- [ ] Unit tests: test harness components missing `imports` (do not add `standalone: true`; it is the default)
 - [ ] Unit tests: `*ngIf` / `*ngFor` in test harness inline templates → `@if` / `@for`
 - [ ] Unit tests: self-closing tags for components with no projected content
 
@@ -874,7 +874,7 @@ it('should react to signal change', () => {
 
 #### F. Template Testing
 
-**Before (*ngIf / *ngFor queries):**
+**Before (_ngIf / *ngFor queries):*_
 
 ```typescript
 it('should render list items', () => {
@@ -923,7 +923,6 @@ TestBed.configureTestingModule({
 
 ```typescript
 @Component({
-  standalone: true,
   imports: [HeroComponent],
   template: `<app-hero [label]="label" (selected)="onSelect($event)"></app-hero>`,
 })

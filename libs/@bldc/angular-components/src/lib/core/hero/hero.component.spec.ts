@@ -7,7 +7,6 @@ import { ChannelValueComponent } from '../channel-value/channel-value.component'
 import { HeroComponent } from './hero.component';
 
 @Component({
-  standalone: true,
   imports: [HeroComponent, ChannelValueComponent],
   template: `
     <blui-hero label="Duration">
@@ -18,7 +17,6 @@ import { HeroComponent } from './hero.component';
 class TestChannelValueComponent {}
 
 @Component({
-  standalone: true,
   imports: [HeroComponent],
   template: `
     <blui-hero label="Duration">
@@ -29,7 +27,6 @@ class TestChannelValueComponent {}
 class TestPrimaryIconComponent {}
 
 @Component({
-  standalone: true,
   imports: [HeroComponent],
   template: `
     <blui-hero label="Duration" value="60" units="hours">

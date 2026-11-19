@@ -8,7 +8,6 @@ import { DRAWER_STATE } from '../drawer-state-ref';
  */
 @Component({
   selector: 'blui-drawer-body',
-  standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
   templateUrl: './drawer-body.component.html',

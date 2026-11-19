@@ -29,7 +29,6 @@ export type DrawerNavGroup = {
  */
 @Component({
   selector: 'blui-drawer-nav-group',
-  standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
   styleUrl: './drawer-nav-group.component.scss',

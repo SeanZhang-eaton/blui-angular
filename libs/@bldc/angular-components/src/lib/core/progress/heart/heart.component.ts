@@ -7,7 +7,6 @@ import { rangeValue } from '../utilities';
 /** The `<heart-progress>` selector is deprecated and will be removed in the next major version; use `<blui-heart-progress>`. */
 @Component({
   selector: 'blui-heart-progress,heart-progress',
-  standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './heart.component.html',
   imports: [ProgressIconComponent],

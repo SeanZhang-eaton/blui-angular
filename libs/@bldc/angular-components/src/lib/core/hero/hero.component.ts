@@ -25,7 +25,6 @@ import { ChannelValueComponent, UnitSpaceType } from '../channel-value/channel-v
  */
 @Component({
   selector: 'blui-hero',
-  standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
   templateUrl: './hero.component.html',

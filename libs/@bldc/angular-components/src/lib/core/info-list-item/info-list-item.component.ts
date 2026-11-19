@@ -32,7 +32,6 @@ type DividerType = 'full' | 'partial' | undefined;
  */
 @Component({
   selector: 'blui-info-list-item',
-  standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
   templateUrl: './info-list-item.component.html',

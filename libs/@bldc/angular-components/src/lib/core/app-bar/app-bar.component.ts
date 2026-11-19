@@ -30,7 +30,6 @@ const DEFAULT_COLLAPSED_HEIGHT = 64;
  * */
 @Component({
   selector: 'blui-app-bar',
-  standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
   styleUrl: './app-bar.component.scss',

@@ -10,14 +10,12 @@ import { DrawerState } from '../drawerState';
 import { DrawerHeaderComponent } from './drawer-header.component';
 
 @Component({
-  standalone: true,
   imports: [DrawerHeaderComponent],
   template: ` <blui-drawer-header title="title" subtitle="subtitle" /> `,
 })
 class TestDrawerHeaderComponent {}
 
 @Component({
-  standalone: true,
   imports: [DrawerHeaderComponent],
   template: `
     <blui-drawer-header>
@@ -28,7 +26,6 @@ class TestDrawerHeaderComponent {}
 class TestDrawerHeaderWithTitleContentComponent {}
 
 @Component({
-  standalone: true,
   imports: [DrawerHeaderComponent, MatIcon],
   template: `
     <blui-drawer-header>

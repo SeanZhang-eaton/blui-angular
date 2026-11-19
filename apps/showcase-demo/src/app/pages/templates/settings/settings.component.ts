@@ -12,7 +12,6 @@ import { InfoListItemModule } from '@bldc/angular-components';
 
 @Component({
   selector: 'app-template-settings',
-  standalone: true,
   imports: [
     MatIcon,
     FormsModule,

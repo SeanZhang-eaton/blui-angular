@@ -8,7 +8,6 @@ import { DrawerState } from '../drawerState';
 import { DrawerSubheaderComponent } from './drawer-subheader.component';
 
 @Component({
-  standalone: true,
   imports: [DrawerSubheaderComponent],
   template: `
     <blui-drawer-subheader>

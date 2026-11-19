@@ -8,7 +8,6 @@ import { DrawerModule } from './drawer.module';
 import { DRAWER_STATE } from './drawer-state-ref';
 
 @Component({
-  standalone: true,
   imports: [DrawerModule],
   template: `
     <blui-drawer>
@@ -19,7 +18,6 @@ import { DRAWER_STATE } from './drawer-state-ref';
 class DrawerHeaderRenderTestComponent {}
 
 @Component({
-  standalone: true,
   imports: [DrawerModule],
   template: `
     <blui-drawer>
@@ -30,7 +28,6 @@ class DrawerHeaderRenderTestComponent {}
 class DrawerSubheaderRenderTestComponent {}
 
 @Component({
-  standalone: true,
   imports: [DrawerModule],
   template: `
     <blui-drawer>
@@ -41,7 +38,6 @@ class DrawerSubheaderRenderTestComponent {}
 class DrawerBodyRenderTestComponent {}
 
 @Component({
-  standalone: true,
   imports: [DrawerModule],
   template: `
     <blui-drawer>

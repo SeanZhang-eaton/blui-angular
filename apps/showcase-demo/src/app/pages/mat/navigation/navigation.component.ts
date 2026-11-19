@@ -13,7 +13,6 @@ import { MatTab, MatTabGroup } from '@angular/material/tabs';
   templateUrl: './navigation.component.html',
   styleUrls: ['./navigation.component.scss'],
   encapsulation: ViewEncapsulation.None,
-  standalone: true,
   imports: [
     MatCard,
     MatCardHeader,

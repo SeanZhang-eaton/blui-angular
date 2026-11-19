@@ -7,7 +7,6 @@ import { count } from '../../utils/test-utils';
 import { ScoreCardComponent } from './score-card.component';
 
 @Component({
-  standalone: true,
   imports: [ScoreCardComponent, MatIconModule],
   template: `
     <blui-score-card headerTitle="Header Title">
@@ -22,7 +21,6 @@ import { ScoreCardComponent } from './score-card.component';
 class TestScoreCardActionsComponent {}
 
 @Component({
-  standalone: true,
   imports: [ScoreCardComponent],
   template: `
     <blui-score-card headerTitle="Header Title"
@@ -33,7 +31,6 @@ class TestScoreCardActionsComponent {}
 class TestScoreCardContentComponent {}
 
 @Component({
-  standalone: true,
   imports: [ScoreCardComponent],
   template: `
     <blui-score-card headerTitle="Header Title"

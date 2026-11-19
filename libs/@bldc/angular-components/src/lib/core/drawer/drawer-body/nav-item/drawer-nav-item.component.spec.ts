@@ -8,7 +8,6 @@ import { DrawerState } from '../../drawerState';
 import { DrawerNavItemComponent } from './drawer-nav-item.component';
 
 @Component({
-  standalone: true,
   imports: [DrawerNavItemComponent],
   template: `
     <blui-drawer-nav-item [hidden]="true">

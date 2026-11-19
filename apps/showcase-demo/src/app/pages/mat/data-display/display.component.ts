@@ -39,7 +39,6 @@ const ELEMENT_DATA = [
   templateUrl: './display.component.html',
   styleUrls: ['./display.component.scss'],
   encapsulation: ViewEncapsulation.None,
-  standalone: true,
   imports: [
     MatCard,
     MatCardHeader,

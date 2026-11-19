@@ -8,14 +8,12 @@ import { count } from '../../../utils/test-utils';
 import { UserMenuHeaderComponent } from './user-menu-header.component';
 
 @Component({
-  standalone: true,
   imports: [UserMenuHeaderComponent],
   template: `<blui-user-menu-header title="title" subtitle="subtitle"></blui-user-menu-header>`,
 })
 class TestUserMenuHeaderComponent {}
 
 @Component({
-  standalone: true,
   imports: [UserMenuHeaderComponent],
   template: `
     <blui-user-menu-header>
@@ -26,7 +24,6 @@ class TestUserMenuHeaderComponent {}
 class TestUserMenuHeaderWithTitleContentComponent {}
 
 @Component({
-  standalone: true,
   imports: [UserMenuHeaderComponent, MatIconModule],
   template: `
     <blui-user-menu-header>

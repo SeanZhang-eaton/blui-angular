@@ -2,7 +2,6 @@ import { Component } from '@angular/core';
 
 @Component({
   selector: 'app-blui-typography',
-  standalone: true,
   template: `
     <div style="padding: 16px">
       <table id="type-table">

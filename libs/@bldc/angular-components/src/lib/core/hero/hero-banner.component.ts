@@ -8,7 +8,6 @@ import { MatDivider } from '@angular/material/divider';
  */
 @Component({
   selector: 'blui-hero-banner',
-  standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
   templateUrl: './hero-banner.component.html',

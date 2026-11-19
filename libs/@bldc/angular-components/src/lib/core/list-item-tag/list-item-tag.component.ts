@@ -9,7 +9,6 @@ import { devWarn, isDevMode } from '../../utils/utils';
  */
 @Component({
   selector: 'blui-list-item-tag',
-  standalone: true,
   templateUrl: './list-item-tag.component.html',
   styleUrl: './list-item-tag.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,

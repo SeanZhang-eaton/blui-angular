@@ -19,7 +19,6 @@ import { hasChildren, requireContent } from '../../utils/utils';
  */
 @Component({
   selector: 'blui-empty-state',
-  standalone: true,
   templateUrl: './empty-state.component.html',
   styleUrl: './empty-state.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,

@@ -47,7 +47,8 @@ export function createAppConfig({ app, mode, copyTargets = [] }: AppConfigOption
 
   return {
     root: join(rootDir, 'apps', app),
-    base: './',
+    // Public path of the deployed app, e.g. `/blui-angular-component-library/` for GitHub Pages (also used as `<base href>`).
+    base: process.env['BASE_HREF'] || '/',
     cacheDir: join(rootDir, 'node_modules/.vite', app),
     plugins: [
       optionalDependencies(['marked-katex-extension']),

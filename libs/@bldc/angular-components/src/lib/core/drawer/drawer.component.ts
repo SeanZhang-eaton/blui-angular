@@ -19,7 +19,6 @@ import { DrawerState } from './drawerState';
  */
 @Component({
   selector: 'blui-drawer',
-  standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
   templateUrl: './drawer.component.html',

@@ -2,7 +2,6 @@ import { ChangeDetectionStrategy, Component, input, ViewEncapsulation } from '@a
 
 @Component({
   selector: 'blui-user-menu-avatar',
-  standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
   templateUrl: './user-menu-avatar.component.html',

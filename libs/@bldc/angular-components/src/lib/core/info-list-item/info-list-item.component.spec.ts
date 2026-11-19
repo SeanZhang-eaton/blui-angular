@@ -8,7 +8,6 @@ import { count, mockVoidFunction } from '../../utils/test-utils';
 import { InfoListItemComponent } from './info-list-item.component';
 
 @Component({
-  standalone: true,
   imports: [InfoListItemComponent, MatIcon],
   template: `
     <blui-info-list-item
@@ -39,7 +38,6 @@ class TestBasicUsageComponent {
 }
 
 @Component({
-  standalone: true,
   imports: [InfoListItemComponent, MatIcon],
   template: `
     <blui-info-list-item>
@@ -51,14 +49,12 @@ class TestBasicUsageComponent {
 class TestIconComponent {}
 
 @Component({
-  standalone: true,
   imports: [InfoListItemComponent],
   template: `<blui-info-list-item />`,
 })
 class TestMissingTitleComponent {}
 
 @Component({
-  standalone: true,
   imports: [InfoListItemComponent],
   template: `
     <blui-info-list-item>
@@ -70,7 +66,6 @@ class TestMissingTitleComponent {}
 class TestLeftContentComponent {}
 
 @Component({
-  standalone: true,
   imports: [InfoListItemComponent],
   template: `
     <blui-info-list-item>

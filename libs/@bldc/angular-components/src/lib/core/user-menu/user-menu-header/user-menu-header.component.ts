@@ -19,7 +19,6 @@ import { hasProjectedContent } from '../../../utils/utils';
  */
 @Component({
   selector: 'blui-user-menu-header',
-  standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
   templateUrl: './user-menu-header.component.html',

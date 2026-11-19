@@ -7,7 +7,6 @@ import { MatInputModule } from '@angular/material/input';
 import { MatSliderModule } from '@angular/material/slider';
 
 @Component({
-  standalone: true,
   selector: 'app-number-knob',
   imports: [OverlayModule, MatSliderModule, MatFormFieldModule, MatInputModule, FormsModule, ReactiveFormsModule],
   template: `

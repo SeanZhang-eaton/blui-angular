@@ -12,7 +12,6 @@ import { ThemeService } from '../../../services/theme.service';
 
 @Component({
   selector: 'app-template-alarms',
-  standalone: true,
   imports: [
     MatCardModule,
     MatListModule,

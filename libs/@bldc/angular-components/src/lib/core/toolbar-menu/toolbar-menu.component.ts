@@ -9,7 +9,6 @@ import { MatMenu, MatMenuTrigger } from '@angular/material/menu';
  */
 @Component({
   selector: 'blui-toolbar-menu',
-  standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
   templateUrl: './toolbar-menu.component.html',

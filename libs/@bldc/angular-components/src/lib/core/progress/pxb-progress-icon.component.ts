@@ -19,7 +19,6 @@ import { warnDeprecatedSelector } from '../../utils/utils';
  */
 @Component({
   selector: 'blui-progress-icon,pxb-progress-icon',
-  standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
   templateUrl: './pxb-progress-icon.component.html',

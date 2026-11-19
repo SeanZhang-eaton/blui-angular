@@ -8,7 +8,6 @@ import { count } from '../../utils/test-utils';
 import { UserMenuComponent } from './user-menu.component';
 
 @Component({
-  standalone: true,
   imports: [UserMenuComponent],
   selector: 'test-user-menu-custom-header',
   template: `
@@ -24,7 +23,6 @@ class UserMenuCustomHeaderTestComponent {
 }
 
 @Component({
-  standalone: true,
   imports: [UserMenuComponent, MatNavList, MatListItem],
   selector: 'test-user-menu-nav-items',
   template: `

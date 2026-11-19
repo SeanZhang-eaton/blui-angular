@@ -53,7 +53,6 @@ export type ActiveItemBackgroundShape = 'round' | 'square';
  */
 @Component({
   selector: 'blui-drawer-nav-item',
-  standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
   styleUrl: './drawer-nav-item.component.scss',

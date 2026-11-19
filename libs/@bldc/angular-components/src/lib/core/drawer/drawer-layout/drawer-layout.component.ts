@@ -28,7 +28,6 @@ export { DrawerLayoutVariantType } from '../drawerState';
  */
 @Component({
   selector: 'blui-drawer-layout',
-  standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
   styleUrl: './drawer-layout.component.scss',

@@ -32,7 +32,6 @@ import { UserMenuAvatarComponent } from './user-menu-avatar.component';
  */
 @Component({
   selector: 'blui-user-menu',
-  standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
   templateUrl: './user-menu.component.html',

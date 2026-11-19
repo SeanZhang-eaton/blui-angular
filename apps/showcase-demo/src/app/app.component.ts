@@ -30,7 +30,6 @@ import { findNavItem } from './navigation';
   styleUrl: './app.component.scss',
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: true,
   imports: [
     RouterModule,
     MatIcon,

@@ -7,7 +7,6 @@ import { HeroComponent } from './hero.component';
 import { HeroBannerComponent } from './hero-banner.component';
 
 @Component({
-  standalone: true,
   imports: [HeroBannerComponent, HeroComponent],
   template: `
     <blui-hero-banner>

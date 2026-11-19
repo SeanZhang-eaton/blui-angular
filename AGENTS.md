@@ -27,7 +27,7 @@ Always use **`nx`** (not `ng`) for project-level commands. Use **`pnpm`** (not `
 
 ### Component Rules
 
-- **Standalone** — components are standalone by default (Angular 19+); both apps are fully standalone (no NgModules). Existing explicit `standalone: true` is harmless. Library components also provide NgModule wrappers for backward compatibility.
+- **Standalone** — components are standalone by default (Angular 19+); both apps are fully standalone (no NgModules). Do **not** set `standalone: true` — it is the default. Library components also provide NgModule wrappers for backward compatibility.
 - **Zoneless** — both apps use `provideZonelessChangeDetection()`. State that changes asynchronously (HTTP, timers, router events, breakpoints) must live in signals (`toSignal`, `signal`, `linkedSignal`), otherwise the view is not refreshed.
 - **Import only what you need** — never import barrel modules. Import only the specific dependencies each component uses (e.g., `CommonModule`, `MatIconModule`). Keeps the dependency graph explicit.
 - **External templates and styles** — always `templateUrl` + `styleUrl` (not `styleUrls`), never inline. Styles use `.scss`.
@@ -81,7 +81,7 @@ scripts/               # Build/deploy/release scripts
 
 Components live under `libs/@bldc/angular-components/src/lib/core/`. Each component folder typically contains:
 
-- `<name>.component.ts` — standalone component with `standalone: true`
+- `<name>.component.ts` — standalone component (no `standalone` flag; standalone is the default)
 - `<name>.component.html` — template
 - `<name>.component.scss` — styles
 - `<name>.component.spec.ts` — tests
@@ -147,5 +147,5 @@ The goal is to keep agents and skills as a **living, self-correcting knowledge b
 - **Nx affected** — `defaultBase` is `dev` (development branch); `main` is the stable branch.
 - **Demo apps share** `vite.app.config.mts` (`createAppConfig`). Themes are loaded at runtime (`themes/theme-m3.scss?inline` / `theme-m2.scss?inline`) by each app's `ThemeService`; Brightlayer UI SVG icons are copied to `assets/blui-icons` and registered with `MatIconRegistry.addSvgIconResolver`.
 - **Typography classes** — `.mat-*` and `.blui-*` typography classes follow the Material / MUI names (`.mat-subtitle-1` = MUI `subtitle1`). Library templates use the `.blui-*` classes.
-- **NgModule wrappers** — library components are `standalone: true` but also export NgModule wrappers for backward compatibility. Don't remove NgModules without a migration plan.
+- **NgModule wrappers** — library components are standalone but also export NgModule wrappers for backward compatibility. Don't remove NgModules without a migration plan.
 - New code must use `inject()` — some legacy code still uses constructor injection.

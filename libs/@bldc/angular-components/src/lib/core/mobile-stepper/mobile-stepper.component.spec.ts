@@ -6,14 +6,12 @@ import { count } from '../../utils/test-utils';
 import { MobileStepperComponent } from './mobile-stepper.component';
 
 @Component({
-  standalone: true,
   imports: [MobileStepperComponent],
   template: ` <blui-mobile-stepper [steps]="4" [activeStep]="0" /> `,
 })
 class TestMobileStepperDotComponent {}
 
 @Component({
-  standalone: true,
   imports: [MobileStepperComponent],
   template: ` <blui-mobile-stepper [steps]="4" [activeStep]="0" variant="progress" /> `,
 })

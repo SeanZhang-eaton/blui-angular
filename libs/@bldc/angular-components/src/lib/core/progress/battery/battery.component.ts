@@ -7,7 +7,6 @@ import { rangeValue } from '../utilities';
 /** The `<battery-progress>` selector is deprecated and will be removed in the next major version; use `<blui-battery-progress>`. */
 @Component({
   selector: 'blui-battery-progress,battery-progress',
-  standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './battery.component.html',
   imports: [ProgressIconComponent],

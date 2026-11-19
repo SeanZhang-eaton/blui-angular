@@ -8,7 +8,6 @@ import { ChangeDetectionStrategy, Component, computed, input, ViewEncapsulation 
  */
 @Component({
   selector: 'blui-spacer',
-  standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
   templateUrl: './spacer.component.html',

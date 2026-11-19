@@ -8,7 +8,6 @@ import { DrawerState } from '../drawerState';
 import { DrawerFooterComponent } from './drawer-footer.component';
 
 @Component({
-  standalone: true,
   imports: [DrawerFooterComponent],
   template: `
     <blui-drawer-footer>

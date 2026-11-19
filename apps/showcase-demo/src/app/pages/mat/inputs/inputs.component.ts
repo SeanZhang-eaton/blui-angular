@@ -34,7 +34,6 @@ export class AlwaysErrorState implements ErrorStateMatcher {
   templateUrl: './inputs.component.html',
   styleUrls: ['./inputs.component.scss'],
   encapsulation: ViewEncapsulation.None,
-  standalone: true,
   providers: [provideNativeDateAdapter()],
   imports: [
     MatCard,

@@ -18,7 +18,6 @@ import { hasProjectedContent } from '../../utils/utils';
  */
 @Component({
   selector: 'blui-three-liner',
-  standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
   templateUrl: './three-liner.component.html',

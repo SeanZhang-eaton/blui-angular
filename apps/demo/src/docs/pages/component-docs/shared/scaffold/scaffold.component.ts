@@ -305,7 +305,8 @@ export class ScaffoldComponent implements OnInit, OnChanges, OnDestroy {
     matches.map((match) => {
       const modified = match.replace('(', '').replace(')', '');
       const examples = '/examples';
-      const origin = window.location.origin;
+      // Respects the <base href> so links work when the docs are hosted in a sub-path (GitHub Pages).
+      const origin = document.baseURI.replace(/\/$/, '');
       if (modified.includes('AppBar')) {
         adjusted = adjusted.replace(modified, `${origin}/${COMPONENT_NAV_ITEMS.appBar.route}${examples}`);
       }

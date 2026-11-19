@@ -25,7 +25,6 @@ describe('HeartComponent', () => {
 });
 
 @Component({
-  standalone: true,
   imports: [HeartComponent],
   template: `<heart-progress /><blui-heart-progress />`,
 })

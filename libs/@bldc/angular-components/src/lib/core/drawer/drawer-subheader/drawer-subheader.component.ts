@@ -11,7 +11,6 @@ import { DRAWER_STATE } from '../drawer-state-ref';
  */
 @Component({
   selector: 'blui-drawer-subheader',
-  standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
   templateUrl: './drawer-subheader.component.html',
