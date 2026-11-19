@@ -1,121 +1,75 @@
 @use '../utility' as util;
 
+// Brightlayer UI button colors for the Material 2 compatibility theme. Colors are applied through the Angular Material
+// button design tokens so the built-in disabled, hover and focus states keep working.
+
 @mixin blui-mat-buttons($primaryPalette, $accentPalette, $warnPalette, $defaultPalette) {
-  .mat-mdc-icon-button {
-    @include icon-button-helper($primaryPalette, $accentPalette, $warnPalette, $defaultPalette);
+  $palettes: (
+    '.mat-primary': $primaryPalette,
+    '.mat-accent': $accentPalette,
+    '.mat-warn': $warnPalette,
+    ':not([color])': $defaultPalette,
+  );
+  @each $selector, $palette in $palettes {
+    .mat-mdc-icon-button#{$selector} {
+      --mat-icon-button-icon-color: #{util.map-deep-get($palette, icon, text)};
+    }
+    .mat-mdc-button#{$selector} {
+      @include text-colors($palette);
+    }
+    .mat-mdc-outlined-button#{$selector} {
+      @include outlined-colors($palette);
+    }
+    .mat-mdc-raised-button#{$selector},
+    .mat-mdc-unelevated-button#{$selector} {
+      @include filled-colors($palette);
+    }
+    .mat-mdc-fab#{$selector},
+    .mat-mdc-mini-fab#{$selector} {
+      @include fab-colors($palette);
+    }
   }
-  .mat-mdc-button,
-  .mat-mdc-outlined-button {
-    @include default-button-helper($primaryPalette, $accentPalette, $warnPalette, $defaultPalette);
-  }
-  .mat-mdc-outlined-button {
-    @include stroked-button-helper($primaryPalette, $accentPalette, $warnPalette, $defaultPalette);
-  }
-  .mat-mdc-fab,
-  .mat-mdc-mini-fab,
-  .mat-mdc-raised-button,
-  .mat-mdc-unelevated-button {
-    @include filled-button-helper($primaryPalette, $accentPalette, $warnPalette, $defaultPalette);
-  }
-  /* TODO(mdc-migration): The following rule targets internal classes of button that may no longer apply for the MDC version. */
   .mat-button-toggle {
-    @include button-toggle-helper($defaultPalette);
+    border-left: 0 !important;
+    border-right: 0 !important;
   }
 }
 
-@mixin icon-colors($palette) {
-  color: util.map-deep-get($palette, icon, text);
+@mixin text-colors($palette) {
+  --mat-button-text-label-text-color: #{util.map-deep-get($palette, outline, text)};
+  --mat-button-text-state-layer-color: #{util.map-deep-get($palette, outline, text)};
 }
-@mixin icon-button-helper($primaryPalette, $accentPalette, $warnPalette, $defaultPalette) {
-  &.mat-primary {
-    @include icon-colors($primaryPalette);
-  }
-  &.mat-accent {
-    @include icon-colors($accentPalette);
-  }
-  &.mat-warn {
-    @include icon-colors($warnPalette);
-  }
-  &:not([color]) {
-    @include icon-colors($defaultPalette);
+
+@mixin outlined-colors($palette) {
+  --mat-button-outlined-label-text-color: #{util.map-deep-get($palette, outline, text)};
+  --mat-button-outlined-state-layer-color: #{util.map-deep-get($palette, outline, text)};
+  --mat-button-outlined-outline-color: #{util.map-deep-get($palette, outline, border)};
+}
+
+@mixin filled-colors($palette) {
+  $text: util.map-deep-get($palette, fill, text);
+  $background: util.map-deep-get($palette, fill, background);
+  $disabled-text: util.map-deep-get($palette, fill, disabled, text);
+  $disabled-background: util.map-deep-get($palette, fill, disabled, background);
+  @each $variant in (protected, filled) {
+    --mat-button-#{$variant}-container-color: #{$background};
+    --mat-button-#{$variant}-label-text-color: #{$text};
+    --mat-button-#{$variant}-state-layer-color: #{$text};
+    --mat-button-#{$variant}-disabled-container-color: #{$disabled-background};
+    --mat-button-#{$variant}-disabled-label-text-color: #{$disabled-text};
   }
 }
 
-@mixin default-colors($palette) {
-  color: util.map-deep-get($palette, outline, text);
-  background-color: util.map-deep-get($palette, outline, background);
-  /* TODO(mdc-migration): The following rule targets internal classes of button that may no longer apply for the MDC version. */
-  &:hover:not(.mat-button-disabled) {
-    background-color: util.map-deep-get($palette, outline, backgroundHover);
+@mixin fab-colors($palette) {
+  $text: util.map-deep-get($palette, fill, text);
+  $background: util.map-deep-get($palette, fill, background);
+  $disabled-text: util.map-deep-get($palette, fill, disabled, text);
+  $disabled-background: util.map-deep-get($palette, fill, disabled, background);
+  @each $prefix in (fab, fab-small) {
+    --mat-#{$prefix}-container-color: #{$background};
+    --mat-#{$prefix}-foreground-color: #{$text};
+    --mat-#{$prefix}-state-layer-color: #{$text};
+    --mat-#{$prefix}-disabled-state-container-color: #{$disabled-background};
+    --mat-#{$prefix}-disabled-state-foreground-color: #{$disabled-text};
   }
-}
-@mixin default-button-helper($primaryPalette, $accentPalette, $warnPalette, $defaultPalette) {
-  &.mat-primary {
-    @include default-colors($primaryPalette);
-  }
-  &.mat-accent {
-    @include default-colors($accentPalette);
-  }
-  &.mat-warn {
-    @include default-colors($warnPalette);
-  }
-  &:not([color]) {
-    @include default-colors($defaultPalette);
-  }
-}
-
-@mixin stroked-colors($palette) {
-  /* TODO(mdc-migration): The following rule targets internal classes of button that may no longer apply for the MDC version. */
-  &:not(.mat-button-disabled) {
-    color: util.map-deep-get($palette, outline, text);
-    border-color: util.map-deep-get($palette, outline, border);
-  }
-}
-@mixin stroked-button-helper($primaryPalette, $accentPalette, $warnPalette, $defaultPalette) {
-  &.mat-primary {
-    @include stroked-colors($primaryPalette);
-  }
-  &.mat-accent {
-    @include stroked-colors($accentPalette);
-  }
-  &.mat-warn {
-    @include stroked-colors($warnPalette);
-  }
-  &:not([color]) {
-    @include stroked-colors($defaultPalette);
-  }
-}
-
-@mixin raised-colors($palette) {
-  color: util.map-deep-get($palette, fill, text);
-  background-color: util.map-deep-get($palette, fill, background);
-  /* TODO(mdc-migration): The following rule targets internal classes of button that may no longer apply for the MDC version. */
-  &:hover:not(.mat-button-disabled) {
-    background-color: util.map-deep-get($palette, fill, backgroundHover);
-  }
-  /* TODO(mdc-migration): The following rule targets internal classes of button that may no longer apply for the MDC version. */
-  &.mat-button-disabled {
-    color: util.map-deep-get($palette, fill, disabled, text);
-    background-color: util.map-deep-get($palette, fill, disabled, background);
-    border: none;
-  }
-}
-@mixin filled-button-helper($primaryPalette, $accentPalette, $warnPalette, $defaultPalette) {
-  &.mat-primary {
-    @include raised-colors($primaryPalette);
-  }
-  &.mat-accent {
-    @include raised-colors($accentPalette);
-  }
-  &.mat-warn {
-    @include raised-colors($warnPalette);
-  }
-  &:not([color]) {
-    @include raised-colors($defaultPalette);
-  }
-}
-
-@mixin button-toggle-helper($palette) {
-  border-left: 0 !important;
-  border-right: 0 !important;
 }

@@ -343,7 +343,7 @@
   .mat-mdc-outlined-button,
   .mat-mdc-raised-button {
     /* TODO(mdc-migration): The following rule targets internal classes of button that may no longer apply for the MDC version.*/
-    &.mat-button-disabled {
+    &.mat-mdc-button-disabled {
       color: map.get($foreground, disabled);
       border: solid 1px map.get($foreground, divider);
     }
@@ -351,13 +351,13 @@
   .mat-mdc-unelevated-button:not([color]) {
     background-color: map.get(blui.$blui-white, 500);
     /* TODO(mdc-migration): The following rule targets internal classes of button that may no longer apply for the MDC version.*/
-    &.mat-button-disabled {
+    &.mat-mdc-button-disabled {
       color: map.get($foreground, disabled);
       background-color: rgba(114, 126, 132, 0.12);
     }
   }
   /* TODO(mdc-migration): The following rule targets internal classes of button that may no longer apply for the MDC version.*/
-  .mat-mdc-icon-button.mat-button-disabled {
+  .mat-mdc-icon-button.mat-mdc-button-disabled {
     color: map.get($foreground, disabled);
   }
 
@@ -519,13 +519,6 @@
     .blui-drawer-nested-nav-item .mat-expansion-panel {
       background-color: map.get(blui.$blui-white, 200);
       // --mat-expansion-container-background-color: #{map.get(blui.$blui-white, 200)};
-    }
-
-    /* TODO(mdc-migration): The following rule targets internal classes of list that may no longer apply for the MDC version.*/
-    .blui-drawer-nav-item-active, /*NavRail item*/
-        .blui-drawer-nav-item-active .blui-info-list-item .mdc-list-item__content, /*Normal NavItem*/
-        .blui-drawer-nav-item-active .blui-info-list-item .blui-info-list-item-icon-wrapper {
-      --mdc-list-list-item-label-text-color: #{map.get($primary, 500)};
     }
 
     .blui-info-list-item .blui-info-list-item-icon-wrapper {

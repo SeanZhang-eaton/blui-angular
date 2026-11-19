@@ -72,6 +72,9 @@ $light: (
   nav-item-active-color: -c(blui.$blui-blue, 500),
   avatar-background: -c(blui.$blui-blue, 50),
   avatar-color: -c(blui.$blui-blue, 500),
+  // Primary colored surfaces (App Bar, Score Card header); React `MuiAppBar` `colorPrimary`.
+  primary-surface: -c(blui.$blui-blue, 500),
+  on-primary-surface: -c(blui.$blui-white, 50),
   shadow-level1: (
     0 0 2px 0 rgba(0, 0, 0, 0.04),
     0 1px 2px 0 rgba(0, 0, 0, 0.04),
@@ -119,8 +122,10 @@ $dark: (
   action-highlight: -alpha($highlight-blue, 0.18),
   nav-item-active-background: -alpha(-c(blui.$blui-blue, 500), 0.2),
   nav-item-active-color: -c(blui.$blui-blue, 200),
-  avatar-background: -c(blui.$blui-blue, 200),
-  avatar-color: -c(blui.$blui-blue, 900),
+  avatar-background: -alpha(-c(blui.$blui-black, 50), 0.1),
+  avatar-color: -c(blui.$blui-black, 50),
+  primary-surface: -c(blui.$blui-blue, 500),
+  on-primary-surface: -c(blui.$blui-black, 50),
   shadow-level1: (
     0 0 2px 0 rgba(0, 0, 0, 0.32),
     0 1px 2px 0 rgba(0, 0, 0, 0.32),
@@ -154,7 +159,7 @@ $dark: (
   @each $name, $value in $tokens {
     --blui-#{$name}: #{$value};
   }
-  // Legacy aliases kept for backwards compatibility.
+  // Deprecated aliases kept for backwards compatibility; use the --blui-* tokens above. Removed in the next major version.
   --blui-primary-color: #{map.get($tokens, primary)};
   --blui-accent-color: #{map.get($tokens, secondary)};
   --blui-warn-color: #{map.get($tokens, error)};

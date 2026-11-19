@@ -15,7 +15,7 @@
     <ng-content select="[blui-left-content]"></ng-content>
   </div>
   <div
-    class="mat-body-2 blui-info-list-item-title-wrapper"
+    class="blui-body-1 blui-info-list-item-title-wrapper"
     matListItemTitle
     [class.blui-info-list-item-wrap]="$wrapTitle()"
     #title
@@ -24,7 +24,7 @@
   </div>
   <div
     #subtitle
-    class="mat-subtitle-2 blui-info-list-item-subtitle-wrapper"
+    class="blui-body-2 blui-info-list-item-subtitle-wrapper"
     matListItemLine
     [class.blui-info-list-item-wrap]="$wrapSubtitle()"
     [class.is-empty]="!$hasSubtitle()"
@@ -32,7 +32,7 @@
     <ng-content select="[blui-subtitle]"></ng-content>
   </div>
   <div
-    class="mat-subtitle-2 blui-info-list-item-info-wrapper"
+    class="blui-body-2 blui-info-list-item-info-wrapper"
     matListItemLine
     [class.blui-info-list-item-wrap]="$wrapInfo()"
   >

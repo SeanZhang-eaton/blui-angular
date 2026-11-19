@@ -19,19 +19,22 @@ $blui-blue-dark-primary: mat.m2-define-palette(blui.$blui-blue);
 $blui-blue-dark-accent: mat.m2-define-palette(blui.$blui-lightBlue, A200, A100, A400);
 $blui-blue-dark-warn: mat.m2-define-palette(blui.$blui-red, 200);
 
+// Same type scale as the React themes (MUI defaults + `@brightlayer-ui/react-themes` `shared.ts` overrides).
 $typography-config: mat.m2-define-typography-config(
-  $font-family: '"Open Sans", Arial, Helvetica, sans-serif',
+  $font-family: '"Open Sans", Helvetica, Roboto, sans-serif',
   $headline-1: mat.m2-define-typography-level(6rem, 1.167, 300),
+  $headline-2: mat.m2-define-typography-level(3.75rem, 1.2, 300),
   $headline-3: mat.m2-define-typography-level(3rem, 1.167, 400),
   $headline-4: mat.m2-define-typography-level(2.125rem, 1.235, 400),
   $headline-5: mat.m2-define-typography-level(1.5rem, 1.334, 400),
   $headline-6: mat.m2-define-typography-level(1.25rem, 1.6, 600),
-  $subtitle-1: mat.m2-define-typography-level(1rem, 1.75, 400),
-  $body-1: mat.m2-define-typography-level(0.875rem, 1.57, 600),
-  $subtitle-2: mat.m2-define-typography-level(0.875rem, 1.43, 500),
-  $body-2: mat.m2-define-typography-level(1rem, 1.5, 400),
-  $caption: mat.m2-define-typography-level(0.75rem, 1.66, 400),
-  $button: mat.m2-define-typography-level(0.875rem, 1, 600),
+  $subtitle-1: mat.m2-define-typography-level(1rem, 1.75, 600),
+  $subtitle-2: mat.m2-define-typography-level(0.875rem, 1.57, 600),
+  $body-1: mat.m2-define-typography-level(1rem, 1.5, 400),
+  $body-2: mat.m2-define-typography-level(0.875rem, 1.43, 400),
+  $caption: mat.m2-define-typography-level(0.75rem, 1.67, 400),
+  $button: mat.m2-define-typography-level(0.875rem, 1.75, 600),
+  $overline: mat.m2-define-typography-level(0.75rem, 2.67, 600, $letter-spacing: 2px),
 );
 
 @function blui-light-theme($primary, $accent, $warn) {

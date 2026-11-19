@@ -75,8 +75,8 @@ $typography: (
 @mixin toolbar-color-variants() {
   $variants: (
     primary: (
-      var(--blui-primary),
-      var(--blui-on-primary),
+      var(--blui-primary-surface),
+      var(--blui-on-primary-surface),
     ),
     accent: (
       var(--blui-secondary),

@@ -17,8 +17,9 @@
 @mixin blui-score-card-theme() {
   .blui-score-card {
     .blui-score-card-header {
-      background-color: var(--blui-primary);
-      color: var(--blui-on-primary);
+      background-color: var(--blui-primary-surface);
+      color: var(--blui-on-primary-surface);
+      .mat-mdc-card-title,
       .mat-mdc-card-subtitle {
         color: inherit;
       }

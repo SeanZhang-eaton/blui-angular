@@ -1,3 +1,5 @@
+// Brightlayer UI typography classes. `.blui-*` and `.mat-*` classes use the same type scale as the React themes
+// (`.mat-subtitle-1` = MUI `subtitle1`, `.mat-body-1` = MUI `body1`, ...).
 @mixin typography() {
   .mat-headline-1,
   .mat-headline-2,
@@ -5,16 +7,16 @@
     letter-spacing: 0;
   }
 
-  .mat-headline-5-1,
+  .mat-headline-1,
   .mat-headline-2,
   .mat-headline-3,
   .mat-headline-4,
-  .mat-headline,
+  .mat-headline-5,
   .mat-headline-6,
-  .mat-body-1,
   .mat-subtitle-1,
-  .mat-body-2,
   .mat-subtitle-2,
+  .mat-body-1,
+  .mat-body-2,
   .mat-caption,
   .mat-mdc-button {
     margin-bottom: 0 !important;
@@ -24,81 +26,81 @@
   .blui-overline {
     font-size: 0.75rem;
     font-weight: 600;
-    letter-spacing: 0.125rem;
-    line-height: 2.66;
+    letter-spacing: 2px;
+    line-height: 2.67;
     text-transform: uppercase;
   }
   .blui-headline-1,
   .mat-headline-1 {
     font-size: 6rem;
     font-weight: 300;
-    line-height: 1.167em;
+    line-height: 1.167;
   }
   .blui-headline-2,
   .mat-headline-2 {
     font-size: 3.75rem;
     font-weight: 300;
-    line-height: 1.2em;
+    line-height: 1.2;
   }
   .blui-headline-3,
   .mat-headline-3 {
-    font-weight: 400;
     font-size: 3rem;
-    line-height: 1.167em;
+    font-weight: 400;
+    line-height: 1.167;
   }
   .blui-headline-4,
   .mat-headline-4 {
-    font-weight: 400;
     font-size: 2.125rem;
-    line-height: 1.235em;
+    font-weight: 400;
+    line-height: 1.235;
   }
   .blui-headline-5,
   .mat-headline-5 {
-    font-weight: 400;
     font-size: 1.5rem;
-    line-height: 1.334em;
+    font-weight: 400;
+    line-height: 1.334;
   }
   .blui-headline-6,
   .mat-headline-6 {
-    font-weight: 600;
     font-size: 1.25rem;
-    line-height: 1.6em;
+    font-weight: 600;
+    line-height: 1.6;
   }
   .blui-subtitle-1,
-  .mat-body-1 {
-    font-weight: 600;
+  .mat-subtitle-1 {
     font-size: 1rem;
-    line-height: 1.75em;
+    font-weight: 600;
+    line-height: 1.75;
   }
   .blui-subtitle-2,
-  .mat-subtitle-1 {
-    font-weight: 600;
+  .mat-subtitle-2 {
     font-size: 0.875rem;
-    line-height: 1.57em;
+    font-weight: 600;
+    line-height: 1.57;
   }
   .blui-body-1,
-  .mat-body-2 {
-    font-weight: 400;
+  .mat-body-1 {
     font-size: 1rem;
-    line-height: 1.5em;
+    font-weight: 400;
+    line-height: 1.5;
   }
   .blui-body-2,
-  .mat-subtitle-2 {
-    font-weight: 400;
+  .mat-body-2 {
     font-size: 0.875rem;
-    line-height: 1.43em;
+    font-weight: 400;
+    line-height: 1.43;
   }
   .blui-button,
   .mat-mdc-button {
-    font-weight: 600;
     font-size: 0.875rem;
+    font-weight: 600;
+    line-height: 1.75;
     text-transform: unset;
-    line-height: 1.75em;
   }
   .blui-caption,
   .mat-caption {
-    font-weight: 400;
     font-size: 0.75rem;
-    line-height: 1.67em;
+    font-weight: 400;
+    line-height: 1.67;
   }
 }

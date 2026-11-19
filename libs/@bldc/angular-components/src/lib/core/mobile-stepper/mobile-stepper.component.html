@@ -16,7 +16,7 @@
     </div>
   }
   @if ($variant() === 'text') {
-    <div class="mat-subtitle-1">{{ activeStep + 1 }} / {{ $stepsArray().length }}</div>
+    <div class="blui-subtitle-2">{{ activeStep + 1 }} / {{ $stepsArray().length }}</div>
   }
   @if ($variant() === 'progress') {
     <mat-progress-bar mode="determinate" [value]="$progressFill()" />
