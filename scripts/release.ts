@@ -1,13 +1,13 @@
+import enquirer from 'enquirer';
+import { SpawnOptions } from 'node:child_process';
 import fs from 'node:fs';
 import path from 'node:path';
+import { fileURLToPath } from 'node:url';
+import { parseArgs } from 'node:util';
 import pico from 'picocolors';
 import semver, { ReleaseType } from 'semver';
-import enquirer from 'enquirer';
-import { createRequire } from 'node:module';
-import { fileURLToPath } from 'node:url';
+
 import { exec } from './utils.ts';
-import { parseArgs } from 'node:util';
-import { SpawnOptions } from 'node:child_process';
 
 type Package = {
   name: string;
@@ -19,7 +19,9 @@ type Package = {
 let versionUpdated = false;
 
 const { prompt } = enquirer;
-const currentVersion: string = createRequire(import.meta.url)('../package.json').version;
+const currentVersion: string = JSON.parse(
+  fs.readFileSync(new URL('../package.json', import.meta.url), 'utf-8')
+).version;
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 const { values: args, positionals } = parseArgs({

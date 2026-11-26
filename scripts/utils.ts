@@ -1,15 +1,12 @@
+import { spawn } from 'node:child_process';
 import fs from 'node:fs';
 import pico from 'picocolors';
-import { createRequire } from 'node:module';
-import { spawn } from 'node:child_process';
-
-const require = createRequire(import.meta.url);
 
 export const targets = fs.readdirSync('libs/@bldc').filter((f) => {
   if (!fs.statSync(`libs/@bldc/${f}`).isDirectory() || !fs.existsSync(`libs/@bldc/${f}/package.json`)) {
     return false;
   }
-  const pkg = require(`../libs/@bldc/${f}/package.json`);
+  const pkg = JSON.parse(fs.readFileSync(`libs/@bldc/${f}/package.json`, 'utf-8'));
   if (pkg.private && !pkg.buildOptions) {
     return false;
   }
